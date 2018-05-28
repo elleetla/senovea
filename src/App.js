@@ -7,6 +7,7 @@ import Header from './components/Header';
 import Footer from './components/Footer';
 import logoWp from './logo-wp.svg';
 import './App.css';
+import FiltrePost from './components/Filtre-post';
 
 const urlSiteWp = 'http://senovea.juliengrelet.com/wp-json';
 const urlSiteWpPost = 'http://senovea.juliengrelet.com/wp-json/wp/v2/posts';
@@ -27,7 +28,8 @@ class App extends Component {
         axios.get(urlSiteWp)
             .then(function (response) {
                 this.setState({
-                    data: response.data
+                    data: response.data,
+                    loader: false
                 })
             }.bind(this))
             .catch(function (error) {
@@ -39,8 +41,7 @@ class App extends Component {
             .then(function (responsePost) {
                 console.log(responsePost);
                 this.setState({
-                    dataPost: responsePost.data,
-                    loader: false
+                    dataPost: responsePost.data
                 });
 
             }.bind(this))
@@ -106,6 +107,7 @@ class App extends Component {
                                     </p>
                                 </div>
 
+                                <FiltrePost/>
                                 {this.renderPost()}
 
                                 <div className="col-lg-12">
