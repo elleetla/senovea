@@ -8,8 +8,8 @@ import Footer from './components/Footer';
 import logoWp from './logo-wp.svg';
 import './App.css';
 
-const urlSiteWp = 'http://localhost:8888/senovea/wp-json';
-const urlSiteWpPost = 'http://localhost:8888/senovea/wp-json/wp/v2/posts';
+const urlSiteWp = 'http://senovea.juliengrelet.com/wp-json';
+const urlSiteWpPost = 'http://senovea.juliengrelet.com/wp-json/wp/v2/posts';
 
 class App extends Component {
     constructor(props) {
@@ -66,9 +66,9 @@ class App extends Component {
     // more post
     renderPost() {
         return(
-            this.state.dataPost.slice(0, 2).map((dataUser) => {
+            this.state.dataPost.slice(0, 4).map((dataUser) => {
                 return(
-                    <div className="col-lg-6" key={dataUser.id} >
+                    <div className="col-lg-12" key={dataUser.id} >
                         <img src={dataUser.title.rendered} alt=""/>
                         <h4>{dataUser.title.rendered}</h4>
                         <p>{dataUser.date}</p>
