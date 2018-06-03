@@ -3,9 +3,9 @@ const path = require('path')
 const app = express();
 
 app.post('/server_test', (req,res)=>{
-    console.log('request/response')
-    console.log(req)
-    console.log(res)
+    //console.log('request/response')
+    //console.log(req)
+    //console.log(res)
     res.send( 'callback/return' )
 })
 
