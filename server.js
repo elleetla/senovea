@@ -6,6 +6,7 @@ app.post('/server_test', (req,res)=>{
     //console.log('request/response')
     //console.log(req)
     //console.log(res)
+    console.log(req.params)
     res.send( 'callback/return' )
 })
 
