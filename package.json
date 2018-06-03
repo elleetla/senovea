@@ -4,8 +4,8 @@
   "description": "aku spa application",
   "main": "index.js",
   "scripts": {
-    "build": "webpack",
-    "start": "webpack-dev-server --open"
+    "webpack_build": "webpack",
+    "webpack_serve": "webpack-dev-server --open"
   },
   "author": "",
   "license": "ISC",
