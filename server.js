@@ -2,9 +2,11 @@ const express = require('express');
 const path = require('path')
 const app = express();
 
-app.get('/server_test', (req,res)=>{
-    console.log('server_test')
-    res.send( 'server_test' )
+app.post('/server_test', (req,res)=>{
+    console.log('request/response')
+    console.log(req)
+    console.log(res)
+    res.send( 'callback/return' )
 })
 
 app.use(express.static('build'))
