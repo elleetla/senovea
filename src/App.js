@@ -8,6 +8,7 @@ import Footer from './components/Footer';
 import logoWp from './logo-wp.svg';
 import './App.css';
 import FiltrePost from './components/Filtre-post';
+import Button from '@material-ui/core/Button';
 
 const urlSiteWp = 'http://senovea.juliengrelet.com/wp-json';
 const urlSiteWpPost = 'http://senovea.juliengrelet.com/wp-json/wp/v2/posts';
@@ -111,10 +112,9 @@ class App extends Component {
                                 {this.renderPost()}
 
                                 <div className="col-lg-12">
-                                    <button
-                                        onClick={ () => { console.log("test") } }
-                                        className="btn-primary">more post
-                                    </button>
+                                    <Button variant="raised" color="primary">
+                                        Hello World
+                                    </Button>
                                 </div>
                             </div>
                         </div>
