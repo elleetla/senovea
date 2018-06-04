@@ -6,7 +6,7 @@ class Header extends Component{
     render(){
         return(
             <header className="App-header">
-                <NavHeader link={this.props.link} name={this.props.name}/>
+                <NavHeader link={this.props.link} name={this.props.name} />
             </header>
         )
     }

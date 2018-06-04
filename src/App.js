@@ -8,20 +8,21 @@ import Footer from './components/Footer';
 import logoWp from './logo-wp.svg';
 import './App.css';
 import FiltrePost from './components/Filtre-post';
-import Button from '@material-ui/core/Button';
+import Category from './components/Category';
 
-const paramWpCentralis = {
-    urlSiteWp : "http://senovea.juliengrelet.com/wp-json",
-    urlSiteWpPost : 'http://senovea.juliengrelet.com/wp-json/wp/v2/product',
+const urlSite = "http://senovea.juliengrelet.com/";
+const paramWp = {
+    url: `${urlSite}wp-json`,
+    product: `${urlSite}wp-json/wp/v2/product`,
+    category: `${urlSite}wp-json/wp/v2/categories`,
 };
-
 
 class App extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            data: {},
-            dataPost: {},
+            data: [],
+            dataPost: [],
             loader: true,
             shop: 0
         }
@@ -29,7 +30,7 @@ class App extends Component {
 
     componentWillMount() {
         // requete ajax site
-        axios.get(paramWpCentralis.urlSiteWp)
+        axios.get(paramWp.url)
             .then(function (response) {
                 this.setState({
                     data: response.data,
@@ -41,7 +42,19 @@ class App extends Component {
             });
 
         // requete ajax Post
-        axios.get(paramWpCentralis.urlSiteWpPost)
+        axios.get(paramWp.product)
+            .then(function (responsePost) {
+                console.log(responsePost);
+                this.setState({
+                    dataPost: responsePost.data
+                });
+
+            }.bind(this))
+            .catch(function (error) {
+                console.log(error);
+            });
+
+        axios.get(paramWp.category)
             .then(function (responsePost) {
                 console.log(responsePost);
                 this.setState({
@@ -59,8 +72,7 @@ class App extends Component {
         return(
             this.state.dataPost.slice(0, 4).map((dataUser) => {
                 return(
-                    <div className="col-lg-12" key={dataUser.id} >
-                        <img src={dataUser.title.rendered} alt=""/>
+                    <div className="col-lg-6" key={dataUser.id} >
                         <h4>{dataUser.title.rendered}</h4>
                         <p>{dataUser.date}</p>
                         <p>{dataUser.content.rendered}</p>
@@ -88,18 +100,12 @@ class App extends Component {
                     />
 
                     <FiltrePost/>
+                    <Category/>
 
                     <div className="App-intro">
                         <div className="container">
                             <div className="row">
-
                                 {this.renderPost()}
-
-                                <div className="col-lg-12">
-                                    <Button variant="raised" color="primary">
-                                        Hello World
-                                    </Button>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -109,7 +115,6 @@ class App extends Component {
             );
         }
     }
-
 }
 
 // export
