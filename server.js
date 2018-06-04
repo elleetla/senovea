@@ -3,10 +3,8 @@ const path = require('path')
 const app = express();
 
 app.post('/server_test', (req,res)=>{
-    //console.log('request/response')
-    //console.log(req)
-    //console.log(res)
-    console.log(req.params)
+    console.log('request/response')
+    console.log(req.body)
     res.send( 'callback/return' )
 })
 
