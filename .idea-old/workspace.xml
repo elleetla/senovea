@@ -3,9 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="0342d3fb-8793-416b-9b73-8a09927e603a" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/App.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/App.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Nav-header.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Nav-header.js" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -54,7 +51,7 @@
         <entry file="file://$PROJECT_DIR$/src/components/Nav-header.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="525">
-              <caret line="25" column="33" selection-start-line="25" selection-start-column="33" selection-end-line="25" selection-end-column="33" />
+              <caret line="25" column="37" lean-forward="true" selection-start-line="25" selection-start-column="37" selection-end-line="25" selection-end-column="37" />
             </state>
           </provider>
         </entry>
@@ -167,17 +164,6 @@
               <item name="senovea" type="b2602c69:ProjectViewProjectNode" />
               <item name="senovea" type="462c0819:PsiDirectoryNode" />
             </path>
-            <path>
-              <item name="senovea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="senovea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="senovea" type="b2602c69:ProjectViewProjectNode" />
-              <item name="senovea" type="462c0819:PsiDirectoryNode" />
-              <item name="src" type="462c0819:PsiDirectoryNode" />
-              <item name="components" type="462c0819:PsiDirectoryNode" />
-            </path>
           </expand>
           <select />
         </subPane>
@@ -238,16 +224,15 @@
       <workItem from="1527528309348" duration="2981000" />
       <workItem from="1528032920220" duration="1988000" />
       <workItem from="1528093841580" duration="8000" />
-      <workItem from="1528107611096" duration="1046000" />
+      <workItem from="1528107611096" duration="1762000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="85683000" />
+    <option name="totallyTimeSpent" value="86399000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="22" width="1440" height="878" extended-state="0" />
-    <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="TODO" order="6" />
       <window_info anchor="bottom" id="Event Log" order="7" side_tool="true" />
@@ -630,7 +615,7 @@
     <entry file="file://$PROJECT_DIR$/src/components/Nav-header.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="525">
-          <caret line="25" column="33" selection-start-line="25" selection-start-column="33" selection-end-line="25" selection-end-column="33" />
+          <caret line="25" column="37" lean-forward="true" selection-start-line="25" selection-start-column="37" selection-end-line="25" selection-end-column="37" />
         </state>
       </provider>
     </entry>
