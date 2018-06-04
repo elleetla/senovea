@@ -12,6 +12,11 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
 /** routes **/
+app.get('/server_test', upload.array(), (req,res)=>{
+    console.log("request params")
+    console.log(req.params)
+    res.send(req.params.success);
+})
 app.post('/server_test', upload.array(), (req,res)=>{
     console.log("request body")
     console.log(req.body)
