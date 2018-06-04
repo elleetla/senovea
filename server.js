@@ -1,14 +1,22 @@
-const express = require('express');
-const path = require('path')
-const app = express();
+const express       = require('express');
+const path          = require('path')
+const bodyParser    = require('body-parser')
+const multer        = require('multer');
 
-app.post('/server_test', (req,res)=>{
-    console.log('request/response')
-    console.log(req.body)
-    res.send( 'callback/return' )
-})
+const app           = express();
+const upload        = multer();
 
+/** use **/
 app.use(express.static('build'))
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
+
+/** routes **/
+app.post('/server_test', upload.array(), (req,res)=>{
+    console.log("request body")
+    console.log(req.body)
+    res.json(req.body);
+})
 app.get('*', (req,res) =>{
     res.sendFile(path.join(__dirname, 'build/index.html'))
 })
