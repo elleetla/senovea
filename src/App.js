@@ -10,8 +10,11 @@ import './App.css';
 import FiltrePost from './components/Filtre-post';
 import Button from '@material-ui/core/Button';
 
-const urlSiteWp = 'http://senovea.juliengrelet.com/wp-json';
-const urlSiteWpPost = 'http://senovea.juliengrelet.com/wp-json/wp/v2/posts';
+const paramWpCentralis = {
+    urlSiteWp : "http://senovea.juliengrelet.com/wp-json",
+    urlSiteWpPost : 'http://senovea.juliengrelet.com/wp-json/wp/v2/product',
+};
+
 
 class App extends Component {
     constructor(props) {
@@ -26,7 +29,7 @@ class App extends Component {
 
     componentWillMount() {
         // requete ajax site
-        axios.get(urlSiteWp)
+        axios.get(paramWpCentralis.urlSiteWp)
             .then(function (response) {
                 this.setState({
                     data: response.data,
@@ -38,7 +41,7 @@ class App extends Component {
             });
 
         // requete ajax Post
-        axios.get(urlSiteWpPost)
+        axios.get(paramWpCentralis.urlSiteWpPost)
             .then(function (responsePost) {
                 console.log(responsePost);
                 this.setState({
@@ -49,20 +52,6 @@ class App extends Component {
             .catch(function (error) {
                 console.log(error);
             });
-    }
-
-    // méthode addShop
-    addShop() {
-        this.setState({
-            shop: this.state.shop + 1
-        })
-    }
-
-    // methode removeShop
-    removeShop() {
-        this.setState({
-            shop: this.state.shop = 0
-        })
     }
 
     // more post
@@ -98,17 +87,12 @@ class App extends Component {
                         shop={this.state.shop}
                     />
 
+                    <FiltrePost/>
+
                     <div className="App-intro">
                         <div className="container">
                             <div className="row">
-                                <div className="col-lg-12">
-                                    <p>
-                                        <button onClick={() => this.addShop()}>Ajouter</button>
-                                        <button onClick={() => this.removeShop()}>Vider</button>
-                                    </p>
-                                </div>
 
-                                <FiltrePost/>
                                 {this.renderPost()}
 
                                 <div className="col-lg-12">

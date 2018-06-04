@@ -23,7 +23,7 @@ class NavHeader extends Component{
                         </ul>
                     </div>
                     <div className="my-2 my-lg-0">
-                        <p>Panier : {this.props.shop}</p>
+                        <p>Panier</p>
                     </div>
                 </nav>
             </div>
