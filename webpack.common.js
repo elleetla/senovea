@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
-    mode: 'development',
+    
     entry: {
         bundle: './src/index.js'
     },
@@ -11,6 +11,7 @@ module.exports = {
         filename: '[name].[hash].js',
         path: path.resolve(__dirname, 'build')
     },
+
     module: {
         rules: [
             { 
@@ -43,6 +44,7 @@ module.exports = {
             }
         ]
     },
+
     plugins:[
         // Plugin : CleanWebpack
         // Clean before - hand the output directory
@@ -50,10 +52,11 @@ module.exports = {
         // Plugin : HtmlWebpack
         // Generate html output, automate bundle sourcing
         new HtmlWebpackPlugin({
-            title: 'AKU',
+            title: 'SENOVEA',
             template: './src/index.html'
         })
     ],
+
     optimization: {
         // Optimization : splitChunks
         // ?? New way to do code splitting ?? 
@@ -73,14 +76,6 @@ module.exports = {
                 }
             }
         }
-    },
-    // DevTool : inline-source-map
-    // Original file source in devtool 
-    devtool: 'inline-source-map',
-    // DevServer 
-    // Deploy local static web server
-    // Watch files changes
-    devServer: {
-        contentBase: './build'
     }
+
 };

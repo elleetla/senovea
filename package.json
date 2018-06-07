@@ -1,15 +1,21 @@
 {
-  "name": "aku-spa",
+  "name": "senovea-spa",
   "version": "1.0.0",
-  "description": "aku spa application",
+  "description": "senovea spa application.",
   "main": "index.js",
   "scripts": {
-    "webpack_build": "webpack",
-    "webpack_serve": "webpack-dev-server --open"
+
+    "webpack_build_prod"  : "webpack --config webpack.prod.js",
+    "webpack_build_dev"   : "webpack --config webpack.dev.js",
+    "webpack_start_prod"  : "webpack-dev-server --open --config webpack.prod.js",
+    "webpack_start_dev"   : "webpack-dev-server --open --config webpack.dev.js"
+
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@material-ui/core": "^1.2.0",
+    "@material-ui/icons": "^1.1.0",
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "crypto-js": "^3.1.9-1",
@@ -43,6 +49,7 @@
     "style-loader": "^0.21.0",
     "webpack": "^4.8.0",
     "webpack-cli": "^2.1.3",
-    "webpack-dev-server": "^3.1.4"
+    "webpack-dev-server": "^3.1.4",
+    "webpack-merge": "^4.1.2"
   }
 }

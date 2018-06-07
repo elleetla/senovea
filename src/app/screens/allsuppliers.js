@@ -1,22 +1,26 @@
-import React from 'react';
+import React from 'react'
+
+
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
+import Divider from '@material-ui/core/Divider';
 
+export class AllSuppliers extends React.Component{
 
-export class Home extends React.Component{
     render(){
         return(
             <Paper elevation={1}>
-                <div style={{padding:'30px'}}>
+                <div style={{padding:'0px'}}>
 
-                        <div style={{padding:'0px'}}>
+                        <div style={{padding:'30px'}}>
                         <Typography variant="headline" color="inherit">
-                            Welcome to senovea-spa!
+                            All Suppliers
                         </Typography>
                         </div>
-
                 </div>
             </Paper>
+
         )
     }
+
 }

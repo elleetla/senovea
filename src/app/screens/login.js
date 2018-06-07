@@ -3,8 +3,19 @@ import { compose, bindActionCreators }      from 'redux'
 import { connect }                          from 'react-redux'
 import { Field, reduxForm }                 from 'redux-form'
 
+import Typography from '@material-ui/core/Typography';
+import Paper from '@material-ui/core/Paper';
+import TextField from '@material-ui/core/TextField';
+import Button from '@material-ui/core/Button';
+
 // user auth action 
 import { user_auth_action } from '../actions/index' 
+
+
+// Fields
+const renderTextField = ( field ) => (
+    <TextField {...field.input} label={field.placeholder} type={field.type} />
+)
 
 class LogIn extends React.Component{
     constructor(props){
@@ -12,45 +23,54 @@ class LogIn extends React.Component{
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
-    handleSubmit(formProps){
+    handleSubmit(form_props){
+
         console.log("submit")
-        console.log(formProps)
 
         // Calling login action
-        this.props.user_auth_action(formProps)
+        this.props.user_auth_action(form_props)
+
     }
 
     render(){
-        //console.log(this.props)
+        console.log(this.props)
         //console.log(this.state)
         return(
-            <div>
-                <h1> Log In </h1>
-                <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+            <Paper elevation={1}>
+            <div style={{padding:'30px'}}>
                     <div>
-                        <label>user_name</label>
+                        <Typography style={{marginBottom:'30px'}} variant="headline" color="inherit">
+                        Login Form
+                        </Typography>
+
+                    </div>
+                <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+                    <div style={{marginBottom:'15px'}}>
                         <Field
                             name="login_username"
                             id="login_username"
-                            component="input"
+                            component={renderTextField}
                             type="text"
-                            placeholder="username"
+                            placeholder="User Name"
                         />
                     </div>
-                    <div>
-                        <label>password</label>
+                    <div style={{marginBottom:'30px'}}>
                         <Field
                             name="login_password"
                             id="login_password"
-                            component="input"
+                            component={renderTextField}
                             type="password"
+                            placeholder="User Password"
                         />
                     </div>
                     <div>
-                        <button type="submit">login to the app !</button>
+                    <Button type="submit" variant="contained" color="secondary">
+                            Login to the app
+                        </Button>
                     </div>
                 </form>
             </div>
+            </Paper>
         )
     }
 }
