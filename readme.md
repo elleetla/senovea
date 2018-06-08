@@ -12,7 +12,8 @@
 		*. Senovea WooCommerce Proxy
 		*. Senovea Functions 
     3. configurer plugins
-	    *. config pour JWT Authentification for WP-API https://fr.wordpress.org/plugins/jwt-authentication-for-wp-rest-api/
+	    *. config pour JWT Authentification for WP-API (bellow)
+		*. https://fr.wordpress.org/plugins/jwt-authentication-for-wp-rest-api/
 	    *. config Senovea WooCommerce Proxy ( ck & cs )
 	    *. config ACF ( importer les ACFs user ) 
 
