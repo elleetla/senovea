@@ -51,14 +51,14 @@ class AppNav extends React.Component{
         return(
             <div style={{marginBottom:'8px'}}>
                 <div style={{marginBottom:'0'}}>
-            <AppBar style={{marginBottom:'8px'}} position="static" color="inherit" elevation={1}>
-                <Toolbar>
+            <AppBar style={{marginBottom:'8px',padding:'0'}} position="static" color="inherit" elevation={0}>
+                <Toolbar style={{minHeight:'auto',padding:'0'}}>
                     <Typography variant="title" color="inherit" className={this.props.classes.flex}>
 
                     </Typography>
 
                     { 
-                        this.props.auth.auth_token === '' && this.props.auth.isAuth === false ?
+                        this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false ?
 
                             <div>
                                 <Link to="/register">
@@ -156,7 +156,7 @@ function mapStateToProps( state ){
 
     return {
         "user":state.user,
-        "auth":state.auth
+        //"auth":state.auth
     }
 
 }

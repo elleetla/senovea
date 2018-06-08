@@ -8,6 +8,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 
 // user auth action 
 import { user_register_action } from '../actions/index' 
@@ -77,12 +78,21 @@ class Register extends React.Component{
 
         return(
             <Paper elevation={1}>
-            <div style={{padding:'30px'}}>
             <div>
-                        <Typography style={{marginBottom:'30px'}} variant="headline" color="inherit">
-                        Register Form
+            <div style={{padding:'30px'}}>
+                        <Typography variant="headline" color="inherit">
+                        Request an invite.
                         </Typography>
+                        <Typography variant="subheading" color="inherit">
+                        You have to request an invite to get access to senovea-spa, for that you need to fill the form bellow.
+                        </Typography>
+                        <Typography variant="subheading" color="inherit">
+                        You'll receive activation link by email when accepted by our team.
+                        </Typography>
+                </div>
+                        <Divider/>
 
+                <div style={{padding:'30px'}}>
                 <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
 
                     <div style={{marginBottom:'15px'}}>
@@ -94,7 +104,7 @@ class Register extends React.Component{
                             placeholder="User Email"
                         />
                     </div>
-                    <div style={{marginBottom:'15px'}}>
+                    <div style={{marginBottom:'30px'}}>
                         <Field
                             name="register_username"
                             id="register_username"
@@ -103,6 +113,7 @@ class Register extends React.Component{
                             placeholder="User Name"
                         />
                     </div>
+                    {/*
                     <div style={{marginBottom:'30px'}}>
                         <Field
                             name="register_password"
@@ -112,7 +123,11 @@ class Register extends React.Component{
                             placeholder="User Password"
                         />
                     </div>
+                    */}
                     <div style={{marginBottom:'30px'}}>
+                        <Typography style={{marginBottom:'15px'}} variant="subheading" color="inherit">
+                            Document
+                        </Typography>
                         <Field
                             name="register_document"
                             id="register_document"
@@ -125,12 +140,12 @@ class Register extends React.Component{
                     <div>
 
                         <Button type="submit" variant="contained" color="secondary">
-                            Register to the app
+                            Request invite to SENOVEA
                         </Button>
 
                     </div>
-                </form>
-            </div>
+                    </form>
+                </div>
             </div>
             </Paper>
         )

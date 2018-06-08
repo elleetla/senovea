@@ -7,6 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Divider from '@material-ui/core/Divider';
 
 // user auth action 
 import { user_auth_action } from '../actions/index' 
@@ -37,13 +38,17 @@ class LogIn extends React.Component{
         //console.log(this.state)
         return(
             <Paper elevation={1}>
-            <div style={{padding:'30px'}}>
-                    <div>
-                        <Typography style={{marginBottom:'30px'}} variant="headline" color="inherit">
-                        Login Form
-                        </Typography>
+            <div>
 
-                    </div>
+                <div style={{padding:'30px'}}>
+                        <Typography variant="headline" color="inherit">
+                        Login to senovea-spa.
+                        </Typography>
+                  
+                </div>
+                        <Divider/>
+                <div style={{padding:'30px'}}>
+
                 <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
                     <div style={{marginBottom:'15px'}}>
                         <Field
@@ -65,10 +70,11 @@ class LogIn extends React.Component{
                     </div>
                     <div>
                     <Button type="submit" variant="contained" color="secondary">
-                            Login to the app
+                            Login to senovea
                         </Button>
                     </div>
                 </form>
+                </div>
             </div>
             </Paper>
         )

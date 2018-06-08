@@ -70,7 +70,7 @@ class App extends React.Component{
                                 */}
 
                                 <Route path="/register" render={ () => {
-                                    if(this.props.auth.isAuth === true){
+                                    if(this.props.user.user_auth.isAuth === true){
                                         return <Redirect to="/"/>
                                     }else{
                                         return (
@@ -81,8 +81,9 @@ class App extends React.Component{
                                     }
                                 }}/>
 
+                                
                                 <Route path="/login" render={ () => {
-                                    if(this.props.auth.isAuth === true){
+                                    if(this.props.user.user_auth.isAuth === true){
                                         return <Redirect to="/"/>
                                     }else{
                                         return (
@@ -97,8 +98,9 @@ class App extends React.Component{
 
                                 {/*<Route path="/account" component={Account}/>*/}
                                 
+                                
                                 <Route path="/account" render={ () => {
-                                    if(this.props.auth.isAuth === false){
+                                    if(this.props.user.user_auth.isAuth === false){
                                         return <Redirect to="/login"/>
                                     }else{
                                         return (
@@ -108,11 +110,12 @@ class App extends React.Component{
                                         )
                                     }
                                 }}/>
-                            
+                                
+                        
 
 
                                 <Route path="/cart" render={ () => {
-                                    if(this.props.auth.isAuth === false){
+                                    if(this.props.user.user_auth.isAuth === false){
                                         return <Redirect to="/login"/>
                                     }else{
                                         return (
@@ -138,7 +141,7 @@ function mapStateToProps( state ){
 
     return {
         "user":state.user,
-        "auth":state.auth
+        //"auth":state.auth
     }
 
 }

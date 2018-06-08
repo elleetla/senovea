@@ -4,12 +4,10 @@
   "description": "senovea spa application.",
   "main": "index.js",
   "scripts": {
-
-    "webpack_build_prod"  : "webpack --config webpack.prod.js",
-    "webpack_build_dev"   : "webpack --config webpack.dev.js",
-    "webpack_start_prod"  : "webpack-dev-server --open --config webpack.prod.js",
-    "webpack_start_dev"   : "webpack-dev-server --open --config webpack.dev.js"
-
+    "webpack_build_prod": "webpack --config webpack.prod.js",
+    "webpack_build_dev": "webpack --config webpack.dev.js",
+    "webpack_start_prod": "webpack-dev-server --open --config webpack.prod.js",
+    "webpack_start_dev": "webpack-dev-server --open --config webpack.dev.js"
   },
   "author": "",
   "license": "ISC",
@@ -34,6 +32,7 @@
     "react-transition-group": "^2.3.1",
     "redux": "^4.0.0",
     "redux-form": "^7.3.0",
+    "redux-form-material-ui": "^4.3.4",
     "redux-thunk": "^2.2.0",
     "wpapi": "^1.1.2"
   },
