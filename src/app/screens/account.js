@@ -222,7 +222,9 @@ class Account extends React.Component{
                         </div>
                         <Divider />
                         <div style={{padding:'15px 30px'}}>
-           
+                        <Typography variant="body2" color="inherit">
+                            coming soon
+                        </Typography> 
                         </div>
                         </Paper>
 

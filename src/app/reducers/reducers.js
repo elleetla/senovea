@@ -3,6 +3,7 @@ import { reducer as formReducer }         from 'redux-form'
 import { USER_REGISTER }                  from '../actions/index'
 import { USER_AUTH }                      from '../actions/index'
 import { USER_UPDATE }                    from '../actions/index'
+import { USER_LOAD }                      from '../actions/index'
 
 const USER_INITIAL_STATE = {
 
@@ -18,6 +19,12 @@ const USER_INITIAL_STATE = {
         'auth_token':'',
         'isAuth':false,
         'isValidated':false
+    },
+
+    'user_order':{
+
+
+
     },
 
     'user_billing':{
@@ -54,6 +61,10 @@ const USER_INITIAL_STATE = {
 function userReducer( state = USER_INITIAL_STATE , action ){
 
     switch (action.type) {
+        case USER_LOAD:
+            console.log('user load reducer')
+            console.log(action.payload)
+            return action.payload
         case USER_REGISTER:
             console.log("user register reducer")
             console.log(action.payload)

@@ -8,7 +8,7 @@ import { HashRouter, Switch, Route, Redirect } from 'react-router-dom'
 // react-redux 
 import { Provider, connect } from 'react-redux'
 // redux 
-import { createStore, applyMiddleware } from 'redux'
+import { createStore, applyMiddleware, bindActionCreators } from 'redux'
 import { rootReducers } from './app/reducers/reducers'
 // redux - thunk 
 import thunk from 'redux-thunk'
@@ -28,6 +28,8 @@ import {AllSuppliers} from './app/screens/allsuppliers'
 import {About} from './app/screens/about'
 // Material theming
 import { createMuiTheme } from '@material-ui/core/styles';
+// load action 
+import { user_load_action } from './app/actions/index'; 
 
 console.log(WORDPRESS_API_BASE_URL);
 
@@ -55,6 +57,12 @@ const store = createStore(
 )
 
 class App extends React.Component{
+
+    componentDidMount() { 
+        // vérifier si user est en mémoire
+        this.props.user_load_action();
+    }
+
     render(){
         console.log(this.props)
         return(
@@ -137,16 +145,19 @@ class App extends React.Component{
     }
 }
 
-function mapStateToProps( state ){
-
-    return {
-        "user":state.user,
-        //"auth":state.auth
-    }
-
+function mapDispatchToProps( dispatch ){
+    return bindActionCreators({
+        "user_load_action":user_load_action
+    }, dispatch)
 }
 
-const ConnectedApp = connect(mapStateToProps)(App)
+function mapStateToProps( state ){
+    return {
+        "user":state.user,
+    }
+}
+
+const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App)
 
 ReactDOM.render(
     <Provider store={store}>

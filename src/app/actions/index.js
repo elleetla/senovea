@@ -2,11 +2,60 @@ import axios from 'axios'
 import { WORDPRESS_API_BASE_URL } from '../../../config/config-api'
 
 // ACTIONS TYPES 
-export const USER_REGISTER  = 'USER_REGISTER'
-export const USER_AUTH = 'USER_AUTH'
-export const USER_UPDATE = 'USER_UPDATE'
+
+// user actions types //
+export const USER_LOAD          = 'USER_LOAD'
+export const USER_REGISTER      = 'USER_REGISTER'
+export const USER_AUTH          = 'USER_AUTH'
+export const USER_UPDATE        = 'USER_UPDATE'
 
 // ACTIONS CREATORS
+export function user_load_action(  ){
+
+    // vérifier localstorage 
+    // si token 
+        // vérifier token
+        // si good token 
+            // load user infos 
+        // sinon vire 
+    // sinon vire
+
+    return function (dispatch) {
+
+        let stored_user = localStorage.getItem('senovea_user');
+        console.log(stored_user)
+        if( stored_user !== null ){
+
+            const json_stored_user = JSON.parse(stored_user)
+            const stored_user_token = json_stored_user.user_auth.auth_token;
+
+                axios.post(`${WORDPRESS_API_BASE_URL}/jwt-auth/v1/token/validate`, {},{
+                    headers: {
+                        'Authorization' : `Bearer ${stored_user_token}`,
+                        'Content-Type'  : 'application/json'
+                    }
+                }).then(function (response){
+
+                    console.log("response")
+                    console.log(response)
+                    dispatch({
+                        "type":USER_LOAD,
+                        "payload":json_stored_user
+                    })
+
+                }).catch(function (error){
+                    console.log('token ko')
+                    console.log(error.message)
+                })
+
+        }else{
+            console.log('localstorage ko')
+        }
+
+    }
+
+}
+
 export function user_register_action( user_infos, callback ){
 
     // FormData 
@@ -76,6 +125,7 @@ export function user_register_action( user_infos, callback ){
             })
 
             // Register in browser memory
+
             // Flashbag
             // Redirect
             callback()
@@ -126,53 +176,57 @@ export function user_auth_action( user_infos ){
                     // user _ infos 
                     // manque isValidated
 
+                    let user_payload =  {
+                        'user_id':response.data.id,
+                        'user_email':response.data.email,
+                        'user_name':response.data.username,
+                        'user_first_name':response.data.first_name,
+                        'user_last_name':response.data.last_name,
+                        "user_avatar_url": response.data.avatar_url,
+                        "user_orders_count": response.data.orders_count,
+                        'user_auth':{
+
+                            'auth_token':auth_token,
+                            'isAuth':true,
+                            'isValidated':true
+
+                        },
+                        'user_billing':{
+                            "first_name": response.data.billing.first_name,
+                            "last_name": response.data.billing.last_name,
+                            "company": response.data.billing.company,
+                            "address_1": response.data.billing.address_1,
+                            "address_2": response.data.billing.address_2,
+                            "city": response.data.billing.city,
+                            "state": response.data.billing.state,
+                            "postcode": response.data.billing.postcode,
+                            "country": response.data.billing.country,
+                            "email": response.data.billing.email,
+                            "phone": response.data.billing.phone,
+                        },
+                        "user_shipping": {
+                            "first_name": response.data.shipping.first_name,
+                            "last_name": response.data.shipping.last_name,
+                            "company": response.data.shipping.company,
+                            "address_1": response.data.shipping.address_1,
+                            "address_2": response.data.shipping.address_2,
+                            "city": response.data.shipping.city,
+                            "state": response.data.shipping.state,
+                            "postcode": response.data.shipping.postcode,
+                            "country": response.data.shipping.country,
+                        },
+                        "isPayingCustomer": response.data.is_paying_customer,
+                        'isRegistered':true
+                    }
+
                     dispatch({
                         'type':USER_AUTH,
-                        'payload': {
-                            'user_id':response.data.id,
-                            'user_email':response.data.email,
-                            'user_name':response.data.username,
-                            'user_first_name':response.data.first_name,
-                            'user_last_name':response.data.last_name,
-                            "user_avatar_url": response.data.avatar_url,
-                            "user_orders_count": response.data.orders_count,
-                            'user_auth':{
-
-                                'auth_token':auth_token,
-                                'isAuth':true,
-                                'isValidated':true
-
-                            },
-                            'user_billing':{
-                                "first_name": response.data.billing.first_name,
-                                "last_name": response.data.billing.last_name,
-                                "company": response.data.billing.company,
-                                "address_1": response.data.billing.address_1,
-                                "address_2": response.data.billing.address_2,
-                                "city": response.data.billing.city,
-                                "state": response.data.billing.state,
-                                "postcode": response.data.billing.postcode,
-                                "country": response.data.billing.country,
-                                "email": response.data.billing.email,
-                                "phone": response.data.billing.phone,
-                            },
-                            "user_shipping": {
-                                "first_name": response.data.shipping.first_name,
-                                "last_name": response.data.shipping.last_name,
-                                "company": response.data.shipping.company,
-                                "address_1": response.data.shipping.address_1,
-                                "address_2": response.data.shipping.address_2,
-                                "city": response.data.shipping.city,
-                                "state": response.data.shipping.state,
-                                "postcode": response.data.shipping.postcode,
-                                "country": response.data.shipping.country,
-                            },
-                            "isPayingCustomer": response.data.is_paying_customer,
-                            'isRegistered':true
-                        }
+                        'payload': user_payload
                     })
 
                     // Register in browser memory
+                    localStorage.setItem('senovea_user', JSON.stringify(user_payload));
+
                     // Flashbag
                     // Redirect
 
@@ -202,63 +256,69 @@ export function user_auth_action( user_infos ){
 
 export function user_logout_action(){
 
-    return {
-        "type" : USER_AUTH,
-        "payload": {
+    return function (dispatch) {
 
-            'user_id':'',
-            'user_email':'',
-            'user_name':'',
-            'user_first_name':'',
-            'user_last_name':'',
-            "user_avatar_url": "",
-            "user_orders_count": 0,
-        
-            'user_auth':{
-                'auth_token':'',
-                'isAuth':false,
-                'isValidated':false
-            },
-        
-            'user_billing':{
-                "first_name": "",
-                "last_name": "",
-                "company": "",
-                "address_1": "",
-                "address_2": "",
-                "city": "",
-                "state": "",
-                "postcode": "",
-                "country": "",
-                "email": "",
-                "phone": ""
-            },
-        
-            "user_shipping": {
-                "first_name": "",
-                "last_name": "",
-                "company": "",
-                "address_1": "",
-                "address_2": "",
-                "city": "",
-                "state": "",
-                "postcode": "",
-                "country": ""
-            },
-        
-            "isPayingCustomer": false,
-            'isRegistered':false
+        dispatch({
+            "type" : USER_AUTH,
+            "payload": {
 
-        }
+                'user_id':'',
+                'user_email':'',
+                'user_name':'',
+                'user_first_name':'',
+                'user_last_name':'',
+                "user_avatar_url": "",
+                "user_orders_count": 0,
+                'user_auth':{
+                    'auth_token':'',
+                    'isAuth':false,
+                    'isValidated':false
+                },
+                'user_billing':{
+                    "first_name": "",
+                    "last_name": "",
+                    "company": "",
+                    "address_1": "",
+                    "address_2": "",
+                    "city": "",
+                    "state": "",
+                    "postcode": "",
+                    "country": "",
+                    "email": "",
+                    "phone": ""
+                },
+                "user_shipping": {
+                    "first_name": "",
+                    "last_name": "",
+                    "company": "",
+                    "address_1": "",
+                    "address_2": "",
+                    "city": "",
+                    "state": "",
+                    "postcode": "",
+                    "country": ""
+                },
+                "isPayingCustomer": false,
+                'isRegistered':false
+
+            }
+        })
+
+            // Un - Register in browser memory
+            localStorage.removeItem('senovea_user');
+            console.log("afterlogout")
+            console.log(localStorage.getItem('senovea_user'))
+            // Flashbag
+            // Redirect
+
     }
 
-    // Un - Register in browser memory
-    // Flashbag
-    // Redirect
 
 }
 
 export function user_update_action(user_infos){
+
+    // VALIDATE TOKEN FIRST
 
     //uid 
     let uid = user_infos.update_id
@@ -274,6 +334,8 @@ export function user_update_action(user_infos){
             console.log("success")
             console.log(response)
 
+
+
             // new email 
             dispatch({
                 "type":USER_UPDATE,
@@ -281,6 +343,15 @@ export function user_update_action(user_infos){
                     user_email:response.data.email,
                 }
             }) 
+
+            // UPDATE LOCAL STORAGE ( dégeulasse )
+            console.log('after update')
+            let stored_user = localStorage.getItem('senovea_user')
+            let json_stored_user = JSON.parse(stored_user)
+            console.log(json_stored_user)
+            json_stored_user.user_email = response.data.email
+            localStorage.setItem('senovea_user', JSON.stringify(json_stored_user))
+
 
         }).catch(function (error) {
             console.log("error")
