@@ -69,7 +69,7 @@ class LogIn extends React.Component{
                         />
                     </div>
                     <div>
-                    <Button type="submit" variant="contained" color="secondary">
+                        <Button type="submit" variant="contained" color="secondary">
                             Login to senovea
                         </Button>
                     </div>

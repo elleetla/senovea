@@ -9,6 +9,7 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
+import Checkbox from '@material-ui/core/Checkbox';
 
 // user auth action 
 import { user_register_action } from '../actions/index' 
@@ -49,6 +50,24 @@ const renderTextField = ( field ) => (
     <TextField {...field.input} label={field.placeholder} type={field.type} />
 )
 
+const renderCheckBoxField = ( field ) => {
+    console.log(field)
+    return(
+        <div>
+            <Typography style={{marginBottom:'5px'}} variant="body2" color="inherit">
+                By checking the box you accept to receive emails from senovea:
+            </Typography>
+            <Checkbox
+            type={field.type}
+            {...field}
+            {...field.input}
+            value={field.value}
+        />
+        </div>
+    )
+
+}
+
 class Register extends React.Component{
     constructor(props){
         super(props)
@@ -87,7 +106,7 @@ class Register extends React.Component{
                         You have to request an invite to get access to senovea-spa, for that you need to fill the form bellow.
                         </Typography>
                         <Typography variant="subheading" color="inherit">
-                        You'll receive activation link by email when accepted by our team.
+                        You'll receive activation link by email when your candidacy is accepted by our team.
                         </Typography>
                 </div>
                         <Divider/>
@@ -125,8 +144,8 @@ class Register extends React.Component{
                     </div>
                     */}
                     <div style={{marginBottom:'30px'}}>
-                        <Typography style={{marginBottom:'15px'}} variant="subheading" color="inherit">
-                            Document
+                        <Typography style={{marginBottom:'15px'}} variant="body2" color="inherit">
+                            Upload Document:
                         </Typography>
                         <Field
                             name="register_document"
@@ -136,7 +155,16 @@ class Register extends React.Component{
                             accept=".pdf"
                         />
                     </div>
-
+                    <div style={{marginBottom:'30px'}}>
+                        <Field 
+                            name="login_accept" 
+                            id="login_accept" 
+                            value="login_accept"
+                            type="checkbox"
+                            label="Accept Condition Checkbox"
+                            component={renderCheckBoxField}
+                        />
+                    </div>
                     <div>
 
                         <Button type="submit" variant="contained" color="secondary">
