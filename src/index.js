@@ -31,7 +31,17 @@ import { createMuiTheme } from '@material-ui/core/styles';
 // load action 
 import { user_load_action } from './app/actions/index'; 
 
+import axios from 'axios';
+
 console.log(WORDPRESS_API_BASE_URL);
+axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v1/products`, {}, {})
+    .then(function(response){
+        console.log('products ok')
+        console.log(response)
+    }).catch(function(error){
+        console.log('products ko')
+        console.log(error.message)
+    })
 
 const theme = createMuiTheme({
   palette: {
@@ -49,6 +59,7 @@ const theme = createMuiTheme({
     },
   },
 });
+
 
 
 const store = createStore(

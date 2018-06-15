@@ -62,17 +62,19 @@ export function user_register_action( user_infos, callback ){
     let new_user_data = new FormData()
     new_user_data.append('username',user_infos.register_username)
     new_user_data.append('email',user_infos.register_email)
-    new_user_data.append('password',user_infos.register_password)
+    //new_user_data.append('password',user_infos.register_password)
     new_user_data.append('document',user_infos.register_document)
 
     // Register a USER via wordpress API
     return function (dispatch) {
         return axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v1/customer`, new_user_data, {
-            headers: {'Content-Type': 'multipart/form-data' }
+            headers: {
+                'Content-Type': 'multipart/form-data' 
+            }
         }).then(function (response) {
-            console.log("response")
-            console.log(response)
 
+            console.log("ok post consumer")
+            console.log(response)
             dispatch({
                 'type':USER_REGISTER,
                 'payload': {
@@ -125,13 +127,12 @@ export function user_register_action( user_infos, callback ){
             })
 
             // Register in browser memory
-
             // Flashbag
             // Redirect
             callback()
 
         }).catch(function (error) {
-            console.log("error")
+            console.log("ko post consumer")
             console.log(error.response)
             // Flashbag
         });
@@ -175,7 +176,6 @@ export function user_auth_action( user_infos ){
 
                     // user _ infos 
                     // manque isValidated
-
                     let user_payload =  {
                         'user_id':response.data.id,
                         'user_email':response.data.email,
@@ -226,26 +226,25 @@ export function user_auth_action( user_infos ){
 
                     // Register in browser memory
                     localStorage.setItem('senovea_user', JSON.stringify(user_payload));
-
                     // Flashbag
                     // Redirect
 
                 }).catch(function (error) { 
-                    console.log("error")
+                    console.log("ko user")
                     console.log(error.response)
                     // Flashbag
                     // Enable to get customer
                 })
 
             }).catch(function (error) {
-                console.log("error")
+                console.log("ko validate")
                 console.log(error.response)
                 // Flashbag
                 // Enable to validate token
             })
 
         }).catch(function (error) {
-            console.log("error")
+            console.log("ko user")
             console.log(error.response)
             // Flashbag
             // Enable to generate token

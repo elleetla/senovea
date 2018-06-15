@@ -7,6 +7,10 @@ module.exports = merge(common, {
 
     mode: 'production',
     devtool: 'source-map',
+    devServer: {
+        contentBase: './src',
+        //https:true
+    },
     plugins: [
         new UglifyJSPlugin({
             sourceMap: true
