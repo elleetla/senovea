@@ -1,22 +1,18 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
 
+// import grid Bootstrap
+import { Container, Row, Col } from 'reactstrap';
 
 export class Home extends React.Component{
     render(){
         return(
-            <Paper elevation={1}>
-                <div style={{padding:'30px'}}>
-
-                        <div style={{padding:'0px'}}>
-                        <Typography variant="headline" color="inherit">
-                            Welcome to senovea-spa!
-                        </Typography>
-                        </div>
-
-                </div>
-            </Paper>
+            <div>
+                <Container>
+                    <Row>
+                        <Col xs="12">Page : Home</Col>
+                    </Row>
+                </Container>
+            </div>
         )
     }
 }

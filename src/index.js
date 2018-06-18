@@ -13,7 +13,10 @@ import { rootReducers } from './app/reducers/reducers'
 // redux - thunk 
 import thunk from 'redux-thunk'
 // appNav
-import AppNav from './app/containers/appnav'
+import AppNav from './app/containers/Header/appnav'
+
+import Filters from './app/containers/Filters/Filters';
+
 // components
 import Routing from './app/containers/routing'
 // screens components
@@ -31,6 +34,8 @@ import SupplierOrders from './app/screens/supplier-orders'
 // import css
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
+
+import Banner from './app/containers/Banner/bannerHome';
 
 // Material theming
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -66,8 +71,6 @@ const theme = createMuiTheme({
   },
 });
 
-
-
 const store = createStore(
     rootReducers,
     applyMiddleware(thunk)
@@ -86,14 +89,10 @@ class App extends React.Component{
                     <HashRouter>
                         <div>
                             <AppNav />
+                            <Banner />
+                            <Filters />
                             <Switch>
                                 <Route exact path="/" component={Home} />
-
-                                {/*
-                                    <Route path="/register" component={Register} />
-                                    <Route path="/login" component={LogIn} />
-                                */}
-
                                 <Route path="/register" render={ () => {
                                     if(this.props.user.user_auth.isAuth === true){
                                         return <Redirect to="/"/>

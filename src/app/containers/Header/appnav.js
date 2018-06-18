@@ -4,7 +4,7 @@ import { connect }                          from 'react-redux'
 import { Link }                             from 'react-router-dom'
 
 // user logout action 
-import { user_logout_action } from '../actions/index'
+import { user_logout_action } from '../../actions/index'
 
 // import css
 import './header-app.css';
