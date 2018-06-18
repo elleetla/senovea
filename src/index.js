@@ -26,6 +26,8 @@ import {Cart} from './app/screens/cart'
 import {AllUsers} from './app/screens/allusers'
 import {AllSuppliers} from './app/screens/allsuppliers'
 import {About} from './app/screens/about'
+import SupplierOrders from './app/screens/supplier-orders'
+
 // Material theming
 import { createMuiTheme } from '@material-ui/core/styles';
 // load action 
@@ -119,29 +121,50 @@ class App extends React.Component{
                                 
                                 
                                 <Route path="/account" render={ () => {
-                                    if(this.props.user.user_auth.isAuth === false){
+                                    if(this.props.user.user_auth.isAuth === false ){
                                         return <Redirect to="/login"/>
                                     }else{
-                                        return (
-                                            <div>
-                                                <Account/>
-                                            </div>
-                                        )
+                                        if ( this.props.user.user_auth.isCustomer === true && this.props.user.user_auth.isSupplier === false ){
+                                            return (
+                                                <div>
+                                                    <Account/>
+                                                </div>
+                                            )
+                                        }else{
+                                            return <Redirect to="/"/>
+                                        }
                                     }
                                 }}/>
                                 
-                        
-
-
                                 <Route path="/cart" render={ () => {
-                                    if(this.props.user.user_auth.isAuth === false){
+                                    if(this.props.user.user_auth.isAuth === false ){
                                         return <Redirect to="/login"/>
                                     }else{
-                                        return (
-                                            <div>
-                                                <Cart/>
-                                            </div>
-                                        )
+                                        if( this.props.user.user_auth.isCustomer === true && this.props.user.user_auth.isSupplier === false ){
+                                            return (
+                                                <div>
+                                                    <Cart/>
+                                                </div>
+                                            )
+                                        }else{
+                                            return <Redirect to="/"/>
+                                        }
+                                    }
+                                }}/>
+
+                                <Route path="/supplier-orders" render={ () => {
+                                    if(this.props.user.user_auth.isAuth === false ){
+                                        return <Redirect to="/login"/>
+                                    }else{
+                                        if( this.props.user.user_auth.isCustomer === false && this.props.user.user_auth.isSupplier === true ){
+                                            return (
+                                                <div>
+                                                    <SupplierOrders />
+                                                </div>
+                                            )
+                                        }else{
+                                            return <Redirect to="/"/>
+                                        }
                                     }
                                 }}/>
 

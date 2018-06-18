@@ -68,7 +68,7 @@ class Account extends React.Component{
                         <Paper elevation={1} style={{marginBottom:'15px'}}>
                         <div style={{padding:'15px 30px'}}>
                         <Typography variant="headline" color="inherit">
-                            Account
+                            Customer Account
                         </Typography>
                         </div>
                         </Paper>

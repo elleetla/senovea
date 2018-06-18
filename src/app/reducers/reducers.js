@@ -5,9 +5,58 @@ import { USER_AUTH }                      from '../actions/index'
 import { USER_UPDATE }                    from '../actions/index'
 import { USER_LOAD }                      from '../actions/index'
 
+// suppliers 
+
+
+/*const SUPPLIERS_INITIAL_STATE = {
+
+    'supplier_id':'',
+    'supplier_email':'',
+    'supplier_name':'',
+    'supplier_first_name':'',
+    'supplier_last_name':'',
+    "supplier_avatar_url": '',
+
+    'supplier_auth':{
+        'supplier_token':'',
+        'isAuth':false,
+    },
+
+    'supplier_order':{
+    }
+
+}*/
+
+/*function supplierReducer( state = SUPPLIERS_INITIAL_STATE , action ){
+
+    switch (action.type) {
+        case USER_AUTH:
+        console.log("supplier auth reducer")
+        console.log(action.payload)
+        return action.payload
+        default : 
+        return state;
+    }
+
+}*/
+
+// users 
+
 const USER_INITIAL_STATE = {
 
+    'user_auth':{
+
+        'auth_token':'',
+        'isAuth':false,
+        'isValidated':false,
+        'isSupplier':false,
+        'isCustomer':false
+        
+    }
+
+    /*
     'user_id':'',
+    'user_role':'',
     'user_email':'',
     'user_name':'',
     'user_first_name':'',
@@ -22,9 +71,6 @@ const USER_INITIAL_STATE = {
     },
 
     'user_order':{
-
-
-
     },
 
     'user_billing':{
@@ -55,6 +101,7 @@ const USER_INITIAL_STATE = {
 
     "isPayingCustomer": false,
     'isRegistered':false
+    */
 
 }
 
@@ -87,6 +134,7 @@ function userReducer( state = USER_INITIAL_STATE , action ){
 }
 
 export const rootReducers = combineReducers({
-    "user":userReducer,
-    "form":formReducer
+    "user"      :userReducer,
+    //"supplier"  :supplierReducer,
+    "form"      :formReducer
 })

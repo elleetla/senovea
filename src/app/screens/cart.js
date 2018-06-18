@@ -14,7 +14,7 @@ export class Cart extends React.Component{
 
                         <div style={{padding:'30px'}}>
                         <Typography variant="headline" color="inherit">
-                            Cart
+                            Customer Cart
                         </Typography>
                         </div>
                 </div>
