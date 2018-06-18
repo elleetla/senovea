@@ -28,6 +28,10 @@ import {AllSuppliers} from './app/screens/allsuppliers'
 import {About} from './app/screens/about'
 import SupplierOrders from './app/screens/supplier-orders'
 
+// import css
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './app.css';
+
 // Material theming
 import { createMuiTheme } from '@material-ui/core/styles';
 // load action 
@@ -40,7 +44,7 @@ axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v1/products`, {}, {})
     .then(function(response){
         console.log('products ok')
         console.log(response)
-    }).catch(function(error){
+    }).catch(function(error) {
         console.log('products ko')
         console.log(error.message)
     })
