@@ -7,13 +7,39 @@ import { Link }                             from 'react-router-dom'
 import { user_logout_action } from '../../actions/index'
 
 // import css
-import './header-app.css';
+import './Header.css';
 
-class AppNav extends React.Component{
+import {
+    Container,
+    Row,
+    Col,
+    Collapse,
+    Navbar,
+    NavbarToggler,
+    NavbarBrand,
+    Nav,
+    NavItem,
+    NavLink,
+    UncontrolledDropdown,
+    DropdownToggle,
+    DropdownMenu,
+    DropdownItem } from 'reactstrap';
+
+class Header extends React.Component{
 
     constructor(props){
         super(props);
-        this.handleLogOut = this.handleLogOut.bind(this)
+        this.handleLogOut = this.handleLogOut.bind(this);
+        this.toggle = this.toggle.bind(this);
+        this.state = {
+            isOpen: false
+        };
+    }
+
+    toggle() {
+        this.setState({
+            isOpen: !this.state.isOpen
+        });
     }
 
     handleLogOut(){
@@ -74,56 +100,45 @@ class AppNav extends React.Component{
 
         return(
             <header id="header-app">
-                            {
-                                this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false ?
-                                    <div>
-                                        <Link to="/register">
-                                            <button>
-                                                Request invite
-                                            </button>
-                                        </Link>
-                                        <Link to="/login">
-                                            <button>
-                                                Customer/Supplier Login
-                                            </button>
-                                        </Link>
-                                    </div>
-                                    :
-                                    <a href="javascript:void(0)" onClick={this.handleLogOut}>
-                                        <button>
-                                            Logout
-                                        </button>
-                                    </a>
+                <Navbar light expand="md">
+                    <NavbarBrand href="/">Centralis</NavbarBrand>
+                    <NavbarToggler onClick={this.toggle} />
+                    <Collapse isOpen={this.state.isOpen} navbar>
+                        <Nav navbar>
+                            <NavItem>
+                                <NavLink href="/">Accueil</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink href="#/about">Présentation</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink href="#/suppliers">Fournisseurs</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink href="#/users">Acheteurs</NavLink>
+                            </NavItem>
+                        </Nav>
+                        <Nav className="ml-auto" navbar>
+                            { this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false ?
+                                <div>
+                                    <NavItem>
+                                        <NavLink href="#/register">Inscription</NavLink>
+                                    </NavItem>
+                                    <NavItem>
+                                        <NavLink href="#/login">Connexion</NavLink>
+                                    </NavItem>
+                                </div>
+                                :
+                                <div>
+                                    <NavItem>
+                                        <NavLink href="javascript:void(0)" onClick={this.handleLogOut}>Déconnexion</NavLink>
+                                    </NavItem>
+                                </div>
+
                             }
-            <div>
-                <div>
-                    <div>
-                        <Link to="/">Senovea-spa</Link>
-                    </div>
-
-                    <Link to="/users" >
-                        <button>
-                            All Users
-                        </button>
-                    </Link>
-
-                    <Link to="/suppliers" >
-                        <button>
-                            All Suppliers
-                        </button>
-                    </Link>
-
-                    <Link to="/about" >
-                        <button>
-                            About
-                        </button>
-                    </Link>
-
-                    <CustomerMenu/>
-                    <SupplierMenu/>
-
-                </div>
-            </div>
+                        </Nav>
+                    </Collapse>
+                </Navbar>
             </header>
         )
     }
@@ -144,7 +159,7 @@ function mapDispatchToProps(dispatch){
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps)
-)(AppNav)
+)(Header)
 
 
 

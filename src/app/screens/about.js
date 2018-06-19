@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { Component } from 'react';
 
 // import grid Bootstrap
 import { Container, Row, Col } from 'reactstrap';
 
-export class About extends React.Component{
-    render(){
+export class About extends Component{
+    render() {
         return(
             <div>
                 <Container>

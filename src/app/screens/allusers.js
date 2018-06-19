@@ -9,7 +9,7 @@ export class AllUsers extends React.Component{
             <div>
                 <Container>
                     <Row>
-                        <Col xs="12">Page : Utilisateurs</Col>
+                        <Col xs="12">Page : Acheteurs</Col>
                     </Row>
                 </Container>
             </div>

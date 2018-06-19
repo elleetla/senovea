@@ -1,7 +1,10 @@
 import React from 'react';
 
 // import grid Bootstrap
-import { Container, Row, Col } from 'reactstrap';
+import {
+    Container,
+    Row,
+    Col } from 'reactstrap';
 
 export class Home extends React.Component{
     render(){
@@ -10,6 +13,7 @@ export class Home extends React.Component{
                 <Container>
                     <Row>
                         <Col xs="12">Page : Home</Col>
+
                     </Row>
                 </Container>
             </div>

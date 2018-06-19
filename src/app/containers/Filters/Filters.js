@@ -1,16 +1,25 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 // import style
-import {Container, Row, Col} from 'reactstrap';
+import { Container, Row, Col } from 'reactstrap';
 import './Filters.css';
 
-class Filters extends React.Component{
+class Filters extends Component{
     render(){
         return(
             <nav id="Filters">
                 <Container>
                     <Row>
-                        <Col lg="12">
+                        <Col lg="3">
+                            test
+                        </Col>
+                        <Col lg="3">
+                            test
+                        </Col>
+                        <Col lg="3">
+                            test
+                        </Col>
+                        <Col lg="3">
                             test
                         </Col>
                     </Row>
@@ -20,4 +29,5 @@ class Filters extends React.Component{
     }
 }
 
+// export
 export default Filters;

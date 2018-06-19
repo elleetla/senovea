@@ -36,12 +36,10 @@ class Routing extends React.Component{
 }
 
 function mapStateToProps( state ){
-
     return {
         "user":state.user,
         "auth":state.auth
     }
-
 }
 
 export default compose(

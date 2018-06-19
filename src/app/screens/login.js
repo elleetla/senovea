@@ -42,9 +42,8 @@ class LogIn extends React.Component{
 
                 <div style={{padding:'30px'}}>
                         <Typography variant="headline" color="inherit">
-                        Login to senovea-spa.
+                            Login to senovea-spa.
                         </Typography>
-                  
                 </div>
                         <Divider/>
                 <div style={{padding:'30px'}}>

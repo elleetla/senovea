@@ -1,7 +1,10 @@
 /* Style component Header App */
 
 #header-app {
-    padding: 30px;
     border-bottom: 1px solid #EFEFEF;
     background-color: #ffffff;
+}
+
+#header-app .navbar .navbar-nav li.nav-item {
+    display: inline-block;
 }

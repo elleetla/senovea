@@ -13,7 +13,7 @@ import { rootReducers } from './app/reducers/reducers'
 // redux - thunk 
 import thunk from 'redux-thunk'
 // appNav
-import AppNav from './app/containers/Header/appnav'
+import AppNav from './app/containers/Header/Header'
 
 import Filters from './app/containers/Filters/Filters';
 
@@ -35,7 +35,8 @@ import SupplierOrders from './app/screens/supplier-orders'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 
-import Banner from './app/containers/Banner/bannerHome';
+import Banner from './app/containers/Banner/banner';
+import Footer from './app/containers/Footer/Footer';
 
 // Material theming
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -54,23 +55,6 @@ axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v1/products`, {}, {})
         console.log(error.message)
     })
 
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: '#757ce8',
-      main: '#3f50b5',
-      dark: '#002884',
-      contrastText: '#fff',
-    },
-    secondary: {
-      light: '#ff7961',
-      main: '#f44336',
-      dark: '#ba000d',
-      contrastText: '#000',
-    },
-  },
-});
-
 const store = createStore(
     rootReducers,
     applyMiddleware(thunk)
@@ -88,9 +72,10 @@ class App extends React.Component{
         return(
                     <HashRouter>
                         <div>
-                            <AppNav />
-                            <Banner />
-                            <Filters />
+                            <AppNav/>
+                            <Banner/>
+                            <Filters/>
+                            <Footer/>
                             <Switch>
                                 <Route exact path="/" component={Home} />
                                 <Route path="/register" render={ () => {
@@ -105,7 +90,7 @@ class App extends React.Component{
                                     }
                                 }}/>
 
-                                
+
                                 <Route path="/login" render={ () => {
                                     if(this.props.user.user_auth.isAuth === true){
                                         return <Redirect to="/"/>
@@ -175,8 +160,8 @@ class App extends React.Component{
                                 <Route path="/suppliers" component={AllSuppliers}/>
                                 <Route path="/about" component={About}/>
 
-                            </Switch>     
-                        </div>  
+                            </Switch>
+                        </div>
                     </HashRouter>
         )
     }
