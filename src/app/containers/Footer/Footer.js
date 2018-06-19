@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 // import style
 import { Container, Row, Col } from 'reactstrap';
 import './Footer.css';
+import LogoFooter from '../../img/logo-light.png';
 
 class Footer extends Component{
     render(){
@@ -11,10 +12,10 @@ class Footer extends Component{
                 <Container>
                     <Row>
                         <Col lg="6">
-                            Logo
+                            <img id="logo-footer" src={LogoFooter} alt=""/>
                         </Col>
                         <Col lg="6">
-                            Mentions
+                            <p>Mentions légales - <a href="#">Conditions générales</a> - <a href="#">FAQ</a> - <a href="#">Nous contacter</a></p>
                         </Col>
                     </Row>
                 </Container>

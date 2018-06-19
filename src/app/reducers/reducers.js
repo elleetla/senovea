@@ -4,6 +4,7 @@ import { USER_REGISTER }                  from '../actions/index'
 import { USER_AUTH }                      from '../actions/index'
 import { USER_UPDATE }                    from '../actions/index'
 import { USER_LOAD }                      from '../actions/index'
+import { CALL_PRODUCTS }                  from "../actions/index"
 
 // suppliers 
 
@@ -105,8 +106,18 @@ const USER_INITIAL_STATE = {
 
 }
 
-function userReducer( state = USER_INITIAL_STATE , action ){
+// reducer products
+function callProductsReducer(state = {}, action) {
+    switch (action.type){
+        case CALL_PRODUCTS:
+            console.log(action.payload)
+            return action.payload
+        default:
+            return state
+    }
+}
 
+function userReducer( state = USER_INITIAL_STATE , action ){
     switch (action.type) {
         case USER_LOAD:
             console.log('user load reducer')
@@ -130,11 +141,11 @@ function userReducer( state = USER_INITIAL_STATE , action ){
         default:
             return state
     }
-
 }
 
 export const rootReducers = combineReducers({
     "user"      :userReducer,
     //"supplier"  :supplierReducer,
-    "form"      :formReducer
-})
+    "form"      :formReducer,
+    "products"  :callProductsReducer
+});

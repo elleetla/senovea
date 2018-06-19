@@ -11,16 +11,7 @@ class Filters extends Component{
                 <Container>
                     <Row>
                         <Col lg="3">
-                            test
-                        </Col>
-                        <Col lg="3">
-                            test
-                        </Col>
-                        <Col lg="3">
-                            test
-                        </Col>
-                        <Col lg="3">
-                            test
+                            Filter
                         </Col>
                     </Row>
                 </Container>

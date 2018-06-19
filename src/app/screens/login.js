@@ -12,7 +12,6 @@ import Divider from '@material-ui/core/Divider';
 // user auth action 
 import { user_auth_action } from '../actions/index' 
 
-
 // Fields
 const renderTextField = ( field ) => (
     <TextField {...field.input} label={field.placeholder} type={field.type} />

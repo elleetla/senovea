@@ -8,6 +8,7 @@ import { user_logout_action } from '../../actions/index'
 
 // import css
 import './Header.css';
+import Logo from '../../img/logo@2x.png';
 
 import {
     Container,
@@ -54,19 +55,19 @@ class Header extends React.Component{
                 if( this.props.user.user_auth.isCustomer === true && this.props.user.user_auth.isSupplier === false ){
                     // customer
                     return(
-                    <div>
-                        <Link to="/cart">
-                            <Button>
-                                Customer Cart
-                            </Button>
-                        </Link>
+                        <div>
+                            <Link to="/cart">
+                                <Button>
+                                    Customer Cart
+                                </Button>
+                            </Link>
 
-                        <Link to="/account">
-                            <button color="secondary">
-                                Customer Account
-                            </button>
-                        </Link>
-                    </div>
+                            <Link to="/account">
+                                <button color="secondary">
+                                    Customer Account
+                                </button>
+                            </Link>
+                        </div>
                     )
                 } else {
                     return null;
@@ -101,7 +102,9 @@ class Header extends React.Component{
         return(
             <header id="header-app">
                 <Navbar light expand="md">
-                    <NavbarBrand href="/">Centralis</NavbarBrand>
+                    <NavbarBrand href="/">
+                        <img id="logo-app" src={Logo} alt=""/>
+                    </NavbarBrand>
                     <NavbarToggler onClick={this.toggle} />
                     <Collapse isOpen={this.state.isOpen} navbar>
                         <Nav navbar>
@@ -112,10 +115,13 @@ class Header extends React.Component{
                                 <NavLink href="#/about">Présentation</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="#/suppliers">Fournisseurs</NavLink>
+                                <NavLink href="#/users">Acheteurs</NavLink>
                             </NavItem>
                             <NavItem>
-                                <NavLink href="#/users">Acheteurs</NavLink>
+                                <NavLink href="#/suppliers">Prestataires</NavLink>
+                            </NavItem>
+                            <NavItem>
+                                <NavLink href="#">Téléchargement</NavLink>
                             </NavItem>
                         </Nav>
                         <Nav className="ml-auto" navbar>

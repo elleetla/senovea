@@ -41,30 +41,20 @@ import Footer from './app/containers/Footer/Footer';
 // Material theming
 import { createMuiTheme } from '@material-ui/core/styles';
 // load action 
-import { user_load_action } from './app/actions/index'; 
-
-import axios from 'axios';
-
-console.log(WORDPRESS_API_BASE_URL);
-axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v1/products`, {}, {})
-    .then(function(response){
-        console.log('products ok')
-        console.log(response)
-    }).catch(function(error) {
-        console.log('products ko')
-        console.log(error.message)
-    })
+import { user_load_action } from './app/actions/index';
+import { call_product } from './app/actions/index';
 
 const store = createStore(
     rootReducers,
     applyMiddleware(thunk)
 )
 
-class App extends React.Component{
+class App extends React.Component {
 
     componentDidMount() { 
         // vérifier si user est en mémoire
         this.props.user_load_action();
+        this.props.call_products();
     }
 
     render(){
@@ -169,7 +159,8 @@ class App extends React.Component{
 
 function mapDispatchToProps( dispatch ){
     return bindActionCreators({
-        "user_load_action":user_load_action
+        "user_load_action": user_load_action,
+        "call_products": call_product
     }, dispatch)
 }
 

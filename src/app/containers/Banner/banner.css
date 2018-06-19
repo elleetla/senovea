@@ -2,5 +2,8 @@
     padding: 60px 0;
     background-color: #ffffff;
     text-align: center;
+}
+
+#banner-home h1{
     font-weight: 600;
 }
