@@ -1,9 +1,16 @@
 import { combineReducers }                from 'redux'
 import { reducer as formReducer }         from 'redux-form'
+
 import { USER_REGISTER }                  from '../actions/index'
 import { USER_AUTH }                      from '../actions/index'
 import { USER_UPDATE }                    from '../actions/index'
 import { USER_LOAD }                      from '../actions/index'
+import { SUPPLIER_ORDER_ACCEPT }          from '../actions/index'
+import { SUPPLIER_ORDER_REJECT }          from '../actions/index'
+
+import _ from 'lodash'
+
+//import _ form 'lodash';
 
 // suppliers 
 
@@ -108,27 +115,63 @@ const USER_INITIAL_STATE = {
 function userReducer( state = USER_INITIAL_STATE , action ){
 
     switch (action.type) {
-        case USER_LOAD:
+
+        case USER_LOAD: {
             console.log('user load reducer')
             console.log(action.payload)
             return action.payload
-        case USER_REGISTER:
+            break;
+        }
+        case USER_REGISTER:{
             console.log("user register reducer")
             console.log(action.payload)
             return action.payload
-        case USER_AUTH:
+            break;
+        }
+        case USER_AUTH:{
             console.log("user auth reducer")
             console.log(action.payload)
             return action.payload
-        case USER_UPDATE:
+            break;
+        }
+        case USER_UPDATE:{
+            /// à refaire
             console.log("user update reducer")
             console.log(action.payload)
             let user = state;
             user.user_email = action.payload.user_email
             console.log(user)
             return user;
+            break;
+        }
+        case SUPPLIER_ORDER_ACCEPT:{
+            console.log("supplier accept reducer");
+            let accepted_state = _.cloneDeep(state);
+            let accepted_order = _.find( accepted_state.user_orders.user_actives_orders , ( order ) => { return parseInt(order.id) === parseInt(action.payload) });
+            let actives_orders = _.filter( accepted_state.user_orders.user_actives_orders , ( order ) => { return parseInt(order.id) !== parseInt(action.payload) })
+            accepted_state.user_orders.user_winned_orders.push( accepted_order );
+            accepted_state.user_orders.user_actives_orders = actives_orders;
+            console.log(action.payload)
+            console.log(accepted_state)
+            return accepted_state;
+            break;
+        }
+        case SUPPLIER_ORDER_REJECT:{
+            console.log("supplier reject reducer");
+            let rejected_state = _.cloneDeep(state);
+            let rejected_order = _.find( rejected_state.user_orders.user_actives_orders , ( order ) => { return parseInt(order.id) === parseInt(action.payload) });
+            let actives_orders = _.filter( rejected_state.user_orders.user_actives_orders , ( order ) => { return parseInt(order.id) !== parseInt(action.payload) })
+            rejected_state.user_orders.user_failed_orders.push( rejected_order );
+            rejected_state.user_orders.user_actives_orders = actives_orders;
+            console.log(action.payload)
+            console.log(rejected_state)
+            return rejected_state;
+            break;
+        }
         default:
             return state
+            break;
+
     }
 
 }

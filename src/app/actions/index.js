@@ -12,40 +12,46 @@ export const SUPPLIER_ORDER_ACCEPT    = 'SUPPLIER_ORDER_ACCEPT'
 export const SUPPLIER_ORDER_REJECT    = 'SUPPLIER_ORDER_REJECT'
 
 // ACTIONS CREATORS
-export function supplier_order_accept( order_id, supplier ){
+export function supplier_order_accept( order_id, supplier_id ){
     console.log('action supplier_order_accept')
     console.log(order_id)
-    console.log(supplier)
+    console.log(supplier_id)
 
     let supplier_order_accept_data = new FormData()
     supplier_order_accept_data.append('order_id',order_id)
-    supplier_order_accept_data.append('supplier',supplier)
+    supplier_order_accept_data.append('supplier_id',supplier_id)
 
     return function (dispatch) {
         axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v1/supplier/accept`, supplier_order_accept_data,{
-            
-        }).then(function (response){
 
+        }).then(function (response){
             console.log("accept order ok")
             console.log(response)
-
+            // dispatch new state
+            dispatch({
+                "type":SUPPLIER_ORDER_ACCEPT,
+                "payload":order_id
+            })
+            // update localstorage 
+            // flashbag
+            // callback 
         }).catch(function (error){
-
             console.log('accept order ko')
             console.log(error.message)
-
+            // flashbag
+            // callback 
         })
     }
 
 }
-export function supplier_order_reject( order_id, supplier ){
+export function supplier_order_reject( order_id, supplier_id ){
     console.log('action supplier_order_reject')
     console.log(order_id)
-    console.log(supplier)
+    console.log(supplier_id)
 
     let supplier_order_reject_data = new FormData()
     supplier_order_reject_data.append('order_id',order_id)
-    supplier_order_reject_data.append('supplier',supplier)
+    supplier_order_reject_data.append('supplier_id',supplier_id)
 
     return function (dispatch) {
         axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v1/supplier/reject`, supplier_order_reject_data,{
@@ -54,6 +60,17 @@ export function supplier_order_reject( order_id, supplier ){
 
             console.log("reject order ok")
             console.log(response)
+
+            // dispatch new state
+            dispatch({
+                "type":SUPPLIER_ORDER_REJECT,
+                "payload":order_id
+            })
+            // update localstorage 
+
+            // flashbag
+
+            // callback 
 
         }).catch(function (error){
 
@@ -321,6 +338,7 @@ export function user_auth_action( user_infos ){
                         
                         let supplier_payload =  {
  
+                            'user_id':response.data.uid,
                             'user_role':'supplier',
 
                             'user_auth':{
@@ -333,7 +351,9 @@ export function user_auth_action( user_infos ){
 
                             },
                             'user_orders':{
-                                'user_actives_orders':response.data.thatsupplier_associated_active_orders
+                                'user_actives_orders':response.data.supplier_orders_actives,
+                                'user_winned_orders':response.data.supplier_orders_winned,
+                                'user_failed_orders':response.data.supplier_orders_failed
                             }
 
                         }

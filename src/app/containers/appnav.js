@@ -48,6 +48,7 @@ class AppNav extends React.Component{
     }
 
     render(){
+        console.log('appnav')
         console.log(this.props)
         const CustomerMenu = (  ) => {
             if( this.props.user.user_auth.auth_token !== '' && this.props.user.user_auth.isAuth !== false ){

@@ -2,7 +2,6 @@ import React                                from 'react'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 
-
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
@@ -11,9 +10,11 @@ import Card from '@material-ui/core/Card';
 import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 
+
 // order action 
 import { supplier_order_accept } from '../actions/index';
 import { supplier_order_reject } from '../actions/index';
+
 class SupplierOrders extends React.Component{
 
     constructor(props){
@@ -25,51 +26,33 @@ class SupplierOrders extends React.Component{
     handle_supplier_order_accept(e){
         console.log(e)
         // order id 
-        const order_id= e.target.parentElement.getAttribute('data-orderid')
-        this.props.supplier_order_accept(order_id, this.props.user)
+        const order_id= e.target.getAttribute('data-orderid')
+        console.log('handle accept')
+        console.log(e.target)
+        console.log(order_id)
+        console.log(this.props.user.user_id)
+
+        this.props.supplier_order_accept(order_id, this.props.user.user_id)
     }
 
     handle_supplier_order_reject(e){
         console.log(e)
-        const order_id= e.target.parentElement.getAttribute('data-orderid')
-        this.props.supplier_order_reject(order_id, this.props.user)
+        const order_id= e.target.getAttribute('data-orderid')
+        console.log('handle reject')
+        console.log(e.target)
+        console.log(order_id)
+        this.props.supplier_order_reject(order_id, this.props.user.user_id)
     }
 
     render(){
 
-        const SupplierActivesOrders = ( ) => {
-            if( this.props.user.user_orders.user_actives_orders !== false ){
-
-                return(
-                    this.props.user.user_orders.user_actives_orders.map((order)=>{
-                        return(
-                            <Card key={order.ID} style={{marginTop:'5px'}}>
-                                <CardContent>
-                                    <Typography color="primary" variant="subheading"> 
-                                        Order ID : {order.ID}
-                                    </Typography>
-                                </CardContent>
-                                <CardActions>
-                                    <Button data-orderid={order.ID} onClick={this.handle_supplier_order_accept} variant="contained" color="primary" size="small">Accept order</Button>
-                                    <Button data-orderid={order.ID} onClick={this.handle_supplier_order_reject} variant="contained" color="secondary" size="small">Reject order</Button>
-                                </CardActions>
-                            </Card>
-                        )
-                    })
-                )
-
-
-            }else{
-                return ('');
-            }
-        }
-
+        console.log('render supplier orders')
         console.log(this)
 
         return(
                 <div style={{padding:'0px'}}>
 
-                        <Paper elevation={1}>
+                        <Paper elevation={1} style={{marginBottom:'15px'}}>
                             <div style={{padding:'15px 30px'}}>
                             <Typography variant="headline" color="inherit">
                                 Supplier Orders
@@ -77,9 +60,84 @@ class SupplierOrders extends React.Component{
                             </div>
                         </Paper>
 
-                        <div>
-                            <SupplierActivesOrders/>
-                        </div>
+                        <Paper elevation={1} elevation={1} style={{marginBottom:'15px'}}>
+                            <div style={{padding:'15px 30px'}}>
+                                <Typography variant="subheading" color="inherit">
+                                    Supplier Actives Orders
+                                </Typography>
+                            </div>
+                            <Divider />
+                            {/*<SupplierActivesOrders allprops={this.props} />*/}
+                            { 
+                                this.props.user.user_orders.user_actives_orders !== false ?
+                                this.props.user.user_orders.user_actives_orders.map((order)=>{
+                                        return(
+                                            <Card key={order.id}>
+                                                <CardContent>
+                                                    <Typography color="primary" variant="subheading"> 
+                                                        Order ID : {order.id}
+                                                    </Typography>
+                                                </CardContent>
+                                                <CardActions>
+                                                    <button data-orderid={order.id} onClick={this.handle_supplier_order_accept}>Accept order</button>
+                                                    <button data-orderid={order.id} onClick={this.handle_supplier_order_reject}>Reject order</button>
+                                                </CardActions>
+                                            </Card>
+                                        )
+                                    }):
+                                    null
+                            }
+                        </Paper>
+
+                        <Paper elevation={1} elevation={1} style={{marginBottom:'15px'}}>
+                            <div style={{padding:'15px 30px'}}>
+                                <Typography variant="subheading" color="inherit">
+                                    Supplier Winned Orders
+                                </Typography>
+                            </div>
+                            <Divider />
+                            {/*<SupplierWinnedOrders allprops={this.props} />*/}
+                            { 
+                                this.props.user.user_orders.user_winned_orders !== false ?
+                                this.props.user.user_orders.user_winned_orders.map((order)=>{
+                                        return(
+                                            <Card key={order.id}>
+                                                <CardContent>
+                                                    <Typography color="primary" variant="subheading"> 
+                                                        Order ID : {order.id}
+                                                    </Typography>
+                                                </CardContent>
+                                            </Card>
+                                        )
+                                    }):
+                                    null
+                            }
+                        </Paper>
+
+                        <Paper elevation={1}>
+                            <div style={{padding:'15px 30px'}}>
+                                <Typography variant="subheading" color="inherit">
+                                    Supplier Failed Orders
+                                </Typography>
+                            </div>
+                            <Divider />
+                            {/*<SupplierFailedOrders allprops={this.props} />*/}
+                            { 
+                                this.props.user.user_orders.user_failed_orders !== false ?
+                                this.props.user.user_orders.user_failed_orders.map((order)=>{
+                                        return(
+                                            <Card key={order.id}>
+                                                <CardContent>
+                                                    <Typography color="primary" variant="subheading"> 
+                                                        Order ID : {order.id}
+                                                    </Typography>
+                                                </CardContent>
+                                            </Card>
+                                        )
+                                    }):
+                                    null
+                            }
+                        </Paper>                                                
                 </div>
 
         )

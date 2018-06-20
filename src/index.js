@@ -35,6 +35,7 @@ import { user_load_action } from './app/actions/index';
 
 import axios from 'axios';
 
+/*
 console.log(WORDPRESS_API_BASE_URL);
 axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v1/products`, {}, {})
     .then(function(response){
@@ -44,7 +45,9 @@ axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v1/products`, {}, {})
         console.log('products ko')
         console.log(error.message)
     })
+*/
 
+/*
 const theme = createMuiTheme({
   palette: {
     primary: {
@@ -61,8 +64,24 @@ const theme = createMuiTheme({
     },
   },
 });
+*/
 
-
+const theme = createMuiTheme({
+    palette: {
+      primary: {
+        light: '#757ce8',
+        main: '#3f50b5',
+        dark: '#002884',
+        contrastText: '#fff',
+      },
+      secondary: {
+        light: '#ff7961',
+        main: '#f44336',
+        dark: '#ba000d',
+        contrastText: '#000',
+      },
+    },
+  });
 
 const store = createStore(
     rootReducers,
@@ -77,6 +96,7 @@ class App extends React.Component{
     }
 
     render(){
+        console.log("app class")
         console.log(this.props)
         return(
                     <HashRouter>
