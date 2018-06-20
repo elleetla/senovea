@@ -6,16 +6,23 @@ import { Container, Row, Col } from 'reactstrap';
 
 class Home extends Component{
     render(){
+        const oldProducts = this.props.products;
+        const newProducts = [...oldProducts];
         return(
             <div>
                 <Container>
                     <Row>
-                        <Col xs="12">Page : Home</Col>
-                        {this.props.products.map((dataProduct) => {
-                            return(
-                                <Col xs="12" id={dataProduct.id}>{dataProduct.name}</Col>
-                            )
-                        })}
+                        {
+                            newProducts.map((data) => {
+                                return(
+                                    <Col xs="12" key={data.id}>
+                                        <div className="article-bloc">
+                                            <p>{data.name}</p>
+                                        </div>
+                                    </Col>
+                                )
+                            })
+                        }
                     </Row>
                 </Container>
             </div>

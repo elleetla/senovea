@@ -20,7 +20,7 @@ import Filters from './app/containers/Filters/Filters';
 // components
 import Routing from './app/containers/routing'
 // screens components
-import { Home } from './app/screens/home'
+import Home from './app/screens/home'
 import Register from './app/screens/register'
 import LogIn from './app/screens/login'
 import { LogOut } from './app/screens/logout'
