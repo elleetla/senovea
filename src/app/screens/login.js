@@ -12,7 +12,6 @@ import Divider from '@material-ui/core/Divider';
 // user auth action 
 import { user_auth_action } from '../actions/index' 
 
-
 // Fields
 const renderTextField = ( field ) => (
     <TextField {...field.input} label={field.placeholder} type={field.type} />
@@ -42,9 +41,8 @@ class LogIn extends React.Component{
 
                 <div style={{padding:'30px'}}>
                         <Typography variant="headline" color="inherit">
-                        Login to senovea-spa.
+                            Login to senovea-spa.
                         </Typography>
-                  
                 </div>
                         <Divider/>
                 <div style={{padding:'30px'}}>

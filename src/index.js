@@ -13,11 +13,13 @@ import { rootReducers } from './app/reducers/reducers'
 // redux - thunk 
 import thunk from 'redux-thunk'
 // appNav
-import AppNav from './app/containers/appnav'
+import AppNav from './app/containers/Header/Header'
+
+
 // components
 import Routing from './app/containers/routing'
 // screens components
-import { Home } from './app/screens/home'
+import Home from './app/screens/home'
 import Register from './app/screens/register'
 import LogIn from './app/screens/login'
 import { LogOut } from './app/screens/logout'
@@ -28,71 +30,30 @@ import {AllSuppliers} from './app/screens/allsuppliers'
 import {About} from './app/screens/about'
 import SupplierOrders from './app/screens/supplier-orders'
 
+// import css
+import 'bootstrap/dist/css/bootstrap.min.css';
+import './app.css';
+
+import Banner from './app/containers/Banner/banner';
+import Footer from './app/containers/Footer/Footer';
+
 // Material theming
 import { createMuiTheme } from '@material-ui/core/styles';
 // load action 
-import { user_load_action } from './app/actions/index'; 
-
-import axios from 'axios';
-
-/*
-console.log(WORDPRESS_API_BASE_URL);
-axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v1/products`, {}, {})
-    .then(function(response){
-        console.log('products ok')
-        console.log(response)
-    }).catch(function(error){
-        console.log('products ko')
-        console.log(error.message)
-    })
-*/
-
-/*
-const theme = createMuiTheme({
-  palette: {
-    primary: {
-      light: '#757ce8',
-      main: '#3f50b5',
-      dark: '#002884',
-      contrastText: '#fff',
-    },
-    secondary: {
-      light: '#ff7961',
-      main: '#f44336',
-      dark: '#ba000d',
-      contrastText: '#000',
-    },
-  },
-});
-*/
-
-const theme = createMuiTheme({
-    palette: {
-      primary: {
-        light: '#757ce8',
-        main: '#3f50b5',
-        dark: '#002884',
-        contrastText: '#fff',
-      },
-      secondary: {
-        light: '#ff7961',
-        main: '#f44336',
-        dark: '#ba000d',
-        contrastText: '#000',
-      },
-    },
-  });
+import { user_load_action } from './app/actions/index';
+import { call_product } from './app/actions/index';
 
 const store = createStore(
     rootReducers,
     applyMiddleware(thunk)
 )
 
-class App extends React.Component{
+class App extends React.Component {
 
     componentDidMount() { 
         // vérifier si user est en mémoire
         this.props.user_load_action();
+        this.props.call_products();
     }
 
     render(){
@@ -101,14 +62,11 @@ class App extends React.Component{
         return(
                     <HashRouter>
                         <div>
-                            <AppNav />
+                            <AppNav/>
+                            <Banner/>
                             <Switch>
-                                <Route exact path="/" component={Home} />
 
-                                {/*
-                                    <Route path="/register" component={Register} />
-                                    <Route path="/login" component={LogIn} />
-                                */}
+                                <Route exact path="/" component={Home} />
 
                                 <Route path="/register" render={ () => {
                                     if(this.props.user.user_auth.isAuth === true){
@@ -122,7 +80,7 @@ class App extends React.Component{
                                     }
                                 }}/>
 
-                                
+
                                 <Route path="/login" render={ () => {
                                     if(this.props.user.user_auth.isAuth === true){
                                         return <Redirect to="/"/>
@@ -192,8 +150,9 @@ class App extends React.Component{
                                 <Route path="/suppliers" component={AllSuppliers}/>
                                 <Route path="/about" component={About}/>
 
-                            </Switch>     
-                        </div>  
+                            </Switch>
+                            <Footer/>
+                        </div>
                     </HashRouter>
         )
     }
@@ -201,7 +160,8 @@ class App extends React.Component{
 
 function mapDispatchToProps( dispatch ){
     return bindActionCreators({
-        "user_load_action":user_load_action
+        "user_load_action": user_load_action,
+        "call_products": call_product
     }, dispatch)
 }
 

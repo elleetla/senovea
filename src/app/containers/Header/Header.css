@@ -1,0 +1,15 @@
+/* Style component Header App */
+
+#header-app {
+    border-bottom: 1px solid #EFEFEF;
+    background-color: #ffffff;
+}
+
+#header-app .navbar .navbar-nav li.nav-item {
+    display: inline-block;
+}
+
+#logo-app {
+    width: 138px;
+    height: auto;
+}

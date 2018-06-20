@@ -10,6 +10,24 @@ export const USER_AUTH                = 'USER_AUTH'
 export const USER_UPDATE              = 'USER_UPDATE'
 export const SUPPLIER_ORDER_ACCEPT    = 'SUPPLIER_ORDER_ACCEPT'
 export const SUPPLIER_ORDER_REJECT    = 'SUPPLIER_ORDER_REJECT'
+export const CALL_PRODUCTS            = 'CALL_PRODUCTS'
+
+// Action call product
+export function call_product() {
+    return function (dispatch) {
+        axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v1/products`, {}, {})
+            .then(function (response) {
+                dispatch({
+                    "type":CALL_PRODUCTS,
+                    "payload": response.data
+                })
+
+            }).catch(function (error) {
+            console.log('products ko')
+            console.log(error.message)
+        });
+    }
+}
 
 // ACTIONS CREATORS
 export function supplier_order_accept( order_id, supplier_id ){
@@ -364,7 +382,7 @@ export function user_auth_action( user_infos ){
                         })
 
                         // Register in browser memory
-                        localStorage.setItem('senovea_user', JSON.stringify(supplier_payload));
+                        //localStorage.setItem('senovea_user', JSON.stringify(supplier_payload));
                         // Flashbag
                         // Redirect
 
@@ -501,7 +519,7 @@ export function user_update_action(user_infos){
                 "payload":{
                     user_email:response.data.email,
                 }
-            }) 
+            })
 
             // UPDATE LOCAL STORAGE ( dégeulasse )
             console.log('after update')

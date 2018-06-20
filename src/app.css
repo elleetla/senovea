@@ -1,0 +1,10 @@
+/* Style global */
+
+@import url('https://fonts.googleapis.com/css?family=Work+Sans:400,500,600,700,800,900');
+
+body{
+    background: linear-gradient(rgba(234, 239, 245, 100), rgba(248, 249, 250, 50));
+    height: 100vh;
+    font-family: 'Work Sans', sans-serif;
+    color: #2C3948;
+}

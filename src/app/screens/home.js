@@ -1,22 +1,33 @@
 import React from 'react';
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
+import { connect } from 'react-redux'
 
+// import grid Bootstrap
+import { Container, Row, Col } from 'reactstrap';
+import Filters from '../containers/Filters/Filters';
 
-export class Home extends React.Component{
+class Home extends React.Component{
     render(){
+        console.log("home");
+        console.log("products");
+        console.log(this.props.products);
         return(
-            <Paper elevation={1}>
-                <div style={{padding:'30px'}}>
-
-                        <div style={{padding:'0px'}}>
-                        <Typography variant="headline" color="inherit">
-                            Welcome to senovea-spa!
-                        </Typography>
-                        </div>
-
-                </div>
-            </Paper>
+            <div>
+                <Filters/>
+                <Container>
+                    <Row>
+                        <Col xs="12">Page : Home</Col>
+                    </Row>
+                </Container>
+            </div>
         )
     }
 }
+
+function mapStateToProps(state){
+    return {
+        "products": state.products
+    }
+}
+
+// export
+export default connect(mapStateToProps)(Home)

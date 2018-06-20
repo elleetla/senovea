@@ -7,10 +7,9 @@ import { USER_UPDATE }                    from '../actions/index'
 import { USER_LOAD }                      from '../actions/index'
 import { SUPPLIER_ORDER_ACCEPT }          from '../actions/index'
 import { SUPPLIER_ORDER_REJECT }          from '../actions/index'
+import { CALL_PRODUCTS }                  from "../actions/index"
 
 import _ from 'lodash'
-
-//import _ form 'lodash';
 
 // suppliers 
 
@@ -112,8 +111,19 @@ const USER_INITIAL_STATE = {
 
 }
 
-function userReducer( state = USER_INITIAL_STATE , action ){
+// reducer products
+function callProductsReducer(state = {}, action) {
+    switch (action.type){
+        case CALL_PRODUCTS:
+            console.log("call product reducer")
+            console.log(action.payload)
+            return action.payload
+        default:
+            return state
+    }
+}
 
+function userReducer( state = USER_INITIAL_STATE , action ){
     switch (action.type) {
 
         case USER_LOAD: {
@@ -173,11 +183,11 @@ function userReducer( state = USER_INITIAL_STATE , action ){
             break;
 
     }
-
 }
 
 export const rootReducers = combineReducers({
     "user"      :userReducer,
     //"supplier"  :supplierReducer,
-    "form"      :formReducer
-})
+    "form"      :formReducer,
+    "products"  :callProductsReducer
+});
