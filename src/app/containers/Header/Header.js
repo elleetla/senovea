@@ -6,6 +6,8 @@ import { Link }                             from 'react-router-dom'
 // user logout action 
 import { user_logout_action } from '../../actions/index'
 
+import LogIn from '../../screens/login';
+
 // import css
 import './Header.css';
 import Logo from '../../img/logo@2x.png';
@@ -127,7 +129,7 @@ class Header extends React.Component{
                         <Collapse isOpen={this.state.isOpen} navbar>
                             <Nav navbar>
                                 <NavItem>
-                                    <NavLink href="/">Accueil</NavLink>
+                                    <NavLink href="#/">Accueil</NavLink>
                                 </NavItem>
                                 <NavItem>
                                     <NavLink href="#/about">Présentation</NavLink>
@@ -139,7 +141,7 @@ class Header extends React.Component{
                                     <NavLink href="#/suppliers">Prestataires</NavLink>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink href="#">Téléchargement</NavLink>
+                                    <NavLink href="#/telechargement">Téléchargement</NavLink>
                                 </NavItem>
                             </Nav>
                             <Nav className="ml-auto" navbar>
@@ -168,6 +170,9 @@ class Header extends React.Component{
                                                 <DropdownItem href="javascript:void(0)" onClick={this.handleLogOut}>
                                                     Déconnexion
                                                 </DropdownItem>
+                                                <DropdownItem href="/account">
+                                                    Mon compte
+                                                </DropdownItem>
                                             </DropdownMenu>
                                         </UncontrolledDropdown>
                                     </div>
@@ -181,10 +186,10 @@ class Header extends React.Component{
                 <Modal isOpen={this.state.modalConnect} toggle={this.toogleModalConnect} className={this.props.className}>
                     <ModalHeader toggle={this.toogleModalConnect}>Connectez-vous !</ModalHeader>
                     <ModalBody>
+                        {LogIn}
                     </ModalBody>
                     <ModalFooter>
-                        <Button color="primary" onClick={this.toogleModalConnect}>Do Something</Button>
-                        <Button color="secondary" onClick={this.toogleModalConnect}>Cancel</Button>
+                        <Button color="primary" onClick={this.toogleModalConnect}>Se connecter</Button>
                     </ModalFooter>
                 </Modal>
 

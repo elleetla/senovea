@@ -7,6 +7,7 @@
 
 #header-app .navbar .navbar-nav li.nav-item {
     display: inline-block;
+    font-size: 14px;
 }
 
 #header-app .navbar{

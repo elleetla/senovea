@@ -29,13 +29,14 @@ import {Cart} from './app/screens/cart'
 import {AllUsers} from './app/screens/allusers'
 import {AllSuppliers} from './app/screens/allsuppliers'
 import {About} from './app/screens/about'
+import {Downloading} from "./app/screens/downloading";
 import SupplierOrders from './app/screens/supplier-orders'
 
 // import css
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 
-import Banner from './app/containers/Banner/banner';
+import Banner from './app/containers/Banner/Banner';
 import Footer from './app/containers/Footer/Footer';
 
 // Material theming
@@ -142,6 +143,7 @@ class App extends React.Component {
                                 <Route path="/users" component={AllUsers}/>
                                 <Route path="/suppliers" component={AllSuppliers}/>
                                 <Route path="/about" component={About}/>
+                                <Route path="/telechargement" component={Downloading}/>
 
                             </Switch>
                             <Footer/>

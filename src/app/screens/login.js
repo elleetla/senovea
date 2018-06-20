@@ -15,7 +15,7 @@ import { user_auth_action } from '../actions/index'
 // Fields
 const renderTextField = ( field ) => (
     <TextField {...field.input} label={field.placeholder} type={field.type} />
-)
+);
 
 class LogIn extends React.Component{
     constructor(props){

@@ -1,7 +1,9 @@
 #footer-app{
     background-color: #2C3948;
     padding: 30px 0;
-    color: #ffffff;
+    color: #DDDDDD;
+    font-size: 14px;
+    font-weight: 200;
 }
 
 #logo-footer {
