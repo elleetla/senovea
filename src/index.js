@@ -65,7 +65,6 @@ class App extends React.Component {
                             <AppNav/>
                             <Banner/>
                             <Filters/>
-                            <Footer/>
                             <Switch>
                                 <Route exact path="/" component={Home} />
                                 <Route path="/register" render={ () => {
@@ -80,7 +79,6 @@ class App extends React.Component {
                                     }
                                 }}/>
 
-
                                 <Route path="/login" render={ () => {
                                     if(this.props.user.user_auth.isAuth === true){
                                         return <Redirect to="/"/>
@@ -92,11 +90,6 @@ class App extends React.Component {
                                         )
                                     }
                                 }}/>
-
-                                {/*<Route path="/logout" component={LogOut} />*/}
-
-                                {/*<Route path="/account" component={Account}/>*/}
-                                
                                 
                                 <Route path="/account" render={ () => {
                                     if(this.props.user.user_auth.isAuth === false ){
@@ -151,6 +144,7 @@ class App extends React.Component {
                                 <Route path="/about" component={About}/>
 
                             </Switch>
+                            <Footer/>
                         </div>
                     </HashRouter>
         )
@@ -166,15 +160,15 @@ function mapDispatchToProps( dispatch ){
 
 function mapStateToProps( state ){
     return {
-        "user":state.user,
+        "user":state.user
     }
 }
 
-const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App)
+const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
 ReactDOM.render(
     <Provider store={store}>
         <ConnectedApp/>
     </Provider>,
     document.querySelector('#root')
-)
+);

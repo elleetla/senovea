@@ -9,6 +9,10 @@
     display: inline-block;
 }
 
+#header-app .navbar{
+    padding: 1rem;
+}
+
 #logo-app {
     width: 138px;
     height: auto;

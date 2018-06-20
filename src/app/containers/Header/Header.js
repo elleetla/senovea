@@ -11,6 +11,7 @@ import './Header.css';
 import Logo from '../../img/logo@2x.png';
 
 import {
+    Button, Modal, ModalHeader, ModalBody, ModalFooter,
     Container,
     Row,
     Col,
@@ -33,13 +34,15 @@ class Header extends React.Component{
         this.handleLogOut = this.handleLogOut.bind(this);
         this.toggle = this.toggle.bind(this);
         this.state = {
-            isOpen: false
+            isOpen: false,
+            modal: false
         };
     }
 
     toggle() {
         this.setState({
-            isOpen: !this.state.isOpen
+            isOpen: !this.state.isOpen,
+            modal: !this.state.modal
         });
     }
 
@@ -100,6 +103,7 @@ class Header extends React.Component{
         }
 
         return(
+            <div>
             <header id="header-app">
                 <Navbar light expand="md">
                     <NavbarBrand href="/">
@@ -136,9 +140,16 @@ class Header extends React.Component{
                                 </div>
                                 :
                                 <div>
-                                    <NavItem>
-                                        <NavLink href="javascript:void(0)" onClick={this.handleLogOut}>Déconnexion</NavLink>
-                                    </NavItem>
+                                    <UncontrolledDropdown nav inNavbar>
+                                        <DropdownToggle nav caret>
+                                            {this.props.user.user_email}
+                                        </DropdownToggle>
+                                        <DropdownMenu right>
+                                            <DropdownItem href="javascript:void(0)" onClick={this.handleLogOut}>
+                                                Déconnexion
+                                            </DropdownItem>
+                                        </DropdownMenu>
+                                    </UncontrolledDropdown>
                                 </div>
 
                             }
@@ -146,6 +157,25 @@ class Header extends React.Component{
                     </Collapse>
                 </Navbar>
             </header>
+
+
+                <Button color="danger" onClick={this.toggle}>{this.props.buttonLabel}</Button>
+                <Modal isOpen={this.state.modal} toggle={this.toggle} className={this.props.className}>
+                    <ModalHeader toggle={this.toggle}>Modal title</ModalHeader>
+                    <ModalBody>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+                    </ModalBody>
+                    <ModalFooter>
+                        <Button color="primary" onClick={this.toggle}>Do Something</Button>{' '}
+                        <Button color="secondary" onClick={this.toggle}>Cancel</Button>
+                    </ModalFooter>
+                </Modal>
+
+            </div>
+
+
+
+
         )
     }
     

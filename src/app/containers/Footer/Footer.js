@@ -14,8 +14,8 @@ class Footer extends Component{
                         <Col lg="6">
                             <img id="logo-footer" src={LogoFooter} alt=""/>
                         </Col>
-                        <Col lg="6">
-                            <p>Mentions légales - <a href="#">Conditions générales</a> - <a href="#">FAQ</a> - <a href="#">Nous contacter</a></p>
+                        <Col lg="6" className="text-right">
+                            Mentions légales - <a href="#">Conditions générales</a> - <a href="#">FAQ</a> - <a href="#">Nous contacter</a>
                         </Col>
                     </Row>
                 </Container>

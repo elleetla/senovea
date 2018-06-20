@@ -2,9 +2,21 @@
 
 @import url('https://fonts.googleapis.com/css?family=Work+Sans:400,500,600,700,800,900');
 
-body{
+body {
     background: linear-gradient(rgba(234, 239, 245, 100), rgba(248, 249, 250, 50));
     height: 100vh;
     font-family: 'Work Sans', sans-serif;
     color: #2C3948;
+}
+
+a {
+    color: inherit;
+    transition-duration: 0.5s;
+    -webkit-transition-duration: 0.5s;
+    -moz-transition-duration: 0.5s;
+}
+
+a:hover{
+    color: #17D5C8;
+    text-decoration: inherit;
 }
