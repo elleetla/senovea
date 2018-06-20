@@ -8,6 +8,7 @@ import { USER_LOAD }                      from '../actions/index'
 import { SUPPLIER_ORDER_ACCEPT }          from '../actions/index'
 import { SUPPLIER_ORDER_REJECT }          from '../actions/index'
 import { CALL_PRODUCTS }                  from "../actions/index"
+import { ORDER_PRODUCT }                  from "../actions/index"
 
 import _ from 'lodash'
 
@@ -112,10 +113,13 @@ const USER_INITIAL_STATE = {
 }
 
 // reducer products
-function callProductsReducer(state = {}, action) {
+function productReducer(state = {}, action) {
     switch (action.type){
+        case ORDER_PRODUCT:
+            console.log("orderproductreducer")
+            return state;
         case CALL_PRODUCTS:
-            console.log("call product reducer")
+            console.log("callproductreducer")
             console.log(action.payload)
             return action.payload
         default:
@@ -189,5 +193,5 @@ export const rootReducers = combineReducers({
     "user"      :userReducer,
     //"supplier"  :supplierReducer,
     "form"      :formReducer,
-    "products"  :callProductsReducer
+    "products"  :productReducer
 });

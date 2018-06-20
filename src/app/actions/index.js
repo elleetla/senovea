@@ -11,6 +11,11 @@ export const USER_UPDATE              = 'USER_UPDATE'
 export const SUPPLIER_ORDER_ACCEPT    = 'SUPPLIER_ORDER_ACCEPT'
 export const SUPPLIER_ORDER_REJECT    = 'SUPPLIER_ORDER_REJECT'
 export const CALL_PRODUCTS            = 'CALL_PRODUCTS'
+export const ORDER_PRODUCT            = 'ORDER_PRODUCT'
+
+// ACTIONS CREATORS
+
+// PRODUCTS 
 
 // Action call product
 export function call_product() {
@@ -29,7 +34,41 @@ export function call_product() {
     }
 }
 
-// ACTIONS CREATORS
+// Action order product 
+export function order_product(customer_id, product_id){
+
+    console.log('order product action creator')
+    console.log(customer_id)
+    console.log(product_id)
+
+    let customer_order_data = new FormData()
+    customer_order_data.append('customer_id',parseInt(customer_id))
+    customer_order_data.append('product_id',parseInt(product_id))
+
+    return function (dispatch) {
+
+    axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v1/customer/order`, customer_order_data,{
+
+        }).then(function (response){
+            console.log("customer order ok")
+            console.log(response)
+            // dispatch new state
+            // update localstorage 
+            // flashbag
+            // callback 
+        }).catch(function (error){
+            console.log('customer order ko')
+            console.log(error.message)
+            // flashbag
+            // callback 
+        })
+
+    }
+
+}
+
+
+
 export function supplier_order_accept( order_id, supplier_id ){
     console.log('action supplier_order_accept')
     console.log(order_id)

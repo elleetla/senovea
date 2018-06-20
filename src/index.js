@@ -29,6 +29,7 @@ import {AllUsers} from './app/screens/allusers'
 import {AllSuppliers} from './app/screens/allsuppliers'
 import {About} from './app/screens/about'
 import SupplierOrders from './app/screens/supplier-orders'
+import AllProducts from './app/screens/allproducts'
 
 // import css
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -67,6 +68,18 @@ class App extends React.Component {
                             <Switch>
 
                                 <Route exact path="/" component={Home} />
+
+                                <Route path="/allproducts" render={ () => {
+                                    if(this.props.user.user_auth.isAuth !== true){
+                                        return <Redirect to="/login"/>
+                                    }else{
+                                        return (
+                                            <div>
+                                                <AllProducts/>
+                                            </div>
+                                        )
+                                    }
+                                }}/>
 
                                 <Route path="/register" render={ () => {
                                     if(this.props.user.user_auth.isAuth === true){
