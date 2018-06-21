@@ -24,8 +24,11 @@ class Home extends Component{
         };
     }
 
-    toggle(){
-        this.setState({ collapse: !this.state.collapse });
+    toggle(e){
+        //this.setState({ collapse: !this.state.collapse });
+        let parent = e.target.parentElement;
+        let collapse = parent.querySelector('.collapse');
+        collapse.classList.toggle('show');
     }
 
     render() {
@@ -58,13 +61,22 @@ class Home extends Component{
                                                 <h5>{data.name}</h5>
                                                 <p>{data.acf.unite}</p>
                                                 <Button style={{marginBottom: "20px"}} onClick={this.toggle}>Détails</Button>
-                                                <Collapse isOpen={this.state.collapse}>
+                                                
+                                                <Collapse>
                                                     <Card>
                                                         <CardBody>
                                                             {data.description}
                                                         </CardBody>
                                                     </Card>
                                                 </Collapse>
+                                                {/*<Collapse isOpen={this.state.collapse}>
+                                                    <Card>
+                                                        <CardBody>
+                                                            {data.description}
+                                                        </CardBody>
+                                                    </Card>
+                                                </Collapse>*/}
+
                                             </div>
                                         </Col>
                                     )

@@ -36,6 +36,7 @@ import AllProducts from './app/screens/allproducts'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 
+import Filters from './app/containers/Filters/Filters';
 import Banner from './app/containers/Banner/Banner';
 import Footer from './app/components/Footer/Footer';
 
@@ -66,7 +67,7 @@ class App extends React.Component {
                         <div>
                             <AppNav/>
                             <Banner/>
-                            {/*<Filters/>*/}
+                            <Filters/>
                             <Switch>
 
                                 <Route exact path="/" component={Home} />
