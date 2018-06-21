@@ -58,8 +58,8 @@ class Home extends Component{
                                             <div className="article-bloc">
                                                 <h5>{data.name}</h5>
                                                 <p>{data.categories[0].name}</p>
-                                                <Button style={{marginBottom: "20px"}} onClick={this.toggle}>Détails</Button>
-
+                                                <Button style={{marginBottom: "20px", marginRight: "10px"}} onClick={()=>{console.log("test")}}>Ajouter aux paniers</Button>
+                                                <Button color="primary" style={{marginBottom: "20px", marginRight: "10px"}} onClick={this.toggle}>Détails</Button>
                                                 <Collapse>
                                                     <Card>
                                                         <CardBody>
