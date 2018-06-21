@@ -112,9 +112,8 @@ function callProductsReducer(state = {}, action) {
         case CALL_PRODUCTS:
             console.log(action.payload)
             return action.payload
-        default:
-            return state
     }
+    return state
 }
 
 function userReducer( state = USER_INITIAL_STATE , action ){
