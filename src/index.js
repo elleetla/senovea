@@ -162,7 +162,6 @@ class App extends React.Component {
                                 <Route path="/telechargement" component={Downloading}/>
 
                             </Switch>
-                            <a id="btn-call">Besoin d'une assistance ?</a>
                             <Footer/>
                         </div>
                     </HashRouter>

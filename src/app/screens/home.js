@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
-import { connect } from 'react-redux'
-import _ from 'lodash';
+import { connect } from 'react-redux';
 
 // import grid Bootstrap
 import {
@@ -15,7 +14,6 @@ import {
 import LoadingSvg from '../assets/img/icon-preloader.svg';
 
 class Home extends Component{
-
     constructor() {
         super();
         this.toggle = this.toggle.bind(this);
@@ -59,9 +57,9 @@ class Home extends Component{
                                         <Col xs="12" key={data.id} id={data.id} className="">
                                             <div className="article-bloc">
                                                 <h5>{data.name}</h5>
-                                                <p>{data.acf.unite}</p>
+                                                <p>{data.categories[0].name}</p>
                                                 <Button style={{marginBottom: "20px"}} onClick={this.toggle}>Détails</Button>
-                                                
+
                                                 <Collapse>
                                                     <Card>
                                                         <CardBody>

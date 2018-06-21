@@ -10,7 +10,7 @@ import LogIn from '../../screens/login';
 
 // import css
 import './Header.css';
-import Logo from '../../assets/img/logo@2x.png';
+import Logo from '../../assets/img/logo.svg';
 
 import {
     Button, Modal, ModalHeader, ModalBody, ModalFooter,

@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 // import style
-import { Container, Row, Col } from 'reactstrap';
 import './Filters.css';
+import { Container, Row, Col } from 'reactstrap';
 
 class Filters extends Component{
     render(){
@@ -10,14 +10,16 @@ class Filters extends Component{
             <nav id="Filters">
                 <Container>
                     <Row>
-                        <Col lg="3">
+                        <Col sm="3">
                         </Col>
-                        <Col lg="3">
+                        <Col sm="3">
                         </Col>
-                        <Col lg="3">
+                        <Col sm="3">
+                            <button className="btn-primary">Travaux</button>
+                            <button className="btn-primary">Ingénieurie</button>
                         </Col>
-                        <Col lg="3">
-                            <button className="btn-green">Rechercher</button>
+                        <Col sm="3">
+                            <button onClick={()=>{console.log("test")}} className="btn-green">Rechercher</button>
                         </Col>
                     </Row>
                 </Container>
