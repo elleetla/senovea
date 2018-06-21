@@ -25,8 +25,7 @@ export function call_product() {
                 dispatch({
                     "type":CALL_PRODUCTS,
                     "payload": response.data
-                })
-
+                });
             }).catch(function (error) {
             console.log('products ko')
             console.log(error.message)

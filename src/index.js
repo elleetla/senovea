@@ -28,6 +28,7 @@ import {Cart} from './app/screens/cart'
 import {AllUsers} from './app/screens/allusers'
 import {AllSuppliers} from './app/screens/allsuppliers'
 import {About} from './app/screens/about'
+import {Downloading} from "./app/screens/downloading";
 import SupplierOrders from './app/screens/supplier-orders'
 import AllProducts from './app/screens/allproducts'
 
@@ -35,8 +36,8 @@ import AllProducts from './app/screens/allproducts'
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 
-import Banner from './app/containers/Banner/banner';
-import Footer from './app/containers/Footer/Footer';
+import Banner from './app/containers/Banner/Banner';
+import Footer from './app/components/Footer/Footer';
 
 // Material theming
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -65,6 +66,7 @@ class App extends React.Component {
                         <div>
                             <AppNav/>
                             <Banner/>
+                            {/*<Filters/>*/}
                             <Switch>
 
                                 <Route exact path="/" component={Home} />
@@ -93,7 +95,6 @@ class App extends React.Component {
                                     }
                                 }}/>
 
-
                                 <Route path="/login" render={ () => {
                                     if(this.props.user.user_auth.isAuth === true){
                                         return <Redirect to="/"/>
@@ -105,11 +106,6 @@ class App extends React.Component {
                                         )
                                     }
                                 }}/>
-
-                                {/*<Route path="/logout" component={LogOut} />*/}
-
-                                {/*<Route path="/account" component={Account}/>*/}
-                                
                                 
                                 <Route path="/account" render={ () => {
                                     if(this.props.user.user_auth.isAuth === false ){
@@ -162,8 +158,10 @@ class App extends React.Component {
                                 <Route path="/users" component={AllUsers}/>
                                 <Route path="/suppliers" component={AllSuppliers}/>
                                 <Route path="/about" component={About}/>
+                                <Route path="/telechargement" component={Downloading}/>
 
                             </Switch>
+                            <a id="btn-call">Besoin d'une assistance ?</a>
                             <Footer/>
                         </div>
                     </HashRouter>
@@ -180,11 +178,11 @@ function mapDispatchToProps( dispatch ){
 
 function mapStateToProps( state ){
     return {
-        "user":state.user,
+        "user":state.user
     }
 }
 
-const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App)
+const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
 ReactDOM.render(
     <Provider store={store}>

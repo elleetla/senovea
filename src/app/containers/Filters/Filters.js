@@ -11,7 +11,13 @@ class Filters extends Component{
                 <Container>
                     <Row>
                         <Col lg="3">
-                            Filter
+                        </Col>
+                        <Col lg="3">
+                        </Col>
+                        <Col lg="3">
+                        </Col>
+                        <Col lg="3">
+                            <button className="btn-green">Rechercher</button>
                         </Col>
                     </Row>
                 </Container>
