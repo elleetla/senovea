@@ -11,57 +11,69 @@ import {
     CardBody,
     Card } from 'reactstrap';
 
+import LoadingSvg from '../assets/img/icon-preloader.svg';
+
 class Home extends Component{
 
     constructor() {
         super();
         this.toggle = this.toggle.bind(this);
         this.state = {
-            collapse: false,
-            loading: true
+            collapse: false
         };
     }
 
-    toggle() {
+    toggle(){
         this.setState({ collapse: !this.state.collapse });
     }
 
-    render(){
-        const oldProducts = this.props.products;
-        const newProducts = [...oldProducts];
-        if(this.state.loading){
-            return(
-                <p>Loader test</p>
-            )
-        } else {
-            return(
-                <div>
-                    <Container>
-                        <Row>
-                            { newProducts.map((data) => {
-                                return(
-                                    <Col xs="12" key={data.id} id={data.id}>
-                                        <div className="article-bloc">
-                                            <h5>{data.name}</h5>
-                                            <p>{data.acf.unite}</p>
-                                            <Button style={{marginBottom: "20px"}} onClick={this.toggle}>Détails</Button>
-                                            <Collapse isOpen={this.state.collapse}>
-                                                <Card>
-                                                    <CardBody>
-                                                        {data.description}
-                                                    </CardBody>
-                                                </Card>
-                                            </Collapse>
-                                        </div>
-                                    </Col>
-                                )
-                            })}
-                        </Row>
-                    </Container>
-                </div>
-            )
+    render() {
+            const oldProducts = this.props.products;
+            const newProducts = [...oldProducts];
+
+            if(newProducts.length === 0){
+                return(
+                    <div>
+                        <Container>
+                            <Row>
+                                <Col xs="12" className="mb-5 mt-5 text-center">
+                                    <div className="preloader">
+                                        <img src={LoadingSvg}/>
+                                    </div>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </div>
+                )
+            } else {
+                return(
+                    <div>
+                        <Container className="mb-5 mt-5">
+                            <Row>
+                                { newProducts.map((data) => {
+                                    return(
+                                        <Col xs="12" key={data.id} id={data.id} className="">
+                                            <div className="article-bloc">
+                                                <h5>{data.name}</h5>
+                                                <p>{data.acf.unite}</p>
+                                                <Button style={{marginBottom: "20px"}} onClick={this.toggle}>Détails</Button>
+                                                <Collapse isOpen={this.state.collapse}>
+                                                    <Card>
+                                                        <CardBody>
+                                                            {data.description}
+                                                        </CardBody>
+                                                    </Card>
+                                                </Collapse>
+                                            </div>
+                                        </Col>
+                                    )
+                                })}
+                            </Row>
+                        </Container>
+                    </div>
+                )
+            }
         }
-    }
 }
 
 function mapStateToProps(state){
