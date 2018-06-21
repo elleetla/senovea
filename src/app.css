@@ -2,10 +2,6 @@
 
 @import url('https://fonts.googleapis.com/css?family=Work+Sans:400,500,600,700,800,900');
 
-html{
-    background-color: #2C3948;
-}
-
 body {
     /*background: linear-gradient(rgba(234, 239, 245, 100), rgba(248, 249, 250, 50));*/
     background-color: rgba(234, 239, 245, 100);
@@ -35,7 +31,7 @@ a:hover{
 }
 
 .btn-green{
-    background-color: #17D5C8;
+    background-color: #24DBCF;
     padding: 14px 50px;
     text-transform: uppercase;
     width: 100%;
@@ -45,4 +41,22 @@ a:hover{
     color: #ffffff;
     font-size: 14px;
     cursor: pointer;
+}
+
+#btn-call{
+    background-color: #24DBCF;
+    padding: 18px 28px;
+    border-radius: 4px 0 0 0;
+    color: #ffffff;
+    z-index: 2;
+    position: fixed;
+    transition-duration: 0.4s;
+    cursor: pointer;
+    font-size: 16px;
+    bottom: 0;
+    right: 0;
+}
+
+#btn-call:hover{
+    background-color: #15c3b7;
 }

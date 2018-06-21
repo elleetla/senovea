@@ -9,7 +9,7 @@ export class Downloading extends Component{
             <div>
                 <Container>
                     <Row>
-                        <Col xs="12">Page : Downloading</Col>
+                        <Col xs="12">Page : téléchargement</Col>
                     </Row>
                 </Container>
             </div>

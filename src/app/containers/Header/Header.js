@@ -10,7 +10,7 @@ import LogIn from '../../screens/login';
 
 // import css
 import './Header.css';
-import Logo from '../../img/logo@2x.png';
+import Logo from '../../assets/img/logo@2x.png';
 
 import {
     Button, Modal, ModalHeader, ModalBody, ModalFooter,
@@ -150,14 +150,17 @@ class Header extends React.Component{
                                         <NavItem>
                                             <NavLink href="#/register">Inscription</NavLink>
                                         </NavItem>
-                                        <NavItem>
+                                        {/*<NavItem>
                                             <NavLink onClick={this.toogleModalRegistration}>Inscription test</NavLink>
-                                        </NavItem>
+                                        </NavItem>*/}
                                         <NavItem>
                                             <NavLink href="#/login">Connexion</NavLink>
                                         </NavItem>
-                                        <NavItem>
+                                        {/*<NavItem>
                                             <NavLink onClick={this.toogleModalConnect}>Connexion test</NavLink>
+                                        </NavItem>*/}
+                                        <NavItem>
+                                            <NavLink onClick={() => {alert("test")}}>Mes paniers</NavLink>
                                         </NavItem>
                                     </div>
                                     :
@@ -170,11 +173,14 @@ class Header extends React.Component{
                                                 <DropdownItem href="javascript:void(0)" onClick={this.handleLogOut}>
                                                     Déconnexion
                                                 </DropdownItem>
-                                                <DropdownItem href="/account">
+                                                <DropdownItem href="#/account">
                                                     Mon compte
                                                 </DropdownItem>
                                             </DropdownMenu>
                                         </UncontrolledDropdown>
+                                        <NavItem>
+                                            <NavLink onClick={ () => {alert("test")} }>Mes paniers</NavLink>
+                                        </NavItem>
                                     </div>
 
                                 }

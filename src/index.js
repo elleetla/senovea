@@ -37,7 +37,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 
 import Banner from './app/containers/Banner/Banner';
-import Footer from './app/containers/Footer/Footer';
+import Footer from './app/components/Footer/Footer';
 
 // Material theming
 import { createMuiTheme } from '@material-ui/core/styles';
@@ -146,6 +146,7 @@ class App extends React.Component {
                                 <Route path="/telechargement" component={Downloading}/>
 
                             </Switch>
+                            <a id="btn-call">Besoin d'une assistance ?</a>
                             <Footer/>
                         </div>
                     </HashRouter>
@@ -168,9 +169,4 @@ function mapStateToProps( state ){
 
 const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
-ReactDOM.render(
-    <Provider store={store}>
-        <ConnectedApp/>
-    </Provider>,
-    document.querySelector('#root')
-);
+ReactDOM.render(<Provider store={store}><ConnectedApp/></Provider>, document.querySelector('#root'));
