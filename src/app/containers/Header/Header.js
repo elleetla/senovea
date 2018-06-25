@@ -3,7 +3,7 @@ import { compose, bindActionCreators }      from 'redux'
 import { connect }                          from 'react-redux'
 import { Link }                             from 'react-router-dom'
 
-// user logout action 
+// user logout action
 import { user_logout_action } from '../../actions/index'
 
 import LogIn from '../../screens/login';
@@ -280,8 +280,8 @@ class Header extends React.Component{
             </div>
         )
     }
-    
-} 
+
+}
 
 function mapStateToProps(state){
     return {
@@ -298,7 +298,3 @@ function mapDispatchToProps(dispatch){
 export default compose(
     connect(mapStateToProps, mapDispatchToProps)
 )(Header)
-
-
-
-

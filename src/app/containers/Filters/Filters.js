@@ -13,7 +13,7 @@ class Filters extends Component{
                     <Row>
                         <Col sm="3">
                             <FormGroup className="mb-0">
-                                <Input type="email" name="email" id="exampleEmail" placeholder="with a placeholder" />
+                                <Input type="email" name="email" id="exampleEmail" placeholder="Code postal" />
                             </FormGroup>
                         </Col>
                         <Col sm="3">
@@ -32,7 +32,7 @@ class Filters extends Component{
                             <button onClick={this.filterTest2.bind(this)} className="btn-primary">Ingénieurie</button>
                         </Col>
                         <Col sm="3">
-                            <button onClick={()=>{console.log("test")}} className="btn-green">Rechercher</button>
+                            <button onClick={()=>{console.log("test")}} className="btn-green">Reinitialiser</button>
                         </Col>
                     </Row>
                 </Container>
