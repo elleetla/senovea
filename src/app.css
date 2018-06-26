@@ -69,6 +69,10 @@ a:hover{
     cursor: pointer;
 }
 
+.btn-green:hover{
+    background-color: #565f65;
+}
+
 #btn-call:hover{
     background-color: #15c3b7;
 }

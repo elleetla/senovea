@@ -1,5 +1,6 @@
 #Filters{
     padding: 16px 0;
+    position: relative;
     background: linear-gradient(to right, rgba(130, 140, 236, 100), rgba(75, 89, 224, 100));
 }
 
@@ -46,3 +47,14 @@ ul.category-filter li a {
 ul.category-filter li a:hover{
     background: #EBEEFD;
 }
+
+.blocked-filter {
+    height: 100%;
+    width: 100%;
+    display: block;
+    position: absolute;
+    left: 0;
+    z-index: 2;
+    top: 0;
+}
+

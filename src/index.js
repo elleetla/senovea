@@ -49,7 +49,7 @@ import { call_product } from './app/actions/index';
 const store = createStore(
     rootReducers,
     applyMiddleware(thunk)
-)
+);
 
 class App extends React.Component {
 

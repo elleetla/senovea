@@ -33,54 +33,69 @@ class Home extends Component{
         const oldProducts = this.props.products;
         const newProducts = [...oldProducts];
 
-        if(newProducts.length === 0){
+        if(this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false){
             return(
                 <div>
                     <Container>
                         <Row>
-                            <Col xs="12" className="mb-5 mt-5 text-center">
-                                <div className="preloader">
-                                    <img src={LoadingSvg}/>
-                                </div>
+                            <Col lg="12" className="text-center mt-5 mb-5">
+                                <h4>Pour visualiser le catalogue<br/>veuillez vous connecter !</h4>
                             </Col>
                         </Row>
                     </Container>
                 </div>
             )
         } else {
-            return(
-                <div>
-                    <Container className="mb-5 mt-5">
-                        <Row>
-                            { newProducts.map((data) => {
-                                return(
-                                    <Col xs="12" key={data.id} id={data.id} className="">
-                                        <div className="article-bloc">
-                                            <h5>{data.name}</h5>
-                                            <p>{data.categories[0].name}</p>
-                                            <Button style={{marginBottom: "20px", marginRight: "10px"}} onClick={()=>{console.log("test")}}>Ajouter aux paniers</Button>
-                                            <Button color="primary" style={{marginBottom: "20px", marginRight: "10px"}} onClick={this.toggle}>Détails</Button>
-                                            <Collapse>
-                                                <Card>
-                                                    <CardBody dangerouslySetInnerHTML={{__html: data.description}}>
-                                                    </CardBody>
-                                                </Card>
-                                            </Collapse>
-                                        </div>
-                                    </Col>
-                                )
-                            })}
-                        </Row>
-                    </Container>
-                </div>
-            )
+            if(newProducts.length === 0){
+                return(
+                    <div>
+                        <Container>
+                            <Row>
+                                <Col xs="12" className="mb-5 mt-5 text-center mt-4 mb-4">
+                                    <div className="preloader">
+                                        <img src={LoadingSvg}/>
+                                    </div>
+                                </Col>
+                            </Row>
+                        </Container>
+                    </div>
+                )
+            } else {
+                return(
+                    <div>
+                        <Container className="mb-5 mt-5">
+                            <Row>
+                                { newProducts.map((data) => {
+                                    return(
+                                        <Col xs="12" key={data.id} id={data.id} className="">
+                                            <div className="article-bloc">
+                                                <h5>{data.name}</h5>
+                                                <p>{data.categories[0].name}</p>
+                                                <Button style={{marginBottom: "20px", marginRight: "10px"}} onClick={()=>{console.log("test")}}>Ajouter aux paniers</Button>
+                                                <Button color="primary" style={{marginBottom: "20px", marginRight: "10px"}} onClick={this.toggle}>Détails</Button>
+                                                <Collapse>
+                                                    <Card>
+                                                        <CardBody dangerouslySetInnerHTML={{__html: data.description}}>
+                                                        </CardBody>
+                                                    </Card>
+                                                </Collapse>
+                                            </div>
+                                        </Col>
+                                    )
+                                })}
+                            </Row>
+                        </Container>
+                    </div>
+                )
+            }
         }
     }
 }
 
 function mapStateToProps(state){
     return {
-        "products": state.products
+        "products": state.products,
+        "user": state.user
     }
 }
 

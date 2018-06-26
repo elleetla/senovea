@@ -6,11 +6,12 @@ import { Link }                             from 'react-router-dom'
 // user logout action
 import { user_logout_action } from '../../actions/index'
 
-import LogIn from '../../screens/login';
+import LogIn from '../../screens/login'
+import Register from '../../screens/register'
 
 // import css
 import './Header.css';
-import Logo from '../../assets/img/logo.svg';
+import Logo from '../../assets/img/logo.svg'
 
 import {
     Button, Modal, ModalHeader, ModalBody, ModalFooter,
@@ -198,17 +199,11 @@ class Header extends React.Component{
                                 { this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false ?
                                     <div>
                                         <NavItem>
-                                            <Link to="/register" className="nav-link">Inscription</Link>
+                                            <NavLink onClick={this.toogleModalRegistration}>Inscription</NavLink>
                                         </NavItem>
-                                        {/*<NavItem>
-                                            <NavLink onClick={this.toogleModalRegistration}>Inscription test</NavLink>
-                                        </NavItem>*/}
                                         <NavItem>
-                                            <Link to="/login" className="nav-link">Connexion</Link>
+                                            <NavLink onClick={this.toogleModalConnect}>Connexion</NavLink>
                                         </NavItem>
-                                        {/*<NavItem>
-                                            <NavLink onClick={this.toogleModalConnect}>Connexion test</NavLink>
-                                        </NavItem>*/}
                                         <NavItem>
                                             <NavLink href="javascript:void(0)" onClick={() => {alert("test")}}>Mes paniers</NavLink>
                                         </NavItem>
@@ -257,24 +252,19 @@ class Header extends React.Component{
                     </Navbar>
                 </header>
 
-                <Modal isOpen={this.state.modalConnect} toggle={this.toogleModalConnect} className={this.props.className}>
+                <Modal isOpen={this.props.user.user_auth.auth_token === '' ? this.state.modalConnect : this.state.modalConnect = false} toggle={this.toogleModalConnect} className={this.props.className}>
                     <ModalHeader toggle={this.toogleModalConnect}>Connectez-vous !</ModalHeader>
                     <ModalBody>
-                        {LogIn}
+                        <p className="text-center">Site web privé, réservé aux adhérents, <br/>veuillez vous connecter pour effectuer une recherche</p>
+                        <LogIn/>
                     </ModalBody>
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.toogleModalConnect}>Se connecter</Button>
-                    </ModalFooter>
                 </Modal>
 
                 <Modal isOpen={this.state.modalRegistration} toggle={this.toogleModalRegistration} className={this.props.className}>
                     <ModalHeader toggle={this.toogleModalRegistration}>Inscrivez-vous !</ModalHeader>
                     <ModalBody>
+                        <Register/>
                     </ModalBody>
-                    <ModalFooter>
-                        <Button color="primary" onClick={this.toogleModalRegistration}>Do Something</Button>
-                        <Button color="secondary" onClick={this.toogleModalRegistration}>Cancel</Button>
-                    </ModalFooter>
                 </Modal>
 
             </div>
