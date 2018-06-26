@@ -11,27 +11,23 @@ class Filters extends Component{
             <nav id="Filters">
                 <Container>
                     <Row>
-                        <Col sm="3">
+                        <Col lg="4">
                             <FormGroup className="mb-0">
-                                <Input type="email" name="email" id="exampleEmail" placeholder="Code postal" />
+                                <Input type="email" name="email" id="exampleEmail" placeholder="Recherchez une préstation, ex : Espace Vert" />
                             </FormGroup>
                         </Col>
-                        <Col sm="3">
+                        <Col lg="3">
                             <FormGroup className="mb-0">
-                                <Input type="select" name="select" id="exampleSelect">
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                </Input>
+                                <Input type="email" name="email" id="exampleEmail" placeholder="Référence article" />
                             </FormGroup>
                         </Col>
-                        <Col sm="3">
-                            <button onClick={this.filterTest.bind(this)} className="btn-primary">Travaux</button>
-                            <button onClick={this.filterTest2.bind(this)} className="btn-primary">Ingénieurie</button>
+                        <Col lg="3">
+                            <ul className="category-filter">
+                                <li><a onClick={this.filterTest.bind(this)}>Travaux</a></li>
+                                <li><a onClick={this.filterTest.bind(this)}>Ingénieurie</a></li>
+                            </ul>
                         </Col>
-                        <Col sm="3">
+                        <Col lg="2">
                             <button onClick={()=>{console.log("test")}} className="btn-green">Reinitialiser</button>
                         </Col>
                     </Row>
