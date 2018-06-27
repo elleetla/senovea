@@ -5,10 +5,10 @@ import { Field, reduxForm }                 from 'redux-form'
 
 // import style
 import TextField from '@material-ui/core/TextField';
-import { Col, FormGroup, Input } from 'reactstrap';
+import { Col, FormGroup } from 'reactstrap';
 
 // user auth action 
-import { user_auth_action } from '../actions/index' 
+import { user_auth_action } from '../actions/index' ;
 
 // Fields
 const renderTextField = ( field ) => (
@@ -17,7 +17,7 @@ const renderTextField = ( field ) => (
 
 class LogIn extends React.Component{
     constructor(props){
-        super(props)
+        super(props);
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
