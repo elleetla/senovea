@@ -9,6 +9,7 @@ class Footer extends Component{
     render(){
         return(
             <footer id="footer-app">
+                <a id="btn-call">Besoin d'une assistance ?</a>
                 <Container>
                     <Row>
                         <Col lg="6">

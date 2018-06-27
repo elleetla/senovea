@@ -3,14 +3,12 @@ import { compose, bindActionCreators }      from 'redux'
 import { connect }                          from 'react-redux'
 import { Field, reduxForm }                 from 'redux-form'
 
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
+// import style
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import Divider from '@material-ui/core/Divider';
+import { Col, FormGroup } from 'reactstrap';
 
 // user auth action 
-import { user_auth_action } from '../actions/index' 
+import { user_auth_action } from '../actions/index' ;
 
 // Fields
 const renderTextField = ( field ) => (
@@ -19,65 +17,65 @@ const renderTextField = ( field ) => (
 
 class LogIn extends React.Component{
     constructor(props){
-        super(props)
+        super(props);
         this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     handleSubmit(form_props){
-
-        console.log("submit")
 
         // Calling login action
         this.props.user_auth_action(form_props)
 
     }
 
+    LoadingModal(){
+        const btnConnectModal = document.querySelector("#btn-connect-modal");
+        console.log("return function");
+    }
+
     render(){
         console.log(this.props)
         //console.log(this.state)
         return(
-            <Paper elevation={1}>
             <div>
-
-                <div style={{padding:'30px'}}>
-                        <Typography variant="headline" color="inherit">
-                            Login to senovea-spa.
-                        </Typography>
-                </div>
-                        <Divider/>
-                <div style={{padding:'30px'}}>
-
                 <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
-                    <div style={{marginBottom:'15px'}}>
-                        <Field
-                            name="login_username"
-                            id="login_username"
-                            component={renderTextField}
-                            type="text"
-                            placeholder="User Name"
-                        />
-                    </div>
-                    <div style={{marginBottom:'30px'}}>
-                        <Field
-                            name="login_password"
-                            id="login_password"
-                            component={renderTextField}
-                            type="password"
-                            placeholder="User Password"
-                        />
-                    </div>
+                    <Col lg="12">
+                        <FormGroup className="mb-0">
+                            <Field
+                                name="login_username"
+                                id="login_username"
+                                component={renderTextField}
+                                type="text"
+                                placeholder="User Name"
+                            />
+                        </FormGroup>
+                    </Col>
+
+                    <Col lg="12">
+                        <FormGroup className="mb-0">
+                            <Field
+                                name="login_password"
+                                id="login_password"
+                                component={renderTextField}
+                                type="password"
+                                placeholder="User Password"
+                            />
+                        </FormGroup>
+                    </Col>
+                    <br/>
                     <div>
-                        <Button type="submit" variant="contained" color="secondary">
-                            Login to senovea
-                        </Button>
+                        <button id="btn-connect-modal" type="submit" className="btn-green" onClick={this.LoadingModal}>
+                            Se connecter
+                        </button>
                     </div>
+                    <p>Vous n'avez pas de compte ?</p>
                 </form>
-                </div>
             </div>
-            </Paper>
         )
     }
 }
+
+
 
 function mapStateToProps(state){
     return {
