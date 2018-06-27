@@ -53,6 +53,7 @@ ul.category-filter li a:hover{
     width: 100%;
     display: block;
     position: absolute;
+    cursor: pointer;
     left: 0;
     z-index: 2;
     top: 0;

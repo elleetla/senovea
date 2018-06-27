@@ -23,11 +23,14 @@ class LogIn extends React.Component{
 
     handleSubmit(form_props){
 
-        console.log("submit")
-
         // Calling login action
         this.props.user_auth_action(form_props)
 
+    }
+
+    LoadingModal(){
+        const btnConnectModal = document.querySelector("#btn-connect-modal");
+        console.log("return function");
     }
 
     render(){
@@ -61,7 +64,7 @@ class LogIn extends React.Component{
                     </Col>
                     <br/>
                     <div>
-                        <button type="submit" className="btn-green">
+                        <button id="btn-connect-modal" type="submit" className="btn-green" onClick={this.LoadingModal}>
                             Se connecter
                         </button>
                     </div>
@@ -71,6 +74,8 @@ class LogIn extends React.Component{
         )
     }
 }
+
+
 
 function mapStateToProps(state){
     return {

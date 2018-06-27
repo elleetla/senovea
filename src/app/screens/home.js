@@ -12,6 +12,7 @@ import {
     Card } from 'reactstrap';
 
 import LoadingSvg from '../assets/img/icon-preloader.svg';
+import PictoUser from '../assets/img/picto_user.svg';
 
 class Home extends Component{
     constructor() {
@@ -37,9 +38,16 @@ class Home extends Component{
             return(
                 <div>
                     <Container>
-                        <Row>
-                            <Col lg="12" className="text-center mt-5 mb-5">
-                                <h4>Pour visualiser le catalogue<br/>veuillez vous connecter !</h4>
+                        <Row className="mt-5 mb-5">
+                            <Col sm="12" md={{ size: 6, offset: 3 }}>
+                                <div className="connect-bloc">
+                                    <img src={PictoUser} className="picto-user"/>
+                                    <p className="title-connect-bloc">Veuillez vous connecter ou créer un compte pour faire une recherche</p>
+                                    <ul>
+                                        <li><a href="#">Connexion</a></li>
+                                        <li><a href="#">Inscription</a></li>
+                                    </ul>
+                                </div>
                             </Col>
                         </Row>
                     </Container>

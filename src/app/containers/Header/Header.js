@@ -11,7 +11,7 @@ import Register from '../../screens/register'
 
 // import css
 import './Header.css';
-import Logo from '../../assets/img/logo.svg'
+import Logo from '../../assets/img/logo.svg';
 
 import {
     Button, Modal, ModalHeader, ModalBody, ModalFooter,
@@ -77,15 +77,11 @@ class Header extends React.Component{
                     return(
                         <div>
                             <Link to="/cart">
-                                <button>
-                                    Customer Cart
-                                </button>
+                                <button>Customer Cart</button>
                             </Link>
 
                             <Link to="/account">
-                                <button>
-                                    Customer Account
-                                </button>
+                                <button>Customer Account</button>
                             </Link>
                         </div>
                     )
