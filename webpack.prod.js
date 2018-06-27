@@ -9,6 +9,7 @@ module.exports = merge(common, {
     devtool: 'source-map',
     devServer: {
         contentBase: './src',
+        historyApiFallback: true,
         //https:true
     },
     plugins: [

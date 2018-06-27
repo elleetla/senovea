@@ -13,7 +13,108 @@ export const SUPPLIER_ORDER_REJECT    = 'SUPPLIER_ORDER_REJECT'
 export const CALL_PRODUCTS            = 'CALL_PRODUCTS'
 export const ORDER_PRODUCT            = 'ORDER_PRODUCT'
 
+export const SUPPLIER_ORDER_ACCEPT_V2 = 'SUPPLIER_ORDER_ACCEPT_V2'
+export const SUPPLIER_ORDER_REJECT_V2 = 'SUPPLIER_ORDER_REJECT_V2'
+
 // ACTIONS CREATORS
+
+// supplier accept v2
+
+export function supplier_order_accept_v2( order_id, product_id, supplier_id, customer_id, mc_campaign_id, mc_email_id ) {
+    
+    /*
+    console.log("order id")
+    console.log(order_id)
+    
+    console.log("product id")
+    console.log(product_id)
+
+    console.log("supplier id")
+    console.log(supplier_id)
+
+    console.log("customer id")
+    console.log(customer_id)
+
+    console.log("mc_campaign id")
+    console.log(mc_campaign_id)
+
+    console.log("mc_email id")
+    console.log(mc_email_id)
+    */
+
+    const order_accept_form_data = new FormData();
+
+    order_accept_form_data.append('order_id',parseInt(order_id))
+    order_accept_form_data.append('product_id',parseInt(product_id))
+    order_accept_form_data.append('supplier_id',parseInt(supplier_id))
+    order_accept_form_data.append('customer_id',parseInt(customer_id))
+    order_accept_form_data.append('mc_campaign_id',mc_campaign_id)
+    order_accept_form_data.append('mc_email_id',mc_email_id)
+
+    return function (dispatch) {
+        axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v2/order/accept`, order_accept_form_data, {})
+        .then(function (response) {
+            console.log('ok accept')
+            console.log(response)
+            dispatch({
+                "type":SUPPLIER_ORDER_ACCEPT_V2,
+                "payload":{}
+            })
+        }).catch(function (error) {
+            console.log('accept ko')
+            console.log(error.message)
+        });
+    }
+}
+
+// supplier reject v2
+
+export function supplier_order_reject_v2( order_id, product_id, supplier_id, customer_id, mc_campaign_id, mc_email_id ) {
+    
+    /*
+    console.log("order id")
+    console.log(order_id)
+    
+    console.log("product id")
+    console.log(product_id)
+
+    console.log("supplier id")
+    console.log(supplier_id)
+
+    console.log("customer id")
+    console.log(customer_id)
+
+    console.log("mc_campaign id")
+    console.log(mc_campaign_id)
+
+    console.log("mc_email id")
+    console.log(mc_email_id)
+    */
+
+    const order_reject_form_data = new FormData();
+
+    order_reject_form_data.append('order_id',parseInt(order_id))
+    order_reject_form_data.append('product_id',parseInt(product_id))
+    order_reject_form_data.append('supplier_id',parseInt(supplier_id))
+    order_reject_form_data.append('customer_id',parseInt(customer_id))
+    order_reject_form_data.append('mc_campaign_id',mc_campaign_id)
+    order_reject_form_data.append('mc_email_id',mc_email_id)
+
+    return function (dispatch) {
+        axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v2/order/reject`, order_reject_form_data, {})
+        .then(function (response) {
+            console.log('ok reject')
+            console.log(response)
+            dispatch({
+                "type":SUPPLIER_ORDER_REJECT_V2,
+                "payload":{}
+            })
+        }).catch(function (error) {
+            console.log('reject ko')
+            console.log(error.message)
+        });
+    }
+}
 
 // PRODUCTS 
 

@@ -10,6 +10,10 @@ import { SUPPLIER_ORDER_REJECT }          from '../actions/index'
 import { CALL_PRODUCTS }                  from "../actions/index"
 import { ORDER_PRODUCT }                  from "../actions/index"
 
+import { SUPPLIER_ORDER_ACCEPT_V2 }                  from "../actions/index"
+import { SUPPLIER_ORDER_REJECT_V2 }                  from "../actions/index"
+
+
 import _ from 'lodash'
 
 // suppliers 
@@ -188,9 +192,23 @@ function userReducer( state = USER_INITIAL_STATE , action ){
     }
 }
 
+function supplierReducer( state = {}, action ){
+    switch( action.payload ){
+        case SUPPLIER_ORDER_ACCEPT_V2 : {
+            return action.payload
+        }
+        case SUPPLIER_ORDER_REJECT_V2 : {
+            return action.payload
+        }
+        default:
+            return state
+    }
+}
+
 export const rootReducers = combineReducers({
     "user"      :userReducer,
     //"supplier"  :supplierReducer,
     "form"      :formReducer,
-    "products"  :productReducer
+    "products"  :productReducer,
+    "supplier"  :supplierReducer
 });

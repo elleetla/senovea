@@ -3,6 +3,7 @@ import { compose, bindActionCreators }      from 'redux'
 import { connect }                          from 'react-redux'
 import { Link }                             from 'react-router-dom'
 
+
 // user logout action 
 import { user_logout_action } from '../../actions/index'
 
@@ -260,7 +261,7 @@ class Header extends React.Component{
                 <Modal isOpen={this.state.modalConnect} toggle={this.toogleModalConnect} className={this.props.className}>
                     <ModalHeader toggle={this.toogleModalConnect}>Connectez-vous !</ModalHeader>
                     <ModalBody>
-                        {LogIn}
+                        <LogIn/>
                     </ModalBody>
                     <ModalFooter>
                         <Button color="primary" onClick={this.toogleModalConnect}>Se connecter</Button>

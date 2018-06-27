@@ -4,7 +4,7 @@ import { WORDPRESS_API_BASE_URL } from '../config/config-api'
 import React from 'react'
 import ReactDOM from 'react-dom'
 // react-router-dom
-import { HashRouter, Switch, Route, Redirect } from 'react-router-dom'
+import { BrowserRouter, HashRouter, Switch, Route, Redirect } from 'react-router-dom'
 // react-redux 
 import { Provider, connect } from 'react-redux'
 // redux 
@@ -32,6 +32,9 @@ import {Downloading} from "./app/screens/downloading";
 import SupplierOrders from './app/screens/supplier-orders'
 import AllProducts from './app/screens/allproducts'
 
+import SupplierAccept from './app/screens/supplieraccept'
+import SupplierReject from './app/screens/supplierreject'
+
 // import css
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
@@ -51,6 +54,12 @@ const store = createStore(
     applyMiddleware(thunk)
 )
 
+// Routing 
+
+// https://stackoverflow.com/questions/43209666/react-router-v4-cannot-get-url
+// https://stackoverflow.com/questions/27928372/react-router-urls-dont-work-when-refreshing-or-writting-manually
+// https://stackoverflow.com/questions/35604617/react-router-with-optional-path-parameter
+
 class App extends React.Component {
 
     componentDidMount() { 
@@ -63,14 +72,20 @@ class App extends React.Component {
         console.log("app class")
         console.log(this.props)
         return(
-                    <HashRouter>
+                    <BrowserRouter>
                         <div>
+                        
                             <AppNav/>
                             <Banner/>
                             <Filters/>
                             <Switch>
 
                                 <Route exact path="/" component={Home} />
+
+                                {/* Route fournisseur accept */}
+                                <Route path="/supplier/accept" component={SupplierAccept} />
+                                {/* Route fournisseur reject */}
+                                <Route path="/supplier/reject" component={SupplierReject} />
 
                                 <Route path="/allproducts" render={ () => {
                                     if(this.props.user.user_auth.isAuth !== true){
@@ -165,7 +180,7 @@ class App extends React.Component {
                             <a id="btn-call">Besoin d'une assistance ?</a>
                             <Footer/>
                         </div>
-                    </HashRouter>
+                    </BrowserRouter>
         )
     }
 }
