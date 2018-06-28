@@ -120,18 +120,28 @@ export function supplier_order_reject_v2( order_id, product_id, supplier_id, cus
 
 // Action call product
 export function call_product() {
+
     return function (dispatch) {
-        axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v1/products`, {}, {})
+
+        axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/products`, {}, {})
             .then(function (response) {
+
+                console.log('ok product');
+                console.log(response);
                 dispatch({
                     "type":CALL_PRODUCTS,
-                    "payload": response.data
+                    "payload": response.data.products_formated
                 });
+
             }).catch(function (error) {
-            console.log('products ko')
-            console.log(error.message)
-        });
+
+                console.log('products ko')
+                console.log(error.message)
+
+            });
+
     }
+
 }
 
 // Action order product 
@@ -166,8 +176,6 @@ export function order_product(customer_id, product_id){
     }
 
 }
-
-
 
 export function supplier_order_accept( order_id, supplier_id ){
     console.log('action supplier_order_accept')
@@ -250,7 +258,7 @@ export function user_load_action(  ){
     return function (dispatch) {
 
         let stored_user = localStorage.getItem('senovea_user');
-        console.log(stored_user)
+        //console.log(stored_user)
         if( stored_user !== null ){
 
             const json_stored_user = JSON.parse(stored_user)
@@ -263,15 +271,15 @@ export function user_load_action(  ){
                     }
                 }).then(function (response){
 
-                    console.log("response")
-                    console.log(response)
+                    console.log("ok localstorage load")
+                    //console.log(response)
                     dispatch({
                         "type":USER_LOAD,
                         "payload":json_stored_user
                     })
 
                 }).catch(function (error){
-                    console.log('token ko')
+                    console.log('localstorage ko')
                     console.log(error.message)
                 })
 

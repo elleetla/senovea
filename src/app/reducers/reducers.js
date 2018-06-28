@@ -135,7 +135,7 @@ function userReducer( state = USER_INITIAL_STATE , action ){
 
         case USER_LOAD: {
             console.log('user load reducer')
-            console.log(action.payload)
+            //console.log(action.payload)
             return action.payload
             break;
         }
@@ -147,14 +147,14 @@ function userReducer( state = USER_INITIAL_STATE , action ){
         }
         case USER_AUTH:{
             console.log("user auth reducer")
-            console.log(action.payload)
+            //console.log(action.payload)
             return action.payload
             break;
         }
         case USER_UPDATE:{
             /// à refaire
             console.log("user update reducer")
-            console.log(action.payload)
+            //console.log(action.payload)
             let user = state;
             user.user_email = action.payload.user_email
             console.log(user)
@@ -168,8 +168,8 @@ function userReducer( state = USER_INITIAL_STATE , action ){
             let actives_orders = _.filter( accepted_state.user_orders.user_actives_orders , ( order ) => { return parseInt(order.id) !== parseInt(action.payload) })
             accepted_state.user_orders.user_winned_orders.push( accepted_order );
             accepted_state.user_orders.user_actives_orders = actives_orders;
-            console.log(action.payload)
-            console.log(accepted_state)
+            //console.log(action.payload)
+            //console.log(accepted_state)
             return accepted_state;
             break;
         }
@@ -180,8 +180,8 @@ function userReducer( state = USER_INITIAL_STATE , action ){
             let actives_orders = _.filter( rejected_state.user_orders.user_actives_orders , ( order ) => { return parseInt(order.id) !== parseInt(action.payload) })
             rejected_state.user_orders.user_failed_orders.push( rejected_order );
             rejected_state.user_orders.user_actives_orders = actives_orders;
-            console.log(action.payload)
-            console.log(rejected_state)
+            //console.log(action.payload)
+            //console.log(rejected_state)
             return rejected_state;
             break;
         }

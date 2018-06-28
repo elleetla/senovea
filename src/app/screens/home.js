@@ -31,8 +31,12 @@ class Home extends Component{
     }
 
     render() {
+
+        console.log(this);
+
         const oldProducts = this.props.products;
-        const newProducts = [...oldProducts];
+        //const newProducts = [...oldProducts];
+        const newProducts = oldProducts;
 
         if(this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false){
             return(
@@ -78,7 +82,7 @@ class Home extends Component{
                                         <Col xs="12" key={data.id} id={data.id} className="">
                                             <div className="article-bloc">
                                                 <h5>{data.name}</h5>
-                                                <p>{data.categories[0].name}</p>
+                                                <p>{data.categories[0]}</p>
                                                 <Button style={{marginBottom: "20px", marginRight: "10px"}} onClick={()=>{console.log("test")}}>Ajouter aux paniers</Button>
                                                 <Button color="primary" style={{marginBottom: "20px", marginRight: "10px"}} onClick={this.toggle}>Détails</Button>
                                                 <Collapse>
