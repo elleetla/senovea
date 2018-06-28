@@ -12,6 +12,7 @@ import Register from '../../screens/register'
 // import css
 import './Header.css';
 import Logo from '../../assets/img/logo.svg';
+import Panier from '../../assets/img/icon-panier.svg';
 
 import {
     Button, Modal, ModalHeader, ModalBody, ModalFooter,
@@ -170,7 +171,7 @@ class Header extends React.Component{
                 <header id="header-app">
                     <Navbar light expand="md">
                         <Link to="/" className="navbar-brand">
-                            <img id="logo-app" src={Logo} alt=""/>
+                            <img id="logo-app" src={Logo} alt="Logo Centralis"/>
                         </Link>
                         <NavbarToggler onClick={this.toggle} />
                         <Collapse isOpen={this.state.isOpen} navbar>
@@ -188,20 +189,22 @@ class Header extends React.Component{
                                     <Link to="/suppliers" className="nav-link">Prestataires</Link>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink href="#/telechargement">Téléchargement</NavLink>
+                                    <Link to="/telechargement" className="nav-link">Téléchargement</Link>
                                 </NavItem>
                             </Nav>
                             <Nav className="ml-auto" navbar>
                                 { this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false ?
                                     <div>
                                         <NavItem>
-                                            <NavLink onClick={this.toogleModalRegistration}>Inscription</NavLink>
+                                            <NavLink onClick={this.toogleModalRegistration} className="nav-link">Inscription</NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink onClick={this.toogleModalConnect}>Connexion</NavLink>
+                                            <NavLink onClick={this.toogleModalConnect} className="nav-link">Connexion</NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink href="javascript:void(0)" onClick={() => {alert("test")}}>Mes paniers</NavLink>
+                                            <NavLink>
+                                                <img className="icon-nav" src={Panier} alt="Icon Panier"/>
+                                            </NavLink>
                                         </NavItem>
                                     </div>
                                     :
@@ -232,7 +235,9 @@ class Header extends React.Component{
                                             </DropdownMenu>
                                         </UncontrolledDropdown>
                                         <NavItem>
-                                            <NavLink onClick={ () => {alert("test")} }>Mes paniers</NavLink>
+                                            <NavLink onClick={ () => {alert("test")} }>
+                                                <img className="icon-nav" src={Panier} alt="Icon Panier"/>
+                                            </NavLink>
                                         </NavItem>
                                     </div>
 

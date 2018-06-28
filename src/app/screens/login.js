@@ -28,11 +28,6 @@ class LogIn extends React.Component{
 
     }
 
-    LoadingModal(){
-        const btnConnectModal = document.querySelector("#btn-connect-modal");
-        console.log("return function");
-    }
-
     render(){
         console.log(this.props)
         //console.log(this.state)

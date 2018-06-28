@@ -81,10 +81,16 @@ class Home extends Component{
                                     return(
                                         <Col xs="12" key={data.id} id={data.id} className="">
                                             <div className="article-bloc">
-                                                <h5>{data.name}</h5>
-                                                <p>{data.categories[0]}</p>
-                                                <Button style={{marginBottom: "20px", marginRight: "10px"}} onClick={()=>{console.log("test")}}>Ajouter aux paniers</Button>
-                                                <Button color="primary" style={{marginBottom: "20px", marginRight: "10px"}} onClick={this.toggle}>Détails</Button>
+                                                <Row>
+                                                    <Col xs="6">
+                                                        <h5>{data.name}</h5>
+                                                        <p>{data.categories[0]}</p>
+                                                    </Col>
+                                                    <Col xs="6" className="text-right">
+                                                        <Button style={{marginBottom: "20px", marginRight: "10px"}} className="btn-white">Ajouter aux paniers</Button>
+                                                        <Button color="primary" style={{marginBottom: "20px", marginRight: "10px"}} className="btn-white">Détails</Button>
+                                                    </Col>
+                                                </Row>
                                                 <Collapse>
                                                     <Card>
                                                         <CardBody dangerouslySetInnerHTML={{__html: data.description}}>

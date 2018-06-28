@@ -8,6 +8,7 @@
 #header-app .navbar .navbar-nav li.nav-item {
     display: inline-block;
     font-size: 14px;
+    cursor: pointer;
 }
 
 #header-app .navbar{
@@ -15,6 +16,11 @@
 }
 
 #logo-app {
-    width: 138px;
+    width: 120px;
+    height: auto;
+}
+
+#header-app .navbar .navbar-nav li.nav-item .icon-nav {
+    width: 20px;
     height: auto;
 }
