@@ -72,7 +72,7 @@ class App extends React.Component {
         //console.log("app class")
         //console.log(this.props)
         return(
-                    <BrowserRouter>
+                   <BrowserRouter>
                         <div>
                         
                             <AppNav/>

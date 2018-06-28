@@ -53,7 +53,13 @@ module.exports = {
         // Plugin : HtmlWebpack
         // Generate html output, automate bundle sourcing
         new HtmlWebpackPlugin({
-            title: 'SENOVEA',
+            //title: 'SENOVEA',
+            filename: 'index.html',
+            template: './src/index.html'
+        }),
+        new HtmlWebpackPlugin({
+            //title: 'SENOVEA',
+            filename: '200.html',
             template: './src/index.html'
         })
     ],

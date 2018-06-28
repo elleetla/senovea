@@ -32,6 +32,7 @@ class Home extends Component{
 
     render() {
 
+        console.log("HOME");
         console.log(this);
 
         const oldProducts = this.props.products;

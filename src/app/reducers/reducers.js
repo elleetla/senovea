@@ -117,7 +117,7 @@ const USER_INITIAL_STATE = {
 }
 
 // reducer products
-function productReducer(state = {}, action) {
+function productReducer(state = [], action) {
     switch (action.type){
         case ORDER_PRODUCT:
             console.log("orderproductreducer")
