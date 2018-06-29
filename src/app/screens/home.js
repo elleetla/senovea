@@ -15,6 +15,7 @@ import LoadingSvg from '../assets/img/icon-preloader.svg';
 import PictoUser from '../assets/img/picto_user.svg';
 
 class Home extends Component{
+
     constructor() {
         super();
         this.toggle = this.toggle.bind(this);
@@ -24,10 +25,12 @@ class Home extends Component{
     }
 
     toggle(e){
+
         //this.setState({ collapse: !this.state.collapse });
         let parent = e.target.parentElement;
         let collapse = parent.querySelector('.collapse');
         collapse.classList.toggle('show');
+        
     }
 
     render() {

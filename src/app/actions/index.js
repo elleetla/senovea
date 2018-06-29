@@ -209,6 +209,7 @@ export function supplier_order_accept( order_id, supplier_id ){
     }
 
 }
+
 export function supplier_order_reject( order_id, supplier_id ){
     console.log('action supplier_order_reject')
     console.log(order_id)
@@ -245,6 +246,7 @@ export function supplier_order_reject( order_id, supplier_id ){
         })
     }
 }
+
 export function user_load_action(  ){
 
     // vérifier localstorage 
@@ -295,14 +297,28 @@ export function user_register_action( user_infos, callback ){
 
     // FormData 
     let new_user_data = new FormData()
+
+    new_user_data.append('organisme',user_infos.register_organisme)
+    new_user_data.append('service',user_infos.register_service)
+
     new_user_data.append('username',user_infos.register_username)
+    new_user_data.append('nom',user_infos.register_nom)
+    new_user_data.append('prenom',user_infos.register_prenom)
+
+    new_user_data.append('arrodissement',user_infos.register_arrondissement)
+    new_user_data.append('adresse',user_infos.register_adresse)
+    new_user_data.append('code',user_infos.register_code)
+    new_user_data.append('ville',user_infos.register_ville)
+
     new_user_data.append('email',user_infos.register_email)
-    //new_user_data.append('password',user_infos.register_password)
+    new_user_data.append('phone',user_infos.register_phone)
+
     new_user_data.append('document',user_infos.register_document)
+    //new_user_data.append('password',user_infos.register_password)
 
     // Register a USER via wordpress API
     return function (dispatch) {
-        return axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v1/customer`, new_user_data, {
+        return axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v2/customer`, new_user_data, {
             headers: {
                 'Content-Type': 'multipart/form-data' 
             }

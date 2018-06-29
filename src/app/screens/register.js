@@ -98,6 +98,8 @@ class Register extends React.Component{
         return(
             <Paper elevation={1}>
             <div>
+
+                {/*
             <div style={{padding:'30px'}}>
                         <Typography variant="headline" color="inherit">
                         Request an invite.
@@ -110,28 +112,165 @@ class Register extends React.Component{
                         </Typography>
                 </div>
                         <Divider/>
+                        */}
 
                 <div style={{padding:'30px'}}>
                 <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
 
+                        <Divider style={{margin:'15px 0'}}/>
+                    <Typography variant="subheading" color="inherit">
+                        Organisme acheteur
+                    </Typography>
+
+                    <div style={{marginBottom:'15px'}}>
+                        <Field 
+                            style={{width:"100%"}}
+                            name="register_organisme"
+                            id="register_organisme"
+                            //component={renderTextField}
+                            component="input"
+                            type="text"
+                            placeholder="Nom de l'organisme"
+                        />
+                    </div>
                     <div style={{marginBottom:'15px'}}>
                         <Field
+                            style={{width:"100%"}}
+                            name="register_service"
+                            id="register_service"
+                            //component={renderTextField}
+                            component="input"
+                            type="text"
+                            placeholder="Nom du service ou du département"
+                        />
+                    </div>
+                    <Divider style={{margin:'15px 0'}}/>
+
+                    <Typography variant="subheading" color="inherit">
+                        Personne Référente
+                    </Typography>
+
+                    <div style={{marginBottom:'15px'}}>
+                        <Field
+                            style={{width:"100%"}}
+                            name="register_username"
+                            id="register_username"
+                            //component={renderTextField}
+                            component="input"
+                            type="text"
+                            placeholder="Votre identifiant de connexion ( username ) ( sans espace ou caractères spéciaux )"
+                        />
+                    </div>
+
+                    <div style={{marginBottom:'15px'}}>
+                        <Field
+                            style={{width:"100%"}}
+                            name="register_nom"
+                            id="register_nom"
+                            //component={renderTextField}
+                            component="input"
+                            type="text"
+                            placeholder="Nom"
+                        />
+                    </div>
+                    <div style={{marginBottom:'15px'}}>
+                        <Field
+                            style={{width:"100%"}}
+                            name="register_prenom"
+                            id="register_prenom"
+                            //component={renderTextField}
+                            component="input"
+                            type="text"
+                            placeholder="Prenom"
+                        />
+                    </div>
+                    <Divider style={{margin:'15px 0'}}/>
+
+                    <Typography variant="subheading" color="inherit">
+                        Adresse
+                    </Typography>
+
+                    <div style={{marginBottom:'15px'}}>
+                        <Field
+                            style={{width:"100%"}}
+                            name="register_arrondissement"
+                            id="register_arrondissement"
+                            //component={renderTextField}
+                            component="input"
+                            type="number"
+                            placeholder="Arrondissement Napoléonien"
+                        />
+                    </div>
+                    <div style={{marginBottom:'15px'}}>
+                        <Field
+                            style={{width:"100%"}}
+                            name="register_adresse"
+                            id="register_adresse"
+                            //component={renderTextField}
+                            component="input"
+                            type="text"
+                            placeholder="Adresse"
+                        />
+                    </div>
+                    <div style={{marginBottom:'15px'}}>
+                        <Field
+                            style={{width:"100%"}}
+                            name="register_code"
+                            id="register_code"
+                            //component={renderTextField}
+                            component="input"
+                            type="number"
+                            placeholder="Code Postal"
+                        />
+                    </div>
+                    <div style={{marginBottom:'15px'}}>
+                        <Field
+                            style={{width:"100%"}}
+                            name="register_ville"
+                            id="register_ville"
+                            //component={renderTextField}
+                            component="input"
+                            type="text"
+                            placeholder="Ville"
+                        />
+                    </div>
+                    <Divider style={{margin:'15px 0'}}/>
+
+                    <Typography variant="subheading" color="inherit">
+                        Contact
+                    </Typography>
+
+                    <div style={{marginBottom:'15px'}}>
+                        <Field
+                            style={{width:"100%"}}
                             name="register_email"
                             id="register_email"
-                            component={renderTextField}
+                            //component={renderTextField}
+                            component="input"
                             type="text"
                             placeholder="User Email"
                         />
                     </div>
-                    <div style={{marginBottom:'30px'}}>
+
+                    <div style={{marginBottom:'15px'}}>
                         <Field
-                            name="register_username"
-                            id="register_username"
-                            component={renderTextField}
-                            type="text"
-                            placeholder="User Name"
+                            style={{width:"100%"}}
+                            name="register_phone"
+                            id="register_phone"
+                            //component={renderTextField}
+                            component="input"
+                            type="number"
+                            placeholder="Num. Téléphone"
                         />
                     </div>
+                    <Divider style={{margin:'15px 0'}}/>
+
+                    <Typography variant="subheading" color="inherit">
+                        Importer la carte d'adhésion
+                    </Typography>
+
+
+  
                     {/*
                     <div style={{marginBottom:'30px'}}>
                         <Field
@@ -155,6 +294,12 @@ class Register extends React.Component{
                             accept=".pdf"
                         />
                     </div>
+                    <Divider style={{margin:'15px 0'}}/>
+
+                    <Typography variant="subheading" color="inherit">
+                        Emailing
+                    </Typography>
+
                     <div style={{marginBottom:'30px'}}>
                         <Field 
                             name="login_accept" 
@@ -165,6 +310,8 @@ class Register extends React.Component{
                             component={renderCheckBoxField}
                         />
                     </div>
+                    <Divider style={{margin:'15px 0'}}/>
+
                     <div>
 
                         <Button type="submit" variant="contained" color="secondary">
