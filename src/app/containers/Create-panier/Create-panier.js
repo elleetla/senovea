@@ -13,7 +13,7 @@ class CreatePanier extends Component{
                     <Container>
                         <Row>
                             <Col lg="8">
-                                <p><b>Panier</b> : Vous n’avez pas encore de panier</p>
+                                <p><b>Vous n’avez pas encore de panier</b></p>
                             </Col>
                             <Col lg="4" className="text-right">
                                 <button className="btn-white" onClick={() => { alert("Test create Panier") }}>CRÉER UN NOUVEAU PANIER</button>

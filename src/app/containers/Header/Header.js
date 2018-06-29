@@ -127,7 +127,7 @@ class Header extends React.Component{
                         <Collapse isOpen={this.state.isOpen} navbar>
                             <Nav navbar>
                                 <NavItem>
-                                    <Link to="/" className="nav-link">Accueil</Link>
+                                    <Link to="/" className="nav-link">Catalogue</Link>
                                 </NavItem>
                                 <NavItem>
                                     <Link to="/about" className="nav-link">Présentation</Link>
@@ -192,7 +192,7 @@ class Header extends React.Component{
                     </Navbar>
                 </header>
 
-                <Modal isOpen={this.props.user.user_auth.auth_token === '' ? this.state.modalConnect : this.state.modalConnect = false} toggle={this.toogleModalConnect} className={this.props.className}>
+                <Modal id="modal-login" isOpen={this.props.user.user_auth.auth_token === '' ? this.state.modalConnect : this.state.modalConnect = false} toggle={this.toogleModalConnect} className={this.props.className}>
                     <ModalHeader toggle={this.toogleModalConnect}>Connectez-vous !</ModalHeader>
                     <ModalBody>
                         <p className="text-center">Site web privé, réservé aux adhérents, <br/>veuillez vous connecter pour effectuer une recherche</p>

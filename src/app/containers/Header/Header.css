@@ -40,3 +40,14 @@
     border-radius: 70px;
 }
 
+/*
+modal
+*/
+
+#modal-login{
+    -webkit-transform: translate(0,-50%);
+    -o-transform: translate(0,-50%);
+    transform: translate(0,-50%);
+    top: 50%;
+    margin: 0 auto;
+}
