@@ -72,7 +72,7 @@ class Home extends Component{
                 if(this.props.user){
                     return(
                         <div>
-                            <Container className="mb-5 mt-5">
+                            <Container className="mb-5">
                                 <Row>
                                     { newProducts.map((data) => {
                                         return(
@@ -80,16 +80,16 @@ class Home extends Component{
                                                 <div className="article-bloc">
                                                     <Row>
                                                         <Col xs="2">
-                                                            <p>{data.categories[0]}</p>
+                                                            <p>Réf : <b>{data.attributes[0].attr_value}-{data.attributes[1].attr_value}-{data.attributes[2].attr_value}-{data.attributes[3].attr_value}</b></p>
                                                         </Col>
                                                         <Col xs="3">
-                                                            <p>{data.name}</p>
+                                                            <p><b>{data.name}</b></p>
                                                         </Col>
                                                         <Col xs="2">
-                                                            <p><strong>Lot :</strong> {data.attributes[1].attr_value}</p>
+                                                            <p>À partir de : <b>{data.price} €</b></p>
                                                         </Col>
                                                         <Col xs="2">
-                                                            <p>{data.categories[0]}</p>
+                                                            <p>Quantité : </p>
                                                         </Col>
                                                         <Col xs="3" className="text-right">
                                                             <Button style={{marginRight: "10px"}} className="btn-white">Ajouter aux paniers</Button>

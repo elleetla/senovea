@@ -21,6 +21,11 @@ a:hover{
     text-decoration: inherit;
 }
 
+b {
+    font-weight: 500;
+    color: #2C3948;
+}
+
 .preloader{
     background-color: #ffffff;
     height: 44px;
@@ -45,15 +50,35 @@ a:hover{
 }
 
 .article-bloc {
-    padding: 10px;
+    padding: 10px 10px 10px 20px;
     display: block;
     background: #ffffff;
     border-radius: 4px;
     -webkit-border-radius: 4px;
+    line-height: 16px;
+    font-size: 14px;
+    color: #565F65;
+    font-weight: 300;
     -moz-border-radius: 4px;
     border: 1px solid #D9E1E8;
     margin-bottom: 10px;
     box-shadow: 0px 2px 16px rgba(61, 68, 139, 0.1);
+}
+
+.article-bloc .row {
+    align-items: center;
+}
+
+.article-bloc p{
+    margin: 0;
+}
+
+.card{
+    border: 0px;
+}
+
+.card-body{
+    padding: 0;
 }
 
 .btn-green{

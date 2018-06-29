@@ -1,5 +1,14 @@
 #nav-create-panier {
     padding: 10px 0;
     background: #ffffff;
+    margin-bottom: 30px;
+}
+
+#nav-create-panier .row{
+    align-items: center;
+}
+
+#nav-create-panier p{
+    margin: 0;
 }
 

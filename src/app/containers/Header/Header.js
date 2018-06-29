@@ -152,11 +152,8 @@ class Header extends React.Component{
                                             <NavLink onClick={this.toogleModalConnect} className="nav-link">Connexion</NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink className="icon-panier">
+                                            <NavLink>
                                                 <img className="icon-nav" src={Panier} alt="Icon Panier"/>
-                                                <span className="counter-panier">
-                                                    <p>12</p>
-                                                </span>
                                             </NavLink>
                                         </NavItem>
                                     </div>
@@ -171,8 +168,7 @@ class Header extends React.Component{
                                                     Déconnexion
                                                 </DropdownItem>
 
-                                                {
-                                                    this.props.user.user_auth.isCustomer === false && this.props.user.user_auth.isSupplier === true ?
+                                                { this.props.user.user_auth.isCustomer === false && this.props.user.user_auth.isSupplier === true ?
                                                     <Link to="/supplier-orders" className="dropdown-item">Supplier orders</Link>
                                                     :
                                                     <Link to="/account" className="dropdown-item">Mon compte</Link>
@@ -184,7 +180,7 @@ class Header extends React.Component{
                                             <NavLink className="icon-panier">
                                                 <img className="icon-nav" src={Panier} alt="Icon Panier"/>
                                                 <span className="counter-panier">
-                                                    <p>12</p>
+                                                    <p>80</p>
                                                 </span>
                                             </NavLink>
                                         </NavItem>
