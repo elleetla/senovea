@@ -64,9 +64,11 @@ const store = createStore(
 class App extends React.Component {
 
     componentDidMount() { 
+
         // vérifier si user est en mémoire
         this.props.user_load_action();
-        this.props.call_products();
+        // this.props.call_products();
+
     }
 
     render(){

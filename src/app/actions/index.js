@@ -119,17 +119,20 @@ export function supplier_order_reject_v2( order_id, product_id, supplier_id, cus
 // PRODUCTS 
 
 // Action call product
-export function call_product() {
+export function call_product( user_arrondissement ) {
+
+    console.log('ok call product');
+    console.log(user_arrondissement);
 
     return function (dispatch) {
-
-        axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/products`, {})
+        axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/products/${user_arrondissement}`,{}, {})
             .then(function (response) {
                 console.log('ok product');
                 console.log(response);
+                console.log(typeof response.data.products_global);
                 dispatch({
                     "type":CALL_PRODUCTS,
-                    "payload": response.data.products_formated
+                    "payload": response.data.products_global
                 });
             }).catch(function (error) {
                 console.log('products ko')
@@ -434,7 +437,7 @@ export function user_auth_action( user_infos ){
                 if( urole === 'customer' || urole === 'administrator' ){
                     console.log('get customer')
                     // Get customer
-                    axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v1/customer/${uid}`)
+                    axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/customer/${uid}`)
                     .then(function (response){
 
                         console.log("ok user")
@@ -443,14 +446,15 @@ export function user_auth_action( user_infos ){
                         // user _ infos 
                         // manque isValidated
                         let user_payload =  {
-                            'user_id':response.data.id,
+                            'user_id':response.data.user_id,
+                            'user_arrondissement':response.data.user_arrondissement,
                             'user_role':'customer',
-                            'user_email':response.data.email,
-                            'user_name':response.data.username,
-                            'user_first_name':response.data.first_name,
-                            'user_last_name':response.data.last_name,
-                            "user_avatar_url": response.data.avatar_url,
-                            "user_orders_count": response.data.orders_count,
+                            'user_email':response.data.user_email,
+                            'user_name':response.data.user_name,
+                            'user_first_name':response.data.user_first_name,
+                            'user_last_name':response.data.user_last_name,
+                            //"user_avatar_url": response.data.avatar_url,
+                            //"user_orders_count": response.data.orders_count,
                             'user_auth':{
 
                                 'auth_token':auth_token,
@@ -460,7 +464,7 @@ export function user_auth_action( user_infos ){
                                 'isCustomer':true
 
                             },
-                            'user_billing':{
+                            /*'user_billing':{
                                 "first_name": response.data.billing.first_name,
                                 "last_name": response.data.billing.last_name,
                                 "company": response.data.billing.company,
@@ -485,7 +489,7 @@ export function user_auth_action( user_infos ){
                                 "country": response.data.shipping.country,
                             },
                             "isPayingCustomer": response.data.is_paying_customer,
-                            'isRegistered':true
+                            'isRegistered':true*/
                         }
 
                         dispatch({
