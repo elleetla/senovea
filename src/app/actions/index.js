@@ -4,17 +4,17 @@ import { WORDPRESS_API_BASE_URL } from '../../../config/config-api'
 // ACTIONS TYPES 
 
 // user actions types //
-export const USER_LOAD                = 'USER_LOAD'
-export const USER_REGISTER            = 'USER_REGISTER'
-export const USER_AUTH                = 'USER_AUTH'
-export const USER_UPDATE              = 'USER_UPDATE'
-export const SUPPLIER_ORDER_ACCEPT    = 'SUPPLIER_ORDER_ACCEPT'
-export const SUPPLIER_ORDER_REJECT    = 'SUPPLIER_ORDER_REJECT'
-export const CALL_PRODUCTS            = 'CALL_PRODUCTS'
-export const ORDER_PRODUCT            = 'ORDER_PRODUCT'
+export const USER_LOAD                = 'USER_LOAD';
+export const USER_REGISTER            = 'USER_REGISTER';
+export const USER_AUTH                = 'USER_AUTH';
+export const USER_UPDATE              = 'USER_UPDATE';
+export const SUPPLIER_ORDER_ACCEPT    = 'SUPPLIER_ORDER_ACCEPT';
+export const SUPPLIER_ORDER_REJECT    = 'SUPPLIER_ORDER_REJECT';
+export const CALL_PRODUCTS            = 'CALL_PRODUCTS';
+export const ORDER_PRODUCT            = 'ORDER_PRODUCT';
 
-export const SUPPLIER_ORDER_ACCEPT_V2 = 'SUPPLIER_ORDER_ACCEPT_V2'
-export const SUPPLIER_ORDER_REJECT_V2 = 'SUPPLIER_ORDER_REJECT_V2'
+export const SUPPLIER_ORDER_ACCEPT_V2 = 'SUPPLIER_ORDER_ACCEPT_V2';
+export const SUPPLIER_ORDER_REJECT_V2 = 'SUPPLIER_ORDER_REJECT_V2';
 
 // ACTIONS CREATORS
 
@@ -123,23 +123,18 @@ export function call_product() {
 
     return function (dispatch) {
 
-        axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/products`, {}, {})
+        axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/products`, {})
             .then(function (response) {
-
                 console.log('ok product');
                 console.log(response);
                 dispatch({
                     "type":CALL_PRODUCTS,
                     "payload": response.data.products_formated
                 });
-
             }).catch(function (error) {
-
                 console.log('products ko')
                 console.log(error.message)
-
             });
-
     }
 
 }

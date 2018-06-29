@@ -29,6 +29,8 @@
 
 ### SENOVEA React - Redux SPA frontend instructions:
 
+    senovea-prod.surge.sh
+
     1. clone 
     2. npm install
     3. edit config/config-api.js

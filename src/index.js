@@ -40,6 +40,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import './app.css';
 
 import Filters from './app/containers/Filters/Filters';
+import CreatePanier from './app/containers/Create-panier/Create-panier';
 import Banner from './app/containers/Banner/Banner';
 import Footer from './app/components/Footer/Footer';
 
@@ -74,10 +75,8 @@ class App extends React.Component {
         return(
                    <BrowserRouter>
                         <div>
-                        
                             <AppNav/>
                             <Banner/>
-                            <Filters/>
                             <Switch>
 
                                 <Route exact path="/" component={Home} />

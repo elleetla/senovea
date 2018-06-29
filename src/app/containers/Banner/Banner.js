@@ -5,7 +5,7 @@ const Banner = () => {
     return(
         <section id="banner-home">
             <h1>
-                Votre centrale d'achats public <br/>
+                Votre centrale d'achat public <br/>
                 dédiée à l'ingénierie et aux travaux
             </h1>
         </section>

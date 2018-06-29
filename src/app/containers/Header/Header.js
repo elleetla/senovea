@@ -12,6 +12,7 @@ import Register from '../../screens/register'
 // import css
 import './Header.css';
 import Logo from '../../assets/img/logo.svg';
+import Panier from '../../assets/img/icon-panier.svg';
 
 import {
     Button, Modal, ModalHeader, ModalBody, ModalFooter,
@@ -117,66 +118,16 @@ class Header extends React.Component{
 
         return(
             <div>
-            {/*
-            <header id="header-app">
-                <Navbar light expand="md">
-                    <Link to="/" className="navbar-brand"><img id="logo-app" src={Logo} alt=""/></Link>
-                    <NavbarToggler onClick={this.toggle} />
-                    <Collapse isOpen={this.state.isOpen} navbar>
-                        <Nav navbar>
-                            <NavItem>
-                                <Link to="/" className="nav-link">Accueil</Link>
-                            </NavItem>
-                            <NavItem>
-                                <Link to="/about" className="nav-link">Présentation</Link>
-                            </NavItem>
-                            <NavItem>
-                                <Link to="/users" className="nav-link">Acheteurs</Link>
-                            </NavItem>
-                            <NavItem>
-                                <Link to="/suppliers" className="nav-link">Prestataires</Link>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href="javascript:void(0)">Téléchargement</NavLink>
-                            </NavItem>
-                        </Nav>
-                        <Nav className="ml-auto" navbar>
-                            { this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false ?
-                                <div>
-                                    <NavItem>
-                                        <Link to="/register" className="nav-link">Inscription</Link>
-                                    </NavItem>
-                                    <NavItem>
-                                        <Link to="/login" className="nav-link">Connexion</Link>
-                                    </NavItem>
-                                </div>
-                                :
-                                <div>
-                                    <NavItem>
-                                        <NavLink href="javascript:void(0)" onClick={this.handleLogOut}>Déconnexion</NavLink>
-                                    </NavItem>
-                                </div>
-
-                            }
-                        </Nav>
-                        <Nav>
-                            <CustomerMenu/>
-                            <SupplierMenu/>
-                        </Nav>
-                    </Collapse>
-                </Navbar>
-            </header>
-            */}
                 <header id="header-app">
                     <Navbar light expand="md">
                         <Link to="/" className="navbar-brand">
-                            <img id="logo-app" src={Logo} alt=""/>
+                            <img id="logo-app" src={Logo} alt="Logo Centralis"/>
                         </Link>
                         <NavbarToggler onClick={this.toggle} />
                         <Collapse isOpen={this.state.isOpen} navbar>
                             <Nav navbar>
                                 <NavItem>
-                                    <Link to="/" className="nav-link">Accueil</Link>
+                                    <Link to="/" className="nav-link">Catalogue</Link>
                                 </NavItem>
                                 <NavItem>
                                     <Link to="/about" className="nav-link">Présentation</Link>
@@ -188,20 +139,22 @@ class Header extends React.Component{
                                     <Link to="/suppliers" className="nav-link">Prestataires</Link>
                                 </NavItem>
                                 <NavItem>
-                                    <NavLink href="#/telechargement">Téléchargement</NavLink>
+                                    <Link to="/telechargement" className="nav-link">Téléchargement</Link>
                                 </NavItem>
                             </Nav>
                             <Nav className="ml-auto" navbar>
                                 { this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false ?
                                     <div>
                                         <NavItem>
-                                            <NavLink onClick={this.toogleModalRegistration}>Inscription</NavLink>
+                                            <NavLink onClick={this.toogleModalRegistration} className="nav-link">Inscription</NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink onClick={this.toogleModalConnect}>Connexion</NavLink>
+                                            <NavLink onClick={this.toogleModalConnect} className="nav-link">Connexion</NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink href="javascript:void(0)" onClick={() => {alert("test")}}>Mes paniers</NavLink>
+                                            <NavLink>
+                                                <img className="icon-nav" src={Panier} alt="Icon Panier"/>
+                                            </NavLink>
                                         </NavItem>
                                     </div>
                                     :
@@ -215,40 +168,31 @@ class Header extends React.Component{
                                                     Déconnexion
                                                 </DropdownItem>
 
-                                                {
-                                                    this.props.user.user_auth.isCustomer === false && this.props.user.user_auth.isSupplier === true ?
+                                                { this.props.user.user_auth.isCustomer === false && this.props.user.user_auth.isSupplier === true ?
                                                     <Link to="/supplier-orders" className="dropdown-item">Supplier orders</Link>
                                                     :
                                                     <Link to="/account" className="dropdown-item">Mon compte</Link>
                                                 }
 
-                                                    {/*<DropdownItem href="javascript:void(0)" onClick={this.handleLogOut}>
-                                                        Déconnexion
-                                                    </DropdownItem>
-                                                    <DropdownItem href="#/account">
-                                                        Mon compte
-                                                    </DropdownItem>*/}
-
                                             </DropdownMenu>
                                         </UncontrolledDropdown>
                                         <NavItem>
-                                            <NavLink onClick={ () => {alert("test")} }>Mes paniers</NavLink>
+                                            <NavLink className="icon-panier">
+                                                <img className="icon-nav" src={Panier} alt="Icon Panier"/>
+                                                <span className="counter-panier">
+                                                    <p>80</p>
+                                                </span>
+                                            </NavLink>
                                         </NavItem>
                                     </div>
 
                                 }
                             </Nav>
-                            {/*}
-                            <Nav>
-                                <CustomerMenu/>
-                                <SupplierMenu/>
-                            </Nav>
-                            */}
                         </Collapse>
                     </Navbar>
                 </header>
 
-                <Modal isOpen={this.props.user.user_auth.auth_token === '' ? this.state.modalConnect : this.state.modalConnect = false} toggle={this.toogleModalConnect} className={this.props.className}>
+                <Modal id="modal-login" isOpen={this.props.user.user_auth.auth_token === '' ? this.state.modalConnect : this.state.modalConnect = false} toggle={this.toogleModalConnect} className={this.props.className}>
                     <ModalHeader toggle={this.toogleModalConnect}>Connectez-vous !</ModalHeader>
                     <ModalBody>
                         <p className="text-center">Site web privé, réservé aux adhérents, <br/>veuillez vous connecter pour effectuer une recherche</p>

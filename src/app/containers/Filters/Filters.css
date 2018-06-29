@@ -5,7 +5,7 @@
 }
 
 #Filters .form-control {
-    padding: 0.9rem .8rem;
+    padding: 0.9rem 3rem 0.9rem 0.8rem;
     font-size: 14px;
     line-height: 1.5;
     border: 0px;
@@ -59,3 +59,14 @@ ul.category-filter li a:hover{
     top: 0;
 }
 
+.icon-search img {
+    width: 18px;
+    height: auto;
+}
+
+.icon-search {
+    position: absolute;
+    top: 50%;
+    transform: translate(0%, -60%);
+    right: 30px;
+}

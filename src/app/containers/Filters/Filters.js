@@ -5,6 +5,8 @@ import './Filters.css';
 import { Container, Row, Col, FormGroup, Input } from 'reactstrap';
 import {connect} from "react-redux";
 
+import iconSearch from '../../assets/img/icon_search.svg';
+
 class Filters extends Component{
     render(){
         return(
@@ -17,17 +19,23 @@ class Filters extends Component{
                             <Col lg="3">
                                 <ul className="category-filter">
                                     <li><a onClick={this.filterTest.bind(this)}>Travaux</a></li>
-                                    <li><a onClick={this.filterTest.bind(this)}>Ingénieurie</a></li>
+                                    <li><a onClick={this.filterTest.bind(this)}>ingénierie</a></li>
                                 </ul>
                             </Col>
                             <Col lg="4">
                                 <FormGroup className="mb-0">
-                                    <Input type="email" name="email" placeholder="Recherchez une préstation, ex : Espace Vert" />
+                                    <Input type="email" name="email" placeholder="Saisir une préstation, ex : Espace Vert" />
+                                    <span className="icon-search">
+                                        <img src={iconSearch} alt="icon search filter"/>
+                                    </span>
                                 </FormGroup>
                             </Col>
                             <Col lg="3">
                                 <FormGroup className="mb-0">
                                     <Input type="email" name="email" placeholder="Référence article" />
+                                    <span className="icon-search">
+                                        <img src={iconSearch} alt="icon search filter"/>
+                                    </span>
                                 </FormGroup>
                             </Col>
                             <Col lg="2">
@@ -43,17 +51,23 @@ class Filters extends Component{
                             <Col lg="3">
                                 <ul className="category-filter">
                                     <li><a onClick={this.filterTest.bind(this)}>Travaux</a></li>
-                                    <li><a onClick={this.filterTest.bind(this)}>Ingénieurie</a></li>
+                                    <li><a onClick={this.filterTest.bind(this)}>ingénierie</a></li>
                                 </ul>
                             </Col>
                             <Col lg="4">
                                 <FormGroup className="mb-0">
-                                    <Input type="email" name="email" placeholder="Recherchez une préstation, ex : Espace Vert" />
+                                    <Input type="email" name="email" placeholder="Saisir une préstation, ex : Espace Vert" />
+                                    <span className="icon-search">
+                                        <img src={iconSearch} alt="icon search filter"/>
+                                    </span>
                                 </FormGroup>
                             </Col>
                             <Col lg="3">
                                 <FormGroup className="mb-0">
                                     <Input type="email" name="email" placeholder="Référence article" />
+                                    <span className="icon-search">
+                                        <img src={iconSearch} alt="icon search filter"/>
+                                    </span>
                                 </FormGroup>
                             </Col>
                             <Col lg="2">

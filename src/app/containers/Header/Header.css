@@ -8,6 +8,8 @@
 #header-app .navbar .navbar-nav li.nav-item {
     display: inline-block;
     font-size: 14px;
+    cursor: pointer;
+    position: relative;
 }
 
 #header-app .navbar{
@@ -15,6 +17,37 @@
 }
 
 #logo-app {
-    width: 138px;
+    width: 130px;
     height: auto;
+}
+
+#header-app .navbar .navbar-nav li.nav-item .icon-nav {
+    width: 22px;
+    height: auto;
+}
+
+.counter-panier {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #24dbcf;
+    height: 18px;
+    color: #ffffff;
+    font-size: 9px;
+    line-height: 19px;
+    width: 18px;
+    text-align: center;
+    border-radius: 70px;
+}
+
+/*
+modal
+*/
+
+#modal-login{
+    -webkit-transform: translate(0,-50%);
+    -o-transform: translate(0,-50%);
+    transform: translate(0,-50%);
+    top: 50%;
+    margin: 0 auto;
 }
