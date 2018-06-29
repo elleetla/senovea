@@ -1,6 +1,9 @@
 import axios from 'axios'
 import { WORDPRESS_API_BASE_URL } from '../../../config/config-api'
 
+console.log("API BASE");
+console.log(WORDPRESS_API_BASE_URL);
+
 // ACTIONS TYPES 
 
 // user actions types //
