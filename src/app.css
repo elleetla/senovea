@@ -44,13 +44,25 @@ b {
     width: 26px;
 }
 
+.preloader-connect-user{
+    display: inline-block;
+}
+
+.preloader-connect-user img{
+    fill: #ffffff;
+    margin-left: 5px;
+    animation: preloaderAnimate 1s linear infinite;
+    height: auto;
+    width: 20px;
+}
+
 @keyframes preloaderAnimate {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }
 }
 
 .article-bloc {
-    padding: 10px 10px 10px 20px;
+    padding: 10px 20px;
     display: block;
     background: #ffffff;
     border-radius: 4px;
@@ -77,8 +89,13 @@ b {
     border: 0px;
 }
 
-.card-body{
+.card-body {
     padding: 0;
+    border-top: 1px solid #D9E1E8;
+    padding-top: 17px;
+    padding-bottom: 10px;
+    margin-top: 10px;
+    line-height: 18px;
 }
 
 .btn-green{

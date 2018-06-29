@@ -13,6 +13,8 @@ import {
 
 import LoadingSvg from '../assets/img/icon-preloader.svg';
 import PictoUser from '../assets/img/picto_user.svg';
+import Filters from '../containers/Filters/Filters';
+import CreatePanier from '../containers/Create-panier/Create-panier';
 
 class Home extends Component{
     constructor() {
@@ -29,14 +31,13 @@ class Home extends Component{
 
     render() {
 
-        console.log(this);
-
         const oldProducts = this.props.products;
         const newProducts = oldProducts;
 
         if(this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false){
             return(
                 <div>
+                    <Filters/>
                     <Container>
                         <Row className="mt-5 mb-5">
                             <Col sm="12" md={{ size: 6, offset: 3 }}>
@@ -72,6 +73,8 @@ class Home extends Component{
                 if(this.props.user){
                     return(
                         <div>
+                            <Filters/>
+                            <CreatePanier/>
                             <Container className="mb-5">
                                 <Row>
                                     { newProducts.map((data) => {

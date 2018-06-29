@@ -43,12 +43,10 @@ class Account extends React.Component{
     }
 
     handleSubmit(formProps){
-
         formProps.update_id = this.props.user.user_id 
         this.props.user_update_action(formProps)
         console.log("submit")
         console.log(formProps)
-        
     }
 
     render(){
@@ -119,90 +117,6 @@ class Account extends React.Component{
                                     placeholder="User Email"
                                 />
                                 </div>
-
-                                {/*
-
-                                <div style={{marginBottom:'30px'}}>
-                                <Field
-                                    component={renderField}
-                                    id="update_name"
-                                    name="update_name"
-                                    type="text"
-                                    label="User Name"
-                                    placeholder="User Name"
-                                />
-                                </div>
-                                */}
-
-                              {/*
-                                <div style={{marginBottom:'30px'}}>
-                                <Field
-                                    name="update_last_name"
-                                    id="update_last_name"
-                                    component={renderTextField}
-                                    type="text"
-                                    placeholder="User Last Name"
-                                    defaultValue={this.props.user.last_name}
-                                />
-                                </div>
-
-                               
-                                <Typography variant="body2" color="inherit">
-                                    Address
-                                </Typography>
-
-                               
-                                 <div style={{marginBottom:'15px'}}>
-                                <Field
-                                    name="update_user_address"
-                                    id="update_user_address"
-                                    component={renderTextField}
-                                    type="text"
-                                    placeholder="User Address"
-                                />
-                                </div>
-
-                                 <div style={{marginBottom:'15px'}}>
-                                <Field
-                                    name="update_user_city"
-                                    id="update_user_city"
-                                    component={renderTextField}
-                                    type="text"
-                                    placeholder="User City"
-                                />
-                                </div>
-
-                            <div style={{marginBottom:'15px'}}>
-                                <Field
-                                    name="update_user_region"
-                                    id="update_user_region"
-                                    component={renderTextField}
-                                    type="text"
-                                    placeholder="User State/Region"
-                                />
-                                </div>
-
-                                <div style={{marginBottom:'15px'}}>
-                                <Field
-                                    name="update_user_postcode"
-                                    id="update_user_postcode"
-                                    component={renderTextField}
-                                    type="text"
-                                    placeholder="User Postcode"
-                                />
-                                </div>
-
-                                <div style={{marginBottom:'30px'}}>
-                                <Field
-                                    name="update_user_country"
-                                    id="update_user_country"
-                                    component={renderTextField}
-                                    type="text"
-                                    placeholder="User Country"
-                                />
-                                </div>
-                                */}
-
                                 <div>
                                     <Button type="submit" variant="contained" color="secondary">
                                         Update user informations

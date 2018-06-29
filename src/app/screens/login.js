@@ -6,6 +6,7 @@ import { Field, reduxForm }                 from 'redux-form'
 // import style
 import TextField from '@material-ui/core/TextField';
 import { Col, FormGroup } from 'reactstrap';
+import LoadingSvg from '../assets/img/icon-preloader-connect.svg';
 
 // user auth action 
 import { user_auth_action } from '../actions/index' ;
@@ -16,21 +17,27 @@ const renderTextField = ( field ) => (
 );
 
 class LogIn extends React.Component{
+
     constructor(props){
         super(props);
-        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this);
+        this.state = {
+            loadingBtn : false
+        };
     }
 
-    handleSubmit(form_props){
+    clickLoadingBtn(){
+        this.setState({
+            loadingBtn : true
+        });
+    };
 
+    handleSubmit(form_props){
         // Calling login action
         this.props.user_auth_action(form_props)
-
     }
 
     render(){
-        console.log(this.props)
-        //console.log(this.state)
         return(
             <div>
                 <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
@@ -59,8 +66,13 @@ class LogIn extends React.Component{
                     </Col>
                     <br/>
                     <div>
-                        <button id="btn-connect-modal" type="submit" className="btn-green" onClick={this.LoadingModal}>
+                        <button id="btn-connect-modal" type="submit" className="btn-green" onClick={this.clickLoadingBtn.bind(this)}>
                             Se connecter
+                            { this.state.loadingBtn === true ?
+                                <div className="preloader-connect-user"><img src={LoadingSvg}/></div>
+                                :
+                                null
+                            }
                         </button>
                     </div>
                 </form>
@@ -68,8 +80,6 @@ class LogIn extends React.Component{
         )
     }
 }
-
-
 
 function mapStateToProps(state){
     return {

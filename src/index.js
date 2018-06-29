@@ -75,11 +75,8 @@ class App extends React.Component {
         return(
                     <BrowserRouter>
                         <div>
-                        
                             <AppNav/>
                             <Banner/>
-                            <Filters/>
-                            <CreatePanier/>
                             <Switch>
 
                                 <Route exact path="/" component={Home} />
