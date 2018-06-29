@@ -23,11 +23,8 @@ class Home extends Component{
         };
     }
 
-    toggle(e){
-        //this.setState({ collapse: !this.state.collapse });
-        let parent = e.target.parentElement;
-        let collapse = parent.querySelector('.collapse');
-        collapse.classList.toggle('show');
+    toggle(){
+        this.setState({ collapse: !this.state.collapse });
     }
 
     render() {
@@ -35,7 +32,6 @@ class Home extends Component{
         console.log(this);
 
         const oldProducts = this.props.products;
-        //const newProducts = [...oldProducts];
         const newProducts = oldProducts;
 
         if(this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false){
@@ -73,38 +69,48 @@ class Home extends Component{
                     </div>
                 )
             } else {
-                return(
-                    <div>
-                        <Container className="mb-5 mt-5">
-                            <Row>
-                                { newProducts.map((data) => {
-                                    return(
-                                        <Col xs="12" key={data.id} id={data.id} className="">
-                                            <div className="article-bloc">
-                                                <Row>
-                                                    <Col xs="6">
-                                                        <h5>{data.name}</h5>
-                                                        <p>{data.categories[0]}</p>
-                                                    </Col>
-                                                    <Col xs="6" className="text-right">
-                                                        <Button style={{marginBottom: "20px", marginRight: "10px"}} className="btn-white">Ajouter aux paniers</Button>
-                                                        <Button color="primary" style={{marginBottom: "20px", marginRight: "10px"}} className="btn-white">Détails</Button>
-                                                    </Col>
-                                                </Row>
-                                                <Collapse>
-                                                    <Card>
-                                                        <CardBody dangerouslySetInnerHTML={{__html: data.description}}>
-                                                        </CardBody>
-                                                    </Card>
-                                                </Collapse>
-                                            </div>
-                                        </Col>
-                                    )
-                                })}
-                            </Row>
-                        </Container>
-                    </div>
-                )
+                if(this.props.user){
+                    return(
+                        <div>
+                            <Container className="mb-5 mt-5">
+                                <Row>
+                                    { newProducts.map((data) => {
+                                        return(
+                                            <Col xs="12" key={data.id} id={data.id} className="">
+                                                <div className="article-bloc">
+                                                    <Row>
+                                                        <Col xs="2">
+                                                            <p>{data.categories[0]}</p>
+                                                        </Col>
+                                                        <Col xs="3">
+                                                            <p>{data.name}</p>
+                                                        </Col>
+                                                        <Col xs="2">
+                                                            <p><strong>Lot :</strong> {data.attributes[1].attr_value}</p>
+                                                        </Col>
+                                                        <Col xs="2">
+                                                            <p>{data.categories[0]}</p>
+                                                        </Col>
+                                                        <Col xs="3" className="text-right">
+                                                            <Button style={{marginRight: "10px"}} className="btn-white">Ajouter aux paniers</Button>
+                                                            <Button onClick={this.toggle} className="btn-white">Détails</Button>
+                                                        </Col>
+                                                    </Row>
+                                                    <Collapse isOpen={this.state.collapse}>
+                                                        <Card>
+                                                            <CardBody dangerouslySetInnerHTML={{__html: data.description}}>
+                                                            </CardBody>
+                                                        </Card>
+                                                    </Collapse>
+                                                </div>
+                                            </Col>
+                                        )
+                                    })}
+                                </Row>
+                            </Container>
+                        </div>
+                    )
+                }
             }
         }
     }

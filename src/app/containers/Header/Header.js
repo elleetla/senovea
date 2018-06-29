@@ -118,56 +118,6 @@ class Header extends React.Component{
 
         return(
             <div>
-            {/*
-            <header id="header-app">
-                <Navbar light expand="md">
-                    <Link to="/" className="navbar-brand"><img id="logo-app" src={Logo} alt=""/></Link>
-                    <NavbarToggler onClick={this.toggle} />
-                    <Collapse isOpen={this.state.isOpen} navbar>
-                        <Nav navbar>
-                            <NavItem>
-                                <Link to="/" className="nav-link">Accueil</Link>
-                            </NavItem>
-                            <NavItem>
-                                <Link to="/about" className="nav-link">Présentation</Link>
-                            </NavItem>
-                            <NavItem>
-                                <Link to="/users" className="nav-link">Acheteurs</Link>
-                            </NavItem>
-                            <NavItem>
-                                <Link to="/suppliers" className="nav-link">Prestataires</Link>
-                            </NavItem>
-                            <NavItem>
-                                <NavLink href="javascript:void(0)">Téléchargement</NavLink>
-                            </NavItem>
-                        </Nav>
-                        <Nav className="ml-auto" navbar>
-                            { this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false ?
-                                <div>
-                                    <NavItem>
-                                        <Link to="/register" className="nav-link">Inscription</Link>
-                                    </NavItem>
-                                    <NavItem>
-                                        <Link to="/login" className="nav-link">Connexion</Link>
-                                    </NavItem>
-                                </div>
-                                :
-                                <div>
-                                    <NavItem>
-                                        <NavLink href="javascript:void(0)" onClick={this.handleLogOut}>Déconnexion</NavLink>
-                                    </NavItem>
-                                </div>
-
-                            }
-                        </Nav>
-                        <Nav>
-                            <CustomerMenu/>
-                            <SupplierMenu/>
-                        </Nav>
-                    </Collapse>
-                </Navbar>
-            </header>
-            */}
                 <header id="header-app">
                     <Navbar light expand="md">
                         <Link to="/" className="navbar-brand">
@@ -202,8 +152,11 @@ class Header extends React.Component{
                                             <NavLink onClick={this.toogleModalConnect} className="nav-link">Connexion</NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink>
+                                            <NavLink className="icon-panier">
                                                 <img className="icon-nav" src={Panier} alt="Icon Panier"/>
+                                                <span className="counter-panier">
+                                                    <p>12</p>
+                                                </span>
                                             </NavLink>
                                         </NavItem>
                                     </div>
@@ -225,30 +178,20 @@ class Header extends React.Component{
                                                     <Link to="/account" className="dropdown-item">Mon compte</Link>
                                                 }
 
-                                                    {/*<DropdownItem href="javascript:void(0)" onClick={this.handleLogOut}>
-                                                        Déconnexion
-                                                    </DropdownItem>
-                                                    <DropdownItem href="#/account">
-                                                        Mon compte
-                                                    </DropdownItem>*/}
-
                                             </DropdownMenu>
                                         </UncontrolledDropdown>
                                         <NavItem>
-                                            <NavLink onClick={ () => {alert("test")} }>
+                                            <NavLink className="icon-panier">
                                                 <img className="icon-nav" src={Panier} alt="Icon Panier"/>
+                                                <span className="counter-panier">
+                                                    <p>12</p>
+                                                </span>
                                             </NavLink>
                                         </NavItem>
                                     </div>
 
                                 }
                             </Nav>
-                            {/*}
-                            <Nav>
-                                <CustomerMenu/>
-                                <SupplierMenu/>
-                            </Nav>
-                            */}
                         </Collapse>
                     </Navbar>
                 </header>

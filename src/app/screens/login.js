@@ -63,7 +63,6 @@ class LogIn extends React.Component{
                             Se connecter
                         </button>
                     </div>
-                    <p>Vous n'avez pas de compte ?</p>
                 </form>
             </div>
         )

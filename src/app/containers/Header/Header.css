@@ -9,6 +9,7 @@
     display: inline-block;
     font-size: 14px;
     cursor: pointer;
+    position: relative;
 }
 
 #header-app .navbar{
@@ -24,3 +25,18 @@
     width: 20px;
     height: auto;
 }
+
+.counter-panier {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #24dbcf;
+    height: 16px;
+    color: #ffffff;
+    font-size: 8px;
+    line-height: 17px;
+    width: 16px;
+    text-align: center;
+    border-radius: 70px;
+}
+
