@@ -1,5 +1,9 @@
 /* Style global */
 
+html, body, #root{
+    height: 100%;
+}
+
 body {
     /*background: linear-gradient(rgba(234, 239, 245, 100), rgba(248, 249, 250, 50));*/
     background-color: rgba(234, 239, 245, 100);

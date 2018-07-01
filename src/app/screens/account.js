@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom'
 import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
-import { Redirect } from 'react-router-dom'
+import { Redirect, Link } from 'react-router-dom'
 
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
@@ -15,6 +15,8 @@ import StepLabel from '@material-ui/core/StepLabel';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
+import { Container, Row, Col, ListGroup, ListGroupItem } from 'reactstrap';
+
 // user auth action 
 import { user_update_action } from '../actions/index';
 
@@ -24,7 +26,7 @@ const renderTextField = ( field ) => (
 )
 
 const renderField = (props) => {
-    console.log(props)
+    //console.log(props)
     return (
       <div className="">
         {/*<input type="text" {...props} {...props.input}/>*/}
@@ -45,14 +47,14 @@ class Account extends React.Component{
     handleSubmit(formProps){
         formProps.update_id = this.props.user.user_id 
         this.props.user_update_action(formProps)
-        console.log("submit")
-        console.log(formProps)
+        //console.log("submit")
+        //console.log(formProps)
     }
 
     render(){
         // Account data 
 
-        console.log(this)
+        //console.log(this)
         const account_data = {
             'update_user_email':this.props.user.user_email,
             'update_user_name':this.props.user.user_name,
@@ -60,90 +62,27 @@ class Account extends React.Component{
         const activeStep = this.props.user.user_auth.isValidated ? 2 : 1
 
         return(
-            
-                <div style={{padding:'0px'}}>
 
-                        <Paper elevation={1} style={{marginBottom:'15px'}}>
-                        <div style={{padding:'15px 30px'}}>
-                        <Typography variant="headline" color="inherit">
-                            Customer Account
-                        </Typography>
-                        </div>
-                        </Paper>
+            <Container style={{margin:"100px auto"}}>
 
-                        <Paper elevation={1} style={{marginBottom:'15px'}}>
-                        <div style={{padding:'15px 30px'}}>
-                        <Typography variant="subheading" color="inherit">
-                            User Validation
-                        </Typography>
-                        </div>
-                        <Divider />
-                        <div style={{padding:'30px'}}>
-                        <Stepper style={{padding:'0px'}} activeStep={activeStep} orientation="vertical">
-                            <Step key={1}>
-                                <StepLabel>Upload your document to the senovea-backend.</StepLabel>
-                            </Step>
-                            <Step key={2}>
-                                <StepLabel>Have your account validated by our team.</StepLabel>
-                            </Step>
-                        </Stepper>
-                        </div>
-                        </Paper>
+                <Row>
 
+                    <Col md={4}> 
+                        <ListGroup>
+                            <ListGroupItem><Link to="/account/informations">Account Informations</Link></ListGroupItem>
+                            <ListGroupItem><Link to="/account/paniers">Account Paniers</Link></ListGroupItem>
+                        </ListGroup>
+                    </Col>
+                    <Col md={8}> 
 
-                        <Paper elevation={1} style={{marginBottom:'15px'}}>
-                        <div style={{padding:'15px 30px'}}>
-                        <Typography variant="subheading" color="inherit">
-                            User Account Informations
-                        </Typography>
-                        </div>
-                        <Divider />
-                        <div style={{padding:'30px'}}>
+                        {this.props.children}
 
-                            <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+                    </Col>
 
+                </Row>
 
-                                <Typography variant="body2" color="inherit">
-                                    General
-                                </Typography>
+            </Container>
 
-                                <div style={{marginBottom:'30px'}}>
-                                <Field
-                                    component={renderField}
-                                    id="update_email"
-                                    name="update_email"
-                                    type="text"
-                                    label="User Email"
-                                    placeholder="User Email"
-                                />
-                                </div>
-                                <div>
-                                    <Button type="submit" variant="contained" color="secondary">
-                                        Update user informations
-                                    </Button>
-                                </div>
-
-                            </form>
-
-                        </div>
-                        </Paper>
-
-                        <Paper elevation={1} style={{marginBottom:'0'}}>
-                        <div style={{padding:'15px 30px'}}>
-                        <Typography variant="subheading" color="inherit">
-                            User Orders Informations
-                        </Typography>
-                        </div>
-                        <Divider />
-                        <div style={{padding:'15px 30px'}}>
-                        <Typography variant="body2" color="inherit">
-                            coming soon
-                        </Typography> 
-                        </div>
-                        </Paper>
-
-
-                </div>
         )
     }
 

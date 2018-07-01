@@ -10,6 +10,9 @@ import LoadingSvg from '../assets/img/icon-preloader-connect.svg';
 
 // user auth action 
 import { user_auth_action } from '../actions/index' ;
+import { call_product } from '../actions/index' ;
+import { load_panier } from '../actions/index' ;
+import { update_settings_panier } from '../actions/index';
 
 // Fields
 const renderTextField = ( field ) => (
@@ -34,7 +37,33 @@ class LogIn extends React.Component{
 
     handleSubmit(form_props){
         // Calling login action
-        this.props.user_auth_action(form_props)
+        this.props.user_auth_action(form_props,(status)=>{
+            //console.log(status)
+
+            if( status === "success" ){
+            // Si c'est le cas on load les paniers
+            // & On load les products 
+                //console.log(this.props)
+                this.props.call_product(this.props.user.user_arrondissement)
+                this.props.load_panier(this.props.user.user_id, (panier_status)=>{
+
+                    // On update le panier actif 
+                    // Par le dernier panier updaté
+                    if( panier_status === "success" ){
+                        //console.log('les paniers')
+                        //console.log(this.props.paniers)
+
+                        let new_panier_settings = _.cloneDeep(this.props.paniersSettings)
+                        new_panier_settings.active_panier_id = _.findLastKey(this.props.paniers)
+                        this.props.update_settings_panier(new_panier_settings);
+                    }
+
+                })
+
+            }
+
+        })
+
     }
 
     render(){
@@ -83,13 +112,19 @@ class LogIn extends React.Component{
 
 function mapStateToProps(state){
     return {
-        "user":state.user
+        "user":state.user,
+        "paniers":state.paniers,
+        "paniersSettings" : state.paniersSettings,
     }
 }
 
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
-        "user_auth_action":user_auth_action
+        "user_auth_action":user_auth_action,
+        "call_product":call_product,
+        "load_panier":load_panier,
+        "update_settings_panier":update_settings_panier
+
     }, dispatch)
 }
 

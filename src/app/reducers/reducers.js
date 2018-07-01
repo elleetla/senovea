@@ -10,9 +10,16 @@ import { SUPPLIER_ORDER_REJECT }          from '../actions/index'
 import { CALL_PRODUCTS }                  from "../actions/index"
 import { ORDER_PRODUCT }                  from "../actions/index"
 
-import { SUPPLIER_ORDER_ACCEPT_V2 }                  from "../actions/index"
-import { SUPPLIER_ORDER_REJECT_V2 }                  from "../actions/index"
+import { SUPPLIER_ORDER_ACCEPT_V2 } from "../actions/index"
+import { SUPPLIER_ORDER_REJECT_V2 } from "../actions/index"
 
+import { ADD_PANIER } from "../actions/index"
+import { LOAD_PANIER } from "../actions/index"
+import { DELETE_PANIER } from "../actions/index"
+import { UPDATE_PANIER } from "../actions/index"
+import { UPDATE_SETTINGS_PANIER } from "../actions/index"
+
+import { UPDATE_APP_SETTINGS } from "../actions/index"
 
 import _ from 'lodash'
 
@@ -120,11 +127,11 @@ const USER_INITIAL_STATE = {
 function productReducer(state = [], action) {
     switch (action.type){
         case ORDER_PRODUCT:
-            console.log("orderproductreducer")
+            console.log("Order Product Reducer")
             return state;
         case CALL_PRODUCTS:
-            console.log("callproductreducer")
-            console.log(action.payload)
+            console.log("Call Product Reducer")
+            //console.log(action.payload)
             return action.payload
     }
     return state
@@ -134,14 +141,14 @@ function userReducer( state = USER_INITIAL_STATE , action ){
     switch (action.type) {
 
         case USER_LOAD: {
-            console.log('user load reducer')
+            console.log('User load reducer')
             //console.log(action.payload)
             return action.payload
             break;
         }
         case USER_REGISTER:{
-            console.log("user register reducer")
-            console.log(action.payload)
+            console.log("User register reducer")
+            //console.log(action.payload)
             return action.payload
             break;
         }
@@ -193,7 +200,7 @@ function userReducer( state = USER_INITIAL_STATE , action ){
 }
 
 function supplierReducer( state = {}, action ){
-    switch( action.payload ){
+    switch( action.type ){
         case SUPPLIER_ORDER_ACCEPT_V2 : {
             return action.payload
         }
@@ -205,10 +212,62 @@ function supplierReducer( state = {}, action ){
     }
 }
 
+function panierReducer( state = [], action ){
+    switch( action.type ){
+        case LOAD_PANIER:{
+            console.log("load panier reducer")
+            return action.payload
+        }
+
+        case ADD_PANIER:{
+            console.log('add panier reducer')
+            //console.log( action.payload)
+            return action.payload
+        }
+        case DELETE_PANIER:{
+            return state
+        }
+        case UPDATE_PANIER:{
+            return state
+        }
+        default:
+            return state
+    }
+}
+
+function panierSettingsReducer( state = { "active_panier_id":"" } , action ){
+    switch( action.type ){
+    case UPDATE_SETTINGS_PANIER:{
+        console.log('update panier settings reducer')
+        //console.log(action.payload)
+        return action.payload
+    }
+    default:
+        return state
+    }
+}
+
+function appSettingsReducer( state = { "globalLoading":true } , action ){
+    switch( action.type ){
+    case UPDATE_APP_SETTINGS:{
+        console.log('update app settings reducer')
+        return action.payload
+    }
+    default:
+        return state
+    }
+}
+
+
 export const rootReducers = combineReducers({
+
     "user"      :userReducer,
     //"supplier"  :supplierReducer,
     "form"      :formReducer,
     "products"  :productReducer,
-    "supplier"  :supplierReducer
+    "supplier"  :supplierReducer,
+    "paniers"   :panierReducer,
+    "paniersSettings" : panierSettingsReducer,
+    "appSettings": appSettingsReducer
+
 });

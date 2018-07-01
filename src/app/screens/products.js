@@ -32,16 +32,16 @@ class Products extends Component{
         this.toggle = this.toggle.bind(this);
     }
     componentDidMount( ){
-        console.log(this)
-        this.props.call_product(this.props.user.user_arrondissement);
+        //console.log(this)
+        //this.props.call_product(this.props.user.user_arrondissement);
     }
     toggle(){
         this.setState({ collapse: !this.state.collapse });
     }
     render() {
 
-        console.log("PRODUCTS")
-        console.log(this);
+        //console.log("PRODUCTS")
+        //console.log(this);
 
         return(
             <div>
@@ -62,8 +62,8 @@ class Products extends Component{
                                 <Row>
                                     { _.map(this.props.products, (categories_values, categories_keys) => {
 
-                                        console.log(categories_keys)
-                                        console.log(categories_values)
+                                        //console.log(categories_keys)
+                                        //console.log(categories_values)
 
                                         return(
                                             <Col xs="12" key={categories_keys} className="" style={{marginBottom:"50px"}}>
@@ -74,7 +74,7 @@ class Products extends Component{
                                                             <h2>Lot : {lots_keys}</h2>
                                                             <h3>Fournisseurs R1 du lot : {lots_values.lot_fournisseur_r1.user_email}</h3>
                                                             { _.map( lots_values.lot_products, ( prestations_values, prestations_keys ) =>{
-                                                                console.log(prestations_values)
+                                                                //console.log(prestations_values)
                                                                 return(
                                                                     <div key={prestations_keys} className="article-bloc">
                                                                         <Row>
