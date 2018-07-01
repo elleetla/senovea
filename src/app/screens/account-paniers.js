@@ -11,7 +11,11 @@ class AccountPaniers extends React.Component{
             <Account>
                 {
                     _.isEmpty(this.props.paniers) ? 
-                    <p>No Panier</p>:
+                    <div>
+                        <h3>Il n'y a aucun panier lié à votre compte</h3>
+                        <button>Créer un panier</button>
+                    </div>
+                    :
                     <p>Les Paniers</p>
                 }
             </Account>
@@ -30,5 +34,6 @@ function mapDispatchToProps(dispatch){
     return bindActionCreators({
     },dispatch)
 }
+
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountPaniers)

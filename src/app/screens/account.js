@@ -19,6 +19,7 @@ import { Container, Row, Col, ListGroup, ListGroupItem } from 'reactstrap';
 
 // user auth action 
 import { user_update_action } from '../actions/index';
+import { user_logout_action } from '../actions/index';
 
 // Fields
 const renderTextField = ( field ) => (
@@ -69,8 +70,12 @@ class Account extends React.Component{
 
                     <Col md={4}> 
                         <ListGroup>
+
                             <ListGroupItem><Link to="/account/informations">Account Informations</Link></ListGroupItem>
                             <ListGroupItem><Link to="/account/paniers">Account Paniers</Link></ListGroupItem>
+                            <ListGroupItem><a href="javascript:void(0)">Gestion du mot de passe</a></ListGroupItem>
+                            <ListGroupItem><a onClick={ this.props.user_logout_action } href="javascript:void(0)"> Déconnexion </a></ListGroupItem>
+
                         </ListGroup>
                     </Col>
                     <Col md={8}> 
@@ -100,7 +105,8 @@ function mapStateToProps( state ){
 
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
-        "user_update_action":user_update_action
+        "user_update_action":user_update_action,
+        "user_logout_action":user_logout_action
     }, dispatch)
 }
 

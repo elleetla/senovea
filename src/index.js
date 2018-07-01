@@ -175,7 +175,7 @@ class App extends React.Component {
                                     }
                                 }}/>
 
-                                {/*<Route path="/login" render={ () => {
+                                <Route path="/login" render={ () => {
                                     if(this.props.user.user_auth.isAuth === true){
                                         return <Redirect to="/"/>
                                     }else{
@@ -185,11 +185,28 @@ class App extends React.Component {
                                             </div>
                                         )
                                     }
-                                }}/>*/}
-                                <Route path="/login" component={LogIn} />
+                                }}/>
+                                {/*<Route path="/login" component={LogIn} />*/}
 
+                                {/*
                                 <Route path="/account/informations" component={AccountInformations}/>
                                 <Route path="/account/paniers" component={AccountPaniers}/>
+                                */}
+
+                                <Route path="/account/paniers" render={ () => {
+                                    if(this.props.user.user_auth.isAuth === false ){
+                                        return <Redirect to="/login"/>
+                                    }else{
+                                        return <AccountPaniers/>
+                                    }
+                                }}/>
+                                <Route path="/account/informations" render={ () => {
+                                    if(this.props.user.user_auth.isAuth === false ){
+                                        return <Redirect to="/login"/>
+                                    }else{
+                                        return <AccountInformations/>
+                                    }
+                                }}/>
                                 
                                 <Route path="/account" render={ () => {
                                     if(this.props.user.user_auth.isAuth === false ){
