@@ -1,18 +1,30 @@
-import React from 'react'
+import React, {Component} from 'react'
+import { connect } from 'react-redux';
 
-// import grid Bootstrap
-import { Container, Row, Col } from 'reactstrap';
+// import component elle&la
+import BlocConnect from '../components/bloc-connect/bloc-connect';
 
-export class AllSuppliers extends React.Component{
+export class AllSuppliers extends Component{
     render(){
         return(
             <div>
-                <Container>
-                    <Row>
-                        <Col xs="12">Page : Fournisseurs</Col>
-                    </Row>
-                </Container>
+                { this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false ?
+                    <BlocConnect/>
+                    :
+                    null
+                }
             </div>
         )
     }
 }
+
+// Redux
+function mapStateToProps(state){
+    return {
+        "products": state.products,
+        "user": state.user
+    }
+}
+
+// export
+export default connect(mapStateToProps)(AllSuppliers);

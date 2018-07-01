@@ -72,7 +72,7 @@ class Products extends Component{
                                                         <div key={lots_keys}>
                                                             <div className="bloc-lot">
                                                                 <div className="title-bloc-lot">
-                                                                    <p>Lot : {lots_keys} - {lots_values.lot_fournisseur_r1.user_email}</p>
+                                                                    <p>Lot {lots_values.lot_name} {/*lots_values.lot_fournisseur_r1.user_email*/}</p>
                                                                 </div>
 
                                                                 { _.map( lots_values.lot_products, ( prestations_values, prestations_keys ) =>{
