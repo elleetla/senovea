@@ -18,6 +18,8 @@ import { LOAD_PANIER } from "../actions/index"
 import { DELETE_PANIER } from "../actions/index"
 import { UPDATE_PANIER } from "../actions/index"
 import { UPDATE_SETTINGS_PANIER } from "../actions/index"
+import { ADD_PRODUCT_TO_PANIER } from "../actions/index"
+
 
 import { UPDATE_APP_SETTINGS } from "../actions/index"
 
@@ -154,7 +156,7 @@ function userReducer( state = USER_INITIAL_STATE , action ){
         }
         case USER_AUTH:{
             console.log("user auth reducer")
-            //console.log(action.payload)
+            console.log(action.payload)
             return action.payload
             break;
         }
@@ -224,6 +226,12 @@ function panierReducer( state = [], action ){
             //console.log( action.payload)
             return action.payload
         }
+
+        case ADD_PRODUCT_TO_PANIER:{
+            console.log('add product to panier reducer')
+            return action.payload
+        }
+
         case DELETE_PANIER:{
             return state
         }

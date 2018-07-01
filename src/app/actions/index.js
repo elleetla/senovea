@@ -24,6 +24,7 @@ export const LOAD_PANIER = "LOAD_PANIER"
 export const DELETE_PANIER = "DELETE_PANIER"
 export const UPDATE_PANIER = "UPDATE_PANIER"
 export const UPDATE_SETTINGS_PANIER = "UPDATE_SETTINGS_PANIER"
+export const ADD_PRODUCT_TO_PANIER = "ADD_PRODUCT_TO_PANIER"
 
 export const UPDATE_APP_SETTINGS = "UPDATE_APP_SETTINGS"
 
@@ -457,8 +458,8 @@ export function user_auth_action( user_infos, callback ){
                     axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/customer/${uid}`)
                     .then(function (response){
 
-                        //console.log("ok user")
-                        ////console.log(response)
+                        console.log("ok user")
+                        console.log(response)
 
                         // user _ infos 
                         // manque isValidated
@@ -794,17 +795,52 @@ export function add_panier(formProps, user_id, callback){
     }
 
 }
+
+export function add_product_to_panier( user_id, panier_id, product_id, lot_id, callback ){
+
+    const productData = new FormData();
+    productData.append('user_id', user_id)
+    productData.append('panier_id', panier_id)
+    productData.append('product_id', product_id)
+    productData.append('lot_id', lot_id)
+
+    return (dispatch) => {
+
+        return axios.post( `${WORDPRESS_API_BASE_URL}/senovea/v2/panier/addproduct`, productData, {} )
+                    .then( function ( response ){
+
+                        console.log(response)
+
+                        dispatch({
+                            "type":ADD_PRODUCT_TO_PANIER,
+                            "payload":response.data.data
+                        })
+
+                        callback('success');
+
+                    } ).catch( function ( error ){
+
+                        
+
+                    } )
+
+    }
+
+}
+
 export function delete_panier(){
     return {
         "type":DELETE_PANIER,
         "payload":{}
     }
 }
-export function update_panier(){
+export function update_panier( new_panier ){
+
     return {
         "type":UPDATE_PANIER,
         "payload":{}
     }
+
 }
 export function update_settings_panier( new_settings ){
     return {

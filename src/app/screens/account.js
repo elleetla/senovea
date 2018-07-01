@@ -64,7 +64,7 @@ class Account extends React.Component{
 
         return(
 
-            <Container style={{margin:"100px auto"}}>
+            <Container style={{margin:"50px auto"}}>
 
                 <Row>
 

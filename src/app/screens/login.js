@@ -29,6 +29,12 @@ class LogIn extends React.Component{
         };
     }
 
+    componentDidUpdate(){
+
+        console.log('componentDidUpdate')
+
+    }
+
     clickLoadingBtn(){
         this.setState({
             loadingBtn : true
@@ -43,7 +49,7 @@ class LogIn extends React.Component{
             if( status === "success" ){
             // Si c'est le cas on load les paniers
             // & On load les products 
-                //console.log(this.props)
+
                 this.props.call_product(this.props.user.user_arrondissement)
                 this.props.load_panier(this.props.user.user_id, (panier_status)=>{
 
@@ -56,10 +62,11 @@ class LogIn extends React.Component{
                         let new_panier_settings = _.cloneDeep(this.props.paniersSettings)
                         new_panier_settings.active_panier_id = _.findLastKey(this.props.paniers)
                         this.props.update_settings_panier(new_panier_settings);
+
+
                     }
 
                 })
-
             }
 
         })
@@ -67,6 +74,7 @@ class LogIn extends React.Component{
     }
 
     render(){
+        console.log('render')
         return(
             <div>
                 <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
@@ -120,6 +128,7 @@ function mapStateToProps(state){
 
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
+
         "user_auth_action":user_auth_action,
         "call_product":call_product,
         "load_panier":load_panier,

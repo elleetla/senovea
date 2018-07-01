@@ -7,6 +7,8 @@ import _ from "lodash";
 import Filters from '../containers/Filters/Filters';
 import CreatePanier from '../containers/Create-panier/Create-panier';
 
+import Product from "./product"
+
 // Actions
 import { call_product } from '../actions/index';
 
@@ -30,6 +32,7 @@ class Products extends Component{
             collapse: false
         }
         this.toggle = this.toggle.bind(this);
+        this.handleAddToPanier = this.handleAddToPanier.bind(this);
     }
     componentDidMount( ){
         //console.log(this)
@@ -38,6 +41,12 @@ class Products extends Component{
     toggle(){
         this.setState({ collapse: !this.state.collapse });
     }
+
+    handleAddToPanier( key ){
+        //console.log('handleAddToPanier')
+        //console.log(key)
+    }
+
     render() {
 
         //console.log("PRODUCTS")
@@ -69,6 +78,7 @@ class Products extends Component{
                                             <Col xs="12" key={categories_keys} className="" style={{marginBottom:"50px"}}>
                                                 <h1>{categories_keys}</h1>
                                                 { _.map( categories_values, ( lots_values, lots_keys ) => {
+                                                    console.log(lots_values)
                                                     return(
                                                         <div key={lots_keys}>
                                                             <h2>Lot : {lots_keys}</h2>
@@ -76,32 +86,7 @@ class Products extends Component{
                                                             { _.map( lots_values.lot_products, ( prestations_values, prestations_keys ) =>{
                                                                 //console.log(prestations_values)
                                                                 return(
-                                                                    <div key={prestations_keys} className="article-bloc">
-                                                                        <Row>
-                                                                            <Col xs="2">
-                                                                                <p>Réf : <b> { `${prestations_values.attributes[0].attr_value[0]}.${prestations_values.attributes[1].attr_value[0]}.${prestations_values.attributes[2].attr_value[0]}.${prestations_values.attributes[3].attr_value[0]}.${prestations_values.attributes[5].attr_value[0]}` } </b> </p>
-                                                                            </Col>
-                                                                            <Col xs="3">
-                                                                                <p><b>{prestations_values.name}</b></p>
-                                                                            </Col>
-                                                                            <Col xs="2">
-                                                                                <p>À partir de : <b>{prestations_values.price} €</b></p>
-                                                                            </Col>
-                                                                            <Col xs="2">
-                                                                                <p>Quantité : </p>
-                                                                            </Col>
-                                                                            <Col xs="3" className="text-right">
-                                                                                <Button style={{marginRight: "10px"}} className="btn-white">Ajouter aux paniers</Button>
-                                                                                <Button onClick={this.toggle} className="btn-white">Détails</Button>
-                                                                            </Col>
-                                                                        </Row>
-                                                                        <Collapse isOpen={false}>
-                                                                            <Card>
-                                                                                <CardBody dangerouslySetInnerHTML={{__html: prestations_values.description}}>
-                                                                                </CardBody>
-                                                                            </Card>
-                                                                        </Collapse>
-                                                                    </div>
+                                                                    <Product key={prestations_keys} product_value={prestations_values} product_key={prestations_keys} lot_key={lots_keys}  />
                                                                 )
                                                             })}
                                                         </div>

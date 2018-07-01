@@ -193,12 +193,12 @@ class Header extends React.Component{
                                         */}
 
                                         <NavItem>
-                                            <NavLink className="icon-panier" id="cart_icon">
+                                            <Link to="account/paniers" className="icon-panier" id="cart_icon">
                                                     <img className="icon-nav" src={Panier} alt="Icon Panier"/>
                                                     {/*<span className="counter-panier">
                                                         <p>80</p>
                                                     </span>*/}
-                                            </NavLink>
+                                            </Link>
                                         </NavItem>
                                     </div>
 

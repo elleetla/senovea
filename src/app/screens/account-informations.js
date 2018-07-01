@@ -29,7 +29,7 @@ const renderTextField = ( field ) => (
 )
 
 const renderField = (props) => {
-    console.log(props)
+    //console.log(props)
     return (
       <div className="">
         {/*<input type="text" {...props} {...props.input}/>*/}
@@ -49,13 +49,13 @@ class AccountInformations extends React.Component{
     handleSubmit(formProps){
         formProps.update_id = this.props.user.user_id 
         this.props.user_update_action(formProps)
-        console.log("submit")
-        console.log(formProps)
+        //console.log("submit")
+        //console.log(formProps)
     }
 
 
     render(){
-        console.log(this);
+        //console.log(this);
 
         const account_data = {
             'update_user_email':this.props.user.user_email,

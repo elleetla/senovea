@@ -34,7 +34,7 @@ import AllProducts from './app/screens/allproducts'
 
 import AccountPaniers from "./app/screens/account-paniers";
 import AccountInformations from "./app/screens/account-informations";
-
+import AccountPaniersDetail from "./app/screens/account-paniers-detail";
 
 import GlobalLoading from './app/screens/globalLoading'
 
@@ -175,7 +175,9 @@ class App extends React.Component {
                                     }
                                 }}/>
 
-                                <Route path="/login" render={ () => {
+                                <Route path="/login" component={LogIn} />
+
+                                {/*<Route path="/login" render={ () => {
                                     if(this.props.user.user_auth.isAuth === true){
                                         return <Redirect to="/"/>
                                     }else{
@@ -185,22 +187,31 @@ class App extends React.Component {
                                             </div>
                                         )
                                     }
-                                }}/>
-                                {/*<Route path="/login" component={LogIn} />*/}
+                                }}/>*/}
 
+                                {/*<Route path="/login" component={LogIn} />*/}
                                 {/*
                                 <Route path="/account/informations" component={AccountInformations}/>
                                 <Route path="/account/paniers" component={AccountPaniers}/>
                                 */}
 
-                                <Route path="/account/paniers" render={ () => {
+                                <Route path="/account/paniers/:id" render={ (props) => {
+                                    if(this.props.user.user_auth.isAuth === false ){
+                                        return <Redirect to="/login"/>
+                                    }else{
+                                        return <AccountPaniersDetail routeProps={props} />
+                                    }
+                                }}/>
+
+                                <Route path="/account/paniers" render={ (props) => {
                                     if(this.props.user.user_auth.isAuth === false ){
                                         return <Redirect to="/login"/>
                                     }else{
                                         return <AccountPaniers/>
                                     }
                                 }}/>
-                                <Route path="/account/informations" render={ () => {
+
+                                <Route path="/account/informations" render={ (props) => {
                                     if(this.props.user.user_auth.isAuth === false ){
                                         return <Redirect to="/login"/>
                                     }else{
