@@ -1,9 +1,14 @@
+// import components react
 import React, {Component} from 'react';
 
+// import styles
 import { Container, Row, Col, } from 'reactstrap';
+import './bloc-connect.css';
 
+// import assets
 import PictoUser from '../../assets/img/picto_user.svg';
 
+// creation of the class "AllSupliers"
 class BlocConnect extends Component{
     render(){
         return(
@@ -15,8 +20,8 @@ class BlocConnect extends Component{
                                 <img src={PictoUser} className="picto-user"/>
                                 <p className="title-connect-bloc">Veuillez vous connecter ou créer un compte pour faire une recherche</p>
                                 <ul>
-                                    <li><a>Connexion</a></li>
-                                    <li><a>Inscription</a></li>
+                                    <li><a onClick={()=>{alert("connexion")}}>Connexion</a></li>
+                                    <li><a onClick={()=>{alert("Inscription")}}>Inscription</a></li>
                                 </ul>
                             </div>
                         </Col>
@@ -27,4 +32,5 @@ class BlocConnect extends Component{
     }
 }
 
+// export
 export default BlocConnect;

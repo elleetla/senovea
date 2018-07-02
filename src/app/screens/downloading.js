@@ -9,7 +9,12 @@ export class Downloading extends Component{
             <div>
                 <Container>
                     <Row>
-                        <Col xs="12">Page : téléchargement</Col>
+                        <Col xs="6" className="mt-5 mb-5">
+                            <a className="btn-green">Télécharger la charte d'adhésion</a>
+                        </Col>
+                        <Col xs="6" className="mt-5 mb-5">
+                            <a className="btn-green">Télécharger le second document</a>
+                        </Col>
                     </Row>
                 </Container>
             </div>
