@@ -25,6 +25,7 @@ export const DELETE_PANIER = "DELETE_PANIER"
 export const UPDATE_PANIER = "UPDATE_PANIER"
 export const UPDATE_SETTINGS_PANIER = "UPDATE_SETTINGS_PANIER"
 export const ADD_PRODUCT_TO_PANIER = "ADD_PRODUCT_TO_PANIER"
+export const CALL_USERS = "CALL_USERS"
 
 export const UPDATE_APP_SETTINGS = "UPDATE_APP_SETTINGS"
 
@@ -153,6 +154,26 @@ export function call_product( user_arrondissement ) {
             });
     }
 
+}
+
+// function Call Users
+export function call_users(stored_user_token){
+    return function (dispatch) {
+        axios.get(`${WORDPRESS_API_BASE_URL}/wp/v2/users`, {
+            headers: {
+                'Authorization' : `Bearer ${stored_user_token}`
+            }
+        })
+            .then(function (response) {
+                dispatch({
+                    "type": CALL_USERS,
+                    "payload": response.data
+                })
+            })
+            .catch(function (error) {
+                console.log(error);
+        })
+    }
 }
 
 // Action order product 
@@ -757,6 +778,7 @@ export function load_panier( user_id, callback ){
 
     }
 }
+
 export function add_panier(formProps, user_id, callback){
 
     const addPanierData = new FormData();

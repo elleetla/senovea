@@ -171,33 +171,16 @@ class Header extends React.Component{
                                     </div>
                                     :
                                     <div>
-                                        <Link to="/account/informations"> {this.props.user.user_email} </Link>
-                                        {/* 
-                                        <UncontrolledDropdown nav inNavbar>
-                                            <DropdownToggle nav caret>
-                                                {this.props.user.user_email}
-                                            </DropdownToggle>
-                                            <DropdownMenu right>
-                                                <DropdownItem href="javascript:void(0)" onClick={this.handleLogOut}>
-                                                    Déconnexion
-                                                </DropdownItem>
-
-                                                { this.props.user.user_auth.isCustomer === false && this.props.user.user_auth.isSupplier === true ?
-                                                    <Link to="/supplier-orders" className="dropdown-item">Supplier orders</Link>
-                                                    :
-                                                    <Link to="/account" className="dropdown-item">Mon compte</Link>
-                                                }
-
-                                            </DropdownMenu>
-                                        </UncontrolledDropdown>
-                                        */}
-
                                         <NavItem>
-                                            <Link to="account/paniers" className="icon-panier" id="cart_icon">
+                                            <Link to="/account/informations" className="nav-link">{this.props.user.user_email}</Link>
+                                        </NavItem>
+                                        <NavItem>
+                                            <Link to="/account/paniers" className="icon-panier" id="cart_icon">
                                                     <img className="icon-nav" src={Panier} alt="Icon Panier"/>
-                                                    {/*<span className="counter-panier">
-                                                        <p>80</p>
-                                                    </span>*/}
+                                                    <span className="counter-panier">
+                                                        <p>test</p>
+                                                        {console.log("PANIER : " + this.props.paniers)}
+                                                    </span>
                                             </Link>
                                         </NavItem>
                                     </div>
@@ -231,7 +214,8 @@ class Header extends React.Component{
 
 function mapStateToProps(state){
     return {
-        "user":state.user
+        "user":state.user,
+        "paniers":state.paniers
     }
 }
 
@@ -241,6 +225,4 @@ function mapDispatchToProps(dispatch){
     }, dispatch)
 }
 
-export default compose(
-    connect(mapStateToProps, mapDispatchToProps)
-)(Header)
+export default compose(connect(mapStateToProps, mapDispatchToProps))(Header)

@@ -125,7 +125,7 @@ class Product extends React.Component{
                     <Col md="2">
                     <div>
                         
-                        <label >Quantité Variation : </label>
+                        <label>Quantité : </label>
                         <select value={ this.state.activeVariation } onChange={ this.handleProductChangeVariation } >
                             {
                                 this.props.product_value.variations.length !== 0 ? 
@@ -144,12 +144,10 @@ class Product extends React.Component{
 
                     <Col md="2">
                             <div>
-                                <p>Price : </p> 
-                                {
-                                    this.props.product_value.variations.length !== 0 ?                             
-                                    <div> <h4>{the_price}€</h4> </div>                                   
+                                { this.props.product_value.variations.length !== 0 ?
+                                    <p>Price : <b>{the_price}€</b></p>
                                     :
-                                    <div> <h4>{this.props.product_value.price }€</h4> </div>    
+                                    <p>Price : <b>{this.props.product_value.price }€</b></p>
                                 }
                             </div>
                     </Col>

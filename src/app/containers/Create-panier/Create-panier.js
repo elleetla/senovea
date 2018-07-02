@@ -17,6 +17,9 @@ import { Container, Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter
 import './Create-panier.css';
 
 const renderField = (props) => {
+
+    console.log("renderField")
+    console.log(props)
     //console.log(props)
     return (
       <div className="">
@@ -72,80 +75,86 @@ class CreatePanier extends Component{
         });
     }
     render(){
-        //console.log(this);
+        console.log("render create panier");
+        console.log(this);
         return(
-                <Container>
-                { this.props.user.user_auth.auth_token !== '' && this.props.user.user_auth.isAuth !== false ?
-                
+                this.props.user.user_auth.auth_token !== '' && this.props.user.user_auth.isAuth !== false ?
+
                 <div id="nav-create-panier">
-                <Row>
-                    <Col lg="8">
-                    {
-                        this.props.paniers.length !== 0 ? 
-                        <FormGroup>
-                            <Label for="select_panier"><strong>Mon panier actif:</strong></Label>
-                            <select onChange={this.handleUpdateActivePanier} value={this.props.paniersSettings.active_panier_id} name="select_panier" id="select_panier">
-                                {_.map(this.props.paniers, (panier, i)=>{
-                                    return(
-                                        <option key={i} id={i} value={i}>{panier.nicename}</option>
-                                    )
-                                })}
-                            </select>
-                        </FormGroup>
-                        :
-                        <p><b>Vous n’avez pas encore de panier</b></p>
-                    }
-                        
-                    </Col>                        
-                    <Col lg="4" className="text-right">
-                        <button onClick={this.handleToggleModalCreatePanier} className="btn-white btn btn-secondary">CRÉER UN NOUVEAU PANIER</button>
-                    </Col>                    
-                </Row>
-                <div>
+                    <Container>
+                        <Row>
+                            <Col lg="8">
+                            {
+                                this.props.paniers.length !== 0 ?
+                                <FormGroup style={{margin: "0px"}}>
+                                    <Label style={{margin: "0 10px 0 0"}} for="select_panier"><strong>Panier : </strong></Label>
+                                    <select onChange={this.handleUpdateActivePanier} value={this.props.paniersSettings.active_panier_id} name="select_panier" id="select_panier">
+                                        {_.map(this.props.paniers, (panier, i)=>{
+                                            return(
+                                                <option key={i} id={i} value={i}>{panier.nicename}</option>
+                                            )
+                                        })}
+                                    </select>
+                                </FormGroup>
+                                :
+                                <p><b>Vous n’avez pas encore de panier</b></p>
+                            }
+
+                            </Col>
+
+                            <Col lg="4" className="text-right">
+                                <button onClick={this.handleToggleModalCreatePanier} className="btn-white btn btn-secondary">CRÉER UN NOUVEAU PANIER</button>
+                            </Col>
+                        </Row>
+                    </Container>
+
                     <Modal isOpen={this.state.modal_create_panier_status} toggle={this.handleToggleModalCreatePanier} className={this.props.className}>
                         <ModalHeader toggle={this.handleToggleModalCreatePanier}> Créer un nouveau panier </ModalHeader>
                         <Form onSubmit={this.props.handleSubmit(this.handleCreatePanierSubmit)}>
                             <ModalBody>
                                 <FormGroup>
-                                <Label for="create_panier_arrondissement">Arrondissement Napoléonien</Label>
-                                <Field
-                                    name="create_panier_arrondissement"
-                                    id="create_panier_arrondissement"
-                                    component={renderField}
-                                    type="text"
-                                    placeholder="Arrondissement Napoléonien"
-                                    disabled
-                                />
+                                    <Label for="create_panier_arrondissement">Arrondissement Napoléonien</Label>
+                                    <Field
+                                        name="create_panier_arrondissement"
+                                        id="create_panier_arrondissement"
+                                        component={renderField}
+                                        //component="input"
+                                        type="text"
+                                        placeholder="Arrondissement Napoléonien"
+                                        value={this.props.user.user_arrondissement}
+                                        initialValues={this.props.user.user_arrondissement}
+                                        disabled
+                                    />
                                 </FormGroup>
                                 <FormGroup>
-                                <Label for="create_panier_code">Code Postal</Label>
-                                <Field
-                                    name="create_panier_code"
-                                    id="create_panier_code"
-                                    component={renderField}
-                                    type="text"
-                                    placeholder="Code Postal"
-                                />
+                                    <Label for="create_panier_code">Code Postal</Label>
+                                    <Field
+                                        name="create_panier_code"
+                                        id="create_panier_code"
+                                        component={renderField}
+                                        type="text"
+                                        placeholder="Code Postal"
+                                    />
                                 </FormGroup>
                                 <FormGroup>
-                                <Label for="create_panier_adresse">Adresse d'Intervention</Label>
-                                <Field
-                                    name="create_panier_adresse"
-                                    id="create_panier_adresse"
-                                    component={renderField}
-                                    type="text"
-                                    placeholder="Adresse d'Intervention"
-                                />
+                                    <Label for="create_panier_adresse">Adresse d'Intervention</Label>
+                                    <Field
+                                        name="create_panier_adresse"
+                                        id="create_panier_adresse"
+                                        component={renderField}
+                                        type="text"
+                                        placeholder="Adresse d'Intervention"
+                                    />
                                 </FormGroup>
                                 <FormGroup>
-                                <Label for="create_panier_nom">Nom du Panier</Label>
-                                <Field
-                                    name="create_panier_nom"
-                                    id="create_panier_nom"
-                                    component={renderField}
-                                    type="text"
-                                    placeholder="Nom du Panier"
-                                />
+                                    <Label for="create_panier_nom">Nom du Panier</Label>
+                                    <Field
+                                        name="create_panier_nom"
+                                        id="create_panier_nom"
+                                        component={renderField}
+                                        type="text"
+                                        placeholder="Nom du Panier"
+                                    />
                                 </FormGroup>
                             </ModalBody>
                             <ModalFooter>
@@ -154,19 +163,18 @@ class CreatePanier extends Component{
                             </ModalFooter>
                         </Form>
                     </Modal>
-                </div>
-                </div> 
 
+                </div>
                 :
                 null
-                }
-                </Container>
         )
     }
 }
 
 // export
 function mapStateToProps(state){
+    console.log( "create panier state" )
+    console.log( state )
     return {
 
         "products": state.products,

@@ -48,7 +48,6 @@ import './app.css';
 
 import Filters from './app/containers/Filters/Filters';
 import CreatePanier from './app/containers/Create-panier/Create-panier';
-import Banner from './app/containers/Banner/Banner';
 import Footer from './app/components/Footer/Footer';
 
 // Material theming
@@ -141,7 +140,6 @@ class App extends React.Component {
                     <BrowserRouter>
                         <div>
                             <AppNav/>
-                            <Banner/>
                             <Switch>
 
                                 <Route exact path="/" component={Home} />
@@ -174,8 +172,7 @@ class App extends React.Component {
                                         )
                                     }
                                 }}/>
-<<<<<<< HEAD
-=======
+
 
                                 <Route path="/login" component={LogIn} />
 
@@ -220,7 +217,6 @@ class App extends React.Component {
                                         return <AccountInformations/>
                                     }
                                 }}/>
->>>>>>> d191d84bb47d968d8aca90a8d1442128630dc7ad
                                 
                                 <Route path="/account" render={ () => {
                                     if(this.props.user.user_auth.isAuth === false ){

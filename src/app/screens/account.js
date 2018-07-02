@@ -29,10 +29,10 @@ const renderTextField = ( field ) => (
 const renderField = (props) => {
     //console.log(props)
     return (
-      <div className="">
-        <TextField type="text" {...props} {...props.input} style={{width:"100%"}}/>
-        {props.touched && props.error && <span className="error">{props.error}</span>}
-      </div>
+        <div className="">
+            <TextField type="text" {...props} {...props.input} style={{width:"100%"}}/>
+            {props.touched && props.error && <span className="error">{props.error}</span>}
+        </div>
     )
 }
 
@@ -45,7 +45,7 @@ class Account extends React.Component{
     }
 
     handleSubmit(formProps){
-        formProps.update_id = this.props.user.user_id 
+        formProps.update_id = this.props.user.user_id
         this.props.user_update_action(formProps)
         //console.log("submit")
         //console.log(formProps)
@@ -62,39 +62,6 @@ class Account extends React.Component{
         const activeStep = this.props.user.user_auth.isValidated ? 2 : 1
 
         return(
-            
-                <div style={{padding:'0px'}}>
-
-                        <div style={{padding:'30px'}}>
-
-                            <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
-
-
-                                <Typography variant="body2" color="inherit">
-                                    General
-                                </Typography>
-
-                                <div style={{marginBottom:'30px'}}>
-                                <Field
-                                    component={renderField}
-                                    id="update_email"
-                                    name="update_email"
-                                    type="text"
-                                    label="User Email"
-                                    placeholder="User Email"
-                                />
-                                </div>
-                                <div>
-                                    <Button type="submit" variant="contained" color="secondary">
-                                        Update user informations
-                                    </Button>
-                                </div>
-
-                            </form>
-
-                        </div>
-                </div>
-=======
 
             <Container style={{margin:"50px auto"}}>
 
@@ -120,7 +87,6 @@ class Account extends React.Component{
 
             </Container>
 
->>>>>>> d191d84bb47d968d8aca90a8d1442128630dc7ad
         )
     }
 

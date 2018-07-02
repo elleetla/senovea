@@ -46,6 +46,9 @@ class LogIn extends React.Component{
         this.props.user_auth_action(form_props,(status)=>{
             //console.log(status)
 
+            console.log("user auth")
+            console.log( this.props )
+
             if( status === "success" ){
             // Si c'est le cas on load les paniers
             // & On load les products 
@@ -56,6 +59,7 @@ class LogIn extends React.Component{
                     // On update le panier actif 
                     // Par le dernier panier updaté
                     if( panier_status === "success" ){
+                        
                         //console.log('les paniers')
                         //console.log(this.props.paniers)
 

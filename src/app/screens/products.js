@@ -80,54 +80,19 @@ class Products extends Component{
                                                     console.log(lots_values)
                                                     return(
                                                         <div key={lots_keys}>
-<<<<<<< HEAD
+
                                                             <div className="bloc-lot">
                                                                 <div className="title-bloc-lot">
-                                                                    <p>Lot {lots_values.lot_name} {/*lots_values.lot_fournisseur_r1.user_email*/}</p>
+                                                                    <p>name : {lots_values.lot_name} {/*lots_values.lot_fournisseur_r1.user_email*/}</p>
+                                                                    <p>Fournisseurs R1 du lot : {lots_values.lot_fournisseur_r1.user_email}</p>
                                                                 </div>
-
-                                                                { _.map( lots_values.lot_products, ( prestations_values, prestations_keys ) =>{
-                                                                    console.log(prestations_values)
-                                                                    return(
-                                                                        <div key={prestations_keys} className="article-bloc">
-                                                                            <Row>
-                                                                                <Col xs="2">
-                                                                                    <p>Réf : <b> { `${prestations_values.attributes[0].attr_value[0]}.${prestations_values.attributes[1].attr_value[0]}.${prestations_values.attributes[2].attr_value[0]}.${prestations_values.attributes[3].attr_value[0]}.${prestations_values.attributes[5].attr_value[0]}` } </b> </p>
-                                                                                </Col>
-                                                                                <Col xs="3">
-                                                                                    <p><b>{prestations_values.name}</b></p>
-                                                                                </Col>
-                                                                                <Col xs="2">
-                                                                                    <p>À partir de : <b>{prestations_values.price} €</b></p>
-                                                                                </Col>
-                                                                                <Col xs="2">
-                                                                                    <p>Quantité : </p>
-                                                                                </Col>
-                                                                                <Col xs="3" className="text-right">
-                                                                                    <Button style={{marginRight: "10px"}} className="btn-white">Ajouter aux paniers</Button>
-                                                                                    <Button onClick={this.toggle} className="btn-white">Détails</Button>
-                                                                                </Col>
-                                                                            </Row>
-                                                                            <Collapse isOpen={false}>
-                                                                                <Card>
-                                                                                    <CardBody dangerouslySetInnerHTML={{__html: prestations_values.description}}>
-                                                                                    </CardBody>
-                                                                                </Card>
-                                                                            </Collapse>
-                                                                        </div>
-                                                                    )
-                                                                })}
-                                                            </div>
-=======
-                                                            <h2>Lot : {lots_keys}</h2>
-                                                            <h3>Fournisseurs R1 du lot : {lots_values.lot_fournisseur_r1.user_email}</h3>
                                                             { _.map( lots_values.lot_products, ( prestations_values, prestations_keys ) =>{
                                                                 //console.log(prestations_values)
                                                                 return(
                                                                     <Product key={prestations_keys} product_value={prestations_values} product_key={prestations_keys} lot_key={lots_keys}  />
                                                                 )
                                                             })}
->>>>>>> d191d84bb47d968d8aca90a8d1442128630dc7ad
+                                                            </div>
                                                         </div>
                                                     )
                                                 })}

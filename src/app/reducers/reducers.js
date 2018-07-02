@@ -8,6 +8,7 @@ import { USER_LOAD }                      from '../actions/index'
 import { SUPPLIER_ORDER_ACCEPT }          from '../actions/index'
 import { SUPPLIER_ORDER_REJECT }          from '../actions/index'
 import { CALL_PRODUCTS }                  from "../actions/index"
+import { CALL_USERS }                     from "../actions/index"
 import { ORDER_PRODUCT }                  from "../actions/index"
 
 import { SUPPLIER_ORDER_ACCEPT_V2 } from "../actions/index"
@@ -19,8 +20,6 @@ import { DELETE_PANIER } from "../actions/index"
 import { UPDATE_PANIER } from "../actions/index"
 import { UPDATE_SETTINGS_PANIER } from "../actions/index"
 import { ADD_PRODUCT_TO_PANIER } from "../actions/index"
-
-
 import { UPDATE_APP_SETTINGS } from "../actions/index"
 
 import _ from 'lodash'
@@ -63,7 +62,6 @@ import _ from 'lodash'
 // users 
 
 const USER_INITIAL_STATE = {
-
     'user_auth':{
 
         'auth_token':'',
@@ -73,57 +71,7 @@ const USER_INITIAL_STATE = {
         'isCustomer':false
         
     }
-
-    /*
-    'user_id':'',
-    'user_role':'',
-    'user_email':'',
-    'user_name':'',
-    'user_first_name':'',
-    'user_last_name':'',
-    "user_avatar_url": '',
-    "user_orders_count": 0,
-
-    'user_auth':{
-        'auth_token':'',
-        'isAuth':false,
-        'isValidated':false
-    },
-
-    'user_order':{
-    },
-
-    'user_billing':{
-        "first_name": "",
-        "last_name": "",
-        "company": "",
-        "address_1": "",
-        "address_2": "",
-        "city": "",
-        "state": "",
-        "postcode": "",
-        "country": "",
-        "email": "",
-        "phone": ""
-    },
-
-    "user_shipping": {
-        "first_name": "",
-        "last_name": "",
-        "company": "",
-        "address_1": "",
-        "address_2": "",
-        "city": "",
-        "state": "",
-        "postcode": "",
-        "country": ""
-    },
-
-    "isPayingCustomer": false,
-    'isRegistered':false
-    */
-
-}
+};
 
 // reducer products
 function productReducer(state = [], action) {
@@ -214,6 +162,17 @@ function supplierReducer( state = {}, action ){
     }
 }
 
+function callUsers(state = {}, action){
+    switch (action.type){
+        case CALL_USERS: {
+            console.log("users fonctionne");
+            return action.payload
+        }
+        default :
+            return state
+    }
+}
+
 function panierReducer( state = [], action ){
     switch( action.type ){
         case LOAD_PANIER:{
@@ -270,12 +229,12 @@ function appSettingsReducer( state = { "globalLoading":true } , action ){
 export const rootReducers = combineReducers({
 
     "user"      :userReducer,
-    //"supplier"  :supplierReducer,
     "form"      :formReducer,
     "products"  :productReducer,
     "supplier"  :supplierReducer,
     "paniers"   :panierReducer,
     "paniersSettings" : panierSettingsReducer,
-    "appSettings": appSettingsReducer
+    "appSettings": appSettingsReducer,
+    "users": callUsers
 
 });
