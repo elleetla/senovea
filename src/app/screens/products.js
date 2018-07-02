@@ -81,14 +81,18 @@ class Products extends Component{
                                                     console.log(lots_values)
                                                     return(
                                                         <div key={lots_keys}>
-                                                            <h2>Lot : {lots_keys}</h2>
-                                                            <h3>Fournisseurs R1 du lot : {lots_values.lot_fournisseur_r1.user_email}</h3>
+                                                            <div className="bloc-lot">
+                                                                <div className="title-bloc-lot">
+                                                                    <p>name : {lots_values.lot_name} {/*lots_values.lot_fournisseur_r1.user_email*/}</p>
+                                                                    <p>Fournisseurs R1 du lot : {lots_values.lot_fournisseur_r1.user_email}</p>
+                                                                </div>
                                                             { _.map( lots_values.lot_products, ( prestations_values, prestations_keys ) =>{
                                                                 //console.log(prestations_values)
                                                                 return(
                                                                     <Product key={prestations_keys} product_value={prestations_values} product_key={prestations_keys} lot_key={lots_keys}  />
                                                                 )
                                                             })}
+                                                            </div>
                                                         </div>
                                                     )
                                                 })}
