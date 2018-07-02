@@ -30,7 +30,6 @@ const renderField = (props) => {
     //console.log(props)
     return (
       <div className="">
-        {/*<input type="text" {...props} {...props.input}/>*/}
         <TextField type="text" {...props} {...props.input} style={{width:"100%"}}/>
         {props.touched && props.error && <span className="error">{props.error}</span>}
       </div>

@@ -17,6 +17,9 @@ import { Container, Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter
 import './Create-panier.css';
 
 const renderField = (props) => {
+
+    console.log("renderField")
+    console.log(props)
     //console.log(props)
     return (
       <div className="">
@@ -72,7 +75,8 @@ class CreatePanier extends Component{
         });
     }
     render(){
-        //console.log(this);
+        console.log("render create panier");
+        console.log(this);
         return(
                 <Container>
                 { this.props.user.user_auth.auth_token !== '' && this.props.user.user_auth.isAuth !== false ?
@@ -112,8 +116,11 @@ class CreatePanier extends Component{
                                     name="create_panier_arrondissement"
                                     id="create_panier_arrondissement"
                                     component={renderField}
+                                    //component="input"
                                     type="text"
                                     placeholder="Arrondissement Napoléonien"
+                                    value={this.props.user.user_arrondissement}
+                                    initialValues={this.props.user.user_arrondissement}
                                     disabled
                                 />
                                 </FormGroup>
@@ -156,7 +163,6 @@ class CreatePanier extends Component{
                     </Modal>
                 </div>
                 </div> 
-
                 :
                 null
                 }
@@ -167,6 +173,8 @@ class CreatePanier extends Component{
 
 // export
 function mapStateToProps(state){
+    console.log( "create panier state" )
+    console.log( state )
     return {
 
         "products": state.products,

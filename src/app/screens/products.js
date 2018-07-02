@@ -22,7 +22,6 @@ import {
     CardBody,
     Card } from 'reactstrap';
 import LoadingSvg from '../assets/img/icon-preloader.svg';
-import PictoUser from '../assets/img/picto_user.svg';
 
 class Products extends Component{
 
@@ -75,8 +74,8 @@ class Products extends Component{
                                         //console.log(categories_values)
 
                                         return(
-                                            <Col xs="12" key={categories_keys} className="" style={{marginBottom:"50px"}}>
-                                                <h1>{categories_keys}</h1>
+                                            <Col xs="12" key={categories_keys}>
+                                                {/*<h1>{categories_keys}</h1>*/}
                                                 { _.map( categories_values, ( lots_values, lots_keys ) => {
                                                     console.log(lots_values)
                                                     return(

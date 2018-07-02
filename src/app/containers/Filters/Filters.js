@@ -39,7 +39,7 @@ class Filters extends Component{
                                 </FormGroup>
                             </Col>
                             <Col lg="2">
-                                <button onClick={()=>{console.log("test")}} className="btn-green">Reinitialiser</button>
+                                <button className="btn-green">Reinitialiser</button>
                             </Col>
                         </Row>
                     </Container>

@@ -5,12 +5,16 @@
 }
 
 #Filters .form-control {
-    padding: 0.9rem 3rem 0.9rem 0.8rem;
+    padding: 0.9rem 4rem 0.9rem 0.8rem;
     font-size: 14px;
     line-height: 1.5;
     border: 0px;
     border-radius: .20rem;
     font-weight: 300;
+}
+
+#Filters .form-group{
+    position: relative;
 }
 
 #Filters .form-control::placeholder {
@@ -60,13 +64,20 @@ ul.category-filter li a:hover{
 }
 
 .icon-search img {
-    width: 18px;
+    width: 16px;
     height: auto;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
 }
 
 .icon-search {
     position: absolute;
-    top: 50%;
-    transform: translate(0%, -60%);
-    right: 30px;
+    top: 0;
+    right: 0;
+    background-color: #9DA9E8;
+    border-radius: 0px 4px 4px 0px;
+    height: 100%;
+    width: 50px;
 }

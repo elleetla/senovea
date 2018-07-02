@@ -26,7 +26,7 @@ import { LogOut } from './app/screens/logout'
 import Account from './app/screens/account'
 import {Cart} from './app/screens/cart'
 import {AllUsers} from './app/screens/allusers'
-import {AllSuppliers} from './app/screens/allsuppliers'
+import AllSuppliers from './app/screens/allsuppliers'
 import {About} from './app/screens/about'
 import {Downloading} from "./app/screens/downloading";
 import SupplierOrders from './app/screens/supplier-orders'
@@ -221,7 +221,7 @@ class App extends React.Component {
                                 
                                 <Route path="/account" render={ () => {
                                     if(this.props.user.user_auth.isAuth === false ){
-                                        return <Redirect to="/login"/>
+                                        return <Redirect to="/"/>
                                     }else{
                                         if ( this.props.user.user_auth.isCustomer === true && this.props.user.user_auth.isSupplier === false ){
                                             return (
