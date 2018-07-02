@@ -17,9 +17,11 @@ import Button from '@material-ui/core/Button';
 
 import { Container, Row, Col, ListGroup, ListGroupItem } from 'reactstrap';
 
+import Account from "./account";
+
+
 // user auth action 
 import { user_update_action } from '../actions/index';
-import { user_logout_action } from '../actions/index';
 
 // Fields
 const renderTextField = ( field ) => (
@@ -30,14 +32,14 @@ const renderField = (props) => {
     //console.log(props)
     return (
       <div className="">
+        {/*<input type="text" {...props} {...props.input}/>*/}
         <TextField type="text" {...props} {...props.input} style={{width:"100%"}}/>
         {props.touched && props.error && <span className="error">{props.error}</span>}
       </div>
     )
 }
 
-
-class Account extends React.Component{
+class AccountInformations extends React.Component{
 
     constructor(props){
         super(props)
@@ -51,20 +53,56 @@ class Account extends React.Component{
         //console.log(formProps)
     }
 
-    render(){
-        // Account data 
 
-        //console.log(this)
+    render(){
+        //console.log(this);
+
         const account_data = {
             'update_user_email':this.props.user.user_email,
             'update_user_name':this.props.user.user_name,
         }
         const activeStep = this.props.user.user_auth.isValidated ? 2 : 1
-
         return(
+
+            <Account>
             
                 <div style={{padding:'0px'}}>
 
+                        <Paper elevation={1} style={{marginBottom:'15px'}}>
+                        <div style={{padding:'15px 30px'}}>
+                        <Typography variant="headline" color="inherit">
+                            Customer Account
+                        </Typography>
+                        </div>
+                        </Paper>
+
+                        <Paper elevation={1} style={{marginBottom:'15px'}}>
+                        <div style={{padding:'15px 30px'}}>
+                        <Typography variant="subheading" color="inherit">
+                            User Validation
+                        </Typography>
+                        </div>
+                        <Divider />
+                        <div style={{padding:'30px'}}>
+                        <Stepper style={{padding:'0px'}} activeStep={activeStep} orientation="vertical">
+                            <Step key={1}>
+                                <StepLabel>Upload your document to the senovea-backend.</StepLabel>
+                            </Step>
+                            <Step key={2}>
+                                <StepLabel>Have your account validated by our team.</StepLabel>
+                            </Step>
+                        </Stepper>
+                        </div>
+                        </Paper>
+
+
+                        <Paper elevation={1} style={{marginBottom:'15px'}}>
+                        <div style={{padding:'15px 30px'}}>
+                        <Typography variant="subheading" color="inherit">
+                            User Account Informations
+                        </Typography>
+                        </div>
+                        <Divider />
                         <div style={{padding:'30px'}}>
 
                             <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
@@ -93,39 +131,31 @@ class Account extends React.Component{
                             </form>
 
                         </div>
+                        </Paper>
+
+                        <Paper elevation={1} style={{marginBottom:'0'}}>
+                        <div style={{padding:'15px 30px'}}>
+                        <Typography variant="subheading" color="inherit">
+                            User Orders Informations
+                        </Typography>
+                        </div>
+                        <Divider />
+                        <div style={{padding:'15px 30px'}}>
+                        <Typography variant="body2" color="inherit">
+                            coming soon
+                        </Typography> 
+                        </div>
+                        </Paper>
+
+
                 </div>
-=======
+                
+            </Account>
 
-            <Container style={{margin:"50px auto"}}>
-
-                <Row>
-
-                    <Col md={4}>
-                        <ListGroup>
-
-                            <ListGroupItem><Link to="/account/informations">Account Informations</Link></ListGroupItem>
-                            <ListGroupItem><Link to="/account/paniers">Account Paniers</Link></ListGroupItem>
-                            <ListGroupItem><a href="javascript:void(0)">Gestion du mot de passe</a></ListGroupItem>
-                            <ListGroupItem><a onClick={ this.props.user_logout_action } href="javascript:void(0)"> Déconnexion </a></ListGroupItem>
-
-                        </ListGroup>
-                    </Col>
-                    <Col md={8}>
-
-                        {this.props.children}
-
-                    </Col>
-
-                </Row>
-
-            </Container>
-
->>>>>>> d191d84bb47d968d8aca90a8d1442128630dc7ad
         )
     }
 
 }
-
 function mapStateToProps( state ){
     return {
         "user":state.user,
@@ -138,8 +168,7 @@ function mapStateToProps( state ){
 
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
-        "user_update_action":user_update_action,
-        "user_logout_action":user_logout_action
+        "user_update_action":user_update_action
     }, dispatch)
 }
 
@@ -150,4 +179,4 @@ export default compose(
         form:'updateForm'
     })
 
-)(Account)
+)(AccountInformations)

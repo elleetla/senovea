@@ -29,7 +29,9 @@ import {
     UncontrolledDropdown,
     DropdownToggle,
     DropdownMenu,
-    DropdownItem } from 'reactstrap';
+    DropdownItem,
+    Popover, PopoverHeader, PopoverBody
+} from 'reactstrap';
 
 class Header extends React.Component{
 
@@ -39,10 +41,14 @@ class Header extends React.Component{
         this.toggle = this.toggle.bind(this);
         this.toogleModalConnect = this.toogleModalConnect.bind(this);
         this.toogleModalRegistration = this.toogleModalRegistration.bind(this);
+        this.handleCartToggle = this.handleCartToggle.bind(this);
+
         this.state = {
             isOpen: false,
             modalConnect: false,
-            modalRegistration: false
+            modalRegistration: false,
+            popoverOpen: false
+
         };
     }
 
@@ -67,6 +73,12 @@ class Header extends React.Component{
     handleLogOut(){
         // Logout action
         this.props.user_logout_action()
+    }
+
+    handleCartToggle(){
+        this.setState({
+            popoverOpen: !this.state.popoverOpen
+          });
     }
 
     render(){
@@ -159,6 +171,8 @@ class Header extends React.Component{
                                     </div>
                                     :
                                     <div>
+                                        <Link to="/account/informations"> {this.props.user.user_email} </Link>
+                                        {/* 
                                         <UncontrolledDropdown nav inNavbar>
                                             <DropdownToggle nav caret>
                                                 {this.props.user.user_email}
@@ -176,13 +190,15 @@ class Header extends React.Component{
 
                                             </DropdownMenu>
                                         </UncontrolledDropdown>
+                                        */}
+
                                         <NavItem>
-                                            <NavLink className="icon-panier">
-                                                <img className="icon-nav" src={Panier} alt="Icon Panier"/>
-                                                <span className="counter-panier">
-                                                    <p>80</p>
-                                                </span>
-                                            </NavLink>
+                                            <Link to="account/paniers" className="icon-panier" id="cart_icon">
+                                                    <img className="icon-nav" src={Panier} alt="Icon Panier"/>
+                                                    {/*<span className="counter-panier">
+                                                        <p>80</p>
+                                                    </span>*/}
+                                            </Link>
                                         </NavItem>
                                     </div>
 

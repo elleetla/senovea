@@ -7,6 +7,8 @@ import _ from "lodash";
 import Filters from '../containers/Filters/Filters';
 import CreatePanier from '../containers/Create-panier/Create-panier';
 
+import Product from "./product"
+
 // Actions
 import { call_product } from '../actions/index';
 
@@ -29,18 +31,25 @@ class Products extends Component{
             collapse: false
         }
         this.toggle = this.toggle.bind(this);
+        this.handleAddToPanier = this.handleAddToPanier.bind(this);
     }
     componentDidMount( ){
-        console.log(this)
-        this.props.call_product(this.props.user.user_arrondissement);
+        //console.log(this)
+        //this.props.call_product(this.props.user.user_arrondissement);
     }
     toggle(){
         this.setState({ collapse: !this.state.collapse });
     }
+
+    handleAddToPanier( key ){
+        //console.log('handleAddToPanier')
+        //console.log(key)
+    }
+
     render() {
 
-        console.log("PRODUCTS")
-        console.log(this);
+        //console.log("PRODUCTS")
+        //console.log(this);
 
         return(
             <div>
@@ -61,15 +70,17 @@ class Products extends Component{
                                 <Row>
                                     { _.map(this.props.products, (categories_values, categories_keys) => {
 
-                                        console.log(categories_keys)
-                                        console.log(categories_values)
+                                        //console.log(categories_keys)
+                                        //console.log(categories_values)
 
                                         return(
                                             <Col xs="12" key={categories_keys}>
                                                 {/*<h1>{categories_keys}</h1>*/}
                                                 { _.map( categories_values, ( lots_values, lots_keys ) => {
+                                                    console.log(lots_values)
                                                     return(
                                                         <div key={lots_keys}>
+<<<<<<< HEAD
                                                             <div className="bloc-lot">
                                                                 <div className="title-bloc-lot">
                                                                     <p>Lot {lots_values.lot_name} {/*lots_values.lot_fournisseur_r1.user_email*/}</p>
@@ -107,6 +118,16 @@ class Products extends Component{
                                                                     )
                                                                 })}
                                                             </div>
+=======
+                                                            <h2>Lot : {lots_keys}</h2>
+                                                            <h3>Fournisseurs R1 du lot : {lots_values.lot_fournisseur_r1.user_email}</h3>
+                                                            { _.map( lots_values.lot_products, ( prestations_values, prestations_keys ) =>{
+                                                                //console.log(prestations_values)
+                                                                return(
+                                                                    <Product key={prestations_keys} product_value={prestations_values} product_key={prestations_keys} lot_key={lots_keys}  />
+                                                                )
+                                                            })}
+>>>>>>> d191d84bb47d968d8aca90a8d1442128630dc7ad
                                                         </div>
                                                     )
                                                 })}

@@ -29,8 +29,8 @@ class Home extends Component{
     }
     render() {
 
-        console.log("HOME")
-        console.log(this);
+        //console.log("HOME")
+        //console.log(this);
 
         return(
             <div>
