@@ -22,6 +22,7 @@ import { UPDATE_SETTINGS_PANIER } from "../actions/index"
 import { ADD_PRODUCT_TO_PANIER } from "../actions/index"
 import { UPDATE_APP_SETTINGS } from "../actions/index"
 
+
 import _ from 'lodash'
 
 // suppliers 
@@ -225,7 +226,7 @@ function appSettingsReducer( state = { "globalLoading":true } , action ){
     }
 }
 
-
+// export reducers
 export const rootReducers = combineReducers({
 
     "user"      :userReducer,
@@ -236,5 +237,4 @@ export const rootReducers = combineReducers({
     "paniersSettings" : panierSettingsReducer,
     "appSettings": appSettingsReducer,
     "users": callUsers
-
 });

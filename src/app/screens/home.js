@@ -20,7 +20,8 @@ class Home extends Component{
         super(props);
 
         this.state = {
-            collapse: false
+            collapse: false,
+            isSticky: true
         }
 
         this.toggle = this.toggle.bind(this);

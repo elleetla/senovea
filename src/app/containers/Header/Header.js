@@ -15,23 +15,14 @@ import Logo from '../../assets/img/logo.svg';
 import Panier from '../../assets/img/icon-panier.svg';
 
 import {
-    Button, Modal, ModalHeader, ModalBody, ModalFooter,
-    Container,
-    Row,
-    Col,
+    Modal, ModalHeader, ModalBody,
     Collapse,
     Navbar,
     NavbarToggler,
-    NavbarBrand,
     Nav,
     NavItem,
     NavLink,
-    UncontrolledDropdown,
-    DropdownToggle,
-    DropdownMenu,
-    DropdownItem,
-    Popover, PopoverHeader, PopoverBody
-} from 'reactstrap';
+    } from 'reactstrap';
 
 class Header extends React.Component{
 

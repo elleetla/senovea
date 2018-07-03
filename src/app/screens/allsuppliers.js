@@ -5,6 +5,7 @@ import { connect } from 'react-redux';
 // import components elle&la
 import BlocConnect from '../components/bloc-connect/bloc-connect';
 import Banner from '../containers/Banner/Banner';
+import FiltersSuppliers from '../containers/Filters-suppliers/Filters-suppliers';
 
 // creation of the class "AllSupliers"
 export class AllSuppliers extends Component{
@@ -21,7 +22,7 @@ export class AllSuppliers extends Component{
                 { this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false ?
                     <BlocConnect titleBloc="Veuillez vous connecter ou créer un compte pour visualiser le contenu de cette page"/>
                     :
-                    <p>Utilisateur connecté : {this.props.user.user_name}</p>
+                    <FiltersSuppliers/>
                 }
             </div>
         )

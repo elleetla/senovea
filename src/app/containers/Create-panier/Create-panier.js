@@ -11,7 +11,7 @@ import { update_panier } from '../../actions/index';
 import { update_settings_panier } from '../../actions/index';
 
 // React Strap 
-import { Container, Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input, FormText } from 'reactstrap';
+import { Container, Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input } from 'reactstrap';
 
 // import style
 import './Create-panier.css';
@@ -86,15 +86,14 @@ class CreatePanier extends Component{
                             <Col lg="8">
                             {
                                 this.props.paniers.length !== 0 ?
-                                <FormGroup style={{margin: "0px"}}>
-                                    <Label style={{margin: "0 10px 0 0"}} for="select_panier"><strong>Panier : </strong></Label>
-                                    <select onChange={this.handleUpdateActivePanier} value={this.props.paniersSettings.active_panier_id} name="select_panier" id="select_panier">
-                                        {_.map(this.props.paniers, (panier, i)=>{
+                                <FormGroup style={{margin: "0px"}} >
+                                    <Input type="select" id="exampleSelect" onChange={this.handleUpdateActivePanier} value={this.props.paniersSettings.active_panier_id} name="select_panier" id="select_panier">
+                                        {_.map(this.props.paniers, (panier, i) => {
                                             return(
                                                 <option key={i} id={i} value={i}>{panier.nicename}</option>
                                             )
                                         })}
-                                    </select>
+                                    </Input>
                                 </FormGroup>
                                 :
                                 <p><b>Vous n’avez pas encore de panier</b></p>

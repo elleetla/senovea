@@ -82,7 +82,6 @@ export function supplier_order_accept_v2( order_id, product_id, supplier_id, cus
 }
 
 // supplier reject v2
-
 export function supplier_order_reject_v2( order_id, product_id, supplier_id, customer_id, mc_campaign_id, mc_email_id ) {
     
     /*
@@ -107,12 +106,12 @@ export function supplier_order_reject_v2( order_id, product_id, supplier_id, cus
 
     const order_reject_form_data = new FormData();
 
-    order_reject_form_data.append('order_id',parseInt(order_id))
-    order_reject_form_data.append('product_id',parseInt(product_id))
-    order_reject_form_data.append('supplier_id',parseInt(supplier_id))
-    order_reject_form_data.append('customer_id',parseInt(customer_id))
-    order_reject_form_data.append('mc_campaign_id',mc_campaign_id)
-    order_reject_form_data.append('mc_email_id',mc_email_id)
+    order_reject_form_data.append('order_id', parseInt(order_id))
+    order_reject_form_data.append('product_id', parseInt(product_id))
+    order_reject_form_data.append('supplier_id', parseInt(supplier_id))
+    order_reject_form_data.append('customer_id', parseInt(customer_id))
+    order_reject_form_data.append('mc_campaign_id', mc_campaign_id)
+    order_reject_form_data.append('mc_email_id', mc_email_id)
 
     return function (dispatch) {
         axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v2/order/reject`, order_reject_form_data, {})
@@ -856,6 +855,7 @@ export function delete_panier(){
         "payload":{}
     }
 }
+
 export function update_panier( new_panier ){
 
     return {
@@ -864,6 +864,7 @@ export function update_panier( new_panier ){
     }
 
 }
+
 export function update_settings_panier( new_settings ){
     return {
         "type":UPDATE_SETTINGS_PANIER,

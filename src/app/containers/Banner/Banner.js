@@ -13,7 +13,7 @@ class Banner extends React.Component{
     }
     render(){
         return(
-            <section id="banner-home">
+            <section id="banner">
                 <Container>
                     <Row>
                         <Col md={{ size: 8, offset: 2 }}>

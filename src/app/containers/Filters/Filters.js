@@ -18,13 +18,13 @@ class Filters extends Component{
                         <Row>
                             <Col lg="3">
                                 <ul className="category-filter">
-                                    <li><a onClick={this.filterTest.bind(this)}>Travaux</a></li>
                                     <li><a onClick={this.filterTest.bind(this)}>ingénierie</a></li>
+                                    <li><a onClick={this.filterTest.bind(this)}>Travaux</a></li>
                                 </ul>
                             </Col>
                             <Col lg="4">
                                 <FormGroup className="mb-0">
-                                    <Input type="email" name="email" placeholder="Saisir une préstation, ex : Espace Vert" />
+                                    <Input type="text" name="email" placeholder="Saisir une préstation, ex : Espace Vert" />
                                     <span className="icon-search">
                                         <img src={iconSearch} alt="icon search filter"/>
                                     </span>
@@ -32,7 +32,7 @@ class Filters extends Component{
                             </Col>
                             <Col lg="3">
                                 <FormGroup className="mb-0">
-                                    <Input type="email" name="email" placeholder="Référence article" />
+                                    <Input type="text" name="email" placeholder="Référence article" />
                                     <span className="icon-search">
                                         <img src={iconSearch} alt="icon search filter"/>
                                     </span>
@@ -50,13 +50,13 @@ class Filters extends Component{
                         <Row>
                             <Col lg="3">
                                 <ul className="category-filter">
-                                    <li><a onClick={this.filterTest.bind(this)}>Travaux</a></li>
                                     <li><a onClick={this.filterTest.bind(this)}>ingénierie</a></li>
+                                    <li><a onClick={this.filterTest2.bind(this)}>Travaux</a></li>
                                 </ul>
                             </Col>
                             <Col lg="4">
                                 <FormGroup className="mb-0">
-                                    <Input type="email" name="email" placeholder="Saisir une préstation, ex : Espace Vert" />
+                                    <Input type="text" name="prestation" placeholder="Saisir une préstation, ex : Espace Vert" />
                                     <span className="icon-search">
                                         <img src={iconSearch} alt="icon search filter"/>
                                     </span>
@@ -64,7 +64,7 @@ class Filters extends Component{
                             </Col>
                             <Col lg="3">
                                 <FormGroup className="mb-0">
-                                    <Input type="email" name="email" placeholder="Référence article" />
+                                    <Input type="text" name="reference" placeholder="Référence article" />
                                     <span className="icon-search">
                                         <img src={iconSearch} alt="icon search filter"/>
                                     </span>
