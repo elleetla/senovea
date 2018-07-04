@@ -469,8 +469,8 @@ export function user_auth_action( user_infos, callback ){
                             'user_role':'customer',
                             'user_email':response.data.user_email,
                             'user_name':response.data.user_name,
-                            'user_first_name':response.data.user_first_name,
-                            'user_last_name':response.data.user_last_name,
+                            //'user_first_name':response.data.user_first_name,
+                            //'user_last_name':response.data.user_last_name,
                             //"user_avatar_url": response.data.avatar_url,
                             //"user_orders_count": response.data.orders_count,
                             'user_auth':{

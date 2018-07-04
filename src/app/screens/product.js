@@ -32,6 +32,7 @@ class Product extends React.Component{
         this.handleProductOpen = this.handleProductOpen.bind(this)
         this.handleProductChangeVariation = this.handleProductChangeVariation.bind(this)
         this.handleAddToPanier = this.handleAddToPanier.bind(this)
+        this.renderSwitchMode = this.renderSwitchMode.bind(this)
     }
 
     componentDidMount(){
@@ -87,6 +88,32 @@ class Product extends React.Component{
             }
         } )
 
+    }
+
+    renderSwitchMode( mode, lot_key ){
+        console.log(mode)
+        switch( mode ){
+            case "catalog":{
+                return <Button onClick={ 
+                            (e) => {    
+                                this.setState({isLoading:true})
+                                this.handleAddToPanier( e, this.state.activeVariation ) 
+                            } 
+                        } style={{marginRight: "10px"}} className="btn-white" data-lotkey={ lot_key }> 
+                            { 
+                                this.state.isLoading === true ?
+                                "sending"
+                                :
+                                "Ajouter aux paniers"
+                            }
+                        </Button>
+            }
+            case "panier":{
+                return <Button style={{marginRight: "10px"}} className="btn-white" >Retirer du panier</Button>
+            }
+            default :
+            break;
+        }
     }
 
     render(){
@@ -156,26 +183,12 @@ class Product extends React.Component{
 
                     <Col md="3" className="text-right">
 
-                        <Button onClick={ 
-
-                            (e) => { 
-
-                                this.setState({
-                                    isLoading:true
-                                })
-                                this.handleAddToPanier( e, this.state.activeVariation ) 
-
-                            } 
-
-                        } style={{marginRight: "10px"}} className="btn-white" data-lotkey={ this.props.lot_key }> 
-                        
-                        { 
-                            this.state.isLoading === true ?
-                            "sending"
+                        {
+                            _.has( this.props, "mode" ) ? 
+                                this.renderSwitchMode( this.props.mode, this.props.lot_key )
                             :
-                            "Ajouter aux paniers"
+                            null
                         }
-                        </Button>
                         <Button onClick={this.handleProductOpen} className="btn-white">Détails</Button>
 
                     </Col>
@@ -210,7 +223,6 @@ class Product extends React.Component{
 
                                                         <p> <b>Variation Description :</b> </p>
                                                         <p> {variation.variation_description} </p>
-
 
                                                         <p> <b>Variation Price :</b> </p>
                                                         <p> {variation.variation_price} €</p>

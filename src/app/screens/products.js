@@ -75,7 +75,7 @@ class Products extends Component{
 
                                         return(
                                             <Col xs="12" key={categories_keys}>
-                                                {/*<h1>{categories_keys}</h1>*/}
+                                                <h1>{categories_keys}</h1>
                                                 { _.map( categories_values, ( lots_values, lots_keys ) => {
                                                     console.log(lots_values)
                                                     return(
@@ -88,7 +88,7 @@ class Products extends Component{
                                                             { _.map( lots_values.lot_products, ( prestations_values, prestations_keys ) =>{
                                                                 //console.log(prestations_values)
                                                                 return(
-                                                                    <Product key={prestations_keys} product_value={prestations_values} product_key={prestations_keys} lot_key={lots_keys}  />
+                                                                    <Product key={prestations_keys} product_value={prestations_values} product_key={prestations_keys} lot_key={lots_keys} mode="catalog"   />
                                                                 )
                                                             })}
                                                             </div>
