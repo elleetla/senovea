@@ -169,13 +169,11 @@ class Header extends React.Component{
                                             <Link to="/account/paniers" className="icon-panier" id="cart_icon">
                                                     <img className="icon-nav" src={Panier} alt="Icon Panier"/>
                                                     <span className="counter-panier">
-                                                        <p>test</p>
-                                                        {console.log("PANIER : " + this.props.paniers)}
+                                                        <p>{console.log("test : " + this.props.paniers.data)}</p>
                                                     </span>
                                             </Link>
                                         </NavItem>
                                     </div>
-
                                 }
                             </Nav>
                         </Collapse>

@@ -60,10 +60,7 @@ import { update_app_settings } from './app/actions/index';
 import { update_settings_panier } from './app/actions/index';
 
 
-const store = createStore(
-    rootReducers,
-    applyMiddleware(thunk)
-);
+const store = applyMiddleware(thunk)(createStore);
 
 // Routing 
 
@@ -75,6 +72,16 @@ class App extends React.Component {
 
     constructor(props){
         super(props)
+        this.state = {
+            cookieMentions : true
+        }
+    }
+
+    closeCookies(){
+        console.log("good");
+        return this.setState({
+            cookieMentions: false,
+        });
     }
 
     componentDidMount() { 
@@ -143,7 +150,6 @@ class App extends React.Component {
                             <Switch>
 
                                 <Route exact path="/" component={Home} />
-
                                 {/* Route fournisseur accept */}
                                 <Route path="/supplier/accept" component={SupplierAccept} />
                                 {/* Route fournisseur reject */}
@@ -274,6 +280,16 @@ class App extends React.Component {
                                 <Route path="/telechargement" component={Downloading}/>
 
                             </Switch>
+
+                            { this.state.cookieMentions === true ?
+                                <div id="cookie-notice">
+                                    <p>Ce site utilise des cookies. En poursuivant la navigation, vous acceptez l'utilisation de cookies.</p>
+                                    <button onClick={() => this.closeCookies()} className="btn-green">Fermer et continuer</button>
+                                </div>
+                                :
+                                null
+                            }
+
                             <Footer/>
                         </div>
                     </BrowserRouter>
@@ -307,7 +323,8 @@ function mapStateToProps( state ){
 const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
 ReactDOM.render(
-    <Provider store={store}>
+
+    <Provider store={store(rootReducers,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())}>
         <ConnectedApp/>
     </Provider>,
     document.querySelector('#root')

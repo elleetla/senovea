@@ -4,12 +4,17 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import './Footer.css';
 import LogoFooter from '../../assets/img/logo-light.png';
+import {connect} from "react-redux";
 
 class Footer extends Component{
     render(){
         return(
             <div>
-                <a id="btn-call">Besoin d'une assistance ?</a>
+                { this.props.user.user_auth.isAuth === true ?
+                    <a id="btn-call">Besoin d'une assistance ?</a>
+                    :
+                    null
+                }
                 <footer id="footer-app">
                     <Container>
                         <Row>
@@ -27,5 +32,13 @@ class Footer extends Component{
     }
 }
 
-// export
-export default Footer;
+function mapStateToProps( state ){
+    return {
+        "user":state.user,
+        "appSettings":state.appSettings,
+        "paniers":state.paniers,
+        "paniersSettings" : state.paniersSettings,
+    }
+}
+
+export default connect(mapStateToProps)(Footer);
