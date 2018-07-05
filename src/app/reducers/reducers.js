@@ -21,7 +21,8 @@ import { UPDATE_PANIER } from "../actions/index"
 import { UPDATE_SETTINGS_PANIER } from "../actions/index"
 import { ADD_PRODUCT_TO_PANIER } from "../actions/index"
 import { UPDATE_APP_SETTINGS } from "../actions/index"
-
+import { CALL_SUPPLIERS } from "../actions/index";
+import { FILTERS_SUPPLIERS } from "../actions/index";
 
 import _ from 'lodash'
 
@@ -226,15 +227,38 @@ function appSettingsReducer( state = { "globalLoading":true } , action ){
     }
 }
 
+function reducerSuppliers(state = [], action){
+    switch (action.type) {
+        case CALL_SUPPLIERS: {
+            console.log("test suppliers");
+            return action.payload
+        }
+        default:
+            return state
+    }
+}
+
+function reducerFilterSuppliers( state = { "name": false, "rang" : false, "arrondissement" : false} , action ){
+    switch( action.type ){
+        case FILTERS_SUPPLIERS:{
+            console.log('BLABLA');
+            return action.payload
+        }
+        default:
+            return state
+    }
+}
+
 // export reducers
 export const rootReducers = combineReducers({
-
     "user"      :userReducer,
+    "suppliersSettings" : reducerFilterSuppliers,
     "form"      :formReducer,
     "products"  :productReducer,
     "supplier"  :supplierReducer,
     "paniers"   :panierReducer,
     "paniersSettings" : panierSettingsReducer,
     "appSettings": appSettingsReducer,
-    "users": callUsers
+    "users": callUsers,
+    "suppliers" : reducerSuppliers
 });

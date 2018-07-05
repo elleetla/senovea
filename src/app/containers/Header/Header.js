@@ -5,7 +5,6 @@ import { Link }                             from 'react-router-dom'
 
 // user logout action
 import { user_logout_action } from '../../actions/index'
-
 import LogIn from '../../screens/login'
 import Register from '../../screens/register'
 
@@ -39,7 +38,6 @@ class Header extends React.Component{
             modalConnect: false,
             modalRegistration: false,
             popoverOpen: false
-
         };
     }
 
@@ -167,10 +165,10 @@ class Header extends React.Component{
                                         </NavItem>
                                         <NavItem>
                                             <Link to="/account/paniers" className="icon-panier" id="cart_icon">
-                                                    <img className="icon-nav" src={Panier} alt="Icon Panier"/>
-                                                    <span className="counter-panier">
-                                                        <p>{console.log("test : " + this.props.paniers.data)}</p>
-                                                    </span>
+                                                <img className="icon-nav" src={Panier} alt="Icon Panier"/>
+                                                <span className="counter-panier">
+                                                    <p>{console.log(this.props.paniers)}</p>
+                                                </span>
                                             </Link>
                                         </NavItem>
                                     </div>

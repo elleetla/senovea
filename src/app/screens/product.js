@@ -8,13 +8,11 @@ import { add_product_to_panier } from "../actions/index"
 import LoadingSvg from '../assets/img/icon-preloader.svg';
 
 import {
-    Container,
     Row,
     Col,
     Collapse,
     Button,
-    CardBody,
-    Card } from 'reactstrap';
+    Input } from 'reactstrap';
 
 class Product extends React.Component{
 
@@ -102,10 +100,7 @@ class Product extends React.Component{
         return(
 
             <div className="article-bloc">
-            
                 <Row>
-
-
                     <Col md="2">
                         <p>Réf : <b> 
                         { 
@@ -125,8 +120,8 @@ class Product extends React.Component{
                     <Col md="2">
                     <div>
                         
-                        <label>Quantité : </label>
-                        <select value={ this.state.activeVariation } onChange={ this.handleProductChangeVariation } >
+                        <label style={{margin:"0 5px 0 0"}}>Quantité : </label>
+                        <Input type="select" className="select-product" value={ this.state.activeVariation } onChange={ this.handleProductChangeVariation } >
                             {
                                 this.props.product_value.variations.length !== 0 ? 
                                     _.map( this.props.product_value.variations, ( variation ) => {
@@ -137,7 +132,7 @@ class Product extends React.Component{
                                 :
                                 <option value={ this.state.activeVariation } > Aucune Variation </option>
                             }
-                        </select>
+                        </Input>
 
                     </div>
                     </Col>
@@ -169,7 +164,7 @@ class Product extends React.Component{
                         
                         { 
                             this.state.isLoading === true ?
-                            "sending"
+                            "Chargement ..."
                             :
                             "Ajouter aux paniers"
                         }

@@ -71,7 +71,7 @@ const store = applyMiddleware(thunk)(createStore);
 class App extends React.Component {
 
     constructor(props){
-        super(props)
+        super(props);
         this.state = {
             cookieMentions : true
         }
@@ -128,7 +128,7 @@ class App extends React.Component {
 
                 // on update les app settings 
                 let new_app_settings = _.cloneDeep(this.props.appSettings);
-                new_app_settings.globalLoading = false
+                new_app_settings.globalLoading = false;
                 this.props.update_app_settings( new_app_settings )
 
             }
@@ -137,7 +137,10 @@ class App extends React.Component {
 
     }
 
+    /* function cookies notice */
+
     render(){
+
         ////console.log("app class")
         ////console.log(this.props)
         return(
@@ -259,9 +262,10 @@ class App extends React.Component {
                                 }}/>
 
                                 <Route path="/supplier-orders" render={ () => {
-                                    if(this.props.user.user_auth.isAuth === false ){
+                                    if(this.props.user.user_auth.isAuth === false ) {
                                         return <Redirect to="/login"/>
-                                    }else{
+                                    }
+                                    else {
                                         if( this.props.user.user_auth.isCustomer === false && this.props.user.user_auth.isSupplier === true ){
                                             return (
                                                 <div>
@@ -272,23 +276,22 @@ class App extends React.Component {
                                             return <Redirect to="/"/>
                                         }
                                     }
-                                }}/>
+                                }} />
 
                                 <Route path="/users" component={AllUsers}/>
                                 <Route path="/suppliers" component={AllSuppliers}/>
                                 <Route path="/about" component={About}/>
                                 <Route path="/telechargement" component={Downloading}/>
-
                             </Switch>
 
-                            { this.state.cookieMentions === true ?
-                                <div id="cookie-notice">
-                                    <p>Ce site utilise des cookies. En poursuivant la navigation, vous acceptez l'utilisation de cookies.</p>
-                                    <button onClick={() => this.closeCookies()} className="btn-green">Fermer et continuer</button>
-                                </div>
-                                :
-                                null
-                            }
+                            { /* Bloc cookie notice */ }
+                            <div id="cookie-notice" className={this.state.cookieMentions === false ? 'displayBlocOpacity' : null}>
+                                <p>
+                                    Ce site utilise des cookies. En poursuivant la navigation,
+                                    vous acceptez l'utilisation de cookies.
+                                </p>
+                                <button onClick={() => this.closeCookies()} className="btn-green">Fermer et continuer</button>
+                            </div>
 
                             <Footer/>
                         </div>
@@ -297,35 +300,32 @@ class App extends React.Component {
     }
 }
 
+const cookieNotice = document.querySelector("#cookie-notice");
+
 function mapDispatchToProps( dispatch ){
     return bindActionCreators({
-
         "user_load_action": user_load_action,
         "call_product": call_product,
         "load_panier": load_panier,
         "update_app_settings": update_app_settings,
         "update_settings_panier":update_settings_panier
-
     }, dispatch)
 }
 
 function mapStateToProps( state ){
     return {
-
         "user":state.user,
         "appSettings":state.appSettings,
         "paniers":state.paniers,
         "paniersSettings" : state.paniersSettings,
-
     }
 }
 
 const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
 ReactDOM.render(
-
     <Provider store={store(rootReducers,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())}>
         <ConnectedApp/>
     </Provider>,
     document.querySelector('#root')
-)
+);
