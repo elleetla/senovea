@@ -25,7 +25,9 @@ export const DELETE_PANIER = "DELETE_PANIER"
 export const UPDATE_PANIER = "UPDATE_PANIER"
 export const UPDATE_SETTINGS_PANIER = "UPDATE_SETTINGS_PANIER"
 export const ADD_PRODUCT_TO_PANIER = "ADD_PRODUCT_TO_PANIER"
+export const ORDER_PANIER = "ORDER_PANIER"
 
+export const UPDATE_MODAL_SETTINGS = "ADD_PRODUCT_TO_PANIER"
 export const UPDATE_APP_SETTINGS = "UPDATE_APP_SETTINGS"
 
 
@@ -757,6 +759,7 @@ export function load_panier( user_id, callback ){
 
     }
 }
+
 export function add_panier(formProps, user_id, callback){
 
     const addPanierData = new FormData();
@@ -828,6 +831,7 @@ export function add_product_to_panier( user_id, panier_id, product_id, lot_id, c
 
 }
 
+/*
 export function delete_panier(){
     return {
         "type":DELETE_PANIER,
@@ -842,10 +846,30 @@ export function update_panier( new_panier ){
     }
 
 }
+*/
+
 export function update_settings_panier( new_settings ){
     return {
         "type":UPDATE_SETTINGS_PANIER,
         "payload":new_settings
+    }
+}
+
+export function order_panier( panier_id ){
+
+    // ici on order
+    // console.log(panier_id)
+
+    const panierDATA = new FormData();
+    panierDATA.append('panier_id',panier_id);
+
+    return (dispatch) =>{
+        axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v2/panier/order`, panierDATA, {})
+            .then((response)=>{
+                console.log(response)
+            }).catch((error)=>{
+                
+            })
     }
 }
 
@@ -854,4 +878,13 @@ export function update_app_settings( new_settings ){
         "type":UPDATE_APP_SETTINGS,
         "payload":new_settings
     }
+}
+
+export function update_modal_settings( settings ){
+
+    return{
+        "type":UPDATE_MODAL_SETTINGS,
+        "payload":settings
+    }
+
 }

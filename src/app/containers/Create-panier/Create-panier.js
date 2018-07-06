@@ -120,7 +120,7 @@ class CreatePanier extends Component{
                                     type="text"
                                     placeholder="Arrondissement Napoléonien"
                                     value={this.props.user.user_arrondissement}
-                                    initialValues={this.props.user.user_arrondissement}
+                                    initialvalues={this.props.user.user_arrondissement}
                                     disabled
                                 />
                                 </FormGroup>

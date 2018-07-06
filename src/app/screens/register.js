@@ -84,13 +84,14 @@ class Register extends React.Component{
         // Calling register action
         this.props.user_register_action(formProps, ()=>{
             // redirect
-            this.setState({ redirect: true });
+            //this.setState({ redirect: true });
         })
     }   
 
     render(){
         
         const { redirect } = this.state;
+
         if (redirect) {
             return <Redirect to='/login'/>;
         }

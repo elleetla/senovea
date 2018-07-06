@@ -20,7 +20,11 @@ import { UPDATE_PANIER } from "../actions/index"
 import { UPDATE_SETTINGS_PANIER } from "../actions/index"
 import { ADD_PRODUCT_TO_PANIER } from "../actions/index"
 
+import { ORDER_PANIER } from "../actions/index"
 
+
+
+import { UPDATE_MODAL_SETTINGS } from "../actions/index"
 import { UPDATE_APP_SETTINGS } from "../actions/index"
 
 import _ from 'lodash'
@@ -232,6 +236,11 @@ function panierReducer( state = [], action ){
             return action.payload
         }
 
+        ORDER_PANIER:{
+            console.log('order panier reducer')
+            return state
+        }
+
         case DELETE_PANIER:{
             return state
         }
@@ -267,6 +276,23 @@ function appSettingsReducer( state = { "globalLoading":true } , action ){
 }
 
 
+const modalSettingsReducer_init = {
+    "isOpen":false,
+    "title":"",
+    "component":"",
+    "size":""
+}
+function modalSettingsReducer( state = modalSettingsReducer_init, action ){
+    switch( action.type ){
+        case UPDATE_MODAL_SETTINGS:{
+            console.log("update modal settings")
+            return action.payload;
+        }
+        default:
+            return state
+    }
+}
+
 export const rootReducers = combineReducers({
 
     "user"      :userReducer,
@@ -276,6 +302,7 @@ export const rootReducers = combineReducers({
     "supplier"  :supplierReducer,
     "paniers"   :panierReducer,
     "paniersSettings" : panierSettingsReducer,
-    "appSettings": appSettingsReducer
+    "appSettings": appSettingsReducer,
+    "modalSettings":modalSettingsReducer
 
 });

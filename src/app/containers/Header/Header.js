@@ -5,9 +5,12 @@ import { Link }                             from 'react-router-dom'
 
 // user logout action
 import { user_logout_action } from '../../actions/index'
+import { update_modal_settings } from '../../actions/index';
+
 
 import LogIn from '../../screens/login'
 import Register from '../../screens/register'
+
 
 // import css
 import './Header.css';
@@ -42,6 +45,7 @@ class Header extends React.Component{
         this.toogleModalConnect = this.toogleModalConnect.bind(this);
         this.toogleModalRegistration = this.toogleModalRegistration.bind(this);
         this.handleCartToggle = this.handleCartToggle.bind(this);
+        this.handleModalToggle = this.handleModalToggle.bind(this)
 
         this.state = {
             isOpen: false,
@@ -79,6 +83,19 @@ class Header extends React.Component{
         this.setState({
             popoverOpen: !this.state.popoverOpen
           });
+    }
+
+    handleModalToggle( component ){
+
+        const modalsize = component === "register" ? "big" : "medium";
+
+        this.props.update_modal_settings( {
+            "isOpen":true,
+            "title":component,
+            "component":component,
+            "size":modalsize
+        } )
+
     }
 
     render(){
@@ -155,13 +172,14 @@ class Header extends React.Component{
                                 </NavItem>
                             </Nav>
                             <Nav className="ml-auto" navbar>
+
                                 { this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false ?
                                     <div>
                                         <NavItem>
-                                            <NavLink onClick={this.toogleModalRegistration} className="nav-link">Inscription</NavLink>
+                                            <NavLink onClick={ ()=>{ this.handleModalToggle( 'register' ) } } className="nav-link">Inscription</NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <NavLink onClick={this.toogleModalConnect} className="nav-link">Connexion</NavLink>
+                                            <NavLink onClick={ ()=>{ this.handleModalToggle( 'login' ) } } className="nav-link">Connexion</NavLink>
                                         </NavItem>
                                         <NavItem>
                                             <NavLink>
@@ -193,7 +211,7 @@ class Header extends React.Component{
                                         */}
 
                                         <NavItem>
-                                            <Link to="account/paniers" className="icon-panier" id="cart_icon">
+                                            <Link to="/account/paniers" className="icon-panier" id="cart_icon">
                                                     <img className="icon-nav" src={Panier} alt="Icon Panier"/>
                                                     {/*<span className="counter-panier">
                                                         <p>80</p>
@@ -208,6 +226,7 @@ class Header extends React.Component{
                     </Navbar>
                 </header>
 
+                                {/*
                 <Modal id="modal-login" isOpen={this.props.user.user_auth.auth_token === '' ? this.state.modalConnect : this.state.modalConnect = false} toggle={this.toogleModalConnect} className={this.props.className}>
                     <ModalHeader toggle={this.toogleModalConnect}>Connectez-vous !</ModalHeader>
                     <ModalBody>
@@ -215,13 +234,13 @@ class Header extends React.Component{
                         <LogIn/>
                     </ModalBody>
                 </Modal>
-
                 <Modal isOpen={this.state.modalRegistration} toggle={this.toogleModalRegistration} className={this.props.className}>
                     <ModalHeader toggle={this.toogleModalRegistration}>Inscrivez-vous !</ModalHeader>
                     <ModalBody>
                         <Register/>
                     </ModalBody>
                 </Modal>
+                                */}
 
             </div>
         )
@@ -231,13 +250,16 @@ class Header extends React.Component{
 
 function mapStateToProps(state){
     return {
+
         "user":state.user
+
     }
 }
 
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
-        "user_logout_action":user_logout_action
+        "user_logout_action":user_logout_action,
+        "update_modal_settings":update_modal_settings
     }, dispatch)
 }
 
