@@ -40,6 +40,11 @@
     border-radius: 70px;
 }
 
+.navbar-light .navbar-toggler{
+    border: 0;
+    padding: 0;
+}
+
 /*
 modal
 */
@@ -50,4 +55,15 @@ modal
     transform: translate(0,-50%);
     top: 50%;
     margin: 0 auto;
+}
+
+@media screen and (max-width: 600px)
+{
+    #header-app .navbar {
+        padding: 0.4rem 1rem;
+    }
+
+    #logo-app {
+        width: 120px;
+    }
 }

@@ -1,9 +1,38 @@
-#banner-home{
+#banner{
     padding: 60px 0;
     background-color: #ffffff;
     text-align: center;
 }
 
-#banner-home h1{
+#banner h1 {
     font-weight: 600;
+    margin-bottom: 0;
+}
+
+.desc-banner{
+    padding-top: 20px;
+}
+
+/* responsive */
+
+@media screen and (max-width: 600px)
+{
+    /* banner */
+    #banner {
+        padding: 36px 0;
+    }
+
+    /* title banner home */
+    #banner h1 {
+        font-size: 24px;
+    }
+
+    #Filters .form-control{
+        font-size: 12px;
+    }
+
+    ul.category-filter {
+        margin-bottom: 10px;
+        font-size: 12px;
+    }
 }

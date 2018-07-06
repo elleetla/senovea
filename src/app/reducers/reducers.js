@@ -8,6 +8,7 @@ import { USER_LOAD }                      from '../actions/index'
 import { SUPPLIER_ORDER_ACCEPT }          from '../actions/index'
 import { SUPPLIER_ORDER_REJECT }          from '../actions/index'
 import { CALL_PRODUCTS }                  from "../actions/index"
+import { CALL_USERS }                     from "../actions/index"
 import { ORDER_PRODUCT }                  from "../actions/index"
 
 import { SUPPLIER_ORDER_ACCEPT_V2 } from "../actions/index"
@@ -19,13 +20,12 @@ import { DELETE_PANIER } from "../actions/index"
 import { UPDATE_PANIER } from "../actions/index"
 import { UPDATE_SETTINGS_PANIER } from "../actions/index"
 import { ADD_PRODUCT_TO_PANIER } from "../actions/index"
-
-import { ORDER_PANIER } from "../actions/index"
-
-
-
-import { UPDATE_MODAL_SETTINGS } from "../actions/index"
 import { UPDATE_APP_SETTINGS } from "../actions/index"
+import { CALL_SUPPLIERS } from "../actions/index";
+import { FILTERS_SUPPLIERS } from "../actions/index";
+import { ORDER_PANIER } from "../actions/index"
+import { UPDATE_MODAL_SETTINGS } from "../actions/index"
+
 
 import _ from 'lodash'
 
@@ -67,7 +67,6 @@ import _ from 'lodash'
 // users 
 
 const USER_INITIAL_STATE = {
-
     'user_auth':{
 
         'auth_token':'',
@@ -77,57 +76,7 @@ const USER_INITIAL_STATE = {
         'isCustomer':false
         
     }
-
-    /*
-    'user_id':'',
-    'user_role':'',
-    'user_email':'',
-    'user_name':'',
-    'user_first_name':'',
-    'user_last_name':'',
-    "user_avatar_url": '',
-    "user_orders_count": 0,
-
-    'user_auth':{
-        'auth_token':'',
-        'isAuth':false,
-        'isValidated':false
-    },
-
-    'user_order':{
-    },
-
-    'user_billing':{
-        "first_name": "",
-        "last_name": "",
-        "company": "",
-        "address_1": "",
-        "address_2": "",
-        "city": "",
-        "state": "",
-        "postcode": "",
-        "country": "",
-        "email": "",
-        "phone": ""
-    },
-
-    "user_shipping": {
-        "first_name": "",
-        "last_name": "",
-        "company": "",
-        "address_1": "",
-        "address_2": "",
-        "city": "",
-        "state": "",
-        "postcode": "",
-        "country": ""
-    },
-
-    "isPayingCustomer": false,
-    'isRegistered':false
-    */
-
-}
+};
 
 // reducer products
 function productReducer(state = [], action) {
@@ -218,6 +167,17 @@ function supplierReducer( state = {}, action ){
     }
 }
 
+function callUsers(state = {}, action){
+    switch (action.type){
+        case CALL_USERS: {
+            console.log("users fonctionne");
+            return action.payload
+        }
+        default :
+            return state
+    }
+}
+
 function panierReducer( state = [], action ){
     switch( action.type ){
         case LOAD_PANIER:{
@@ -236,7 +196,7 @@ function panierReducer( state = [], action ){
             return action.payload
         }
 
-        ORDER_PANIER:{
+        case ORDER_PANIER:{
             console.log('order panier reducer')
             return state
         }
@@ -275,6 +235,16 @@ function appSettingsReducer( state = { "globalLoading":true } , action ){
     }
 }
 
+function reducerSuppliers(state = [], action){
+    switch (action.type) {
+        case CALL_SUPPLIERS: {
+            console.log("test suppliers");
+            return action.payload
+        }
+        default:
+            return state
+    }
+}
 
 const modalSettingsReducer_init = {
     "isOpen":false,
@@ -292,17 +262,28 @@ function modalSettingsReducer( state = modalSettingsReducer_init, action ){
             return state
     }
 }
+function reducerFilterSuppliers(state = { "name": "", "rang": "", "arrondissement" : ""}, action){
+    switch( action.type ){
+        case FILTERS_SUPPLIERS:{
+            console.log('update app settings reducer');
+            return action.payload
+        }
+        default:
+            return state
+    }
+}
 
+// export reducers
 export const rootReducers = combineReducers({
-
     "user"      :userReducer,
-    //"supplier"  :supplierReducer,
+    "suppliersSettings" : reducerFilterSuppliers,
     "form"      :formReducer,
     "products"  :productReducer,
     "supplier"  :supplierReducer,
     "paniers"   :panierReducer,
     "paniersSettings" : panierSettingsReducer,
     "appSettings": appSettingsReducer,
-    "modalSettings":modalSettingsReducer
-
+    "modalSettings":modalSettingsReducer,
+    "users": callUsers,
+    "suppliers" : reducerSuppliers
 });

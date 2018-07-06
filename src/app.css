@@ -88,6 +88,12 @@ button:focus {
     box-shadow: 0px 2px 16px rgba(61, 68, 139, 0.05);
 }
 
+.select-product{
+    display: inline-block;
+    width: auto;
+    font-size: 0.7rem;
+}
+
 .article-bloc .row {
     align-items: center;
 }
@@ -143,7 +149,6 @@ button:focus {
 }
 
 /* bloc lot */
-
 .title-bloc-lot{
     background-color: #ffffff;
     border-radius: 4px;
@@ -162,4 +167,34 @@ button:focus {
 
 .bloc-lot {
     margin-bottom: 25px;
+}
+
+/* cookies notice */
+#cookie-notice{
+    position: fixed;
+    left: 20px;
+    font-size: 14px;
+    color: #ffffff;
+    bottom: 20px;
+    background: linear-gradient(to right, rgba(130, 140, 236, 100), rgba(75, 89, 224, 100));
+    padding: 26px;
+    border-radius: 4px;
+    box-shadow: 0 0px 20px rgba(61, 68, 139, 0.2);
+    width: 470px;
+    z-index: 2;
+}
+
+#cookie-notice .btn-green {
+    text-transform: inherit;
+    display: inline-block;
+    width: auto;
+    font-size: 12px;
+    padding: 10px 15px;
+}
+
+.displayBlocOpacity{
+    opacity: 0;
+    transition-duration: 1.5s;
+    margin-left: -1000px;
+    transition-delay: 0.3s;
 }

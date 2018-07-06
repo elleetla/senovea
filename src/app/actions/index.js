@@ -27,8 +27,13 @@ export const UPDATE_SETTINGS_PANIER = "UPDATE_SETTINGS_PANIER"
 export const ADD_PRODUCT_TO_PANIER = "ADD_PRODUCT_TO_PANIER"
 export const ORDER_PANIER = "ORDER_PANIER"
 
-export const UPDATE_MODAL_SETTINGS = "ADD_PRODUCT_TO_PANIER"
+export const CALL_USERS = "CALL_USERS";
+export const CALL_SUPPLIERS = "CALL_SUPPLIERS";
+
+export const FILTERS_SUPPLIERS = "FILTERS_SUPPLIERS";
+
 export const UPDATE_APP_SETTINGS = "UPDATE_APP_SETTINGS"
+export const UPDATE_MODAL_SETTINGS = "UPDATE_MODAL_SETTINGS"
 
 
 // ACTIONS CREATORS
@@ -83,7 +88,6 @@ export function supplier_order_accept_v2( order_id, product_id, supplier_id, cus
 }
 
 // supplier reject v2
-
 export function supplier_order_reject_v2( order_id, product_id, supplier_id, customer_id, mc_campaign_id, mc_email_id ) {
     
     /*
@@ -108,12 +112,12 @@ export function supplier_order_reject_v2( order_id, product_id, supplier_id, cus
 
     const order_reject_form_data = new FormData();
 
-    order_reject_form_data.append('order_id',parseInt(order_id))
-    order_reject_form_data.append('product_id',parseInt(product_id))
-    order_reject_form_data.append('supplier_id',parseInt(supplier_id))
-    order_reject_form_data.append('customer_id',parseInt(customer_id))
-    order_reject_form_data.append('mc_campaign_id',mc_campaign_id)
-    order_reject_form_data.append('mc_email_id',mc_email_id)
+    order_reject_form_data.append('order_id', parseInt(order_id))
+    order_reject_form_data.append('product_id', parseInt(product_id))
+    order_reject_form_data.append('supplier_id', parseInt(supplier_id))
+    order_reject_form_data.append('customer_id', parseInt(customer_id))
+    order_reject_form_data.append('mc_campaign_id', mc_campaign_id)
+    order_reject_form_data.append('mc_email_id', mc_email_id)
 
     return function (dispatch) {
         axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v2/order/reject`, order_reject_form_data, {})
@@ -128,6 +132,21 @@ export function supplier_order_reject_v2( order_id, product_id, supplier_id, cus
             ////console.log('reject ko')
             ////console.log(error.message)
         });
+    }
+}
+
+// CALL SUPPLIERS
+export function callSuppliers() {
+    return function (dispatch) {
+        axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/supplier`).then(response => {
+           console.log(response.data.data);
+           dispatch({
+               type: CALL_SUPPLIERS,
+               payload: response.data.data
+           })
+        }).catch(error => {
+            console.log(error);
+        })
     }
 }
 
@@ -155,6 +174,26 @@ export function call_product( user_arrondissement ) {
             });
     }
 
+}
+
+// function Call Users
+export function call_users(stored_user_token){
+    return function (dispatch) {
+        axios.get(`${WORDPRESS_API_BASE_URL}/wp/v2/users`, {
+            headers: {
+                'Authorization' : `Bearer ${stored_user_token}`
+            }
+        })
+            .then(function (response) {
+                dispatch({
+                    "type": CALL_USERS,
+                    "payload": response.data
+                })
+            })
+            .catch(function (error) {
+                console.log(error);
+        })
+    }
 }
 
 // Action order product 
@@ -611,9 +650,7 @@ export function user_logout_action(){
         dispatch({
             "type" : USER_AUTH,
             "payload": {
-
                 'user_auth':{
-
                     'auth_token':'',
                     'isAuth':false,
                     'isValidated':false,
@@ -838,6 +875,7 @@ export function delete_panier(){
         "payload":{}
     }
 }
+
 export function update_panier( new_panier ){
 
     return {
@@ -850,8 +888,8 @@ export function update_panier( new_panier ){
 
 export function update_settings_panier( new_settings ){
     return {
-        "type":UPDATE_SETTINGS_PANIER,
-        "payload":new_settings
+        "type" : UPDATE_SETTINGS_PANIER,
+        "payload" : new_settings
     }
 }
 
@@ -887,4 +925,10 @@ export function update_modal_settings( settings ){
         "payload":settings
     }
 
+}
+export function filter_suppliers_actions( new_settings ){
+    return {
+        "type" : FILTERS_SUPPLIERS,
+        "payload" : new_settings
+    }
 }

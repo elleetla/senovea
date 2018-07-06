@@ -7,6 +7,7 @@ import Filters from '../containers/Filters/Filters';
 import CreatePanier from '../containers/Create-panier/Create-panier';
 import Products from './products';
 import BlocConnect from '../components/bloc-connect/bloc-connect';
+import Banner from '../containers/Banner/Banner';
 
 // Actions
 import { call_product } from '../actions/index';
@@ -19,7 +20,8 @@ class Home extends Component{
         super(props);
 
         this.state = {
-            collapse: false
+            collapse: false,
+            isSticky: true
         }
 
         this.toggle = this.toggle.bind(this);
@@ -34,10 +36,15 @@ class Home extends Component{
 
         return(
             <div>
+                <Banner
+                    titleBanner="Votre centrale d'achats public dédiée à l'ingénierie et aux travaux"
+                />
                 <Filters/>
                 <CreatePanier/>
                 {this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false ?
-                    <BlocConnect/>
+                    <BlocConnect
+                        titleBloc="Veuillez vous connecter ou créer un compte pour faire une recherche"
+                    />
                     :
                     <Products/>
                 }

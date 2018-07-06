@@ -9,9 +9,6 @@ import { Redirect, Link } from 'react-router-dom'
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import Divider from '@material-ui/core/Divider';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
@@ -65,36 +62,15 @@ class AccountInformations extends React.Component{
         return(
 
             <Account>
-            
                 <div style={{padding:'0px'}}>
 
                         <Paper elevation={1} style={{marginBottom:'15px'}}>
                         <div style={{padding:'15px 30px'}}>
                         <Typography variant="headline" color="inherit">
-                            Customer Account
+                            {this.props.user.user_name}
                         </Typography>
                         </div>
                         </Paper>
-
-                        <Paper elevation={1} style={{marginBottom:'15px'}}>
-                        <div style={{padding:'15px 30px'}}>
-                        <Typography variant="subheading" color="inherit">
-                            User Validation
-                        </Typography>
-                        </div>
-                        <Divider />
-                        <div style={{padding:'30px'}}>
-                        <Stepper style={{padding:'0px'}} activeStep={activeStep} orientation="vertical">
-                            <Step key={1}>
-                                <StepLabel>Upload your document to the senovea-backend.</StepLabel>
-                            </Step>
-                            <Step key={2}>
-                                <StepLabel>Have your account validated by our team.</StepLabel>
-                            </Step>
-                        </Stepper>
-                        </div>
-                        </Paper>
-
 
                         <Paper elevation={1} style={{marginBottom:'15px'}}>
                         <div style={{padding:'15px 30px'}}>
@@ -107,20 +83,15 @@ class AccountInformations extends React.Component{
 
                             <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
 
-
-                                <Typography variant="body2" color="inherit">
-                                    General
-                                </Typography>
-
                                 <div style={{marginBottom:'30px'}}>
-                                <Field
-                                    component={renderField}
-                                    id="update_email"
-                                    name="update_email"
-                                    type="text"
-                                    label="User Email"
-                                    placeholder="User Email"
-                                />
+                                    <Field
+                                        component={renderField}
+                                        id="update_email"
+                                        name="update_email"
+                                        type="text"
+                                        label="User Email"
+                                        placeholder="User Email"
+                                    />
                                 </div>
                                 <div>
                                     <Button type="submit" variant="contained" color="secondary">
@@ -130,20 +101,6 @@ class AccountInformations extends React.Component{
 
                             </form>
 
-                        </div>
-                        </Paper>
-
-                        <Paper elevation={1} style={{marginBottom:'0'}}>
-                        <div style={{padding:'15px 30px'}}>
-                        <Typography variant="subheading" color="inherit">
-                            User Orders Informations
-                        </Typography>
-                        </div>
-                        <Divider />
-                        <div style={{padding:'15px 30px'}}>
-                        <Typography variant="body2" color="inherit">
-                            coming soon
-                        </Typography> 
                         </div>
                         </Paper>
 

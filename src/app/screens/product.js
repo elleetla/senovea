@@ -8,13 +8,11 @@ import { add_product_to_panier } from "../actions/index"
 import LoadingSvg from '../assets/img/icon-preloader.svg';
 
 import {
-    Container,
     Row,
     Col,
     Collapse,
     Button,
-    CardBody,
-    Card } from 'reactstrap';
+    Input } from 'reactstrap';
 
 class Product extends React.Component{
 
@@ -129,10 +127,7 @@ class Product extends React.Component{
         return(
 
             <div className="article-bloc">
-            
                 <Row>
-
-
                     <Col md="2">
                         <p>Réf : <b> 
                         { 
@@ -152,8 +147,8 @@ class Product extends React.Component{
                     <Col md="2">
                     <div>
                         
-                        <label >Quantité Variation : </label>
-                        <select value={ this.state.activeVariation } onChange={ this.handleProductChangeVariation } >
+                        <label style={{margin:"0 5px 0 0"}}>Quantité : </label>
+                        <Input type="select" className="select-product" value={ this.state.activeVariation } onChange={ this.handleProductChangeVariation } >
                             {
                                 this.props.product_value.variations.length !== 0 ? 
                                     _.map( this.props.product_value.variations, ( variation ) => {
@@ -164,19 +159,17 @@ class Product extends React.Component{
                                 :
                                 <option value={ this.state.activeVariation } > Aucune Variation </option>
                             }
-                        </select>
+                        </Input>
 
                     </div>
                     </Col>
 
                     <Col md="2">
                             <div>
-                                <p>Price : </p> 
-                                {
-                                    this.props.product_value.variations.length !== 0 ?                             
-                                    <div> <h4>{the_price}€</h4> </div>                                   
+                                { this.props.product_value.variations.length !== 0 ?
+                                    <p>Price : <b>{the_price}€</b></p>
                                     :
-                                    <div> <h4>{this.props.product_value.price }€</h4> </div>    
+                                    <p>Price : <b>{this.props.product_value.price }€</b></p>
                                 }
                             </div>
                     </Col>

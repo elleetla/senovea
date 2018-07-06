@@ -40,3 +40,26 @@
     margin: 0px;
     font-size: 16px;
 }
+
+@media screen and (max-width: 600px)
+{
+    .connect-bloc {
+        padding: 30px 20px;
+    }
+
+    .picto-user{
+        width: 46px;
+    }
+
+    .connect-bloc .title-connect-bloc {
+        font-size: 16px;
+        line-height: 24px;
+        margin-bottom: 20px;
+    }
+
+    .connect-bloc ul {
+        padding: 0px;
+        margin: 0px;
+        font-size: 14px;
+    }
+}

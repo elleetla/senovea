@@ -33,7 +33,6 @@ import SupplierAccept from './app/screens/supplieraccept'
 import SupplierReject from './app/screens/supplierreject'
 import Filters from './app/containers/Filters/Filters';
 import CreatePanier from './app/containers/Create-panier/Create-panier';
-import Banner from './app/containers/Banner/Banner';
 import Footer from './app/components/Footer/Footer';
 import ModalSenovea from './app/containers/Modal/modal'
 
@@ -50,10 +49,7 @@ import { update_settings_panier } from './app/actions/index';
 import { update_modal_settings } from './app/actions/index';
 
 
-const store = createStore(
-    rootReducers,
-    applyMiddleware(thunk)
-);
+const store = applyMiddleware(thunk)(createStore);
 
 
 // https://stackoverflow.com/questions/43209666/react-router-v4-cannot-get-url
@@ -64,7 +60,17 @@ class App extends React.Component {
     constructor(props){
         super(props)
 
+        this.state = {
+            cookieMentions : true
+        }
+
         this.handleOutsideModalClicks = this.handleOutsideModalClicks.bind(this);
+    }
+
+    closeCookies(){
+        return this.setState({
+            cookieMentions: false
+        });
     }
 
     componentDidMount() { 
@@ -111,7 +117,7 @@ class App extends React.Component {
 
                 // on update les app settings 
                 let new_app_settings = _.cloneDeep(this.props.appSettings);
-                new_app_settings.globalLoading = false
+                new_app_settings.globalLoading = false;
                 this.props.update_app_settings( new_app_settings )
 
             }
@@ -140,7 +146,6 @@ class App extends React.Component {
                     <BrowserRouter>
                         <div className="root-inside" onClick={this.handleOutsideModalClicks}>
                             <AppNav/>
-                            <Banner/>
                             <Switch>
                                 <Route exact path="/" component={Home} />
                                 <Route path="/supplier/accept" component={SupplierAccept} />
@@ -227,6 +232,15 @@ class App extends React.Component {
                                 <Route path="/about" component={About}/>
                                 <Route path="/telechargement" component={Downloading}/>
                             </Switch>
+
+                            { /* Bloc cookie notice */ }
+                            { this.state.cookieMentions === false ? localStorage.setItem("cookiesNotices", JSON.stringify(false)) : null}
+
+                            <div id="cookie-notice" className={localStorage.getItem("cookiesNotices")  ? 'displayBlocOpacity' : null}>
+                                <p>Ce site utilise des cookies. En poursuivant la navigation, vous acceptez l'utilisation de cookies.</p>
+                                <button onClick={() => this.closeCookies()} className="btn-green">Fermer et continuer</button>
+                            </div>
+
                             <Footer/>
                             <ModalSenovea/>
                         </div>
@@ -259,8 +273,8 @@ function mapStateToProps( state ){
 const ConnectedApp = connect(mapStateToProps, mapDispatchToProps)(App);
 
 ReactDOM.render(
-    <Provider store={store}>
+    <Provider store={store(rootReducers,window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__())}>
         <ConnectedApp/>
     </Provider>,
     document.querySelector('#root')
-)
+);

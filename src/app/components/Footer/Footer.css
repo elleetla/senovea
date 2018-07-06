@@ -24,3 +24,16 @@
     bottom: 0;
     right: 0;
 }
+
+/* responsive */
+
+@media screen and (max-width: 600px)
+{
+    #btn-call {
+        border-radius: 0;
+        display: block;
+        text-align: center;
+        position: relative;
+        font-size: 14px;
+    }
+}

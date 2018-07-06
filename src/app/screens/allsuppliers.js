@@ -1,19 +1,82 @@
 // import components react
-import React, {Component} from 'react'
+import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
+import { callSuppliers } from '../actions/index';
 
 // import components elle&la
 import BlocConnect from '../components/bloc-connect/bloc-connect';
+import Banner from '../containers/Banner/Banner';
+import FiltersSuppliers from '../containers/Filters-suppliers/Filters-suppliers';
+import {
+    Container,
+    Row,
+    Col } from 'reactstrap';
 
 // creation of the class "AllSupliers"
 export class AllSuppliers extends Component{
+
+    componentDidMount(){
+        this.props.callSuppliers();
+    }
+
+    renderSuppliers(){
+        const suppliersArray = this.props.suppliers.filter((data) => {
+            if (data.organisme.toLowerCase().indexOf(this.props.suppliersSettings.name.toLowerCase()) !== -1 ||
+                data.arrondissement.toLowerCase().indexOf(this.props.suppliersSettings.arrondissement.toLowerCase()) !== -1){
+                return data;
+            }
+        });
+
+        return suppliersArray.map(data => {
+            return(
+                <Col key={data.id} sm={12}>
+                    <div className="article-bloc">
+                        <Row>
+                            <Col md="3" className="text-center">
+                                <b>{data.organisme}</b>
+                            </Col>
+                            <Col md="3" className="text-center">
+                                <p>{data.organisme}</p>
+                            </Col>
+                            <Col md="3" className="text-center">
+                                <p>{data.organisme}</p>
+                            </Col>
+                            <Col md="3" className="text-center">
+                                <p>Arrondissement : <b>{data.arrondissement}</b></p>
+                            </Col>
+                        </Row>
+                    </div>
+                </Col>
+            )
+
+        })
+    }
+
     render(){
+        console.log(this.props.suppliers);
         return(
             <div>
+                <Banner
+                    titleBanner="Prestataires référencés"
+                    desc="Nous nous réjouissions de compter parmis nos entreprises
+                    partenaires des fournisseurs de services reconnus pour la qualité
+                    de leur travail et de leur accompaganement auprès d’organismes publics
+                    de dimensions nationale et internationale."
+                />
                 { this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false ?
-                    <BlocConnect/>
+                    <BlocConnect
+                        titleBloc="Veuillez vous connecter ou créer un compte pour visualiser le contenu de cette page"
+                    />
                     :
-                    <p>Utilisateur connecté : {this.props.user.user_name}</p>
+                    <div>
+                        <FiltersSuppliers/>
+                        <Container className="mb-5 mt-5">
+                            <Row>
+                                { this.renderSuppliers() }
+                            </Row>
+                        </Container>
+                    </div>
                 }
             </div>
         )
@@ -24,9 +87,17 @@ export class AllSuppliers extends Component{
 function mapStateToProps(state){
     return {
         "products": state.products,
-        "user": state.user
+        "user": state.user,
+        "suppliers": state.suppliers,
+        "suppliersSettings": state.suppliersSettings
     }
 }
 
+function mapDispatchToPros(disptach){
+    return(
+        bindActionCreators({"callSuppliers":callSuppliers}, disptach)
+    )
+}
+
 // export
-export default connect(mapStateToProps)(AllSuppliers);
+export default connect(mapStateToProps, mapDispatchToPros)(AllSuppliers);

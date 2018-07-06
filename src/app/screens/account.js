@@ -5,15 +5,7 @@ import { compose, bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { Redirect, Link } from 'react-router-dom'
-
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Divider from '@material-ui/core/Divider';
-import Stepper from '@material-ui/core/Stepper';
-import Step from '@material-ui/core/Step';
-import StepLabel from '@material-ui/core/StepLabel';
 import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
 
 import { Container, Row, Col, ListGroup, ListGroupItem } from 'reactstrap';
 
@@ -29,10 +21,10 @@ const renderTextField = ( field ) => (
 const renderField = (props) => {
     //console.log(props)
     return (
-      <div className="">
-        <TextField type="text" {...props} {...props.input} style={{width:"100%"}}/>
-        {props.touched && props.error && <span className="error">{props.error}</span>}
-      </div>
+        <div className="">
+            <TextField type="text" {...props} {...props.input} style={{width:"100%"}}/>
+            {props.touched && props.error && <span className="error">{props.error}</span>}
+        </div>
     )
 }
 
@@ -45,7 +37,7 @@ class Account extends React.Component{
     }
 
     handleSubmit(formProps){
-        formProps.update_id = this.props.user.user_id 
+        formProps.update_id = this.props.user.user_id
         this.props.user_update_action(formProps)
         //console.log("submit")
         //console.log(formProps)
@@ -67,17 +59,15 @@ class Account extends React.Component{
 
                 <Row>
 
-                    <Col md={4}> 
+                    <Col md={3}>
                         <ListGroup>
-
-                            <ListGroupItem><Link to="/account/informations">Account Informations</Link></ListGroupItem>
-                            <ListGroupItem><Link to="/account/paniers">Account Paniers</Link></ListGroupItem>
+                            <ListGroupItem><Link to="/account/paniers">Mes paniers</Link></ListGroupItem>
+                            <ListGroupItem><Link to="/account/informations">Mon profil</Link></ListGroupItem>
                             <ListGroupItem><a href="javascript:void(0)">Gestion du mot de passe</a></ListGroupItem>
-                            <ListGroupItem><a onClick={ this.props.user_logout_action } href="javascript:void(0)"> Déconnexion </a></ListGroupItem>
-
+                            <ListGroupItem><a onClick={ this.props.user_logout_action } href="javascript:void(0)">Déconnexion</a></ListGroupItem>
                         </ListGroup>
                     </Col>
-                    <Col md={8}> 
+                    <Col md={9}>
 
                         {this.props.children}
 
