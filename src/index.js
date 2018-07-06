@@ -78,9 +78,8 @@ class App extends React.Component {
     }
 
     closeCookies(){
-        console.log("good");
         return this.setState({
-            cookieMentions: false,
+            cookieMentions: false
         });
     }
 
@@ -137,10 +136,8 @@ class App extends React.Component {
 
     }
 
-    /* function cookies notice */
-
     render(){
-
+        console.log(this.state.cookieMentions);
         ////console.log("app class")
         ////console.log(this.props)
         return(
@@ -285,13 +282,23 @@ class App extends React.Component {
                             </Switch>
 
                             { /* Bloc cookie notice */ }
-                            <div id="cookie-notice" className={this.state.cookieMentions === false ? 'displayBlocOpacity' : null}>
-                                <p>
-                                    Ce site utilise des cookies. En poursuivant la navigation,
-                                    vous acceptez l'utilisation de cookies.
-                                </p>
-                                <button onClick={() => this.closeCookies()} className="btn-green">Fermer et continuer</button>
-                            </div>
+                            {console.log(this.state.cookieMentions)}
+
+                            {
+                                this.state.cookieMentions === false ?
+                                localStorage.setItem("cookiesNotices", JSON.stringify(false))
+                                    :
+                                    null
+                            }
+
+                                <div id="cookie-notice" className={localStorage.getItem("cookiesNotices")  ? 'displayBlocOpacity' : null}>
+                                    <p>
+                                        Ce site utilise des cookies. En poursuivant la navigation,
+                                        vous acceptez l'utilisation de cookies.
+                                    </p>
+                                    <button onClick={() => this.closeCookies()} className="btn-green">Fermer et continuer</button>
+                                </div>
+
 
                             <Footer/>
                         </div>
