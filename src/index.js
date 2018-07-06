@@ -282,23 +282,12 @@ class App extends React.Component {
                             </Switch>
 
                             { /* Bloc cookie notice */ }
-                            {console.log(this.state.cookieMentions)}
+                            { this.state.cookieMentions === false ? localStorage.setItem("cookiesNotices", JSON.stringify(false)) : null}
 
-                            {
-                                this.state.cookieMentions === false ?
-                                localStorage.setItem("cookiesNotices", JSON.stringify(false))
-                                    :
-                                    null
-                            }
-
-                                <div id="cookie-notice" className={localStorage.getItem("cookiesNotices")  ? 'displayBlocOpacity' : null}>
-                                    <p>
-                                        Ce site utilise des cookies. En poursuivant la navigation,
-                                        vous acceptez l'utilisation de cookies.
-                                    </p>
-                                    <button onClick={() => this.closeCookies()} className="btn-green">Fermer et continuer</button>
-                                </div>
-
+                            <div id="cookie-notice" className={localStorage.getItem("cookiesNotices")  ? 'displayBlocOpacity' : null}>
+                                <p>Ce site utilise des cookies. En poursuivant la navigation, vous acceptez l'utilisation de cookies.</p>
+                                <button onClick={() => this.closeCookies()} className="btn-green">Fermer et continuer</button>
+                            </div>
 
                             <Footer/>
                         </div>
@@ -306,8 +295,6 @@ class App extends React.Component {
         )
     }
 }
-
-const cookieNotice = document.querySelector("#cookie-notice");
 
 function mapDispatchToProps( dispatch ){
     return bindActionCreators({

@@ -894,7 +894,7 @@ export function update_app_settings( new_settings ){
     }
 }
 
-export function filter_suppliers( new_settings ){
+export function filter_suppliers_actions( new_settings ){
     return {
         "type" : FILTERS_SUPPLIERS,
         "payload" : new_settings

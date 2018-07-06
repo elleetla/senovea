@@ -6,24 +6,25 @@ import { Container, Row, Col, FormGroup, Input } from 'reactstrap';
 import iconSearch from '../../assets/img/icon_search.svg';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { filter_suppliers } from '../../actions/index';
+import { filter_suppliers_actions } from '../../actions/index';
 
 class FiltersSuppliers extends Component{
 
-    componentWillMount(){
-        this.props.suppliersSettings();
-    }
-
     render(){
-        {console.log(this)}
-        this.props.suppliersSettings();
+        console.log(`Filtre name entreprise : ${this.props.suppliersSettings.name}`);
+        console.log(this.props.suppliersSettings);
         return(
             <nav id="Filters">
                 <Container>
                     <Row>
                         <Col lg="4">
                             <FormGroup className="mb-0">
-                                <Input type="text" placeholder="Nom de l'entreprise" />
+                                <Input
+                                    value={this.props.suppliersSettings.name}
+                                    onChange={(e)=>{this.props.filter_suppliers_actions({"name": e.target.value})}}
+                                    type="text"
+                                    placeholder="Nom de l'entreprise"
+                                />
                                 <span className="icon-search">
                                         <img src={iconSearch} alt="icon search filter"/>
                                     </span>
@@ -31,7 +32,12 @@ class FiltersSuppliers extends Component{
                         </Col>
                         <Col lg="3">
                             <FormGroup className="mb-0">
-                                <Input type="text" placeholder="Arrondissement" />
+                                <Input
+                                    value={this.props.suppliersSettings.arrondissement}
+                                    onChange={(e)=>{this.props.filter_suppliers_actions({"arrondissement": e.target.value})}}
+                                    type="text"
+                                    placeholder="Arrondissement"
+                                />
                                 <span className="icon-search">
                                         <img src={iconSearch} alt="icon search filter"/>
                                     </span>
@@ -64,7 +70,7 @@ function mapStateToProps(state){
 
 function mapDispatchToPros(disptach){
     return(
-        bindActionCreators({"suppliersSettings":filter_suppliers}, disptach)
+        bindActionCreators({"filter_suppliers_actions":filter_suppliers_actions}, disptach)
     )
 }
 

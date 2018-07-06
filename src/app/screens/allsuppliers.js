@@ -21,7 +21,14 @@ export class AllSuppliers extends Component{
     }
 
     renderSuppliers(){
-        return this.props.suppliers.map(data => {
+        const suppliersArray = this.props.suppliers.filter((data) => {
+            if (data.organisme.toLowerCase().indexOf(this.props.suppliersSettings.name.toLowerCase()) !== -1 ||
+                data.arrondissement.toLowerCase().indexOf(this.props.suppliersSettings.arrondissement.toLowerCase()) !== -1){
+                return data;
+            }
+        });
+
+        return suppliersArray.map(data => {
             return(
                 <Col key={data.id} sm={12}>
                     <div className="article-bloc">
@@ -42,10 +49,12 @@ export class AllSuppliers extends Component{
                     </div>
                 </Col>
             )
+
         })
     }
 
     render(){
+        console.log(this.props.suppliers);
         return(
             <div>
                 <Banner
@@ -79,7 +88,8 @@ function mapStateToProps(state){
     return {
         "products": state.products,
         "user": state.user,
-        "suppliers": state.suppliers
+        "suppliers": state.suppliers,
+        "suppliersSettings": state.suppliersSettings
     }
 }
 

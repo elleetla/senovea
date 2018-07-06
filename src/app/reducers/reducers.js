@@ -238,10 +238,10 @@ function reducerSuppliers(state = [], action){
     }
 }
 
-function reducerFilterSuppliers( state = { "name": false, "rang" : false, "arrondissement" : false} , action ){
+function reducerFilterSuppliers(state = { "name": "", "rang": "", "arrondissement" : ""}, action){
     switch( action.type ){
         case FILTERS_SUPPLIERS:{
-            console.log('BLABLA');
+            console.log('update app settings reducer');
             return action.payload
         }
         default:
