@@ -8,7 +8,36 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { filter_suppliers_actions } from '../../actions/index';
 
+import _ from "lodash"
+
 class FiltersSuppliers extends Component{
+
+    constructor(props){
+        super(props)
+
+        this.handleUpdateSupplierFilter = this.handleUpdateSupplierFilter.bind(this)
+    }
+
+    handleUpdateSupplierFilter( e, fieldName ){
+        let new_settings = _.cloneDeep(this.props.suppliersSettings)
+        switch(fieldName){
+            case "name":{
+                new_settings.name = e.target.value
+                break
+            }
+            case "arrondissement":{
+                new_settings.arrondissement = e.target.value
+                break
+            }
+            case "rang":{
+                new_settings.rang = e.target.value
+                break
+            }
+            default:
+            break;
+        }
+        this.props.filter_suppliers_actions(new_settings)
+    }
 
     render(){
         console.log(`Filtre name entreprise : ${this.props.suppliersSettings.name}`);
@@ -21,7 +50,7 @@ class FiltersSuppliers extends Component{
                             <FormGroup className="mb-0">
                                 <Input
                                     value={this.props.suppliersSettings.name}
-                                    onChange={(e)=>{this.props.filter_suppliers_actions({"name": e.target.value})}}
+                                    onChange={ (e)=>{ this.handleUpdateSupplierFilter(e, "name") }}
                                     type="text"
                                     placeholder="Nom de l'entreprise"
                                 />
@@ -34,7 +63,7 @@ class FiltersSuppliers extends Component{
                             <FormGroup className="mb-0">
                                 <Input
                                     value={this.props.suppliersSettings.arrondissement}
-                                    onChange={(e)=>{this.props.filter_suppliers_actions({"arrondissement": e.target.value})}}
+                                    onChange={ (e)=>{ this.handleUpdateSupplierFilter(e, "arrondissement") } }
                                     type="text"
                                     placeholder="Arrondissement"
                                 />
