@@ -139,7 +139,7 @@ class Header extends React.Component{
             <div>
                 <header id="header-app">
                     <Navbar light expand="md">
-                        <Link to="/" className="navbar-brand">
+                        <Link to="/" className="navbar-brand" style={{lineHeight:"1",display:"flex",alignItems:"center",padding:"0"}}>
                             <img id="logo-app" src={Logo} alt="Logo Centralis"/>
                         </Link>
                         <NavbarToggler onClick={this.toggle} />
@@ -164,31 +164,38 @@ class Header extends React.Component{
                             <Nav className="ml-auto" navbar>
 
                                 { this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false ?
-                                    <div>
+                                    <div style={{display:"flex"}}>
                                         <NavItem>
                                             <NavLink onClick={ ()=>{ this.handleModalToggle( 'register' ) } } className="nav-link">Inscription</NavLink>
                                         </NavItem>
                                         <NavItem>
                                             <NavLink onClick={ ()=>{ this.handleModalToggle( 'login' ) } } className="nav-link">Connexion</NavLink>
                                         </NavItem>
-                                        <NavItem>
-                                            <NavLink>
-                                                <img className="icon-nav" src={Panier} alt="Icon Panier"/>
-                                            </NavLink>
+                                        <NavItem style={{backgroundColor:"rgba(234, 239, 245, 100)",borderRadius:"50%",marginLeft:"15px",width:"35px",height:"35px",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                                            <Link onClick={ ()=>{ this.handleModalToggle( 'login' ) } } to="/account/paniers" className="icon-panier" id="cart_icon">
+                                                <img width="20px" height="auto" className="icon-nav" src={Panier} alt="Icon Panier"/>
+                                            </Link>
+                                            {/*
+                                            <span className="counter-panier">
+                                                <p></p>
+                                            </span>
+                                            */}
                                         </NavItem>
                                     </div>
                                     :
-                                    <div>
+                                    <div style={{display:"flex"}}>
                                         <NavItem>
                                             <Link to="/account/informations" className="nav-link">{this.props.user.user_email}</Link>
                                         </NavItem>
-                                        <NavItem>
+                                        <NavItem style={{backgroundColor:"rgba(234, 239, 245, 100)",borderRadius:"50%",marginLeft:"15px",width:"35px",height:"35px",display:"flex",alignItems:"center",justifyContent:"center"}}>
                                             <Link to="/account/paniers" className="icon-panier" id="cart_icon">
-                                                <img className="icon-nav" src={Panier} alt="Icon Panier"/>
-                                                <span className="counter-panier">
-                                                    <p></p>
-                                                </span>
+                                                <img width="20px" height="auto" className="icon-nav" src={Panier} alt="Icon Panier"/>
                                             </Link>
+                                            {/*
+                                            <span className="counter-panier">
+                                                <p></p>
+                                            </span>
+                                            */}
                                         </NavItem>
                                     </div>
                                 }

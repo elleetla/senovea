@@ -18,9 +18,9 @@ import './Create-panier.css';
 
 const renderField = (props) => {
 
-    console.log("renderField")
-    console.log(props)
+    //console.log("renderField")
     //console.log(props)
+    ////console.log(props)
     return (
       <div className="">
         {/*<input type="text" {...props} {...props.input}/>*/}
@@ -44,7 +44,7 @@ class CreatePanier extends Component{
         this.handleUpdateActivePanier = this.handleUpdateActivePanier.bind(this);
     }
     handleCreatePanier(){
-        //console.log('creation panier')
+        ////console.log('creation panier')
     }
     handleToggleModalCreatePanier(){
         this.setState({
@@ -52,15 +52,15 @@ class CreatePanier extends Component{
         })
     }
     handleUpdateActivePanier( e ){
-        //console.log('update active panier')
-        //console.log( e.target.value );
+        ////console.log('update active panier')
+        ////console.log( e.target.value );
         let new_panier_settings = _.cloneDeep(this.props.paniersSettings)
         new_panier_settings.active_panier_id = e.target.value
         this.props.update_settings_panier( new_panier_settings )
 
     }
     handleCreatePanierSubmit(Formprops){
-        //console.log(Formprops)
+        ////console.log(Formprops)
         // handlePanierCreation 
         const user_id = this.props.user.user_id;
         this.props.add_panier(Formprops, user_id, ( status, new_panier_id )=>{
@@ -75,8 +75,8 @@ class CreatePanier extends Component{
         });
     }
     render(){
-        console.log("render create panier");
-        console.log(this);
+        //console.log("render create panier");
+        //console.log(this);
         return(
                 this.props.user.user_auth.auth_token !== '' && this.props.user.user_auth.isAuth !== false ?
 
@@ -172,8 +172,8 @@ class CreatePanier extends Component{
 
 // export
 function mapStateToProps(state){
-    console.log( "create panier state" )
-    console.log( state )
+    //console.log( "create panier state" )
+    //console.log( state )
     return {
 
         "products": state.products,

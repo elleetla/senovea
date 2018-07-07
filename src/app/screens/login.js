@@ -3,9 +3,8 @@ import { compose, bindActionCreators }      from 'redux'
 import { connect }                          from 'react-redux'
 import { Field, reduxForm }                 from 'redux-form'
 
-// import style
-import TextField from '@material-ui/core/TextField';
-import { Form, FormGroup, Row, Col, Input, Label } from 'reactstrap';
+// react strap
+import { Form, FormGroup, Row, Col, Input, Label, FormFeedback } from 'reactstrap';
 import LoadingSvg from '../assets/img/icon-preloader-connect.svg';
 
 // user auth action 
@@ -13,21 +12,30 @@ import { user_auth_action } from '../actions/index' ;
 import { call_product } from '../actions/index' ;
 import { load_panier } from '../actions/index' ;
 import { update_settings_panier } from '../actions/index';
+import { update_modal_settings } from '../actions/index';
+
 
 // Fields
 const renderTextField = ( field ) => {
     console.log("renderTextField")
     console.log(field)
 
+    let formFeedback = ""
     let invalidValue = false;
+    
     if( field.meta.touched ){
         if( field.meta.error ){
             invalidValue = true;
+            formFeedback = "This field is required"
         }
     }
 
     return(
-        <Input {...field.input} id={field.id} placeholder={field.placeholder} type={field.type} invalid={ invalidValue } />
+        <FormGroup>
+            <Label>{field.label}</Label>
+            <Input {...field.input} id={field.id} placeholder={field.placeholder} type={field.type} invalid={ invalidValue } />
+            <FormFeedback> {formFeedback} </FormFeedback>
+        </FormGroup>
     )
 };
 
@@ -49,6 +57,8 @@ class LogIn extends React.Component{
 
     handleSubmit(form_props){
 
+        this.setState({"loadingBtn":true})
+        
         console.log( "handleSubmit" );
         console.log( form_props );
 
@@ -67,52 +77,57 @@ class LogIn extends React.Component{
                         this.props.update_settings_panier(new_panier_settings);
                     }
                 })
+
+                // load 
+                this.setState({"loadingBtn":false})
+
+                // on close la modale 
+                let newModalSettings = _.cloneDeep(this.props.modalSettings)
+                newModalSettings.isOpen = false;
+                this.props.update_modal_settings(newModalSettings)
+
+
             }
         })
 
     }
 
     render(){
-
+        console.log(this);
         return(
             <Row>
                 <Col md="12">
-                    <Form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+                    <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
 
-                            <FormGroup>
-                                <Label>User Name</Label>
                                 <Field
                                     name="login_username"
                                     id="login_username"
                                     component={renderTextField}
                                     type="text"
                                     placeholder="User Name"
+                                    label="User Name"
                                 />
-                            </FormGroup>
-
-                            <FormGroup> 
-                                <Label>User Password</Label>
+                            
                                 <Field
                                     name="login_password"
                                     id="login_password"
                                     component={renderTextField}
                                     type="password"
                                     placeholder="User Password"
+                                    label="User Password"
                                 />
-                            </FormGroup>
 
-                            <FormGroup>
-                                <button id="btn-connect-modal" type="submit" className="btn-green" onClick={this.clickLoadingBtn.bind(this)}>
-                                    Se connecter
-                                    { this.state.loadingBtn === true ?
-                                        <div className="preloader-connect-user"><img src={LoadingSvg}/></div>
-                                        :
-                                        null
-                                    }
+                                <div>
+                                <button style={{display:"flex",alignItems:"center",justifyContent:"space-between"}} id="btn-connect-modal" type="submit" className="btn-green" disabled={ this.props.submitting }>
+                                    <div style={{lineHeight:"1"}}>Se connecter</div>
+                                    <div style={ this.state.loadingBtn ? {marginLeft:"0",opacity:"1"} : {marginLeft:"0",opacity:"0"} } className="preloader-connect-user"><img src={LoadingSvg}/></div>
                                 </button>
-                            </FormGroup>
+                                </div>
 
-                    </Form>
+                    </form>
+                </Col>
+                <Col md="12">
+                    <p style={{textAlign:"center",marginBottom:"0px",marginTop:"1rem"}}> <a href="javascript:void(0)">Inscription</a> | <a href="javascript:void(0)">J'ai oublié mon mot de passe</a> </p>
                 </Col>
             </Row>
         )
@@ -124,6 +139,7 @@ function mapStateToProps(state){
         "user":state.user,
         "paniers":state.paniers,
         "paniersSettings" : state.paniersSettings,
+        "modalSettings":state.modalSettings
     }
 }
 
@@ -132,12 +148,12 @@ function mapDispatchToProps(dispatch){
         "user_auth_action":user_auth_action,
         "call_product":call_product,
         "load_panier":load_panier,
-        "update_settings_panier":update_settings_panier
+        "update_settings_panier":update_settings_panier,
+        "update_modal_settings":update_modal_settings
     }, dispatch)
 }
 
 const validate = ( values ) => {
-
     const errors = {}
     if (!values.login_username) {
         errors.login_username = true
@@ -146,7 +162,6 @@ const validate = ( values ) => {
         errors.login_password = true
     }
     return errors
-
 }
 
 export default compose(

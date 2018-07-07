@@ -4,16 +4,20 @@ import { connect }                          from 'react-redux'
 import { Field, reduxForm }                 from 'redux-form'
 import { Redirect }                         from  'react-router-dom'
 
-import Typography from '@material-ui/core/Typography';
+/*import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 import Divider from '@material-ui/core/Divider';
-import Checkbox from '@material-ui/core/Checkbox';
+import Checkbox from '@material-ui/core/Checkbox';*/
+
+// react strap
+import { Form, FormGroup, Row, Col, Input, Label, FormFeedback } from 'reactstrap';
+import LoadingSvg from '../assets/img/icon-preloader-connect.svg';
 
 // user auth action 
 import { user_register_action } from '../actions/index' 
-
+import { update_modal_settings } from '../actions/index';
 
 // FIX FOR INPUT TYPE FILE
 const adaptFileEventToValue = delegate =>
@@ -46,12 +50,31 @@ const FileInput = ({
 
 
 // Fields
-const renderTextField = ( field ) => (
-    <TextField {...field.input} label={field.placeholder} type={field.type} />
-)
+const renderTextField = ( field ) => {
+    //console.log("renderTextField")
+    //console.log(field)
 
-const renderCheckBoxField = ( field ) => {
-    console.log(field)
+    let formFeedback = ""
+    let invalidValue = false;
+    
+    if( field.meta.touched ){
+        if( field.meta.error ){
+            invalidValue = true;
+            formFeedback = "This field is required"
+        }
+    }
+
+    return(
+        <FormGroup>
+            <Label>{field.label}</Label>
+            <Input {...field.input} id={field.id} placeholder={field.placeholder} type={field.type} invalid={ invalidValue } />
+            <FormFeedback> {formFeedback} </FormFeedback>
+        </FormGroup>
+    )
+};
+
+/*const renderCheckBoxField = ( field ) => {
+    //console.log(field)
     return(
         <div>
             <Typography style={{marginBottom:'5px'}} variant="body2" color="inherit">
@@ -65,14 +88,15 @@ const renderCheckBoxField = ( field ) => {
         />
         </div>
     )
-
-}
+}*/
 
 class Register extends React.Component{
+
     constructor(props){
         super(props)
         this.state = {
-            redirect:false
+            redirect:false,
+            loadingBtn : false
         }
         this.handleSubmit = this.handleSubmit.bind(this)
     }
@@ -81,10 +105,20 @@ class Register extends React.Component{
         console.log('handlesubmit')
         console.log(formProps)
 
+        this.setState({"loadingBtn":true})
+
         // Calling register action
         this.props.user_register_action(formProps, ()=>{
             // redirect
-            //this.setState({ redirect: true });
+
+                // load 
+                this.setState({"loadingBtn":false})
+
+                // on close la modale 
+                let newModalSettings = _.cloneDeep(this.props.modalSettings)
+                newModalSettings.isOpen = false;
+                this.props.update_modal_settings(newModalSettings)
+
         })
     }   
 
@@ -97,210 +131,153 @@ class Register extends React.Component{
         }
 
         return(
-            <Paper elevation={1}>
-            <div>
 
-                {/*
-            <div style={{padding:'30px'}}>
-                        <Typography variant="headline" color="inherit">
-                        Request an invite.
-                        </Typography>
-                        <Typography variant="subheading" color="inherit">
-                        You have to request an invite to get access to senovea-spa, for that you need to fill the form bellow.
-                        </Typography>
-                        <Typography variant="subheading" color="inherit">
-                        You'll receive activation link by email when your candidacy is accepted by our team.
-                        </Typography>
-                </div>
-                        <Divider/>
-                        */}
+            <Row>
+                <Col md="12">
 
-                <div style={{padding:'30px'}}>
-                <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+                    <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
 
-                        <Divider style={{margin:'15px 0'}}/>
-                    <Typography variant="subheading" color="inherit">
-                        Organisme acheteur
-                    </Typography>
-
-                    <div style={{marginBottom:'15px'}}>
-                        <Field 
-                            style={{width:"100%"}}
-                            name="register_organisme"
-                            id="register_organisme"
-                            //component={renderTextField}
-                            component="input"
-                            type="text"
-                            placeholder="Nom de l'organisme"
-                        />
-                    </div>
-                    <div style={{marginBottom:'15px'}}>
-                        <Field
-                            style={{width:"100%"}}
-                            name="register_service"
-                            id="register_service"
-                            //component={renderTextField}
-                            component="input"
-                            type="text"
-                            placeholder="Nom du service ou du département"
-                        />
-                    </div>
-                    <Divider style={{margin:'15px 0'}}/>
-
-                    <Typography variant="subheading" color="inherit">
-                        Personne Référente
-                    </Typography>
-
-                    <div style={{marginBottom:'15px'}}>
-                        <Field
-                            style={{width:"100%"}}
-                            name="register_username"
-                            id="register_username"
-                            //component={renderTextField}
-                            component="input"
-                            type="text"
-                            placeholder="Votre identifiant de connexion ( username ) ( sans espace ou caractères spéciaux )"
-                        />
-                    </div>
-
-                    <div style={{marginBottom:'15px'}}>
-                        <Field
-                            style={{width:"100%"}}
-                            name="register_nom"
-                            id="register_nom"
-                            //component={renderTextField}
-                            component="input"
-                            type="text"
-                            placeholder="Nom"
-                        />
-                    </div>
-                    <div style={{marginBottom:'15px'}}>
-                        <Field
-                            style={{width:"100%"}}
-                            name="register_prenom"
-                            id="register_prenom"
-                            //component={renderTextField}
-                            component="input"
-                            type="text"
-                            placeholder="Prenom"
-                        />
-                    </div>
-                    <Divider style={{margin:'15px 0'}}/>
-
-                    <Typography variant="subheading" color="inherit">
-                        Adresse
-                    </Typography>
-
-                    <div style={{marginBottom:'15px'}}>
-                        <Field
-                            style={{width:"100%"}}
-                            name="register_arrondissement"
-                            id="register_arrondissement"
-                            //component={renderTextField}
-                            component="input"
-                            type="number"
-                            placeholder="Arrondissement Napoléonien"
-                        />
-                    </div>
-                    <div style={{marginBottom:'15px'}}>
-                        <Field
-                            style={{width:"100%"}}
-                            name="register_adresse"
-                            id="register_adresse"
-                            //component={renderTextField}
-                            component="input"
-                            type="text"
-                            placeholder="Adresse"
-                        />
-                    </div>
-                    <div style={{marginBottom:'15px'}}>
-                        <Field
-                            style={{width:"100%"}}
-                            name="register_code"
-                            id="register_code"
-                            //component={renderTextField}
-                            component="input"
-                            type="number"
-                            placeholder="Code Postal"
-                        />
-                    </div>
-                    <div style={{marginBottom:'15px'}}>
-                        <Field
-                            style={{width:"100%"}}
-                            name="register_ville"
-                            id="register_ville"
-                            //component={renderTextField}
-                            component="input"
-                            type="text"
-                            placeholder="Ville"
-                        />
-                    </div>
-                    <Divider style={{margin:'15px 0'}}/>
-
-                    <Typography variant="subheading" color="inherit">
-                        Contact
-                    </Typography>
-
-                    <div style={{marginBottom:'15px'}}>
-                        <Field
-                            style={{width:"100%"}}
-                            name="register_email"
-                            id="register_email"
-                            //component={renderTextField}
-                            component="input"
-                            type="text"
-                            placeholder="User Email"
-                        />
-                    </div>
-
-                    <div style={{marginBottom:'15px'}}>
-                        <Field
-                            style={{width:"100%"}}
-                            name="register_phone"
-                            id="register_phone"
-                            //component={renderTextField}
-                            component="input"
-                            type="number"
-                            placeholder="Num. Téléphone"
-                        />
-                    </div>
-                    <Divider style={{margin:'15px 0'}}/>
-
-                    <Typography variant="subheading" color="inherit">
-                        Importer la carte d'adhésion
-                    </Typography>
-
-
-  
-                    {/*
-                    <div style={{marginBottom:'30px'}}>
-                        <Field
-                            name="register_password"
-                            id="register_password"
-                            component={renderTextField}
-                            type="password"
-                            placeholder="User Password"
-                        />
-                    </div>
-                    */}
-                    <div style={{marginBottom:'30px'}}>
-                        <Typography style={{marginBottom:'15px'}} variant="body2" color="inherit">
-                            Upload Document:
-                        </Typography>
-                        <Field
-                            name="register_document"
-                            id="register_document"
-                            component={FileInput}
-                            type="file"
-                            accept=".pdf"
-                        />
-                    </div>
-                    <Divider style={{margin:'15px 0'}}/>
-
-                    <Typography variant="subheading" color="inherit">
+                    <Row>
+                        <Col md="6">
+                            <Field 
+                                name="register_organisme"
+                                id="register_organisme"
+                                component={renderTextField}
+                                type="text"
+                                placeholder="Nom de l'organisme"
+                                label="Organisme"
+                            />
+                        </Col>
+                        <Col md="6">
+                            <Field
+                                name="register_service"
+                                id="register_service"
+                                component={renderTextField}
+                                type="text"
+                                placeholder="Nom du service ou du département"
+                                label="Service/Département"
+                            />
+                        </Col>
+                    </Row>
+                    <hr/>
+                    <Row>
+                        <Col md="4">
+                            <Field
+                                name="register_username"
+                                id="register_username"
+                                component={renderTextField}
+                                type="text"
+                                placeholder="Votre identifiant de connexion"
+                                label="Indentifiant"
+                            />
+                        </Col>
+                        <Col md="4">
+                            <Field
+                                name="register_nom"
+                                id="register_nom"
+                                component={renderTextField}
+                                type="text"
+                                placeholder="Nom de la personne référente"
+                                label="Nom"
+                            />
+                        </Col>
+                        <Col md="4">
+                            <Field
+                                name="register_prenom"
+                                id="register_prenom"
+                                component={renderTextField}
+                                type="text"
+                                placeholder="Prénom de la personne référente"
+                                label="Prénom"
+                            />
+                        </Col>
+                    </Row>
+                    <hr/>
+                    <Row>
+                        <Col md="6">
+                            <Field
+                                name="register_arrondissement"
+                                id="register_arrondissement"
+                                component={renderTextField}
+                                type="number"
+                                placeholder="Arrondissement Napoléonien"
+                                label="Arrondissement Napoléonien"
+                            />
+                        </Col>
+                        <Col md="6">
+                            <Field
+                                name="register_adresse"
+                                id="register_adresse"
+                                component={renderTextField}
+                                type="text"
+                                placeholder="Adresse"
+                                label="Adresse"
+                            />
+                        </Col>
+                        <Col md="6">
+                            <Field
+                                name="register_code"
+                                id="register_code"
+                                component={renderTextField}
+                                type="number"
+                                placeholder="Code Postal"
+                                label="Code Postal"
+                            />
+                        </Col>
+                        <Col md="6">
+                            <Field
+                                name="register_ville"
+                                id="register_ville"
+                                component={renderTextField}
+                                type="text"
+                                placeholder="Ville"
+                                label="Ville"
+                            />
+                        </Col>
+                    </Row>
+                    <hr/>
+                    <Row>
+                        <Col md="6">
+                            <Field
+                                name="register_email"
+                                id="register_email"
+                                component={renderTextField}
+                                type="text"
+                                placeholder="Email"
+                                label="Email"
+                            />
+                        </Col>
+                        <Col md="6">
+                            <Field
+                                name="register_phone"
+                                id="register_phone"
+                                component={renderTextField}
+                                type="number"
+                                placeholder="Num. Téléphone"
+                                label="Num. Téléphone"
+                            />
+                        </Col>
+                    </Row>
+                    <hr/>
+                    <Row>
+                        <Col md="12">
+                            <Label variant="subheading" color="inherit">
+                                Importer la carte d'adhésion
+                            </Label>
+                            <div>
+                            <Field
+                                name="register_document"
+                                id="register_document"
+                                component={FileInput}
+                                type="file"
+                                accept=".pdf"
+                            />
+                            </div>
+                        </Col>
+                    </Row>
+                    {/*<Typography variant="subheading" color="inherit">
                         Emailing
                     </Typography>
-
                     <div style={{marginBottom:'30px'}}>
                         <Field 
                             name="login_accept" 
@@ -310,39 +287,81 @@ class Register extends React.Component{
                             label="Accept Condition Checkbox"
                             component={renderCheckBoxField}
                         />
-                    </div>
-                    <Divider style={{margin:'15px 0'}}/>
-
-                    <div>
-
-                        <Button type="submit" variant="contained" color="secondary">
-                            Request invite to SENOVEA
-                        </Button>
-
-                    </div>
+                    </div>*/}
+                    <hr/>
+                    <Row>
+                        <Col md="12">
+                                <button style={{display:"flex",alignItems:"center",justifyContent:"space-between"}} id="btn-connect-modal" type="submit" className="btn-green" disabled={ this.props.submitting }>
+                                    <div style={{lineHeight:"1"}}>S'incrire</div>
+                                    <div style={ this.state.loadingBtn ? {marginLeft:"0",opacity:"1"} : {marginLeft:"0",opacity:"0"} } className="preloader-connect-user"><img src={LoadingSvg}/></div>
+                                </button>
+                        </Col>
+                    </Row>
                     </form>
-                </div>
-            </div>
-            </Paper>
+                </Col>
+            </Row>  
         )
     }
 }
 
 function mapStateToProps(state){
     return {
-        "user":state.user
+        "user":state.user,
+        "modalSettings":state.modalSettings
     }
 }
 
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
-        "user_register_action":user_register_action
+        "user_register_action":user_register_action,
+        "update_modal_settings":update_modal_settings
     }, dispatch)
+}
+
+const validate = ( values ) => {
+    let errors = {}
+
+    if (!values.register_organisme) {
+        errors.register_organisme = true
+    }
+    if (!values.register_service) {
+        errors.register_service = true
+    }
+    if (!values.register_username) {
+        errors.register_username = true
+    }
+    if (!values.register_nom) {
+        errors.register_nom = true
+    }
+    if (!values.register_prenom) {
+        errors.register_prenom = true
+    }
+    if (!values.register_arrondissement) {
+        errors.register_arrondissement = true
+    }
+    if (!values.register_adresse) {
+        errors.register_adresse = true
+    }
+    if (!values.register_code) {
+        errors.register_code = true
+    }
+    if (!values.register_ville) {
+        errors.register_ville = true
+    }
+    if (!values.register_email) {
+        errors.register_email = true
+    }
+    if (!values.register_phone) {
+        errors.register_phone = true
+    }
+
+    return errors
 }
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     reduxForm({
-        form:'registerForm'
+        form:'registerForm',
+        validate
     })
 )(Register)
