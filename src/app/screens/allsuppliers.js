@@ -21,18 +21,10 @@ export class AllSuppliers extends Component{
     }
 
     renderSuppliers(){
-
-
         const suppliersArray = this.props.suppliers.filter((data) => {
-
-            console.log(data)
-
-            if (data.organisme.toLowerCase().indexOf(this.props.suppliersSettings.name.toLowerCase()) !== -1 ||
-                data.arrondissement.toLowerCase().indexOf(this.props.suppliersSettings.arrondissement.toLowerCase()) !== -1){
+            if (data.organisme.toLowerCase === this.props.suppliersSettings.name.toLowerCase()){
                 return data;
             }
-
-
         });
 
         return suppliersArray.map(data => {

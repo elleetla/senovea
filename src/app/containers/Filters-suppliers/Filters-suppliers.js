@@ -7,30 +7,27 @@ import iconSearch from '../../assets/img/icon_search.svg';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { filter_suppliers_actions } from '../../actions/index';
-
 import _ from "lodash"
 
 class FiltersSuppliers extends Component{
-
     constructor(props){
-        super(props)
-
+        super(props);
         this.handleUpdateSupplierFilter = this.handleUpdateSupplierFilter.bind(this)
     }
 
     handleUpdateSupplierFilter( e, fieldName ){
-        let new_settings = _.cloneDeep(this.props.suppliersSettings)
+        let new_settings = _.cloneDeep(this.props.suppliersSettings);
         switch(fieldName){
             case "name":{
-                new_settings.name = e.target.value
+                new_settings.name = e.target.value;
                 break
             }
             case "arrondissement":{
-                new_settings.arrondissement = e.target.value
+                new_settings.arrondissement = e.target.value;
                 break
             }
             case "rang":{
-                new_settings.rang = e.target.value
+                new_settings.rang = e.target.value;
                 break
             }
             default:
@@ -63,7 +60,7 @@ class FiltersSuppliers extends Component{
                             <FormGroup className="mb-0">
                                 <Input
                                     value={this.props.suppliersSettings.arrondissement}
-                                    onChange={ (e)=>{ this.handleUpdateSupplierFilter(e, "arrondissement") } }
+                                    onChange={ (e)=>{ this.handleUpdateSupplierFilter(e, "arrondissement") }}
                                     type="text"
                                     placeholder="Arrondissement"
                                 />
@@ -74,7 +71,12 @@ class FiltersSuppliers extends Component{
                         </Col>
                         <Col lg="3">
                             <FormGroup className="mb-0">
-                                <Input type="text" placeholder="Trier selon le rang" />
+                                <Input
+                                    value={this.props.suppliersSettings.rang}
+                                    onChange={ (e)=>{ this.handleUpdateSupplierFilter(e, "rang") }}
+                                    type="text"
+                                    placeholder="Rang de l'entreprise"
+                                />
                                 <span className="icon-search">
                                         <img src={iconSearch} alt="icon search filter"/>
                                     </span>
