@@ -13,9 +13,8 @@ import { call_product } from '../actions/index' ;
 import { load_panier } from '../actions/index' ;
 import { update_settings_panier } from '../actions/index';
 import { update_modal_settings } from '../actions/index';
-
 import { add_alert } from "../actions/index"
-
+import { user_reset_action } from '../actions/index';
 
 // Fields
 const renderTextField = ( field ) => {
@@ -41,7 +40,7 @@ const renderTextField = ( field ) => {
     )
 };
 
-class LogIn extends React.Component{
+class ReSend extends React.Component{
 
     constructor(props){
         super(props);
@@ -77,50 +76,19 @@ class LogIn extends React.Component{
         console.log( "handleSubmit" );
         console.log( form_props );
 
-        // Calling login action
-        this.props.user_auth_action(form_props,(status)=>{
-            if( status === "success" ){
-
-                // Si c'est le cas on load les paniers
-                // & On load les products 
-
-                this.props.call_product(this.props.user.user_arrondissement, (products_status)=>{
-
-
-                    if( products_status === "success" ){
-
-
-                        this.props.load_panier(this.props.user.user_id, (panier_status)=>{                
-                            // On update le panier actif 
-                            // Par le dernier panier updaté
-                            if( panier_status === "success" ){
-                                let new_panier_settings = _.cloneDeep(this.props.paniersSettings)
-                                new_panier_settings.active_panier_id = _.findLastKey(this.props.paniers)
-                                this.props.update_settings_panier(new_panier_settings);
-        
-                                this.props.add_alert({
-                                    "status":"success",
-                                    "content":`Connexion de ${this.props.user.user_email}`
-                                })
-                            }else{
-                                this.props.add_alert({
-                                    "status":"error",
-                                    "content":`Erreur lors du chargement des paniers de ${this.props.user.user_email}`
-                                })
-                            }
-                        })
-        
-
-                    }else{
-
-                        this.props.add_alert({
-                            "status":"error",
-                            "content":`Erreur lors du chargement des prestations.`
-                        })
-
-                    }
-
+        // call reset action
+        this.props.user_reset_action( form_props.resend_email, ( resend_status ) => {
+            if( resend_status === "success" ){
+                this.props.add_alert({
+                    "status":"success",
+                    "content":`Vos indentifiants ont été renvoyés à cette adresse email : ${form_props.resend_email}`
                 })
+            }else{
+                this.props.add_alert({
+                    "status":"error",
+                    "content":`Erreur dans le renvoi de vos identifiants`
+                })
+            }
 
                 // stop load 
                 this.setState({"loadingBtn":false})
@@ -130,23 +98,8 @@ class LogIn extends React.Component{
                 newModalSettings.isOpen = false;
                 this.props.update_modal_settings(newModalSettings)
 
-            }else{
-
-                this.props.add_alert({
-                    "status":"error",
-                    "content":`Erreur lors du chargement du profil utilisateur. Veuillez vérifier vos identifiants.`
-                })
-
-                // stop load 
-                this.setState({"loadingBtn":false})
-
-                // on close la modale 
-                let newModalSettings = _.cloneDeep(this.props.modalSettings)
-                newModalSettings.isOpen = false;
-                this.props.update_modal_settings(newModalSettings)      
-
-            }
-        })
+            
+        } )
 
     }
 
@@ -158,26 +111,17 @@ class LogIn extends React.Component{
                     <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
 
                                 <Field
-                                    name="login_username"
-                                    id="login_username"
+                                    name="resend_email"
+                                    id="resend_email"
                                     component={renderTextField}
                                     type="text"
-                                    placeholder="User Name"
-                                    label="User Name"
-                                />
-                            
-                                <Field
-                                    name="login_password"
-                                    id="login_password"
-                                    component={renderTextField}
-                                    type="password"
-                                    placeholder="User Password"
-                                    label="User Password"
+                                    placeholder="Votre Email"
+                                    label="Email"
                                 />
 
                                 <div>
                                 <button style={{display:"flex",alignItems:"center",justifyContent:"space-between"}} id="btn-connect-modal" type="submit" className="btn-green" disabled={ this.props.submitting }>
-                                    <div style={{lineHeight:"1"}}>Se connecter</div>
+                                    <div style={{lineHeight:"1"}}>Me renvoyer mes identifiants</div>
                                     <div style={ this.state.loadingBtn ? {marginLeft:"0",opacity:"1"} : {marginLeft:"0",opacity:"0"} } className="preloader-connect-user"><img src={LoadingSvg}/></div>
                                 </button>
                                 </div>
@@ -185,7 +129,7 @@ class LogIn extends React.Component{
                     </form>
                 </Col>
                 <Col md="12">
-                    <p style={{textAlign:"center",marginBottom:"0px",marginTop:"1rem"}}> <a onClick={ ()=>{ this.handleModalToggle( 'register' ) } } href="javascript:void(0)">Inscription</a> | <a onClick={ ()=>{ this.handleModalToggle( 'resend' ) } } href="javascript:void(0)">J'ai oublié mes identifiants</a> </p>
+                    <p style={{textAlign:"center",marginBottom:"0px",marginTop:"1rem"}}> <a onClick={ ()=>{ this.handleModalToggle( 'login' ) } } href="javascript:void(0)">Retourner à la connexion</a> </p>
                 </Col>
             </Row>
         )
@@ -197,7 +141,8 @@ function mapStateToProps(state){
         "user":state.user,
         "paniers":state.paniers,
         "paniersSettings" : state.paniersSettings,
-        "modalSettings":state.modalSettings
+        "modalSettings":state.modalSettings,
+
     }
 }
 
@@ -209,16 +154,15 @@ function mapDispatchToProps(dispatch){
         "update_settings_panier":update_settings_panier,
         "update_modal_settings":update_modal_settings,
         "add_alert":add_alert,
+        "user_reset_action":user_reset_action
+
     }, dispatch)
 }
 
 const validate = ( values ) => {
     const errors = {}
-    if (!values.login_username) {
-        errors.login_username = true
-    }
-    if (!values.login_password) {
-        errors.login_password = true
+    if (!values.resend_email) {
+        errors.resend_email = true
     }
     return errors
 }
@@ -226,7 +170,7 @@ const validate = ( values ) => {
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     reduxForm({
-        form:'loginForm',
+        form:'resendForm',
         validate
     })
-)(LogIn)
+)(ReSend)

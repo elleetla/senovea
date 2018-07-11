@@ -74,7 +74,12 @@ class FiltersSuppliers extends Component{
                         </Col>
                         <Col lg="3">
                             <FormGroup className="mb-0">
-                                <Input type="text" placeholder="Trier selon le rang" />
+                                <Input 
+                                    value={this.props.suppliersSettings.rang}
+                                    onChange={ (e)=>{ this.handleUpdateSupplierFilter(e, "rang") } }
+                                    type="text"
+                                    placeholder="Trier selon le rang" 
+                                />
                                 <span className="icon-search">
                                         <img src={iconSearch} alt="icon search filter"/>
                                     </span>

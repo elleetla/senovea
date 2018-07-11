@@ -26,12 +26,20 @@ export class AllSuppliers extends Component{
         const suppliersArray = this.props.suppliers.filter((data) => {
 
             console.log(data)
+            console.log(data.organisme)
+            console.log(data.arrondissement)
 
-            if (data.organisme.toLowerCase().indexOf(this.props.suppliersSettings.name.toLowerCase()) !== -1 ||
-                data.arrondissement.toLowerCase().indexOf(this.props.suppliersSettings.arrondissement.toLowerCase()) !== -1){
+            /*if (
+                data.organisme.toLowerCase().indexOf(this.props.suppliersSettings.name.toLowerCase()) !== -1){
+                //data.arrondissement.toLowerCase().indexOf(this.props.suppliersSettings.arrondissement.toLowerCase()) !== -1)
+                
                 return data;
-            }
+            }*/
 
+            return this.props.suppliersSettings.name !== "" ? 
+                data.organisme.toLowerCase() === this.props.suppliersSettings.name.toLowerCase()
+                :
+                data
 
         });
 

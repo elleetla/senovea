@@ -6,7 +6,8 @@ import { Link }                             from 'react-router-dom'
 // user logout action
 import { user_logout_action } from '../../actions/index'
 import { update_modal_settings } from '../../actions/index';
-
+import { update_settings_panier } from '../../actions/index';
+import { add_alert } from "../../actions/index"
 
 import LogIn from '../../screens/login'
 import Register from '../../screens/register'
@@ -25,6 +26,7 @@ import {
     Nav,
     NavItem,
     NavLink,
+    Input
     } from 'reactstrap';
 
 class Header extends React.Component{
@@ -37,6 +39,7 @@ class Header extends React.Component{
         this.toogleModalRegistration = this.toogleModalRegistration.bind(this);
         this.handleCartToggle = this.handleCartToggle.bind(this);
         this.handleModalToggle = this.handleModalToggle.bind(this)
+        this.handleUpdateActivePanier = this.handleUpdateActivePanier.bind(this)
 
         this.state = {
             isOpen: false,
@@ -85,6 +88,20 @@ class Header extends React.Component{
             "component":component,
             "size":modalsize
         } )
+
+    }
+
+    handleUpdateActivePanier( e ){
+        ////console.log('update active panier')
+        ////console.log( e.target.value );
+        let new_panier_settings = _.cloneDeep(this.props.paniersSettings)
+        new_panier_settings.active_panier_id = e.target.value
+        this.props.update_settings_panier( new_panier_settings )
+
+        this.props.add_alert({
+            "status":"success",
+            "content":`<strong>${this.props.paniers[e.target.value].nicename}</strong> est le nouveau panier actif!`
+        })
 
     }
 
@@ -161,19 +178,18 @@ class Header extends React.Component{
                                     <Link to="/telechargement" className="nav-link">Téléchargement</Link>
                                 </NavItem>
                             </Nav>
-                            <Nav className="ml-auto" navbar>
 
                                 { this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false ?
-                                    <div style={{display:"flex"}}>
+                                    <Nav className="ml-auto" navbar>
                                         <NavItem>
                                             <NavLink onClick={ ()=>{ this.handleModalToggle( 'register' ) } } className="nav-link">Inscription</NavLink>
                                         </NavItem>
                                         <NavItem>
                                             <NavLink onClick={ ()=>{ this.handleModalToggle( 'login' ) } } className="nav-link">Connexion</NavLink>
                                         </NavItem>
-                                        <NavItem style={{backgroundColor:"rgba(234, 239, 245, 100)",borderRadius:"50%",marginLeft:"15px",width:"35px",height:"35px",display:"flex",alignItems:"center",justifyContent:"center"}}>
-                                            <Link onClick={ ()=>{ this.handleModalToggle( 'login' ) } } to="/account/paniers" className="icon-panier" id="cart_icon">
-                                                <img width="20px" height="auto" className="icon-nav" src={Panier} alt="Icon Panier"/>
+                                        <NavItem>
+                                            <Link onClick={ ()=>{ this.handleModalToggle( 'login' ) } } to="/account/paniers" style={{marginLeft:"15px",width:"50px",height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                                            <img height="auto" className="icon-nav" src={Panier} alt="Icon Panier"/>
                                             </Link>
                                             {/*
                                             <span className="counter-panier">
@@ -181,25 +197,39 @@ class Header extends React.Component{
                                             </span>
                                             */}
                                         </NavItem>
-                                    </div>
+                                    </Nav>
                                     :
-                                    <div style={{display:"flex"}}>
+                                    <Nav className="ml-auto" navbar>
                                         <NavItem>
-                                            <Link to="/account/informations" className="nav-link">{this.props.user.user_email}</Link>
+                                            <Link to="/account/paniers" className="nav-link">{this.props.user.user_email}</Link>
                                         </NavItem>
-                                        <NavItem style={{backgroundColor:"rgba(234, 239, 245, 100)",borderRadius:"50%",marginLeft:"15px",width:"35px",height:"35px",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                                        <NavItem>
+                                            {/*
+                                            <Input style={{borderRadius:"0"}} type="select" onChange={this.handleUpdateActivePanier} value={this.props.paniersSettings.active_panier_id} name="select_panier" id="select_panier">
+                                            {_.map(this.props.paniers, (panier, i) => {
+                                                return(
+                                                    <option key={i} id={i} value={i}>{panier.nicename}</option>
+                                                )
+                                            })}
+                                            </Input>
+                                            */}
+                                            <Link to="/account/paniers" style={{marginLeft:"15px",width:"50px",height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                                                <img height="auto" className="icon-nav" src={Panier} alt="Icon Panier"/>
+                                            </Link>
+                                            {/*}
                                             <Link to="/account/paniers" className="icon-panier" id="cart_icon">
                                                 <img width="20px" height="auto" className="icon-nav" src={Panier} alt="Icon Panier"/>
                                             </Link>
+                                            */}
                                             {/*
                                             <span className="counter-panier">
                                                 <p></p>
                                             </span>
                                             */}
                                         </NavItem>
-                                    </div>
+                                    </Nav>
                                 }
-                            </Nav>
+                            
                         </Collapse>
                     </Navbar>
                 </header>
@@ -229,14 +259,18 @@ class Header extends React.Component{
 function mapStateToProps(state){
     return {
         "user":state.user,
-        "paniers":state.paniers
+        "paniers":state.paniers,
+        "paniers":state.paniers,
+        "paniersSettings":state.paniersSettings,
     }
 }
 
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
         "user_logout_action":user_logout_action,
-        "update_modal_settings":update_modal_settings
+        "update_modal_settings":update_modal_settings,
+        "update_settings_panier":update_settings_panier,
+        "add_alert":add_alert,
     }, dispatch)
 }
 

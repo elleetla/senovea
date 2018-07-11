@@ -5,6 +5,8 @@ import { USER_REGISTER }                  from '../actions/index'
 import { USER_AUTH }                      from '../actions/index'
 import { USER_UPDATE }                    from '../actions/index'
 import { USER_LOAD }                      from '../actions/index'
+import { USER_RESET }                      from '../actions/index'
+
 import { SUPPLIER_ORDER_ACCEPT }          from '../actions/index'
 import { SUPPLIER_ORDER_REJECT }          from '../actions/index'
 import { CALL_PRODUCTS }                  from "../actions/index"
@@ -26,6 +28,8 @@ import { FILTERS_SUPPLIERS } from "../actions/index";
 import { ORDER_PANIER } from "../actions/index"
 import { UPDATE_MODAL_SETTINGS } from "../actions/index"
 
+import { ADD_ALERT } from "../actions/index"
+import { REMOVE_ALERT } from "../actions/index"
 
 import _ from 'lodash'
 
@@ -122,6 +126,10 @@ function userReducer( state = USER_INITIAL_STATE , action ){
             console.log(user)
             return user;
             break;
+        }
+        case USER_RESET:{
+            console.log("user reset action")
+            return state
         }
         case SUPPLIER_ORDER_ACCEPT:{
             console.log("supplier accept reducer");
@@ -273,6 +281,24 @@ function reducerFilterSuppliers(state = { "name": "", "rang": "", "arrondissemen
     }
 }
 
+const alertsReducer_init = []
+function alertsReducer( state = alertsReducer_init, action ){
+    switch( action.type ){
+        case ADD_ALERT :{
+            console.log('add alert reducer')
+            let clone = _.cloneDeep(state);
+            clone = [] // Empty array
+            clone.push( action.payload )
+            return clone;
+        }
+        case REMOVE_ALERT :{
+            return action.payload;
+        }
+        default:
+            return state;
+    }
+}
+
 // export reducers
 export const rootReducers = combineReducers({
     "user"      :userReducer,
@@ -285,5 +311,6 @@ export const rootReducers = combineReducers({
     "appSettings": appSettingsReducer,
     "modalSettings":modalSettingsReducer,
     "users": callUsers,
-    "suppliers" : reducerSuppliers
+    "suppliers" : reducerSuppliers,
+    "alerts": alertsReducer
 });

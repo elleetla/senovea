@@ -9,6 +9,8 @@ import { add_panier } from '../../actions/index';
 import { delete_panier } from '../../actions/index';
 import { update_panier } from '../../actions/index';
 import { update_settings_panier } from '../../actions/index';
+import { update_modal_settings } from '../../actions/index';
+import { add_alert } from "../../actions/index"
 
 // React Strap 
 import { Container, Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter, Form, FormGroup, Label, Input } from 'reactstrap';
@@ -16,19 +18,18 @@ import { Container, Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter
 // import style
 import './Create-panier.css';
 
-const renderField = (props) => {
+
+/*const renderField = (props) => {
 
     //console.log("renderField")
     //console.log(props)
     ////console.log(props)
     return (
       <div className="">
-        {/*<input type="text" {...props} {...props.input}/>*/}
         <Input type="text" {...props} {...props.input} style={{width:"100%"}}/>
-        {/*{props.touched && props.error && <span className="error">{props.error}</span>}*/}
       </div>
     )
-}
+}*/
 
 class CreatePanier extends Component{
     constructor(props){
@@ -38,18 +39,28 @@ class CreatePanier extends Component{
             modal_create_panier_status : false
         }
 
-        this.handleCreatePanier = this.handleCreatePanier.bind(this);
+        //this.handleCreatePanier = this.handleCreatePanier.bind(this);
         this.handleToggleModalCreatePanier = this.handleToggleModalCreatePanier.bind(this);
-        this.handleCreatePanierSubmit = this.handleCreatePanierSubmit.bind(this)
+        //this.handleCreatePanierSubmit = this.handleCreatePanierSubmit.bind(this)
         this.handleUpdateActivePanier = this.handleUpdateActivePanier.bind(this);
     }
-    handleCreatePanier(){
+    //handleCreatePanier(){
         ////console.log('creation panier')
-    }
+    //}
     handleToggleModalCreatePanier(){
-        this.setState({
-            modal_create_panier_status : !this.state.modal_create_panier_status
-        })
+        
+        // ici on toggle la modal avec le component panier-form
+
+        this.props.update_modal_settings( {
+            "isOpen":true,
+            "title":"panier_create",
+            "component":"panier_create",
+            "size":"medium"
+        } )
+
+        //this.setState({
+        //    modal_create_panier_status : !this.state.modal_create_panier_status
+        //})
     }
     handleUpdateActivePanier( e ){
         ////console.log('update active panier')
@@ -58,8 +69,13 @@ class CreatePanier extends Component{
         new_panier_settings.active_panier_id = e.target.value
         this.props.update_settings_panier( new_panier_settings )
 
+        this.props.add_alert({
+            "status":"success",
+            "content":`<strong>${this.props.paniers[e.target.value].nicename}</strong> est le nouveau panier actif!`
+        })
+
     }
-    handleCreatePanierSubmit(Formprops){
+    /*handleCreatePanierSubmit(Formprops){
         ////console.log(Formprops)
         // handlePanierCreation 
         const user_id = this.props.user.user_id;
@@ -73,21 +89,21 @@ class CreatePanier extends Component{
                 this.props.update_settings_panier(new_panier_settings);
             } 
         });
-    }
+    }*/
     render(){
         //console.log("render create panier");
         //console.log(this);
         return(
                 this.props.user.user_auth.auth_token !== '' && this.props.user.user_auth.isAuth !== false ?
-
                 <div id="nav-create-panier">
                     <Container>
                         <Row>
                             <Col lg="8">
+
                             {
                                 this.props.paniers.length !== 0 ?
                                 <FormGroup style={{margin: "0px"}} >
-                                    <Input type="select" id="exampleSelect" onChange={this.handleUpdateActivePanier} value={this.props.paniersSettings.active_panier_id} name="select_panier" id="select_panier">
+                                    <Input type="select" onChange={this.handleUpdateActivePanier} value={this.props.paniersSettings.active_panier_id} name="select_panier" id="select_panier">
                                         {_.map(this.props.paniers, (panier, i) => {
                                             return(
                                                 <option key={i} id={i} value={i}>{panier.nicename}</option>
@@ -107,10 +123,13 @@ class CreatePanier extends Component{
                         </Row>
                     </Container>
 
+                    {/*
                     <Modal isOpen={this.state.modal_create_panier_status} toggle={this.handleToggleModalCreatePanier} className={this.props.className}>
                         <ModalHeader toggle={this.handleToggleModalCreatePanier}> Créer un nouveau panier </ModalHeader>
                         <Form onSubmit={this.props.handleSubmit(this.handleCreatePanierSubmit)}>
+    
                             <ModalBody>
+                                
                                 <FormGroup>
                                 <Label for="create_panier_arrondissement">Arrondissement Napoléonien</Label>
                                 <Field
@@ -160,9 +179,11 @@ class CreatePanier extends Component{
                                 <Button color="primary" type="submit">Créer Panier</Button>
                                 <Button color="secondary" type="button" onClick={this.handleToggleModalCreatePanier}>Cancel</Button>
                             </ModalFooter>
+                                
                         </Form>
                     </Modal>
 
+                */}
                 </div>
                 :
                 null
@@ -178,9 +199,9 @@ function mapStateToProps(state){
 
         "products": state.products,
         "user": state.user,
-
         "paniers":state.paniers,
         "paniersSettings":state.paniersSettings,
+        "modalSettings":state.modalSettings,
 
         "initialValues":{
             'create_panier_arrondissement':state.user.user_arrondissement,
@@ -196,15 +217,34 @@ function mapDispatchToProps(dispatch){
         "add_panier":add_panier,
         "delete_panier":delete_panier,
         "update_panier":update_panier,
-        "update_settings_panier":update_settings_panier
+        "update_settings_panier":update_settings_panier,
+        "update_modal_settings":update_modal_settings,
+        "add_alert":add_alert,
 
     },dispatch)
 }
+/*
+const validate = ( values ) => {
+    const errors = {}
+    if (!values.create_panier_code) {
+        errors.create_panier_code = true
+    }
+    if (!values.create_panier_adresse) {
+        errors.create_panier_adresse = true
+    }
+    if (!values.create_panier_nom) {
+        errors.create_panier_nom = true
+    }
+    return errors
+}
+*/
+
 
 // export
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
-    reduxForm({
-        "form":'createPanierForm',
-    })
+    //reduxForm({
+    //    "form":'createPanierForm',
+    //    validate,
+    //})
 )(CreatePanier)

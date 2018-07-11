@@ -18,6 +18,8 @@ import LoadingSvg from '../assets/img/icon-preloader-connect.svg';
 // user auth action 
 import { user_register_action } from '../actions/index' 
 import { update_modal_settings } from '../actions/index';
+import { add_alert } from "../actions/index"
+
 
 // FIX FOR INPUT TYPE FILE
 const adaptFileEventToValue = delegate =>
@@ -108,8 +110,8 @@ class Register extends React.Component{
         this.setState({"loadingBtn":true})
 
         // Calling register action
-        this.props.user_register_action(formProps, ()=>{
-            // redirect
+        this.props.user_register_action(formProps, ( registration_status )=>{
+
 
                 // load 
                 this.setState({"loadingBtn":false})
@@ -119,8 +121,38 @@ class Register extends React.Component{
                 newModalSettings.isOpen = false;
                 this.props.update_modal_settings(newModalSettings)
 
+                // Notification 
+                if( registration_status === "success" ){
+
+                    this.props.add_alert({
+                        "status":"success",
+                        "content":`Votre demande d'inscription à bien été envoyée!`
+                    })
+
+                }else{  
+
+                    this.props.add_alert({
+                        "status":"error",
+                        "content":`Erreur lors de votre envoie de demande d'inscription.`
+                    })
+
+                }
+
         })
     }   
+
+    handleModalToggle( component ){
+
+        const modalsize = component === "register" ? "big" : "medium";
+
+        this.props.update_modal_settings( {
+            "isOpen":true,
+            "title":component,
+            "component":component,
+            "size":modalsize
+        } )
+
+    }
 
     render(){
         
@@ -299,6 +331,9 @@ class Register extends React.Component{
                     </Row>
                     </form>
                 </Col>
+                <Col md="12">
+                    <p style={{textAlign:"center",marginBottom:"0px",marginTop:"1rem"}}> <a onClick={ ()=>{ this.handleModalToggle( 'login' ) } } href="javascript:void(0)">Se connecter</a>  </p>
+                </Col>
             </Row>  
         )
     }
@@ -314,7 +349,8 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
         "user_register_action":user_register_action,
-        "update_modal_settings":update_modal_settings
+        "update_modal_settings":update_modal_settings,
+        "add_alert":add_alert
     }, dispatch)
 }
 

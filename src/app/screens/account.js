@@ -55,14 +55,14 @@ class Account extends React.Component{
 
         return(
 
-            <Container style={{margin:"50px auto"}}>
+            <Container style={{margin:"25px auto"}}>
 
                 <Row>
 
                     <Col md={3}>
                         <ListGroup>
                             <ListGroupItem><Link to="/account/paniers">Mes paniers</Link></ListGroupItem>
-                            <ListGroupItem><Link to="/account/informations">Mon profil</Link></ListGroupItem>
+                            <ListGroupItem><a href="javascript:void(0)">Mon profil</a></ListGroupItem>
                             <ListGroupItem><a href="javascript:void(0)">Gestion du mot de passe</a></ListGroupItem>
                             <ListGroupItem><a onClick={ this.props.user_logout_action } href="javascript:void(0)">Déconnexion</a></ListGroupItem>
                         </ListGroup>

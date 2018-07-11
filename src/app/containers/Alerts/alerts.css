@@ -1,0 +1,38 @@
+.senovea-global-alert-wrap{
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    max-width: 500px;
+}
+.senovea-global-alert-wrap .alert{
+    margin-bottom:0px;
+    position: fixed;
+    bottom: 15px;
+    left: 15px;
+    right: 15px;
+    max-width: 350px;
+    box-shadow: 0 15px 35px rgba(50,50,93,.1), 0 5px 15px rgba(0,0,0,.07);
+}
+.senovea-global-alert-wrap .alert .senovea-global-alert-close{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10px;
+    height: 10px;
+}
+.senovea-global-alert-wrap .alert .senovea-global-alert-close > div{
+    line-height: 0;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10px;
+    height: 10px;
+}
+.senovea-global-alert-wrap .alert .senovea-global-alert-close > div:hover{
+    cursor:pointer;
+}

@@ -6,7 +6,7 @@ import {bindActionCreators} from "redux";
 class Users extends Component{
 
     componentDidMount(){
-        this.props.call_users(this.props.user.user_auth.auth_token)
+        //this.props.call_users(this.props.user.user_auth.auth_token)
     }
 
     render() {
