@@ -2,13 +2,24 @@ import React from "react";
 import Account from "./account";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Card, Button, CardHeader, CardFooter, CardBody, CardTitle, CardText } from 'reactstrap';
+import { Card, Button, CardHeader, CardFooter, CardBody, CardTitle, CardText,Badge } from 'reactstrap';
 import { Link } from "react-router-dom"
 import _ from "lodash"
 class AccountPaniers extends React.Component{
 
+    renderPanierStatus( status ){
+
+        switch( status ){
+            case"not sended":{
+                return <Badge color="warning"> {status} </Badge>
+            }
+            default:
+                return <Badge color="info"> No status </Badge>
+        }
+    }
+
     render(){
-        console.log(this)
+        //console.log(this)
         return(
             <Account>
                 {
@@ -22,11 +33,15 @@ class AccountPaniers extends React.Component{
                         { 
                             _.map( this.props.paniers, (panier) => {
 
-                                console.log(panier)
+                                //console.log(panier)
                                 return (
                                         <Card key={panier.id} style={{marginBottom:"15px"}}>
-                                            <CardHeader>status : {panier.status}</CardHeader>
-                                                <CardBody>
+                                                <CardHeader>
+
+                                                    {this.renderPanierStatus(panier.status)}
+                                                
+                                                </CardHeader>
+                                                <CardBody style={{padding:"25px",borderTop:"none"}}>
                                                     <CardTitle>{panier.nicename}</CardTitle>
                                                     <hr/>
                                                     <div>

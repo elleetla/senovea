@@ -7,29 +7,78 @@ import { supplier_order_accept_v2 } from "../actions/index"
 class SupplierAccept extends React.Component{
     constructor(props){
         super(props)
+        this.state = {
+            "order_status":""
+        }
+        this.getUrlParameter = this.getUrlParameter.bind(this);
+    }
+    getUrlParameter(name){
+        name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
+        let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
+        let results = regex.exec(window.location.search);
+        return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
+ 
     }
     componentDidMount(){
-        function getUrlParameter(name){
-            name = name.replace(/[\[]/, '\\[').replace(/[\]]/, '\\]');
-            let regex = new RegExp('[\\?&]' + name + '=([^&#]*)');
-            let results = regex.exec(window.location.search);
-            return results === null ? '' : decodeURIComponent(results[1].replace(/\+/g, ' '));
-        };
 
-        const orderid = getUrlParameter('o');
-        const custimerid = getUrlParameter('c')
-        const supplierid = getUrlParameter('s')
-        const productid = getUrlParameter('p')
-        const mccampaignid = getUrlParameter('mc_cid')
-        const mcemailid = getUrlParameter('mc_eid')
+        const orderid = this.getUrlParameter('o');
+        const custimerid = this.getUrlParameter('c')
+        const supplierid = this.getUrlParameter('s')
+        const productid = this.getUrlParameter('p')
+        const mccampaignid = this.getUrlParameter('mc_cid')
+        const mcemailid = this.getUrlParameter('mc_eid')
 
-        this.props.supplier_order_accept_v2(orderid,productid,supplierid,custimerid,mccampaignid,mcemailid);
+        this.props.supplier_order_accept_v2(orderid,productid,supplierid,custimerid,mccampaignid,mcemailid,(order_satus)=>{
+            switch(order_satus){
+                case 'already':{
+                    this.setState({
+                        "order_status":"already"
+                    })
+                    break;
+                }
+                case 'success':{
+                    this.setState({
+                        "order_status":"success"
+                    })
+                    break;
+                }
+                case 'error':{
+                    this.setState({
+                        "order_status":"error"
+                    })
+                    break;
+                }
+                default:
+                break;
+            }
+        });
+    }
+    renderOrderMessage( order_status ){
+        const orderid = this.getUrlParameter('o');
+        switch( order_status ){
+            case 'already':{
+                return `Vous avez déjà répondu à cette commande.`
+            }
+            case 'success':{
+                return `Commande #${orderid} Acceptée!`
+            }
+            case 'error':{
+                return `Erreur lors de l'acceptation de la commande.`
+            }
+            default:
+            return ` Loading `
+        }
     }
     render(){
+        const orderid = this.getUrlParameter('o');
         console.log(this);
         return (
-            <div style={{padding:"100px"}}>
-                acceptance
+            <div className="senovea-page-supplier senovea-page-accept">
+                <div className="senovea-page-supplier-wrap">
+                    <div className="senovea-page-supplier-title">
+                        { this.renderOrderMessage(this.state.order_status) }
+                    </div>
+                </div>
             </div>
         )
     }

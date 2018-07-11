@@ -6,6 +6,8 @@ import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 // components
 import LogIn from '../../screens/login'
 import Register from '../../screens/register'
+import ReSend from '../../screens/resend'
+import PanierForm from '../Panier-form/panier-form'
 
 // actions
 import { update_modal_settings } from "../../actions/index"
@@ -25,6 +27,12 @@ class ModalSenovea extends React.Component{
             case "login":{
                 return " Connexion "
             }
+            case "resend":{
+                return " Oublie de mes identifiants "
+            }
+            case "panier_create":{
+                return " Creation d'un panier "
+            }
             default :
                 return " Title "
         }
@@ -37,13 +45,19 @@ class ModalSenovea extends React.Component{
             case "login":{
                 return <LogIn/>
             }
+            case "resend":{
+                return <ReSend/>
+            }
+            case "panier_create":{
+                return <PanierForm/>
+            }
             default :
                 return " "
         }
     }
     render(){
 
-        console.log(this)
+        //console.log(this)
         return(
             <Modal isOpen={this.props.modalSettings.isOpen} style={ this.props.modalSettings.size === "big" ? { maxWidth:"1000px" } : null }>
                 <ModalHeader>

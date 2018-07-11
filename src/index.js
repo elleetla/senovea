@@ -8,6 +8,9 @@ import { BrowserRouter, HashRouter, Switch, Route, Redirect } from 'react-router
 import { Provider, connect } from 'react-redux'
 import { createStore, applyMiddleware, bindActionCreators } from 'redux'
 import { rootReducers } from './app/reducers/reducers'
+import { Transition,CSSTransition,TransitionGroup } from 'react-transition-group';
+import { TweenMax,TimelineLite } from "gsap";
+import _ from "lodash"
 import thunk from 'redux-thunk'
 
 // components / containers
@@ -35,6 +38,7 @@ import Filters from './app/containers/Filters/Filters';
 import CreatePanier from './app/containers/Create-panier/Create-panier';
 import Footer from './app/components/Footer/Footer';
 import ModalSenovea from './app/containers/Modal/modal'
+import Alerts from './app/containers/Alerts/alerts'
 
 // CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -47,6 +51,7 @@ import { load_panier } from './app/actions/index';
 import { update_app_settings } from './app/actions/index';
 import { update_settings_panier } from './app/actions/index';
 import { update_modal_settings } from './app/actions/index';
+import { add_alert } from './app/actions/index';
 
 
 const store = applyMiddleware(thunk)(createStore);
@@ -75,7 +80,7 @@ class App extends React.Component {
 
     componentDidMount() { 
 
-        //console.log("componentDidMount")
+        ////console.log("componentDidMount")
 
         // Quand l'application se lance 
 
@@ -85,26 +90,58 @@ class App extends React.Component {
 
         this.props.user_load_action((status)=>{
 
-            //console.log(status)
+            ////console.log(status)
 
             if( status === "success" ){
             // Si c'est le cas on load les paniers
             // & On load les products 
-                //console.log(this.props)
-                this.props.call_product(this.props.user.user_arrondissement)
-                this.props.load_panier(this.props.user.user_id, (panier_status)=>{
+                ////console.log(this.props)
+                this.props.call_product(this.props.user.user_arrondissement, (products_status)=>{
 
-                    // On update le panier actif 
-                    // Par le dernier panier updaté
-                    if( panier_status === "success" ){
-                        //console.log('les paniers')
-                        //console.log(this.props.paniers)
+                    ////console.log("products_status")
+                    ////console.log(products_status)
 
-                        let new_panier_settings = _.cloneDeep(this.props.paniersSettings)
-                        //console.log(this.props.paniers)
-                        new_panier_settings.active_panier_id = _.findLastKey(this.props.paniers)
-                        this.props.update_settings_panier(new_panier_settings);
+                    if( products_status === "success" ){
+
+                        this.props.load_panier(this.props.user.user_id, (panier_status)=>{
+
+                            // On update le panier actif 
+                            // Par le dernier panier updaté
+                            if( panier_status === "success" ){
+                                ////console.log('les paniers')
+                                ////console.log(this.props.paniers)
+        
+                                let new_panier_settings = _.cloneDeep(this.props.paniersSettings)
+                                ////console.log(this.props.paniers)
+                                new_panier_settings.active_panier_id = _.findLastKey(this.props.paniers)
+                                this.props.update_settings_panier(new_panier_settings);
+        
+        
+                                this.props.add_alert({
+                                    "status":"success",
+                                    "content":`Connexion de ${this.props.user.user_email}`
+                                })
+        
+                            }else{
+        
+                                this.props.add_alert({
+                                    "status":"error",
+                                    "content":`Erreur lors du chargement des paniers de ${this.props.user.user_email}`
+                                })
+        
+                            }
+        
+                        })
+    
+                    }else{
+
+                        this.props.add_alert({
+                            "status":"error",
+                            "content":`Erreur lors du chargement des prestations.`
+                        })
+
                     }
+                    
 
                 })
 
@@ -114,6 +151,11 @@ class App extends React.Component {
                 this.props.update_app_settings( new_app_settings )
 
             }else{
+
+                /*this.props.add_alert({
+                    "status":"error",
+                    "content":`Erreur lors du chargement du profil utilisateur. Veuillez vérifier vos identifiants.`
+                })*/
 
                 // on update les app settings 
                 let new_app_settings = _.cloneDeep(this.props.appSettings);
@@ -139,14 +181,155 @@ class App extends React.Component {
     }
 
     render(){
+        //console.log(this)
         return(
                 this.props.appSettings.globalLoading === true ? 
                     <GlobalLoading/>
                 :
                     <BrowserRouter>
+                        <Route render={ ( routerProps ) =>{
+                            //console.log( "changin location" );
+                            //console.log( routerProps );
+                            //console.log( routerProps.location.key )
+                            return(
+                                <div className="root-inside" onClick={this.handleOutsideModalClicks}>
+                                    <AppNav/>
+                                    <TransitionGroup
+                                    component={null}
+                                    childFactory={(child)=>{
+                                        const dynamicChild = React.cloneElement(
+                                        child,{
+                                            onEnter:(el, isAppearing)=>{ 
+                                                //console.log("enter")
+                                                //console.log(el)
+                                                TweenMax.fromTo( el, .5, { y: 15, opacity: 0, ease: Power4.easeOut }, { y: 0, opacity: 1, ease: Power4.easeOut } ).delay(0.5)                                            
+                                            },
+                                            onExit:(el, isAppearing)=>{
+                                                //console.log("exit")
+                                                //console.log(el)
+                                                TweenMax.fromTo( el, .5, { y: 0, position:"absolute", top:"70px",width:"100%",height:"100%", opacity: 1, ease: Power4.easeOut }, { y: 15, opacity: 0, ease: Power4.easeOut } )
+                                            }
+                                        })
+                                        return dynamicChild
+                                    }}
+                                    >
+                                        <Transition 
+                                            key={ routerProps.location.key } 
+                                            timeout={{enter:500,exit:500}}
+                                            appear={true}  
+                                        >
+                                            <div className="main" /*style={{position:"absolute",top:"70px",width:"100%",height:"100%"}}*/>
+                                                <Switch location={routerProps.location} >
+                                                    <Route exact path="/" component={Home} />
+                                                    <Route path="/supplier/accept" component={SupplierAccept} />
+                                                    <Route path="/supplier/reject" component={SupplierReject} />
+                                                    <Route path="/allproducts" render={ () => {
+                                                        if(this.props.user.user_auth.isAuth !== true){
+                                                            return <Redirect to="/"/>
+                                                        }else{
+                                                            return (
+                                                                <div>
+                                                                    <AllProducts/>
+                                                                </div>
+                                                            )
+                                                        }
+                                                    }}/>
+                                                    <Route path="/account/paniers/:id" render={ (props) => {
+                                                        if(this.props.user.user_auth.isAuth === false ){
+                                                            return <Redirect to="/"/>
+                                                        }else{
+                                                            return <AccountPaniersDetail routeProps={props} />
+                                                        }
+                                                    }}/>
+                                                    <Route path="/account/paniers" render={ (props) => {
+                                                        if(this.props.user.user_auth.isAuth === false ){
+                                                            return <Redirect to="/"/>
+                                                        }else{
+                                                            return <AccountPaniers/>
+                                                        }
+                                                    }}/>
+                                                    <Route path="/account/informations" render={ (props) => {
+                                                        if(this.props.user.user_auth.isAuth === false ){
+                                                            return <Redirect to="/"/>
+                                                        }else{
+                                                            return <AccountInformations/>
+                                                        }
+                                                    }}/>
+                                                    <Route path="/account" render={ () => {
+                                                        if(this.props.user.user_auth.isAuth === false ){
+                                                            return <Redirect to="/"/>
+                                                        }else{
+                                                            if ( this.props.user.user_auth.isCustomer === true && this.props.user.user_auth.isSupplier === false ){
+                                                                return (
+                                                                    <div>
+                                                                        <Account/>
+                                                                    </div>
+                                                                )
+                                                            }else{
+                                                                return <Redirect to="/"/>
+                                                            }
+                                                        }
+                                                    }}/>
+                                                    <Route path="/cart" render={ () => {
+                                                        if(this.props.user.user_auth.isAuth === false ){
+                                                            return <Redirect to="/"/>
+                                                        }else{
+                                                            if( this.props.user.user_auth.isCustomer === true && this.props.user.user_auth.isSupplier === false ){
+                                                                return (
+                                                                    <div>
+                                                                        <Cart/>
+                                                                    </div>
+                                                                )
+                                                            }else{
+                                                                return <Redirect to="/"/>
+                                                            }
+                                                        }
+                                                    }}/>
+                                                    <Route path="/supplier-orders" render={ () => {
+                                                        if(this.props.user.user_auth.isAuth === false ){
+                                                            return <Redirect to="/"/>
+                                                        }else{
+                                                            if( this.props.user.user_auth.isCustomer === false && this.props.user.user_auth.isSupplier === true ){
+                                                                return (
+                                                                    <div>
+                                                                        <SupplierOrders />
+                                                                    </div>
+                                                                )
+                                                            }else{
+                                                                return <Redirect to="/"/>
+                                                            }
+                                                        }
+                                                    }}/>
+                                                    <Route path="/users" component={AllUsers}/>
+                                                    <Route path="/suppliers" component={AllSuppliers}/>
+                                                    <Route exact path="/about" component={About}/>
+                                                    <Route path="/telechargement" component={Downloading}/>
+                                                </Switch>
+                                            </div>
+                                        </Transition>
+                                    </TransitionGroup>
+
+                                { this.state.cookieMentions === false ? localStorage.setItem("cookiesNotices", JSON.stringify(false)) : null}
+                                <div id="cookie-notice" className={localStorage.getItem("cookiesNotices")  ? 'displayBlocOpacity' : null}>
+                                    <p>Ce site utilise des cookies. En poursuivant la navigation, vous acceptez l'utilisation de cookies.</p>
+                                    <button onClick={() => this.closeCookies()} className="btn-green">Fermer et continuer</button>
+                                </div>
+
+                                <Footer/>
+                                <ModalSenovea/>
+                                <Alerts/>
+                                </div>
+                            )
+                        } } />
+
+                        {/*
                         <div className="root-inside" onClick={this.handleOutsideModalClicks}>
+                            
                             <AppNav/>
-                            <Switch>
+
+                            <div className="main">
+
+                            <Switch location={location}>
                                 <Route exact path="/" component={Home} />
                                 <Route path="/supplier/accept" component={SupplierAccept} />
                                 <Route path="/supplier/reject" component={SupplierReject} />
@@ -229,11 +412,11 @@ class App extends React.Component {
                                 }}/>
                                 <Route path="/users" component={AllUsers}/>
                                 <Route path="/suppliers" component={AllSuppliers}/>
-                                <Route path="/about" component={About}/>
+                                <Route exact path="/about" component={About}/>
                                 <Route path="/telechargement" component={Downloading}/>
                             </Switch>
+                            </div>
 
-                            { /* Bloc cookie notice */ }
                             { this.state.cookieMentions === false ? localStorage.setItem("cookiesNotices", JSON.stringify(false)) : null}
 
                             <div id="cookie-notice" className={localStorage.getItem("cookiesNotices")  ? 'displayBlocOpacity' : null}>
@@ -243,7 +426,9 @@ class App extends React.Component {
 
                             <Footer/>
                             <ModalSenovea/>
-                        </div>
+                            <Alerts/>
+                            </div>*/}
+
                     </BrowserRouter>
         )
     }
@@ -256,7 +441,8 @@ function mapDispatchToProps( dispatch ){
         "load_panier": load_panier,
         "update_app_settings": update_app_settings,
         "update_settings_panier":update_settings_panier,
-        "update_modal_settings":update_modal_settings
+        "update_modal_settings":update_modal_settings,
+        "add_alert":add_alert
     }, dispatch)
 }
 

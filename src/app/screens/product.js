@@ -4,6 +4,8 @@ import { bindActionCreators } from "redux";
 
 import { update_panier } from "../actions/index"
 import { add_product_to_panier } from "../actions/index"
+import { add_alert } from "../actions/index"
+
 
 import LoadingSvg from '../assets/img/icon-preloader.svg';
 
@@ -78,18 +80,43 @@ class Product extends React.Component{
 
 
         this.props.add_product_to_panier( user_id, panier_id, product_id, lot_id, ( status ) => {
-            //console.log(status)
+            //////console.log(status)
+
+            //console.log(this.props.paniers)
+
             if(status === "success"){
+
+                /*
+                this.props.add_alert({
+                    "status":"success",
+                    "content":`<strong>nom du produit</strong>, ajouté au panier ${this.props.panier[panier_id]}`
+                })
+                */
+
+                
                 this.setState({
                     isLoading:false
                 })
+                this.props.add_alert({
+                    "status":"success",
+                    "content":`Le produit <strong>#${product_id}</strong> a été ajouté au panier: <strong>${this.props.paniers[panier_id].nicename}</strong>`
+                })
+
+
+            }else{
+                this.props.add_alert({
+                    "status":"error",
+                    "content":`Erreur lors de l'ajout de <strong>nom du produit</strong> dans le panier ${this.props.paniers[panier_id].nicename}`
+                })
             }
+
+
         } )
 
     }
 
     renderSwitchMode( mode, lot_key ){
-        console.log(mode)
+        ////console.log(mode)
         switch( mode ){
             case "catalog":{
                 return <Button onClick={ 
@@ -131,11 +158,7 @@ class Product extends React.Component{
                     <Col md="2">
                         <p>Réf : <b> 
                         { 
-                            `${this.props.product_value.attributes[0].attr_value[0]}.
-                            ${this.props.product_value.attributes[1].attr_value[0]}.
-                            ${this.props.product_value.attributes[2].attr_value[0]}.
-                            ${this.props.product_value.attributes[3].attr_value[0]}.
-                            ${this.props.product_value.attributes[5].attr_value[0]}`
+                            `${this.props.product_value.attributes[0].attr_value[0]}.${this.props.product_value.attributes[1].attr_value[0]}.${this.props.product_value.attributes[2].attr_value[0]}.${this.props.product_value.attributes[3].attr_value[0]}.${this.props.product_value.attributes[5].attr_value[0]}`
                         } 
                         </b> </p>
                     </Col>
@@ -144,10 +167,13 @@ class Product extends React.Component{
                         <p><b>{this.props.product_value.name}</b></p>
                     </Col>
 
-                    <Col md="2">
-                    <div>
+                    <Col md="3">
+                    <div style={{display:"flex",alignItems:"center",justifyContent:"flex-start"}}>
                         
+                        <div>
                         <label style={{margin:"0 5px 0 0"}}>Quantité : </label>
+                        </div>
+                        <div>
                         <Input type="select" className="select-product" value={ this.state.activeVariation } onChange={ this.handleProductChangeVariation } >
                             {
                                 this.props.product_value.variations.length !== 0 ? 
@@ -160,11 +186,12 @@ class Product extends React.Component{
                                 <option value={ this.state.activeVariation } > Aucune Variation </option>
                             }
                         </Input>
+                        </div>
 
                     </div>
                     </Col>
 
-                    <Col md="2">
+                    <Col md="1">
                             <div>
                                 { this.props.product_value.variations.length !== 0 ?
                                     <p>Price : <b>{the_price}€</b></p>
@@ -245,7 +272,7 @@ function mapStateToProps( state ){
 
     return{
         "user":state.user,
-        "paniers":state.panier,
+        "paniers":state.paniers,
         "paniersSettings":state.paniersSettings
     }
 }
@@ -255,7 +282,8 @@ function mapDispatchToProps( dispatch ){
     return bindActionCreators({
 
         "update_panier":update_panier,
-        "add_product_to_panier":add_product_to_panier
+        "add_product_to_panier":add_product_to_panier,
+        "add_alert":add_alert
 
     },dispatch)
 
