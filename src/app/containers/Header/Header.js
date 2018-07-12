@@ -30,7 +30,6 @@ import {
     } from 'reactstrap';
 
 class Header extends React.Component{
-
     constructor(props){
         super(props);
         this.handleLogOut = this.handleLogOut.bind(this);
@@ -106,51 +105,9 @@ class Header extends React.Component{
     }
 
     render(){
-        const CustomerMenu = () => {
-            if( this.props.user.user_auth.auth_token !== '' && this.props.user.user_auth.isAuth !== false ){
-                // co
-                if( this.props.user.user_auth.isCustomer === true && this.props.user.user_auth.isSupplier === false ){
-                    // customer
-                    return(
-                        <div>
-                            <Link to="/cart">
-                                <button>Customer Cart</button>
-                            </Link>
-
-                            <Link to="/account">
-                                <button>Customer Account</button>
-                            </Link>
-                        </div>
-                    )
-                } else {
-                    return null;
-                }
-            } else {
-                return null;
-            }
-        };
-
-        const SupplierMenu = (  ) => {
-            if( this.props.user.user_auth.auth_token !== '' && this.props.user.user_auth.isAuth !== false ){
-                // co
-                if( this.props.user.user_auth.isCustomer === false && this.props.user.user_auth.isSupplier === true ){
-                    // customer
-                    return(
-                    <div>
-                        <Link to="/supplier-orders">
-                            <button>
-                                Supplier orders
-                            </button>
-                        </Link>
-                    </div>
-                    )
-                } else {
-                    return null
-                }
-            } else {
-                return null
-            }
-        }
+        console.log("bkfkfkgkg");
+        const old = this.props.paniers;
+        const newPaniers = [...old];
 
         return(
             <div>
@@ -191,11 +148,6 @@ class Header extends React.Component{
                                             <Link onClick={ ()=>{ this.handleModalToggle( 'login' ) } } to="/account/paniers" style={{marginLeft:"15px",width:"50px",height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}}>
                                             <img height="auto" className="icon-nav" src={Panier} alt="Icon Panier"/>
                                             </Link>
-                                            {/*
-                                            <span className="counter-panier">
-                                                <p></p>
-                                            </span>
-                                            */}
                                         </NavItem>
                                     </Nav>
                                     :
@@ -204,32 +156,20 @@ class Header extends React.Component{
                                             <Link to="/account/paniers" className="nav-link">{this.props.user.user_email}</Link>
                                         </NavItem>
                                         <NavItem>
-                                            {/*
-                                            <Input style={{borderRadius:"0"}} type="select" onChange={this.handleUpdateActivePanier} value={this.props.paniersSettings.active_panier_id} name="select_panier" id="select_panier">
-                                            {_.map(this.props.paniers, (panier, i) => {
-                                                return(
-                                                    <option key={i} id={i} value={i}>{panier.nicename}</option>
-                                                )
-                                            })}
-                                            </Input>
-                                            */}
-                                            <Link to="/account/paniers" style={{marginLeft:"15px",width:"50px",height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                                            <Link to="/account/paniers" style={{width:"50px",height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}}>
                                                 <img height="auto" className="icon-nav" src={Panier} alt="Icon Panier"/>
                                             </Link>
-                                            {/*}
-                                            <Link to="/account/paniers" className="icon-panier" id="cart_icon">
-                                                <img width="20px" height="auto" className="icon-nav" src={Panier} alt="Icon Panier"/>
-                                            </Link>
-                                            */}
-                                            {/*
-                                            <span className="counter-panier">
-                                                <p></p>
-                                            </span>
-                                            */}
+                                            {newPaniers.length > 0 ?
+                                                <span className="counter-panier">
+                                                    <p>{this.props.paniers.length}</p>
+                                                </span>
+                                                :
+                                                null
+                                            }
                                         </NavItem>
                                     </Nav>
                                 }
-                            
+
                         </Collapse>
                     </Navbar>
                 </header>
@@ -259,7 +199,6 @@ class Header extends React.Component{
 function mapStateToProps(state){
     return {
         "user":state.user,
-        "paniers":state.paniers,
         "paniers":state.paniers,
         "paniersSettings":state.paniersSettings,
     }

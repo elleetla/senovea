@@ -84,8 +84,8 @@ class AccountPaniersDetail extends React.Component{
                         <Row>
                             <Col md="12">
                                 <Card style={{padding:"25px"}}>
-                                    <h4> { this.renderPanierStatus( this.props.panier.status )} </h4>
-                                    <h2> { this.props.panier.nicename } </h2>
+                                    <h4>{this.renderPanierStatus( this.props.panier.status )} </h4>
+                                    <h2>{this.props.panier.nicename } </h2>
                                     <div>
                                         <ul>
                                             <li>[panier date]</li>
@@ -125,7 +125,7 @@ class AccountPaniersDetail extends React.Component{
                             
                             <Col md="6">
                                 <div>
-                                    <h4> Adresse du lieu d'intervention </h4>
+                                    <h4>Adresse du lieu d'intervention </h4>
                                     <FormGroup>
                                         <Label> Code Arrondissement </Label>
                                         <Input disabled type="text" placeholder="Code Arrondissement"  defaultValue={this.props.panier.arrondissement}/>
@@ -245,22 +245,6 @@ class AccountPaniersDetail extends React.Component{
                                                                 <div key={lots_keys}>
                                                                     <div className="bloc-lot">
                                                                     <div style={{marginBottom:"10px",display:"flex",alignItems:"stretch",backgroundColor:"#FFF",border:"1px solid #D9E1E8",borderRadius:"4px",boxShadow:"0px 2px 16px rgba(61, 68, 139, 0.05)"}} className="senovea-fournisseur-block">
-
-                                                                        <div style={{flexGrow:"1"}} className="senovea-fournisseur-block-infos">
-                                                                            <div style={{padding:"20px",borderBottom:"1px solid #D9E1E8"}}>
-                                                                                <p style={{margin:"0px",color:"#17D5C8",fontWeight:"500"}}>{lots_values.lot_fournisseur_r1.supplier_organisme}</p>
-                                                                            </div>
-                                                                            <div style={{padding:"20px"}}> 
-                                                                                <ul>
-                                                                                    <li>Lot: <strong> {lots_values.lot_name} </strong></li>
-                                                                                    <li>Secteur: <strong> {lots_values.lot_fournisseur_r1.supplier_arrondissement} </strong></li>
-                                                                                    <li>Adresse: <strong> {lots_values.lot_fournisseur_r1.supplier_adresse} </strong></li>
-                                                                                    <li>Contact: <strong> {lots_values.lot_fournisseur_r1.supplier_contact} </strong></li>
-                                                                                    <li>Téléphone: <strong> {lots_values.lot_fournisseur_r1.supplier_phone} </strong></li>
-                                                                                    <li>Email: <strong> {lots_values.lot_fournisseur_r1.user_email} </strong></li>
-                                                                                </ul>
-                                                                            </div>
-                                                                        </div>
                                                                         <div style={{width:"25%",backgroundColor:"#EDEDED"}} className="senovea-fournisseur-block-img">
                                                                             <div style={{borderTopRightRadius:"4px",borderBottomRightRadius:"4px",height:"100%",background:"url('http://www.tremoine.com/UserFiles_tremoine/image/portraits/thierry.JPG')",backgroundSize:"cover",backgroundPosition:"center"}}>
                                                                             </div>

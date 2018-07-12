@@ -26,7 +26,6 @@ class Product extends React.Component{
             isOpen : false,
             activeVariation : "",
             isLoading: false
-
         }
 
         this.handleProductOpen = this.handleProductOpen.bind(this)
@@ -96,7 +95,7 @@ class Product extends React.Component{
                 
                 this.setState({
                     isLoading:false
-                })
+                });
                 this.props.add_alert({
                     "status":"success",
                     "content":`Le produit <strong>#${product_id}</strong> a été ajouté au panier: <strong>${this.props.paniers[panier_id].nicename}</strong>`

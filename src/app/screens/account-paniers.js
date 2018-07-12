@@ -19,11 +19,12 @@ class AccountPaniers extends React.Component{
     }
 
     render(){
+        console.log(this.props.paniers.length);
         //console.log(this)
         return(
             <Account>
                 {
-                    _.isEmpty(this.props.paniers) ? 
+                    _.isEmpty(this.props.paniers) ?
                     <div>
                         <h3>Il n'y a aucun panier lié à votre compte</h3>
                         <button>Créer un panier</button>
@@ -32,7 +33,6 @@ class AccountPaniers extends React.Component{
                     <div>
                         { 
                             _.map( this.props.paniers, (panier) => {
-
                                 //console.log(panier)
                                 return (
                                         <Card key={panier.id} style={{marginBottom:"15px"}}>

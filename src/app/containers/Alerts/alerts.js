@@ -100,9 +100,11 @@ class Alerts extends React.Component{
                                     >
                                         <Alert color={this.renderAlertColor(alert.status)}>
                                             <div>
-                                                <strong>
-                                                { alert.status }:
-                                                </strong>
+                                                { alert.status === "success" ?
+                                                    <strong>Succès</strong>
+                                                    :
+                                                    <strong>Message</strong>
+                                                }
                                             </div>
                                             <div dangerouslySetInnerHTML={{__html: alert.content}}>
                                             </div>
