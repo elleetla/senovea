@@ -102,17 +102,19 @@ class CreatePanier extends Component{
 
                             {
                                 this.props.paniers.length !== 0 ?
-                                <FormGroup style={{margin: "0px"}} >
+                                <FormGroup style={{margin: "0px"}}>
                                     <Input type="select" onChange={this.handleUpdateActivePanier} value={this.props.paniersSettings.active_panier_id} name="select_panier" id="select_panier">
                                         {_.map(this.props.paniers, (panier, i) => {
                                             return(
                                                 <option key={i} id={i} value={i}>{panier.nicename}</option>
                                             )
-                                        })}
+                                        }) }
                                     </Input>
                                 </FormGroup>
                                 :
-                                <p><b>Vous n’avez pas encore de panier</b></p>
+                                <p>
+                                    <b>Vous n’avez pas encore de panier</b>
+                                </p>
                             }
 
                             </Col>

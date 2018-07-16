@@ -14,11 +14,9 @@ import "./alerts.css"
 class Alerts extends React.Component{
 
     constructor(props){
-        super(props)
-
-        this.renderAlertColor = this.renderAlertColor.bind(this)
-        //this.handleTriggerAlert = this.handleTriggerAlert.bind(this)
-        this.handleRemoveAlert = this.handleRemoveAlert.bind(this)
+        super(props);
+        this.renderAlertColor = this.renderAlertColor.bind(this);
+        this.handleRemoveAlert = this.handleRemoveAlert.bind(this);
     }
 
     renderAlertColor( status ){

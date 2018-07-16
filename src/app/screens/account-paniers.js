@@ -8,7 +8,6 @@ import _ from "lodash"
 class AccountPaniers extends React.Component{
 
     renderPanierStatus( status ){
-
         switch( status ){
             case"not sended":{
                 return <Badge color="warning"> {status} </Badge>

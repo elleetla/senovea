@@ -40,6 +40,28 @@
     border-radius: 70px;
 }
 
+#dropdownMenu {
+    opacity: 0;
+    height: 100px;
+    background-color: #ffffff;
+    max-width: 240px;
+    position: absolute;
+    right: 0;
+    top: 50px;
+    display: none;
+    z-index: 5;
+    border-radius: 6px;
+    border: 1px solid #E0E3E5;
+    min-width: 240px;
+    box-shadow: 0px 0px 18px rgba(0, 0, 0, 0.06);
+}
+
+.dropdownMenuFade{
+    opacity: 1 !important;
+    transition-duration: 0.5s;
+    transition-delay: 0.2s;
+}
+
 .navbar-light .navbar-toggler{
     border: 0;
     padding: 0;

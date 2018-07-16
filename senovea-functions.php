@@ -105,6 +105,20 @@ function woocommerce_api_v2(){
  * All the custom functions needed for senovea
  * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * */
 
+ // Passwords 
+ function globalRandomPassword() {
+    $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+    $pass = array(); //remember to declare $pass as an array
+    $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
+    for ($i = 0; $i < 8; $i++) {
+        $n = rand(0, $alphaLength);
+        $pass[] = $alphabet[$n];
+    }
+    return implode($pass); //turn the array into a string
+}
+
+
+
 // Paniers
 // * * * * * * * * * * * * * * * * * * * * * *
 // https://wordpress.stackexchange.com/questions/218715/fatal-error-call-to-undefined-function-post-exists
@@ -129,9 +143,14 @@ function get_panier( $params ){
         $user_paniers_formatted = array();
         foreach($user_paniers as $user_panier){
             $panier = array();
+            
             $panier["id"] = $user_panier->ID;
             $panier["nicename"] = get_field('field_5b358276d77b9', $user_panier->ID);
             $panier["status"] = get_field('field_5b38288418eea', $user_panier->ID);
+            $panier["arrondissement"] = get_field('field_5b3582ecd77bb', $user_panier->ID);
+            $panier["adresse"] = get_field('field_5b3582c1d77ba', $user_panier->ID);
+            $panier["message"] = get_field('field_5b3583108667e', $user_panier->ID);
+            $panier["code_postal"] = get_field('field_5b3786ae0fa85', $user_panier->ID);
 
             // Les lots 
             $lots = get_field('field_5b358331cbd8a', $user_panier->ID);
@@ -148,7 +167,6 @@ function get_panier( $params ){
         $response['status'] = "success";
         $response['data'] = [];
         return $response;
-
     }
     
 }
@@ -356,6 +374,220 @@ function add_product_to_panier( $params ){
     
 }
 
+// https://stackoverflow.com/questions/36729701/programmatically-creating-new-order-in-woocommerce
+// https://gist.github.com/stormwild/7f914183fc18458f6ab78e055538dcf0
+function order_panier_response( $params ){
+
+    error_log('order_panier_response');
+
+    $response = array();
+    //$response["params"] = $params;
+    $panier_id = $params['panier_id'];
+
+    require_once( ABSPATH . 'wp-admin/includes/post.php' );
+
+    // the panier //
+    $panier = get_post($panier_id);
+    //$response["panier"] = $panier;
+    $panier_lots = get_field('field_5b358331cbd8a', $panier_id);
+    //$response["panier_lots"] = $panier_lots;
+    $panier_customer = get_field('field_5b358a821450d', $panier_id);
+    //$response["panier_customer"] = $panier_customer;
+    $panier_arrondissement = get_field('field_5b3582ecd77bb', $panier_id);
+    //$response["panier_arrondissement"] = $panier_arrondissement;
+
+    // Order creation
+    global $woocommerce;
+
+    if( !empty($panier_lots) ){
+        foreach( $panier_lots as $lot ){
+
+            // Creation d'une order pour chaque lot
+            
+            //$newOrder = wc_create_order();
+            $newOrder = wc_create_order( array(
+                "customer_id"=>$panier_customer['ID']
+            ));
+            //error_log(print_r($newOrder,TRUE));
+
+            // Ajout de produits par order
+            if( !empty($lot['panier_lot_articles']) ){
+
+                $grouped_products = array();
+                foreach( $lot['panier_lot_articles'] as $product ){
+                    array_push($grouped_products, $product['panier_article_id']);
+                }
+                $counted_grouped_product = array_count_values( $grouped_products );
+                //error_log( print_r($counted_grouped_product,TRUE) ); 
+                foreach( $counted_grouped_product as $single_counted_grouped_product_key => $single_counted_grouped_product_value ){
+                    $newOrder->add_product( get_product( $single_counted_grouped_product_key ), $single_counted_grouped_product_value);
+                }
+            }
+
+            // -> Ajout customer infos
+
+            // -> TODO
+
+
+            // -> Ajouter l'order 
+
+                // UPDATE CUSTOMER
+
+                $customer_associated_orders = get_field('field_5b26fb9963805', "user_".$panier_customer['ID']);
+                //error_log(" customer_associated_orders ");
+                //error_log(print_r($customer_associated_orders,TRUE));
+                $customer_associated_orders_array_ids = array();
+                if( !empty($customer_associated_orders) ){
+                    foreach( $customer_associated_orders as $customer_associated_order ){
+                        array_push($customer_associated_orders_array_ids, $customer_associated_order->ID);
+                    }
+                }
+                array_push($customer_associated_orders_array_ids, $newOrder->get_id());
+                update_field('field_5b26fb9963805', $customer_associated_orders_array_ids, "user_".$panier_customer['ID']);
+
+                // UPDATE SUPPLIER 
+                
+                // fournisseur post name 
+                $fournisseur_post_name = $panier_arrondissement."_".$lot['panier_lot_id'];
+                // fournisseur post id
+                $the_fournisseur_post_id = post_exists( $fournisseur_post_name );
+
+                $fournisseur_one_id = "";
+                $fournisseur_two_id = "";
+                $fournisseur_three_id = "";
+
+                if( $the_fournisseur_post_id != 0 ){
+
+                    $fournisseur_post = get_post($the_fournisseur_post_id);
+                    //error_log(print_r($fournisseur_post,TRUE));
+                    //update fournisseur 1 
+                    $fournisseur_un = get_field('field_5b3507e5b1121', $the_fournisseur_post_id);
+                    $fournisseur_one_id = $fournisseur_un['ID'];
+                    //error_log("fournisseur 1");
+                    //error_log(print_r($fournisseur_un,TRUE));
+                    // fournisseur 1 orders
+                    $fournisseur_un_associated_orders = get_field('field_5b26e02560692', "user_".$fournisseur_un['ID']);
+                    //error_log("fournisseur 1 orders");
+                    //error_log(print_r($fournisseur_un_associated_orders,TRUE));
+                    $fournisseur_un_associated_orders_array_ids = array();
+                    if( !empty($fournisseur_un_associated_orders) ){
+                        foreach( $fournisseur_un_associated_orders as $fournisseur_un_associated_order ){
+                            array_push($fournisseur_un_associated_orders_array_ids, $fournisseur_un_associated_order->ID);
+                        }
+                    }
+                    array_push($fournisseur_un_associated_orders_array_ids, $newOrder->get_id());
+                    //error_log("fournisseur_un_associated_orders_array_ids");
+                    //error_log(print_r($fournisseur_un_associated_orders_array_ids,TRUE));
+                    update_field('field_5b26e02560692', $fournisseur_un_associated_orders_array_ids, "user_".$fournisseur_un['ID']);
+                    
+
+                    //update fournisseur 2 
+                    //$fournisseur_deux = get_field('field_5b350826b1122', $the_fournisseur_post_id);
+                    $fournisseur_deux = get_field('field_5b350826b1122', $the_fournisseur_post_id);
+                    $fournisseur_two_id = $fournisseur_deux['ID'];
+                    //error_log("fournisseur 1");
+                    //error_log(print_r($fournisseur_un,TRUE));
+                    // fournisseur 1 orders
+                    $fournisseur_deux_associated_orders = get_field('field_5b26e02560692', "user_".$fournisseur_deux['ID']);
+                    //error_log("fournisseur 1 orders");
+                    //error_log(print_r($fournisseur_un_associated_orders,TRUE));
+                    $fournisseur_deux_associated_orders_array_ids = array();
+                    if( !empty($fournisseur_deux_associated_orders) ){
+                        foreach( $fournisseur_deux_associated_orders as $fournisseur_deux_associated_order ){
+                            array_push($fournisseur_deux_associated_orders_array_ids, $fournisseur_deux_associated_order->ID);
+                        }
+                    }
+                    array_push($fournisseur_deux_associated_orders_array_ids, $newOrder->get_id());
+                    update_field('field_5b26e02560692', $fournisseur_deux_associated_orders_array_ids, "user_".$fournisseur_deux['ID']);
+                    
+                    //update fournisseur 3
+                    //$fournisseur_trois = get_field('field_5b350837b1123', $the_fournisseur_post_id);
+                    $fournisseur_trois = get_field('field_5b350837b1123', $the_fournisseur_post_id);
+                    $fournisseur_three_id = $fournisseur_trois['ID'];
+                    //error_log("fournisseur 1");
+                    //error_log(print_r($fournisseur_un,TRUE));
+                    // fournisseur 1 orders
+                    $fournisseur_trois_associated_orders = get_field('field_5b26e02560692', "user_".$fournisseur_trois['ID']);
+                    //error_log("fournisseur 1 orders");
+                    //error_log(print_r($fournisseur_un_associated_orders,TRUE));
+                    $fournisseur_trois_associated_orders_array_ids = array();
+                    if( !empty($fournisseur_trois_associated_orders) ){
+                        foreach( $fournisseur_trois_associated_orders as $fournisseur_trois_associated_order ){
+                            array_push($fournisseur_trois_associated_orders_array_ids, $fournisseur_trois_associated_order->ID);
+                        }
+                    }
+                    array_push($fournisseur_trois_associated_orders_array_ids, $newOrder->get_id());
+                    update_field('field_5b26e02560692', $fournisseur_trois_associated_orders_array_ids, "user_".$fournisseur_trois['ID']);
+                    
+                }
+
+                // -> Ajout ACF 
+                //  $newOrder->get_id()
+
+                // lot 
+                update_field('field_5b3d50e73c7d8', $lot['panier_lot_id'], $newOrder->get_id());
+                // arrondissement
+                update_field('field_5b3d51bf8256b', $panier_arrondissement, $newOrder->get_id());
+                // fournisseurs 
+                update_field('field_5b26fa0bd28f7', $fournisseur_one_id, $newOrder->get_id());
+                update_field('field_5b26fa45005e3', $fournisseur_two_id, $newOrder->get_id());
+                update_field('field_5b26fa56005e4', $fournisseur_three_id, $newOrder->get_id());
+
+                // -> Changement du status
+                $newOrder->update_status( 'wc-waiting-first' );
+        }
+    }
+
+    // Panier update
+    // Changement du status 
+    // ??? ou alors après les envois ???
+
+    // Retour all panier
+    // Response pour le front 
+
+    $args = array(
+        'numberposts'	=> -1,
+        'post_type'		=> 'table_panier',
+        'meta_key'		=> 'panier_customer',
+        'meta_value'	=> $panier_customer['ID']
+    );
+    $user_paniers = get_posts($args);
+
+    //error_log("user paniers");
+    //error_log(print_r($user_paniers,TRUE));
+    
+    if( !empty($user_paniers) ){
+
+        $user_paniers_formatted = array();
+        foreach($user_paniers as $user_panier){
+            $panier = array();
+            
+            $panier["id"] = $user_panier->ID;
+            $panier["nicename"] = get_field('field_5b358276d77b9', $user_panier->ID);
+            $panier["status"] = get_field('field_5b38288418eea', $user_panier->ID);
+            $panier["arrondissement"] = get_field('field_5b3582ecd77bb', $user_panier->ID);
+            $panier["adresse"] = get_field('field_5b3582c1d77ba', $user_panier->ID);
+            $panier["message"] = get_field('field_5b3583108667e', $user_panier->ID);
+            $panier["code_postal"] = get_field('field_5b3786ae0fa85', $user_panier->ID);
+
+            // Les lots 
+            $lots = get_field('field_5b358331cbd8a', $user_panier->ID);
+            //error_log(print_r($lots,TRUE));
+            $panier["lots"] = $lots;
+
+            $user_paniers_formatted[$user_panier->ID] = $panier;
+        }
+        $response['status'] = "success";
+        $response['data'] = $user_paniers_formatted;
+        return $response;
+
+    }else{
+        $response['status'] = "success";
+        $response['data'] = [];
+        return $response;
+    }
+}
+
 // Product
 // * * * * * * * * * * * * * * * * * * * * * *
 // https://stackoverflow.com/questions/4345554/convert-php-object-to-associative-array
@@ -485,8 +717,22 @@ function get_all_products( $user_arrondissement ){
                 
                 $formatted_lots["lot_id"] = get_field('field_5b35087784f1f', $row_fournisseur->ID );
                 $formatted_lots["lot_name"] = get_field('field_5b35088f84f20', $row_fournisseur->ID );
-                $formatted_lots["lot_fournisseur_r1"] = get_field('field_5b3507e5b1121', $row_fournisseur->ID );
+                
+                // Infos fournisseurs
+                $fournisseur_wordpress_fields = get_field('field_5b3507e5b1121', $row_fournisseur->ID );
+                $formatted_lots["lot_fournisseur_r1"] = $fournisseur_wordpress_fields;
+                
+                $supplier_arrondissement = get_field('field_5b34f70d8d326', "user_".$fournisseur_wordpress_fields['ID'] );
+                $supplier_organisme = get_field('field_5b34fb74c676f', "user_".$fournisseur_wordpress_fields['ID'] );
+                $supplier_contact = get_field('field_5b35701456e2d', "user_".$fournisseur_wordpress_fields['ID'] );
+                $supplier_adresse = get_field('field_5b353d8c0e99e', "user_".$fournisseur_wordpress_fields['ID'] );
+                $supplier_phone = get_field('field_5b34f7ed549e8', "user_".$fournisseur_wordpress_fields['ID'] );
 
+                $formatted_lots["lot_fournisseur_r1"]['supplier_arrondissement'] = $supplier_arrondissement;
+                $formatted_lots["lot_fournisseur_r1"]['supplier_organisme'] = $supplier_organisme;
+                $formatted_lots["lot_fournisseur_r1"]['supplier_contact'] = $supplier_contact;
+                $formatted_lots["lot_fournisseur_r1"]['supplier_adresse'] = $supplier_adresse;
+                $formatted_lots["lot_fournisseur_r1"]['supplier_phone'] = $supplier_phone;
             }
         }
 
@@ -551,7 +797,6 @@ function get_all_products( $user_arrondissement ){
 
 // Customer
 // * * * * * * * * * * * * * * * * * * * * * *
-
 function add_customer_callback( $request ){
 
     // get payload 
@@ -718,7 +963,6 @@ function delete_customer_callback( $customer_id ){
 
 // Order
 // * * * * * * * * * * * * * * * * * * * * * *
-
 function add_order_callback( $customer_id, $product_id ){
     $response = array();
     $new_order = [
@@ -752,6 +996,79 @@ function accept_order_callback( $order_id,$supplier_id,$customer_id,$product_id,
     // Order & Status
     $order = wc_get_order( $order_id );
     $order_status = $order->get_status();
+
+    // Supplier Fournisseurs 
+
+    $order_fournisseur_r1 = get_field('field_5b26fa0bd28f7', $order_id);
+    $order_fournisseur_r2 = get_field('field_5b26fa45005e3', $order_id);
+    $order_fournisseur_r3 = get_field('field_5b26fa56005e4', $order_id);
+
+    // Supplier position 
+
+    $position;
+    if( $order_fournisseur_r1['ID'] == $supplier_id ){
+        $position  = 1;
+    }elseif( $order_fournisseur_r2['ID'] == $supplier_id ){
+        $position  = 2;
+    }elseif( $order_fournisseur_r3['ID'] == $supplier_id ){
+        $position  = 3;
+    }else{
+
+    }
+
+    // Supplier ID
+    /*$supplier = get_user_by('id', $supplier_id);
+    $supplierID = $supplier->ID;
+    error_log(print_r($supplier,TRUE));*/
+
+    $order_new_status;
+
+	switch ( $position ) {
+        case 1:
+            if( $order_status == "waiting-first" ){
+                $order_new_status = ['status' => 'accepted-first'];
+                
+                //woocommerce_api_v2()->put('orders/'.$order_id, $order_new_status);
+                $order->update_status( 'wc-accepted-first' );
+
+                $response['status'] = "success";
+                $response['message'] = "status changed form waiting-first to accepted-first";
+            }else{
+                $response['status'] = "error";
+                $response['message'] = "Either already selected or rejected";
+            }
+		break;
+        case 2:
+            if( $order_status == "waiting-second" ){
+			    $order_new_status = ['status' => 'accepted-second'];
+                
+                //woocommerce_api_v2()->put('orders/'.$order_id, $order_new_status);
+                $order->update_status( 'wc-accepted-second' );
+
+                $response['status'] = "success";
+                $response['message'] = "status changed form waiting-second to accepted-second";
+            }else{
+                $response['status'] = "error";
+                $response['message'] = "Either already selected or rejected";
+            }
+		break;
+        case 3:
+            if( $order_status == "waiting-third" ){
+			    $order_new_status = ['status' => 'accepted-third'];
+                
+                //woocommerce_api_v2()->put('orders/'.$order_id, $order_new_status);
+                $order->update_status( 'wc-accepted-third' );
+
+                $response['status'] = "success";
+                $response['message'] = "status changed form waiting-third to accepted-third";
+            }else{
+                $response['status'] = "error";
+                $response['message'] = "Either already selected or rejected";
+            }
+		break;
+		default:
+		break;
+    }    
     
     // Product
     // $product = get_post($product_id);
@@ -761,7 +1078,7 @@ function accept_order_callback( $order_id,$supplier_id,$customer_id,$product_id,
     // $supplier = get_user_by('id',$supplier_id);    
     
     // Get position 
-    $all_rel_suppliers_products = get_posts([
+    /*$all_rel_suppliers_products = get_posts([
         'numberposts'=> -1, // all
         'post_type' => 'rel_supp_products'
     ]);
@@ -780,8 +1097,9 @@ function accept_order_callback( $order_id,$supplier_id,$customer_id,$product_id,
         if( intval($rel_supplier_id['ID']) == intval($supplier_id) && intval($rel_product_id->ID) == intval($product_id) ){
             $position = get_field('field_5b2fa64be1d41', $single_rel->ID);
         }
-    }
+    }*/
 
+    /*
     $order_new_status;
     // on bloque la commande sur " completed - place sur supplier "
 	switch ( $position ) {
@@ -821,6 +1139,7 @@ function accept_order_callback( $order_id,$supplier_id,$customer_id,$product_id,
 		default:
 		break;
     }
+    */
     
     return $response;
     
@@ -841,6 +1160,75 @@ function reject_order_callback( $order_id,$supplier_id,$customer_id,$product_id,
     // Order & Status
     $order = wc_get_order( $order_id );
     $order_status = $order->get_status();
+
+    // Supplier Fournisseurs 
+
+    $order_fournisseur_r1 = get_field('field_5b26fa0bd28f7', $order_id);
+    $order_fournisseur_r2 = get_field('field_5b26fa45005e3', $order_id);
+    $order_fournisseur_r3 = get_field('field_5b26fa56005e4', $order_id);
+
+    // Supplier position 
+
+    $position;
+    if( $order_fournisseur_r1['ID'] == $supplier_id ){
+        $position  = 1;
+    }elseif( $order_fournisseur_r2['ID'] == $supplier_id ){
+        $position  = 2;
+    }elseif( $order_fournisseur_r3['ID'] == $supplier_id ){
+        $position  = 3;
+    }else{
+
+    }
+
+    $order_new_status;
+	switch ( $position ) {
+        case 1:
+            if( $order_status == "waiting-first" ){
+                $order_new_status = ['status' => 'waiting-second'];
+                
+                //woocommerce_api_v2()->put('orders/'.$order_id, $order_new_status);
+                $order->update_status( 'wc-waiting-second' );
+
+                $response['status'] = "success";
+                $response['message'] = "status changed form waiting-first to waiting-second";
+            }else{
+                $response['status'] = "error";
+                $response['message'] = "Either already selected or rejected";
+            }
+		break;
+        case 2:
+            if( $order_status == "waiting-second" ){
+			    $order_new_status = ['status' => 'waiting-third'];
+                
+                //woocommerce_api_v2()->put('orders/'.$order_id, $order_new_status);
+                $order->update_status( 'wc-waiting-third' );
+
+                $response['status'] = "success";
+                $response['message'] = "status changed form waiting-second to waiting-third";
+            }else{
+                $response['status'] = "error";
+                $response['message'] = "Either already selected or rejected";
+            }
+		break;
+        case 3:
+            if( $order_status == "waiting-third" ){
+			    $order_new_status = ['status' => 'nobody'];
+                
+                //woocommerce_api_v2()->put('orders/'.$order_id, $order_new_status);
+                $order->update_status( 'wc-nobody' );
+                
+                $response['status'] = "success";
+                $response['message'] = "status changed form waiting-third to nobody";
+            }else{
+                $response['status'] = "error";
+                $response['message'] = "Either already selected or rejected";
+            }
+		break;
+		default:
+		break;
+    }
+
+
     
     // Product
     // $product = get_post($product_id);
@@ -850,7 +1238,9 @@ function reject_order_callback( $order_id,$supplier_id,$customer_id,$product_id,
     // $supplier = get_user_by('id',$supplier_id);    
     
     // Get position 
-    $all_rel_suppliers_products = get_posts([
+
+
+    /*$all_rel_suppliers_products = get_posts([
         'numberposts'=> -1, // all
         'post_type' => 'rel_supp_products'
     ]);
@@ -869,9 +1259,9 @@ function reject_order_callback( $order_id,$supplier_id,$customer_id,$product_id,
         if( intval($rel_supplier_id['ID']) == intval($supplier_id) && intval($rel_product_id->ID) == intval($product_id) ){
             $position = get_field('field_5b2fa64be1d41', $single_rel->ID);
         }
-    }
+    }*/
 
-    $order_new_status;
+    /*$order_new_status;
     // on bloque la commande sur " completed - place sur supplier "
 	switch ( $position ) {
         case 1:
@@ -909,7 +1299,7 @@ function reject_order_callback( $order_id,$supplier_id,$customer_id,$product_id,
 		break;
 		default:
 		break;
-    }
+    }*/
     
     return $response;
 
@@ -1132,13 +1522,16 @@ function generate_rel_suppliers_products_callback(){
 //https://stackoverflow.com/questions/44562589/mailchimp-automation-send-same-email-multiple-time
 
 function add_customer_mailchimp( $customer, $password ){
+    error_log("add_customer_mailchimp");
+    //error_log(print_r($customer,TRUE));
 
     $mail_chimp_api_data = array(
         "email_address" => $customer->email,
         "status" => "subscribed",
         "merge_fields" => array(
             "UFOREIGNID" => strval($customer->id),
-            "UCODE" => $password,
+            //"UCODE" => $password,
+            //"UNAME" => $customer->username
         )
     );
     $mail_chimp_api_data_string = json_encode($mail_chimp_api_data);
@@ -1170,16 +1563,217 @@ function add_customer_mailchimp( $customer, $password ){
 
 }
 function send_customer_code_mailchimp( $customer_id ){
-    $udata = get_user_by( 'id' , $customer_id );
-    // start sending activation email
-    $mail_chimp_api_data = array(
-        "email_address"=>$udata->data->user_email
-    );
-    $mail_chimp_api_data_string = json_encode($mail_chimp_api_data);
 
-    $curl = curl_init();
-    curl_setopt_array($curl, array(
-      CURLOPT_URL => "https://us16.api.mailchimp.com/3.0/automations/463383a2ff/emails/28a0625d5e/queue",
+    // Changement ici 
+    error_log("send_customer_code_mailchimp");
+
+    // Récupérer les membres de la liste TEMP et les DELETE 
+    // * * * * * * * * * * * * * * * * * * * * * *
+    $curlGetAllMembers = curl_init();
+    curl_setopt_array($curlGetAllMembers, array(
+        CURLOPT_URL => "https://us16.api.mailchimp.com/3.0/lists/a053fbe6f8/members/",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        //CURLOPT_POSTFIELDS => "{\n\t\"email_address\":\"senoveamailtest+1000@gmail.com\", \n\t\"status\":\"subscribed\",\n\t\"merge_fields\":{\n\t\t\"UCODE\":\"HHHBBBVVVXXX\"\n\t}\n}",
+        //CURLOPT_POSTFIELDS => $mailchimpsupplierdataJSON,
+        CURLOPT_HTTPHEADER => array(
+            "Authorization: Bearer 58129082f49cc32ef8e68c3e81bb1490-us16",
+            "Cache-Control: no-cache",
+            "Content-Type: application/json",
+        )
+    ));
+    $curlGetAllMembersResponse = curl_exec($curlGetAllMembers);
+    $curlGetAllMembersResponseDecode = json_decode($curlGetAllMembersResponse, true);
+    $curlGetAllMembersErr = curl_error($curlGetAllMembers);
+    curl_close($curlGetAllMembers);
+
+    //error_log( print_r($curlGetAllMembersResponseDecode, TRUE) );
+
+    if( !empty( $curlGetAllMembersResponseDecode['members'] ) ){
+        foreach( $curlGetAllMembersResponseDecode['members'] as $member ){
+            error_log($member['email_address']);
+
+            $lowercase_email = strtolower($member['email_address']);
+            $md5hash_email = md5($lowercase_email);
+        
+            $curl_remove_customer = curl_init();
+            curl_setopt_array($curl_remove_customer, array(
+                CURLOPT_URL => "https://us16.api.mailchimp.com/3.0/lists/a053fbe6f8/members/".$md5hash_email,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "DELETE",
+                //CURLOPT_POSTFIELDS => "{\n\t\"email_address\":\"senoveamailtest+1000@gmail.com\", \n\t\"status\":\"subscribed\",\n\t\"merge_fields\":{\n\t\t\"UCODE\":\"HHHBBBVVVXXX\"\n\t}\n}",
+                //CURLOPT_POSTFIELDS => $mailchimpsupplierdataJSON,
+                CURLOPT_HTTPHEADER => array(
+                    "Authorization: Bearer 58129082f49cc32ef8e68c3e81bb1490-us16",
+                    "Cache-Control: no-cache",
+                    "Content-Type: application/json",
+                )
+            ));
+            $curl_remove_customer_response = curl_exec($curl_remove_customer);
+            $curl_remove_customer_response_decode = json_decode($curl_remove_customer_response, true);
+            $curl_remove_customer_err = curl_error($curl_remove_customer);
+            curl_close($curl_remove_customer);
+
+        }
+    }
+
+    // Ajouter customer en liste d’attente
+    // * * * * * * * * * * * * * * * * * * * * * *
+
+    // Gather informations
+    $customer = get_user_by('id',$customer_id);
+    $customer_email = $customer->data->user_email; 
+    //$customer_pass = $customer->data->user_pass; 
+    $customer_username = $customer->data->user_login;
+
+    // New Password Every Time
+    $customer_pass = globalRandomPassword();
+    wp_set_password( $customer_pass, $customer_id );
+
+    // MailChimp Array
+    $mailchimpCustomerData = array(
+        "email_address" => $customer_email,
+        "status" => "subscribed",
+        "merge_fields" => array(
+            "UFOREIGNID" => strval($customer_id),
+            "UCODE" => $customer_pass,
+            "UNAME" => $customer_username
+        )
+    );
+    $mailchimpCustomerDataJSON = json_encode($mailchimpCustomerData);
+
+    // Ajout    
+    $curl_add_customer = curl_init();
+    curl_setopt_array($curl_add_customer, array(
+        CURLOPT_URL => "https://us16.api.mailchimp.com/3.0/lists/a053fbe6f8/members",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "POST",
+        //CURLOPT_POSTFIELDS => "{\n\t\"email_address\":\"senoveamailtest+1000@gmail.com\", \n\t\"status\":\"subscribed\",\n\t\"merge_fields\":{\n\t\t\"UCODE\":\"HHHBBBVVVXXX\"\n\t}\n}",
+        CURLOPT_POSTFIELDS => $mailchimpCustomerDataJSON,
+        CURLOPT_HTTPHEADER => array(
+            "Authorization: Bearer 58129082f49cc32ef8e68c3e81bb1490-us16",
+            "Cache-Control: no-cache",
+            "Content-Type: application/json",
+        )
+    ));
+    $curl_add_customer_response = curl_exec($curl_add_customer);
+    $curl_add_customer_response_decode = json_decode($curl_add_customer_response, true);
+    $err_add_customer = curl_error($curl_add_customer);
+    curl_close($curl_add_customer);
+
+    error_log("Ajout Customer");
+    error_log(print_r($curl_add_customer_response_decode,TRUE));
+
+    if( array_key_exists( "id", $curl_add_customer_response_decode ) ){
+
+        // Create campaign
+        // * * * * * * * * * * * * * * * * * * * * * *
+        $mailchimpcreatecampaign = [
+            "type"=>"regular",
+            "recipients"=>[
+                "list_id"=>"a053fbe6f8"
+            ],
+            "settings"=>[
+                "subject_line" => "Vos identifiants CENTRALIS!",
+                "preview_text" => "Ouvrez l'email pour obtenir vos identifiants.",
+                //"title" => "send_order_".$order_id."_to_supplier_".$supplier_id."_".$random,
+                "title" => "send_code_to_customer_".$customer_id,
+                "from_name" => "CENTRALIS",
+                "reply_to" => "lilian.tourillon@gmail.com",
+                "inline_css"=>true,
+                "template_id"=>111163
+            ],
+            "tracking"=>[
+                "opens"=>true,
+                "html_clicks"=>true,
+                "text_clicks"=>true
+            ]
+        ];
+        $mailchimpcreatecampaignJSON = json_encode($mailchimpcreatecampaign);
+
+        $curl_create_campaign = curl_init();
+        curl_setopt_array($curl_create_campaign, array(
+            CURLOPT_URL => "https://us16.api.mailchimp.com/3.0/campaigns",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            //CURLOPT_POSTFIELDS => "{\n\t\"email_address\":\"senoveamailtest+1000@gmail.com\", \n\t\"status\":\"subscribed\",\n\t\"merge_fields\":{\n\t\t\"UCODE\":\"HHHBBBVVVXXX\"\n\t}\n}",
+            CURLOPT_POSTFIELDS => $mailchimpcreatecampaignJSON,
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: Bearer 58129082f49cc32ef8e68c3e81bb1490-us16",
+                "Cache-Control: no-cache",
+                "Content-Type: application/json",
+            )
+        ));
+        $curl_create_campaign_response = curl_exec($curl_create_campaign);
+        $curl_create_campaign_response_decode = json_decode($curl_create_campaign_response, true);
+        $err_create_campaign = curl_error($curl_create_campaign);
+        curl_close($curl_create_campaign);
+
+        error_log("mailchimp create campaign response");
+        error_log(print_r($curl_create_campaign_response_decode,TRUE));
+
+        // Get the ID
+        // * * * * * * * * * * * * * * * * * * * * * *
+        $new_campaign_id = $curl_create_campaign_response_decode['id'];
+
+        // Envoyer campaign
+        // * * * * * * * * * * * * * * * * * * * * * *
+        $curl_campaign_send = curl_init();
+        curl_setopt_array($curl_campaign_send, array(
+            CURLOPT_URL => "https://us16.api.mailchimp.com/3.0/campaigns/".$new_campaign_id."/actions/send",
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => "",
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 30,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => "POST",
+            //CURLOPT_POSTFIELDS => "{\n\t\"email_address\":\"senoveamailtest+1000@gmail.com\", \n\t\"status\":\"subscribed\",\n\t\"merge_fields\":{\n\t\t\"UCODE\":\"HHHBBBVVVXXX\"\n\t}\n}",
+            //CURLOPT_POSTFIELDS => $mailchimpcreatecampaignHTMLJSON,
+            CURLOPT_HTTPHEADER => array(
+                "Authorization: Bearer 58129082f49cc32ef8e68c3e81bb1490-us16",
+                "Cache-Control: no-cache",
+                "Content-Type: application/json",
+            )
+        ));
+        $curl_campaign_send_response = curl_exec($curl_campaign_send);
+        $curl_campaign_send_response_decode = json_decode($curl_campaign_send_response, true);
+        $err_campaign_send = curl_error($curl_campaign_send);
+        curl_close($curl_campaign_send);
+
+        error_log("mailchimp send campaign response");
+        error_log( print_r($curl_campaign_send_response_decode,TRUE) );
+        error_log( print_r($err_campaign_send, TRUE) );        
+
+
+    }
+
+    // Envoi des identifiants API V3 ( Pas possible de faire comme ça )
+    // * * * * * * * * * * * * * * * * * * * * * *
+
+    /*$mailChimpPushCustomerEmailData = array(
+        "email_address"=>$customer_email
+    );
+    $mailChimpPushCustomerEmailDataJSON = json_encode($mailChimpPushCustomerEmailData);
+
+    $curlPushCustomerEmail = curl_init();
+    curl_setopt_array($curlPushCustomerEmail, array(
+      CURLOPT_URL => "https://us16.api.mailchimp.com/3.0/automations/8d6112b94f/emails/91ca771862/queue",
       CURLOPT_RETURNTRANSFER => true,
       CURLOPT_ENCODING => "",
       CURLOPT_MAXREDIRS => 10,
@@ -1187,24 +1781,33 @@ function send_customer_code_mailchimp( $customer_id ){
       CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
       CURLOPT_CUSTOMREQUEST => "POST",
       //CURLOPT_POSTFIELDS => "{\n\t\"email_address\":\"senoveamailtest+2@gmail.com\"\n}",
-      CURLOPT_POSTFIELDS => $mail_chimp_api_data_string,
+      CURLOPT_POSTFIELDS => $mailChimpPushCustomerEmailDataJSON,
       CURLOPT_HTTPHEADER => array(
         "Authorization: Bearer 58129082f49cc32ef8e68c3e81bb1490-us16",
         "Cache-Control: no-cache",
         "Content-Type: application/json",
       ),
     ));
-    $response = curl_exec($curl);
-    $err = curl_error($curl);
-    curl_close($curl);
-    // end sending activation email
-    $arrayresponse = [
-        'curlerr' => $err,
-        'curlresponse' => $response,
-        'userdata' => $udata
-    ];
+    $curlPushCustomerEmailResponse = curl_exec($curlPushCustomerEmail);
+    $curlPushCustomerEmailResponseDecode = json_decode($curlPushCustomerEmailResponse, true);
+    $curlPushCustomerEmailErrors = curl_error($curlPushCustomerEmail);
+    curl_close($curlPushCustomerEmail);
 
+    error_log(print_r("Envoi Mail",TRUE));
+    error_log(print_r($curlPushCustomerEmailResponseDecode,TRUE));*/
+
+    
+
+    // After -> Retirer Customer de la liste d'attente
+    // * * * * * * * * * * * * * * * * * * * * * *
+
+    //error_log("mailchimp remove supplier response");
+    //error_log(print_r($curl_remove_customer_response_decode,TRUE));    
+
+    $arrayresponse['status'] = "success";
+    $arrayresponse['data'] = "Identifiants envoyés";
     return $arrayresponse;
+    
 }
 function send_customer_validation_mailchimp(){
 }
@@ -1253,12 +1856,17 @@ function add_supplier_mailchimp( $supplier, $password ){
 //https://mandrill.zendesk.com/hc/en-us/articles/205582927-Can-I-disable-click-tracking-on-selected-links-in-my-email-
 //https://stackoverflow.com/questions/40004145/disable-tracking-for-specific-link-in-mailchimp
 //https://stackoverflow.com/questions/28608826/mailchimp-use-merge-tags-in-link-url
-function send_supplier_order( $supplier_id, $order_id, $product_id, $customer_id  ){
+function send_supplier_order( $supplier_id, $order_id, $product_qty_ids, $customer_id  ){
+
+    //$customer = get_user_by('id', $customer_id);
+    //error_log(print_r($customer,TRUE));
+    //die();
 
     // ( lol wtf )
 
     // Generate random 
-	function random() {
+    
+    /*function random() {
 		$alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
 		$pass = array(); //remember to declare $pass as an array
 		$alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
@@ -1268,27 +1876,88 @@ function send_supplier_order( $supplier_id, $order_id, $product_id, $customer_id
 		}
 		return implode($pass); //turn the array into a string
 	}
-	$random = random();
-
+    $random = random();*/
+    
     $response = array();
+
+    // Récupérer les membres de la liste TEMP et les DELETE 
+    // * * * * * * * * * * * * * * * * * * * * * *
+    $curlGetAllMembers = curl_init();
+    curl_setopt_array($curlGetAllMembers, array(
+        CURLOPT_URL => "https://us16.api.mailchimp.com/3.0/lists/9bf663e6a1/members/",
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_ENCODING => "",
+        CURLOPT_MAXREDIRS => 10,
+        CURLOPT_TIMEOUT => 30,
+        CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+        CURLOPT_CUSTOMREQUEST => "GET",
+        //CURLOPT_POSTFIELDS => "{\n\t\"email_address\":\"senoveamailtest+1000@gmail.com\", \n\t\"status\":\"subscribed\",\n\t\"merge_fields\":{\n\t\t\"UCODE\":\"HHHBBBVVVXXX\"\n\t}\n}",
+        //CURLOPT_POSTFIELDS => $mailchimpsupplierdataJSON,
+        CURLOPT_HTTPHEADER => array(
+            "Authorization: Bearer 58129082f49cc32ef8e68c3e81bb1490-us16",
+            "Cache-Control: no-cache",
+            "Content-Type: application/json",
+        )
+    ));
+    $curlGetAllMembersResponse = curl_exec($curlGetAllMembers);
+    $curlGetAllMembersResponseDecode = json_decode($curlGetAllMembersResponse, true);
+    $curlGetAllMembersErr = curl_error($curlGetAllMembers);
+    curl_close($curlGetAllMembers);
+
+    error_log(print_r($curlGetAllMembersResponseDecode, TRUE));
+    
+    if( !empty( $curlGetAllMembersResponseDecode['members'] ) ){
+        foreach( $curlGetAllMembersResponseDecode['members'] as $member ){
+
+            error_log("member['email_address']");
+            error_log($member['email_address']);
+
+            $lowercase_email = strtolower($member['email_address']);
+            $md5hash_email = md5($lowercase_email);
+        
+            $curl_remove_customer = curl_init();
+            curl_setopt_array($curl_remove_customer, array(
+                CURLOPT_URL => "https://us16.api.mailchimp.com/3.0/lists/9bf663e6a1/members/".$md5hash_email,
+                CURLOPT_RETURNTRANSFER => true,
+                CURLOPT_ENCODING => "",
+                CURLOPT_MAXREDIRS => 10,
+                CURLOPT_TIMEOUT => 30,
+                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+                CURLOPT_CUSTOMREQUEST => "DELETE",
+                //CURLOPT_POSTFIELDS => "{\n\t\"email_address\":\"senoveamailtest+1000@gmail.com\", \n\t\"status\":\"subscribed\",\n\t\"merge_fields\":{\n\t\t\"UCODE\":\"HHHBBBVVVXXX\"\n\t}\n}",
+                //CURLOPT_POSTFIELDS => $mailchimpsupplierdataJSON,
+                CURLOPT_HTTPHEADER => array(
+                    "Authorization: Bearer 58129082f49cc32ef8e68c3e81bb1490-us16",
+                    "Cache-Control: no-cache",
+                    "Content-Type: application/json",
+                )
+            ));
+            $curl_remove_customer_response = curl_exec($curl_remove_customer);
+            $curl_remove_customer_response_decode = json_decode($curl_remove_customer_response, true);
+            $curl_remove_customer_err = curl_error($curl_remove_customer);
+            curl_close($curl_remove_customer);
+
+            //error_log('curl_remove_customer_response_decode');
+            //error_log(print_r($curl_remove_customer_response_decode,TRUE));
+
+        }
+    }
 
     // Ajouter supplier en liste d’attente
     // * * * * * * * * * * * * * * * * * * * * * *
-
     $supplier = get_user_by('id',$supplier_id);
     $supplier_email = $supplier->data->user_email; 
     $supplier_pass = $supplier->data->user_pass; 
     
     $mailchimpsupplierdata = array(
         "email_address" => $supplier_email,
-        "status" => "subscribed",
-        "merge_fields" => array(
-            "UFOREIGNID" => strval($supplier_id),
-            "UCODE" => $supplier_pass,
-        )
+        "status" => "subscribed"
+        //"merge_fields" => array(
+            //"UFOREIGNID" => strval($supplier_id),
+            //"UCODE" => $supplier_pass,
+        //)
     );
     $mailchimpsupplierdataJSON = json_encode($mailchimpsupplierdata);
-
     $curl_add_supplier = curl_init();
     curl_setopt_array($curl_add_supplier, array(
         CURLOPT_URL => "https://us16.api.mailchimp.com/3.0/lists/9bf663e6a1/members",
@@ -1310,12 +1979,54 @@ function send_supplier_order( $supplier_id, $order_id, $product_id, $customer_id
     $curl_add_supplier_response_decode = json_decode($curl_add_supplier_response, true);
     $err_add_supplier = curl_error($curl_add_supplier);
     curl_close($curl_add_supplier);
-
+    
     error_log("mailchimp add supplier response");
     error_log(print_r($curl_add_supplier_response_decode,TRUE));
 
+
     // Create campaign
     // * * * * * * * * * * * * * * * * * * * * * *
+
+    $customer = get_user_by('id', $customer_id);
+
+    $order_total = 0;
+    $email_products = array();
+
+    foreach( $product_qty_ids as $product_qty_id_key => $product_qty_id_value ){
+
+        //error_log($product_qty_id_key);
+        //error_log($product_qty_id_value);
+
+        $wc_product = wc_get_product($product_qty_id_key );
+        
+        //error_log(print_r( $wc_product,TRUE ));
+
+        $email_product = [
+
+            //"order_item_code" => " ",
+            "order_item_name" => $wc_product->get_name(),
+            "order_item_quantity" => $product_qty_id_value,
+            "order_item_value" => $wc_product->get_price(),
+
+        ];
+
+        array_push( $email_products,  $email_product );
+
+        $product_price = $wc_product->get_price() * $product_qty_id_value;
+        $order_total = $order_total + $product_price;
+
+    };
+
+    // prod
+    $order_accept_link = "<a style='color:#ffffff;text-align:center;text-decoration:none;' class='fullBtn' target='_blank' href='http://senovea-prod.surge.sh/supplier/accept?o=".$order_id."&c=".$customer_id."&p=&s=".$supplier_id."'>Accepter la commande</a>";
+    $order_refuse_link = "<a style='color:#000000;text-align:center;text-decoration:none;' class='fullBtn' target='_blank' href='http://senovea-prod.surge.sh/supplier/reject?o=".$order_id."&c=".$customer_id."&p=&s=".$supplier_id."'>Refuser la commande</a>";
+
+    // dev
+    //$order_accept_link = "<a style='color:#ffffff;text-align:center;text-decoration:none;' class='fullBtn' target='_blank' href='http://localhost:8080/supplier/accept?o=".$order_id."&c=".$customer_id."&p=&s=".$supplier_id."'>Accepter la commande</a>";
+    //$order_refuse_link = "<a style='color:#000000;text-align:center;text-decoration:none;' class='fullBtn' target='_blank' href='http://localhost:8080/supplier/reject?o=".$order_id."&c=".$customer_id."&p=&s=".$supplier_id."'>Refuser la commande</a>";
+
+
+    //error_log(print_r( $email_products, TRUE ));
 
     $mailchimpcreatecampaign = [
         "recipients"=>[
@@ -1323,11 +2034,14 @@ function send_supplier_order( $supplier_id, $order_id, $product_id, $customer_id
         ],
         "type"=>"regular",
         "settings"=>[
-            "subject_line" => "New Order From SENOVEA!",
-            "preview_text" => "Open this email to see the new order...",
-            "title" => "send_order_".$order_id."_to_supplier_".$supplier_id."_".$random,
-            "from_name" => "Lilian Tourillon",
-            "reply_to" => "lilian.tourillon@gmail.com"
+            "subject_line" => "Nouvelle commande CENTRALIS",
+            "preview_text" => "Ouvre l'email pour voir la commande.",
+            //"title" => "send_order_".$order_id."_to_supplier_".$supplier_id."_".$random,
+            "title" => "send_order_".$order_id."_to_supplier_".$supplier_id,
+            "from_name" => "CENTRALIS",
+            "reply_to" => "lilian.tourillon@gmail.com",
+            "inline_css"=>true,
+            "template_id"=>111535
         ],
         "tracking"=>[
             "opens"=>true,
@@ -1359,18 +2073,18 @@ function send_supplier_order( $supplier_id, $order_id, $product_id, $customer_id
     $err_create_campaign = curl_error($curl_create_campaign);
     curl_close($curl_create_campaign);
 
-    error_log("mailchimp create campaign response");
-    error_log(print_r($curl_create_campaign_response_decode,TRUE));
+    //error_log("mailchimp create campaign response");
+    //error_log(print_r($curl_create_campaign_response_decode,TRUE));
+
+    // En attente //
 
     // Get the ID
     // * * * * * * * * * * * * * * * * * * * * * *
-
     $new_campaign_id = $curl_create_campaign_response_decode['id'];
 
     // Edit campaign template 
     // * * * * * * * * * * * * * * * * * * * * * *
-
-    // Local 
+    // dev 
     /*$mailchimpcreatecampaignHTML = [
         "html"=>"
         <div>
@@ -1380,20 +2094,19 @@ function send_supplier_order( $supplier_id, $order_id, $product_id, $customer_id
             <ul>
                 <li>Order ID ".$order_id.": </li>
                 <li>Customer ID ".$customer_id.": </li>
-                <li>Product ID ".$product_id.": </li>
+                <li> Products : </li>
                 <li>Supplier ID ".$supplier_id.": </li>
             </ul>
         </div>
         <div>
-            <button><a target='_blank' href='http://localhost:8080/supplier/reject?o=".$order_id."&c=".$customer_id."&p=".$product_id."&s=".$supplier_id."'>REJECT THIS ORDER</a></button>
+            <button><a target='_blank' href='http://localhost:8080/supplier/reject?o=".$order_id."&c=".$customer_id."&p=&s=".$supplier_id."'>REJECT THIS ORDER</a></button>
         </div>
         <div>
-            <button><a target='_blank' href='http://localhost:8080/supplier/accept?o=".$order_id."&c=".$customer_id."&p=".$product_id."&s=".$supplier_id."'>ACCEPT THIS ORDER</a></button>
+            <button><a target='_blank' href='http://localhost:8080/supplier/accept?o=".$order_id."&c=".$customer_id."&p=&s=".$supplier_id."'>ACCEPT THIS ORDER</a></button>
         </div>"
     ];*/
-
-    // Prod
-    $mailchimpcreatecampaignHTML = [
+    // prod
+    /*$mailchimpcreatecampaignHTML = [
         "html"=>"
         <div>
             <h1>Hello dear Supplier</h1>
@@ -1412,8 +2125,41 @@ function send_supplier_order( $supplier_id, $order_id, $product_id, $customer_id
         <div>
             <button><a target='_blank' href='http://senovea-prod.surge.sh/supplier/accept?o=".$order_id."&c=".$customer_id."&p=".$product_id."&s=".$supplier_id."'>ACCEPT THIS ORDER</a></button>
         </div>"
-    ];
+    ];*/
 
+    $mailchimpcreatecampaignHTML = [
+        "template" => [
+            "id" => 111535,
+            "sections" => [
+
+                "order_id" => "#".$order_id,
+
+                "order_paragraph" => "",
+
+                // Les prestations
+                "repeat_1" => $email_products,
+                "order_total" => $order_total,
+
+                // lieu d'intervention
+                "order_arrondissement" => "",
+                "order_adresse" => "",
+                "order_code_postal" => "",
+
+                // customer informations
+                "order_customer_name"=> $customer->data->user_login,
+                "order_customer_email"=> $customer->data->user_email,
+                "order_customer_organisme"=> get_field('field_5b34e99e79a21', "user_".$customer_id),
+                "order_customer_service"=> get_field('field_5b34e9b079a22', "user_".$customer_id),
+                "order_customer_phone"=> get_field('field_5b34e9566fc98', "user_".$customer_id),
+
+                // Button accept / refuse
+                "order_refuse_link" => $order_refuse_link,
+                "order_accept_link" => $order_accept_link
+
+            ]
+        ]
+
+    ];
     $mailchimpcreatecampaignHTMLJSON = json_encode($mailchimpcreatecampaignHTML);
 
     $curl_campaign_edit = curl_init();
@@ -1438,8 +2184,9 @@ function send_supplier_order( $supplier_id, $order_id, $product_id, $customer_id
     $err_campaign_edit = curl_error($curl_campaign_edit);
     curl_close($curl_campaign_edit);
 
-    error_log("mailchimp edit campaign response");
-    error_log(print_r($curl_campaign_edit_response_decode,TRUE));
+    //error_log("mailchimp edit campaign response");
+    //error_log(print_r($curl_campaign_edit_response_decode,TRUE));
+
 
     // Envoyer campaign
     // * * * * * * * * * * * * * * * * * * * * * *
@@ -1472,7 +2219,7 @@ function send_supplier_order( $supplier_id, $order_id, $product_id, $customer_id
     // Supprimer supplier de la liste d’attente
     // * * * * * * * * * * * * * * * * * * * * * *
 
-    $lowercase_email = strtolower($supplier_email);
+    /*$lowercase_email = strtolower($supplier_email);
     $md5hash_email = md5($lowercase_email);
 
     $curl_remove_supplier = curl_init();
@@ -1497,8 +2244,8 @@ function send_supplier_order( $supplier_id, $order_id, $product_id, $customer_id
     $err_remove_supplier = curl_error($curl_remove_supplier);
     curl_close($curl_remove_supplier);
 
-    error_log("mailchimp remove supplier response");
-    error_log(print_r($curl_remove_supplier_response_decode,TRUE));
+    error_log("mailchimp remove supplier response");*/
+    //error_log(print_r($curl_remove_supplier_response_decode,TRUE));
   
     // * * * * * * * * * * * * * * * * * * * * * *
 
@@ -1532,6 +2279,11 @@ function register_rest_senovea_paniers_routes(){
         'methods' => 'POST',
         'callback' => 'senovea_woocommerce_proxy_v2_post_product_to_panier'
     ));
+    // POST product to panier
+    register_rest_route('senovea/v2', 'panier/order', array(
+        'methods' => 'POST',
+        'callback' => 'senovea_woocommerce_proxy_v2_order_panier'
+    ));
 }
 function senovea_woocommerce_proxy_v2_post_panier( WP_REST_Request $request ){
     $response = array();
@@ -1554,6 +2306,11 @@ function senovea_woocommerce_proxy_v2_post_product_to_panier( WP_REST_Request $r
 
     $add_product_to_panier_response = add_product_to_panier($params);
     return new WP_REST_Response($add_product_to_panier_response, 200);
+}
+function senovea_woocommerce_proxy_v2_order_panier(  WP_REST_Request $request  ){
+    $params = $request->get_params();
+    $order_panier_response = order_panier_response($params);
+    return new WP_REST_Response($order_panier_response, 200);
 }
 
 // Product
@@ -1670,6 +2427,12 @@ function register_rest_senovea_customer_routes(){
             )
         )
     )); 
+    // SEND IDENTIFIANT CUSTOMER
+    // ici
+    register_rest_route('senovea/v2', 'customer/reset', array(
+        'methods' => 'POST',
+        'callback' => 'senovea_woocommerce_proxy_v2_reset_customer'
+    ));
 }
 function senovea_woocommerce_proxy_v2_get_all_customer( WP_REST_Request $request ){
     //$customers = woocommerce_api()->get( 'customers' );
@@ -1722,6 +2485,17 @@ function senovea_woocommerce_proxy_v2_update_customer( WP_REST_Request $request 
 function senovea_woocommerce_proxy_v2_delete_customer( WP_REST_Request $request ){
     // TODO :: delete customer 
     return new WP_REST_Response('senovea_woocommerce_proxy_v2_delete_customer', 200);
+}
+function senovea_woocommerce_proxy_v2_reset_customer( WP_REST_Request $request ){
+
+    $params = $request->get_params();
+    $customer_email = $params['customer_email'];
+    $customer = get_user_by('email', $customer_email);
+    $customer_id = $customer->ID;
+
+    $send_customer_code_mailchimp_response = send_customer_code_mailchimp( $customer_id );
+    return new WP_REST_Response($send_customer_code_mailchimp_response, 200);
+
 }
 
 // Order
@@ -1858,16 +2632,16 @@ function senovea_ui_callback(){
     echo '<p> Status : <span id="senovea_ui_import_supplier_status"> waiting action </span> </p>';
     echo '</div>';
     echo '</div>';
-    echo '<div class="nav-tab-wrapper">';
-    echo '<a href="javascript:void(0)" class="nav-tab nav-tab-active"> Synchronize Suppliers and Products </a>';
-    echo '</div>';
-    echo '<div class="postbox" style="margin-top:15px">';
-    echo '<div class="inside">';
-    echo '<p>Vous devez synchroniser vos produits et vos suppliers après chaque imports ou modifications. </p>';
-    echo '<button type="button" class="button-primary" title="" id="senovea_ui_synchronize_suppliers_and_products_trigger"> Synchronize Suppliers and Products </button>';
-    echo '<p> Status : <span id="senovea_ui_synchronize_suppliers_and_products_status"> waiting action </span> </p>';
-    echo '</div>';
-    echo '</div>';
+    //echo '<div class="nav-tab-wrapper">';
+    //echo '<a href="javascript:void(0)" class="nav-tab nav-tab-active"> Synchronize Suppliers and Products </a>';
+    //echo '</div>';
+    //echo '<div class="postbox" style="margin-top:15px">';
+    //echo '<div class="inside">';
+    //echo '<p>Vous devez synchroniser vos produits et vos suppliers après chaque imports ou modifications. </p>';
+    //echo '<button type="button" class="button-primary" title="" id="senovea_ui_synchronize_suppliers_and_products_trigger"> Synchronize Suppliers and Products </button>';
+    //echo '<p> Status : <span id="senovea_ui_synchronize_suppliers_and_products_status"> waiting action </span> </p>';
+    //echo '</div>';
+    //echo '</div>';
     echo '<div class="nav-tab-wrapper">';
     echo '<a href="javascript:void(0)" class="nav-tab nav-tab-active"> Import Products </a>';
     echo '</div>';   
@@ -1918,7 +2692,7 @@ add_action( 'wp_ajax_senovea_ui_synchronize_suppliers_and_products_action', 'sen
 // https://developer.wordpress.org/reference/functions/post_exists/
 function senovea_ui_import_supplier_callback(){
 
-    function randomPasswordSupplier() {
+    /*function randomPasswordSupplier() {
         $alphabet = 'abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
         $pass = array(); //remember to declare $pass as an array
         $alphaLength = strlen($alphabet) - 1; //put the length -1 in cache
@@ -1927,7 +2701,7 @@ function senovea_ui_import_supplier_callback(){
             $pass[] = $alphabet[$n];
         }
         return implode($pass); //turn the array into a string
-    }
+    }*/
 
     //error_log( print_r($_POST,TRUE) );
     //error_log( print_r($_FILES,TRUE) );
@@ -1957,13 +2731,43 @@ function senovea_ui_import_supplier_callback(){
 
                     // Ajout des fournisseurs parmis les utilisateurs wordpress 
 
-                    // ========================================================================================
+                    error_log("row:");
+                    //error_log($row);
+                    //error_log($data[5]);
+                    //$existing_user_un_by_mail = get_user_by( 'user_email', $data[5] );
+                    //error_log(print_r($existing_user_un_by_mail,TRUE));
+                    //error_log(wp_slash(explode("@", $data[5])[0]));
+                    //$existing_user_un_by_username = get_user_by( 'user_login', explode("@", $data[5])[0] );
+                    //error_log(print_r($existing_user_un_by_username,TRUE));
 
+                    //$uname_exist = username_exists( explode("@", $data[5])[0] );
+                    //$uemail_exist = email_exists( $data[5] );
+
+                    //error_log($uname_exist);
+                    //error_log($uemail_exist);
+
+                    //error_log($data[10]);
+                    //$existing_user_deux = get_user_by( 'email', $data[10] );
+                    //error_log(print_r($existing_user_deux,TRUE));
+                    //error_log($data[15]);
+                    //$existing_user_trois = get_user_by( 'email', $data[15] );
+                    //error_log(print_r($existing_user_trois,TRUE));
+
+
+                    // Vérifier avec le username & l'email
+
+                    // ========================================================================================
+                    
                     // Le Fournisseur 1
                     $existing_user_un = get_user_by( 'email', $data[5] );
+                    error_log("existing_user_un");
+                    error_log(print_r($existing_user_un,TRUE));
+
                     $fournisseur_un_id;
                     // Si le fournisseur existe 
                     if( !empty( $existing_user_un ) ){
+
+                        
 
                         // Mise à jour du fournisseur
                         $fournisseur_un_id = $existing_user_un->ID;
@@ -1976,7 +2780,7 @@ function senovea_ui_import_supplier_callback(){
                         if($lorrows){
 
                             $supplier_lot_number_all = array_column($lorrows, 'supplier_lot_number');
-                            error_log(print_r($supplier_lot_number_all,TRUE));
+                            //error_log(print_r($supplier_lot_number_all,TRUE));
 
                             if( in_array( intval($data[1]) , $supplier_lot_number_all ) ){
                                 // nothing
@@ -2002,39 +2806,50 @@ function senovea_ui_import_supplier_callback(){
                         $fournisseur_un = array(
                             "user_login"=>explode("@", $data[5])[0],
                             "user_email"=>$data[5],
-                            "user_pass"=>randomPasswordSupplier(),
+                            "user_pass"=>globalRandomPassword(),
                         );
                         $fournisseur_un_id = wp_create_user($fournisseur_un["user_login"], $fournisseur_un["user_pass"], $fournisseur_un["user_email"]);
                         
-                        // Update champs classiques du fournisseur
-                        $fournisseur_un_update = array(
-                            "ID"=>$fournisseur_un_id,
-                            "role"=>"supplier"
-                        );
-                        wp_update_user($fournisseur_un_update);
+                        //error_log(print_r($fournisseur_un,TRUE));
+                        if( gettype($fournisseur_un_id) == "integer" ){
+     
+                            // Update champs classiques du fournisseur
+                            $fournisseur_un_update = array(
+                                "ID"=>$fournisseur_un_id,
+                                "role"=>"supplier"
+                            );
+                            wp_update_user($fournisseur_un_update);
 
-                        // Update ACF du fournisseur
-                        update_field('field_5b34f70d8d326',$data[0],"user_".$fournisseur_un_id);
-                        
-                        // The repeater ( lot number et lot name )
-                        $fournisseur_lot_row = [
-                            'field_5b355be54fdb0'=>$data[1],
-                            'field_5b35669a62aa6'=>$data[2]
-                        ];
-                        add_row( "field_5b35389e0257b", $fournisseur_lot_row, "user_".$fournisseur_un_id );
+                            // Update ACF du fournisseur
+                            update_field('field_5b34f70d8d326',$data[0],"user_".$fournisseur_un_id);
+                            
+                            // The repeater ( lot number et lot name )
+                            $fournisseur_lot_row = [
+                                'field_5b355be54fdb0'=>$data[1],
+                                'field_5b35669a62aa6'=>$data[2]
+                            ];
+                            add_row( "field_5b35389e0257b", $fournisseur_lot_row, "user_".$fournisseur_un_id );
 
-                        //update_field('field_5b352f739d167',$data[2],"user_".$fournisseur_un_id);
-                        update_field('field_5b34fb74c676f',$data[3],"user_".$fournisseur_un_id);
-                        update_field('field_5b35701456e2d',$data[4],"user_".$fournisseur_un_id);
-                        update_field('field_5b34f7ed549e8',$data[6],"user_".$fournisseur_un_id);
-                        update_field('field_5b353d8c0e99e',$data[7],"user_".$fournisseur_un_id);
+                            //update_field('field_5b352f739d167',$data[2],"user_".$fournisseur_un_id);
+                            update_field('field_5b34fb74c676f',$data[3],"user_".$fournisseur_un_id);
+                            update_field('field_5b35701456e2d',$data[4],"user_".$fournisseur_un_id);
+                            update_field('field_5b34f7ed549e8',$data[6],"user_".$fournisseur_un_id);
+                            update_field('field_5b353d8c0e99e',$data[7],"user_".$fournisseur_un_id);
+
+                        }else{
+                            error_log(print_r($fournisseur_un_id,TRUE));
+                            $fournisseur_un_id = "";
+                        }
 
                     }
 
                     // ========================================================================================
 
+                    
                     // Le Fournisseur 2
                     $existing_user_deux = get_user_by( 'email', $data[10] );
+                    error_log("existing_user_deux");
+                    error_log(print_r($existing_user_deux,TRUE));
                     // Si le fournisseur existe 
                     $fournisseur_deux_id;
                     if( !empty( $existing_user_deux ) ){
@@ -2061,21 +2876,6 @@ function senovea_ui_import_supplier_callback(){
                                 ];
                                 add_row( "field_5b35389e0257b", $fournisseur_lot_row, "user_".$fournisseur_deux_id );
                             }
-
-                            /*foreach($lorrows as $lorrow){
-                                //error_log(print_r($lorrow,TRUE));
-                                //error_log(print_r($data[1],TRUE));
-                                if( intval($lorrow['supplier_lot_number']) != intval($data[1]) ){
-                                    
-                                    // on peut ajouter
-                                    $fournisseur_lot_row = [
-                                        'field_5b355be54fdb0'=>$data[1],
-                                        'field_5b35669a62aa6'=>$data[2]
-                                    ];
-                                    add_row( "field_5b35389e0257b", $fournisseur_lot_row, "user_".$fournisseur_deux_id );
-            
-                                }
-                            }*/
                         }
                         
                         //update_field('field_5b352f739d167',$data[2],"user_".$fournisseur_deux_id);
@@ -2090,10 +2890,12 @@ function senovea_ui_import_supplier_callback(){
                         $fournisseur_deux = array(
                             "user_login"=>explode("@", $data[10])[0],
                             "user_email"=>$data[10],
-                            "user_pass"=>randomPasswordSupplier(),
+                            "user_pass"=>globalRandomPassword(),
                         );
                         $fournisseur_deux_id = wp_create_user($fournisseur_deux["user_login"], $fournisseur_deux["user_pass"], $fournisseur_deux["user_email"]);
                         
+                        if( gettype($fournisseur_deux_id) == "integer" ){
+
                         // Update champs classiques du fournisseur
                         $fournisseur_deux_update = array(
                             "ID"=>$fournisseur_deux_id,
@@ -2117,12 +2919,21 @@ function senovea_ui_import_supplier_callback(){
                         update_field('field_5b34f7ed549e8',$data[11],"user_".$fournisseur_deux_id);
                         update_field('field_5b353d8c0e99e',$data[12],"user_".$fournisseur_deux_id);
 
+                        }else{
+                            error_log(print_r($fournisseur_deux_id,TRUE));
+                            $fournisseur_deux_id = "";
+                        }
+
                     }
+                    
 
                     // ========================================================================================
 
+                    
                     // Le Fournisseur 3
                     $existing_user_trois = get_user_by( 'email', $data[15] );
+                    error_log("existing_user_trois");
+                    error_log(print_r($existing_user_trois,TRUE));
                     // Si le fournisseur existe 
                     $fournisseur_trois_id;
                     if( !empty( $existing_user_trois ) ){
@@ -2149,21 +2960,6 @@ function senovea_ui_import_supplier_callback(){
                                 ];
                                 add_row( "field_5b35389e0257b", $fournisseur_lot_row, "user_".$fournisseur_trois_id );
                             }
-                            
-                            /*foreach($lorrows as $lorrow){
-                                //error_log(print_r($lorrow,TRUE));
-                                //error_log(print_r($data[1],TRUE));
-                                if( intval($lorrow['supplier_lot_number']) != intval($data[1]) ){
-                                    
-                                    // on peut ajouter
-                                    $fournisseur_lot_row = [
-                                        'field_5b355be54fdb0'=>$data[1],
-                                        'field_5b35669a62aa6'=>$data[2]
-                                    ];
-                                    add_row( "field_5b35389e0257b", $fournisseur_lot_row, "user_".$fournisseur_trois_id );
-            
-                                }
-                            }*/
                         }
                         
                         //update_field('field_5b352f739d167',$data[2],"user_".$fournisseur_deux_id);
@@ -2178,10 +2974,12 @@ function senovea_ui_import_supplier_callback(){
                         $fournisseur_trois = array(
                             "user_login"=>explode("@", $data[15])[0],
                             "user_email"=>$data[15],
-                            "user_pass"=>randomPasswordSupplier(),
+                            "user_pass"=>globalRandomPassword(),
                         );
                         $fournisseur_trois_id = wp_create_user($fournisseur_trois["user_login"], $fournisseur_trois["user_pass"], $fournisseur_trois["user_email"]);
                         
+                        if( gettype($fournisseur_trois_id) == "integer" ){
+
                         // Update champs classiques du fournisseur
                         $fournisseur_trois_update = array(
                             "ID"=>$fournisseur_trois_id,
@@ -2204,11 +3002,17 @@ function senovea_ui_import_supplier_callback(){
                         update_field('field_5b35701456e2d',$data[14],"user_".$fournisseur_trois_id);
                         update_field('field_5b34f7ed549e8',$data[16],"user_".$fournisseur_trois_id);
                         update_field('field_5b353d8c0e99e',$data[17],"user_".$fournisseur_trois_id);
-                    }    
+
+                        }else{
+                            error_log(print_r($fournisseur_trois_id,TRUE));
+                            $fournisseur_trois_id = "";
+                        }
+                    }   
                     
                     
                     // ========================================================================================
 
+                    
                     error_log(print_r($data,TRUE));
                     
                     // Le name
@@ -2222,7 +3026,7 @@ function senovea_ui_import_supplier_callback(){
 
                     // Si Existe ou pas
                     if( !empty( $table_fournisseur_rows ) ){
-                        foreach($table_fournisseur_rows as $table_fournisseur_row){
+                        //foreach($table_fournisseur_rows as $table_fournisseur_row){
                             $table_fournisseur_id = post_exists( $table_fournisseur_title );
                             //error_log("table_fournisseur_id");
                             //error_log($table_fournisseur_id);
@@ -2236,12 +3040,12 @@ function senovea_ui_import_supplier_callback(){
                                     "post_status"=>"publish"
                                 ]);
 
-                                update_field('field_5b35089984f21',$data[0],$table_fournisseur_row->ID);
-                                update_field('field_5b35087784f1f',$data[1],$table_fournisseur_row->ID);
-                                update_field('field_5b35088f84f20',$data[2],$table_fournisseur_row->ID);
-                                update_field('field_5b3507e5b1121',$fournisseur_un_id,$table_fournisseur_row->ID);
-                                update_field('field_5b350826b1122',$fournisseur_deux_id,$table_fournisseur_row->ID);
-                                update_field('field_5b350837b1123',$fournisseur_trois_id,$table_fournisseur_row->ID);
+                                update_field('field_5b35089984f21',$data[0],$table_fournisseur_row_id);
+                                update_field('field_5b35087784f1f',$data[1],$table_fournisseur_row_id);
+                                update_field('field_5b35088f84f20',$data[2],$table_fournisseur_row_id);
+                                update_field('field_5b3507e5b1121',$fournisseur_un_id,$table_fournisseur_row_id);
+                                update_field('field_5b350826b1122',$fournisseur_deux_id,$table_fournisseur_row_id);
+                                update_field('field_5b350837b1123',$fournisseur_trois_id,$table_fournisseur_row_id);
         
                             }else{
 
@@ -2255,7 +3059,7 @@ function senovea_ui_import_supplier_callback(){
                                 update_field('field_5b350837b1123',$fournisseur_trois_id,$table_fournisseur_id);
         
                             }
-                        }
+                        //}
                     }else{
 
                         error_log("Il nya rien");
@@ -2265,15 +3069,15 @@ function senovea_ui_import_supplier_callback(){
                             "post_title"=>$table_fournisseur_title,
                             "post_status"=>"publish"
                         ]);
-                        update_field('field_5b35089984f21',$data[0],$table_fournisseur_row->ID);
-                        update_field('field_5b35087784f1f',$data[1],$table_fournisseur_row->ID);
-                        update_field('field_5b35088f84f20',$data[2],$table_fournisseur_row->ID);
-                        update_field('field_5b3507e5b1121',$fournisseur_un_id,$table_fournisseur_row->ID);
-                        update_field('field_5b350826b1122',$fournisseur_deux_id,$table_fournisseur_row->ID);
-                        update_field('field_5b350837b1123',$fournisseur_trois_id,$table_fournisseur_row->ID);
+                        update_field('field_5b35089984f21',$data[0],$table_fournisseur_row_id);
+                        update_field('field_5b35087784f1f',$data[1],$table_fournisseur_row_id);
+                        update_field('field_5b35088f84f20',$data[2],$table_fournisseur_row_id);
+                        update_field('field_5b3507e5b1121',$fournisseur_un_id,$table_fournisseur_row_id);
+                        update_field('field_5b350826b1122',$fournisseur_deux_id,$table_fournisseur_row_id);
+                        update_field('field_5b350837b1123',$fournisseur_trois_id,$table_fournisseur_row_id);
 
                     }    
-
+                    
 
                     $row++; 
                 }else{
@@ -2655,6 +3459,8 @@ function wp_insert_post_callback( $post_id, $post, $update ){
     $thePost = get_post($post_id);
     $thePostType = $thePost->post_type;
 
+    /*
+
     // Si il s'agit d'une order
     if( $thePostType == "shop_order" ){
 
@@ -2804,6 +3610,9 @@ function wp_insert_post_callback( $post_id, $post, $update ){
             error_log('noproduct');
         }
     }
+
+    */
+
 }
 add_action( 'wp_insert_post', 'wp_insert_post_callback', 10, 3 );
 
@@ -2821,16 +3630,10 @@ add_action( 'save_post_shop_order', 'save_post_callback' );*/
 //https://stackoverflow.com/questions/44562589/mailchimp-automation-send-same-email-multiple-time
 function woocommerce_order_status_changed_mailing( $order_id, $from_status, $to_status, $order ) {
 
-    //error_log('woocommerce_order_status_changed');
-    //error_log("from");
-    //error_log($from_status);
-    //error_log("to");
-    //error_log($to_status);
+    error_log('woocommerce_order_status_changed_mailing');
     
     // Customer ID
     $customer_id = $order->get_user_id();
-    //error_log('customer_id');
-    //error_log($customer_id);
 
     // Product ID
 
@@ -2840,9 +3643,17 @@ function woocommerce_order_status_changed_mailing( $order_id, $from_status, $to_
             // Product Associated
             $product_ids = array();
             $product_skus = array();
+            $product_qty_ids = array();
+
             foreach ($order->get_items() as $item_id => $item_data) {
+                //error_log( print_r($item_data,TRUE) );
+                //error_log( $item_data->get_quantity() );
+
                 // Get an instance of corresponding the WC_Product object
                 $product = $item_data->get_product();
+                
+                //error_log( print_r($product,TRUE) );
+
                 $product_id = $product->get_id(); // Get the product name    
                 $product_name = $product->get_name(); // Get the product name   
                 $product_sku = $product->get_sku(); // Get the product SKU   
@@ -2850,26 +3661,84 @@ function woocommerce_order_status_changed_mailing( $order_id, $from_status, $to_
                 // Vérification du produit ( si variation ou pas )
                 $theProduct = get_post($product_id);
 
-                //error_log('thePost');
-                //error_log(print_r($theProduct,TRUE));
+                //if( $theProduct->post_type == "product_variation" ){
+                //    array_push( $product_ids, $theProduct->post_parent );
+                //}else{
+                //    array_push( $product_ids, $theProduct->ID );
+                //}
 
-                if( $theProduct->post_type == "product_variation" ){
-                    array_push( $product_ids, $theProduct->post_parent );
-                }else{
-                    array_push( $product_ids, $theProduct->ID );
-                }
+                $product_qty_ids[$theProduct->ID] = $item_data->get_quantity();
+
+                array_push( $product_ids, $theProduct->ID );
                 array_push( $product_skus, $product_sku );
             }
-            $product_id = $product_ids[0];
-            $product_sku = $product_skus[0];
 
-            //error_log("product_id");
-            //error_log($product_id);
-            //error_log($product_sku);
+            //error_log(print_r( $product_qty_ids , TRUE));
 
             // Suppliers ID and position 
 
-            $suppliers = get_users([
+            $fournisseur_r1 = get_field('field_5b26fa0bd28f7', $order_id);
+            $fournisseur_r2 = get_field('field_5b26fa45005e3', $order_id);
+            $fournisseur_r3 = get_field('field_5b26fa56005e4', $order_id);
+
+                // Quand on passe au statut ( waiting first supplier )
+                // ... envoie d'un mail au first supplier 
+                // Quand on passe au statut ( waiting second supplier )
+                // ... envoie d'un mail au second supplier 
+                // Quand on passe au statut ( waiting third supplier )
+                // ... envoie d'un mail au third supplier 
+
+                // Quand personne n'a rep -> failed
+                // ... envoie d'un mail failed au customer
+
+                // Quand qq'un a rep -> success
+                // ... envoie d'un mail success au customer
+
+            
+            // c'est ici qu'on update le panier //
+
+            switch( $to_status ){
+
+                case "waiting-first":
+                    error_log('waiting-first');
+                    error_log('fournisseur R1');
+                    error_log(print_r($fournisseur_r1,TRUE));
+                    $send_supplier_order_response = send_supplier_order( $fournisseur_r1['ID'] , $order_id, $product_qty_ids, $customer_id );
+                    error_log(print_r($send_supplier_order_response,TRUE));
+                    break;
+                case "waiting-second":
+                    error_log('waiting-second');
+                    error_log('fournisseur R2');
+                    error_log(print_r($fournisseur_r2,TRUE));
+                    $send_supplier_order_response = send_supplier_order( $fournisseur_r2['ID'] , $order_id, $product_qty_ids, $customer_id );
+                    //error_log(print_r($send_supplier_order_response,TRUE));
+                    break;                
+                case "waiting-third":
+                    error_log('waiting-third');
+                    error_log('fournisseur R3');
+                    error_log(print_r($fournisseur_r3,TRUE));
+                    $send_supplier_order_response = send_supplier_order( $fournisseur_r3['ID'] , $order_id, $product_qty_ids, $customer_id );
+                    error_log(print_r($send_supplier_order_response,TRUE));
+                    break;
+                case "accepted-first":
+                    error_log('accepted-first');
+                    break;
+                case "accepted-second":
+                    error_log('accepted-second');
+                    break;
+                case "accepted-third":
+                    error_log('accepted-third');
+                    break;
+                case "nobody":
+                    error_log('nobody');
+                    break;
+                default:
+                    break;
+
+            }
+
+
+            /*$suppliers = get_users([
                 "role"=>"supplier"
             ]);
 
@@ -2904,59 +3773,14 @@ function woocommerce_order_status_changed_mailing( $order_id, $from_status, $to_
                         }   
                     }
                 }
-            }
+            }*/
 
             //error_log(print_r($suppliers_positions,TRUE));
 
-                // Quand on passe au statut ( waiting first supplier )
-                // ... envoie d'un mail au first supplier 
-                // Quand on passe au statut ( waiting second supplier )
-                // ... envoie d'un mail au second supplier 
-                // Quand on passe au statut ( waiting third supplier )
-                // ... envoie d'un mail au third supplier 
-
-                // Quand personne n'a rep -> failed
-                // ... envoie d'un mail failed au customer
-
-                // Quand qq'un a rep -> success
-                // ... envoie d'un mail success au customer
-
-            switch( $to_status ){
-
-                case "waiting-first":
-                    error_log('waiting-first');
-                    $send_supplier_order_response = send_supplier_order( $suppliers_positions['first_supplier'], $order_id, $product_id, $customer_id );
-                    error_log(print_r($send_supplier_order_response,TRUE));
-                    break;
-                case "waiting-second":
-                    error_log('waiting-second');
-                    $send_supplier_order_response = send_supplier_order( $suppliers_positions['second_supplier'], $order_id, $product_id, $customer_id );
-                    error_log(print_r($send_supplier_order_response,TRUE));
-                    break;                
-                case "waiting-third":
-                    error_log('waiting-third');
-                    $send_supplier_order_response = send_supplier_order( $suppliers_positions['third_supplier'], $order_id, $product_id, $customer_id );
-                    error_log(print_r($send_supplier_order_response,TRUE));
-                    break;
-                case "accepted-first":
-                    error_log('accepted-first');
-                    break;
-                case "accepted-second":
-                    error_log('accepted-second');
-                    break;
-                case "accepted-third":
-                    error_log('accepted-third');
-                    break;
-                case "nobody":
-                    error_log('nobody');
-                    break;
-                default:
-                    break;
-
-            }
-
         }else{
+
             //error_log("no product");
+
         }
 }
 add_action('woocommerce_order_status_changed', 'woocommerce_order_status_changed_mailing', 10, 4);

@@ -8,10 +8,7 @@ import { user_logout_action } from '../../actions/index'
 import { update_modal_settings } from '../../actions/index';
 import { update_settings_panier } from '../../actions/index';
 import { add_alert } from "../../actions/index"
-
-import LogIn from '../../screens/login'
-import Register from '../../screens/register'
-
+import _ from 'lodash';
 
 // import css
 import './Header.css';
@@ -19,15 +16,12 @@ import Logo from '../../assets/img/logo.svg';
 import Panier from '../../assets/img/icon-panier.svg';
 
 import {
-    Modal, ModalHeader, ModalBody,
     Collapse,
     Navbar,
     NavbarToggler,
     Nav,
     NavItem,
-    NavLink,
-    Input
-    } from 'reactstrap';
+    NavLink,} from 'reactstrap';
 
 class Header extends React.Component{
     constructor(props){
@@ -44,7 +38,9 @@ class Header extends React.Component{
             isOpen: false,
             modalConnect: false,
             modalRegistration: false,
-            popoverOpen: false
+            popoverOpen: false,
+            dropDownMenu: false,
+            countLots: false
         };
     }
 
@@ -91,8 +87,6 @@ class Header extends React.Component{
     }
 
     handleUpdateActivePanier( e ){
-        ////console.log('update active panier')
-        ////console.log( e.target.value );
         let new_panier_settings = _.cloneDeep(this.props.paniersSettings)
         new_panier_settings.active_panier_id = e.target.value
         this.props.update_settings_panier( new_panier_settings )
@@ -101,14 +95,34 @@ class Header extends React.Component{
             "status":"success",
             "content":`<strong>${this.props.paniers[e.target.value].nicename}</strong> est le nouveau panier actif!`
         })
+    }
 
+    renderBullPaniers(){
+        const panierArray = _.keys(this.props.paniers);
+        if(panierArray.length !== 0){
+            return(
+                <div>
+                    <span className="counter-panier">
+                        <p>{this.props.counterProduct}</p>
+                    </span>
+                </div>
+            )
+        }
+    }
+
+    dropdownMenuHeader(){
+        const lotsInge = _.keys(this.props.newProduct.ingenieurie);
+        const lotsTrav = _.keys(this.props.newProduct.travaux);
+        const lotsPaniers = (lotsInge.length + lotsTrav.length);
+
+        this.setState({
+            dropDownMenu: true,
+            countLots: lotsPaniers
+        });
     }
 
     render(){
-        console.log("bkfkfkgkg");
-        const old = this.props.paniers;
-        const newPaniers = [...old];
-
+        console.log(this.props);
         return(
             <div>
                 <header id="header-app">
@@ -145,9 +159,9 @@ class Header extends React.Component{
                                             <NavLink onClick={ ()=>{ this.handleModalToggle( 'login' ) } } className="nav-link">Connexion</NavLink>
                                         </NavItem>
                                         <NavItem>
-                                            <Link onClick={ ()=>{ this.handleModalToggle( 'login' ) } } to="/account/paniers" style={{marginLeft:"15px",width:"50px",height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}}>
-                                            <img height="auto" className="icon-nav" src={Panier} alt="Icon Panier"/>
-                                            </Link>
+                                            <div onClick={ ()=>{ this.handleModalToggle( 'login' ) } } style={{marginLeft:"15px",width:"50px",height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                                                <img height="auto" className="icon-nav" src={Panier} alt="Icon Panier"/>
+                                            </div>
                                         </NavItem>
                                     </Nav>
                                     :
@@ -156,16 +170,13 @@ class Header extends React.Component{
                                             <Link to="/account/paniers" className="nav-link">{this.props.user.user_email}</Link>
                                         </NavItem>
                                         <NavItem>
-                                            <Link to="/account/paniers" style={{width:"50px",height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                                            <div onClick={ () => {this.dropdownMenuHeader() }} style={{width:"50px",height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}}>
                                                 <img height="auto" className="icon-nav" src={Panier} alt="Icon Panier"/>
-                                            </Link>
-                                            {newPaniers.length > 0 ?
-                                                <span className="counter-panier">
-                                                    <p>{this.props.paniers.length}</p>
-                                                </span>
-                                                :
-                                                null
-                                            }
+                                            </div>
+                                            <div id="dropdownMenu" className={this.state.dropDownMenu === true ? "dropdownMenuFade" : ""}>
+                                                {this.state.countLots}
+                                            </div>
+                                            {this.renderBullPaniers()}
                                         </NavItem>
                                     </Nav>
                                 }
@@ -174,22 +185,6 @@ class Header extends React.Component{
                     </Navbar>
                 </header>
 
-                                {/*
-                <Modal id="modal-login" isOpen={this.props.user.user_auth.auth_token === '' ? this.state.modalConnect : this.state.modalConnect = false} toggle={this.toogleModalConnect} className={this.props.className}>
-                    <ModalHeader toggle={this.toogleModalConnect}>Connectez-vous !</ModalHeader>
-                    <ModalBody>
-                        <p className="text-center">Site web privé, réservé aux adhérents, <br/>veuillez vous connecter pour effectuer une recherche</p>
-                        <LogIn/>
-                    </ModalBody>
-                </Modal>
-                <Modal isOpen={this.state.modalRegistration} toggle={this.toogleModalRegistration} className={this.props.className}>
-                    <ModalHeader toggle={this.toogleModalRegistration}>Inscrivez-vous !</ModalHeader>
-                    <ModalBody>
-                        <Register/>
-                    </ModalBody>
-                </Modal>
-                                */}
-
             </div>
         )
     }
@@ -197,10 +192,93 @@ class Header extends React.Component{
 }
 
 function mapStateToProps(state){
+
+    // Good panier
+    const the_panier_id = state.paniersSettings.active_panier_id;
+    const the_panier = _.get( _.pick( state.paniers, [the_panier_id] ), the_panier_id, {} )
+
+    // Panier Products
+    const lots_mapKeys = _.mapKeys( the_panier.lots, ( lot ) => {
+        return lot.panier_lot_id
+    });
+    ////////console.log('mapStateToProps')
+    ////////console.log(lots_mapKeys)
+    const lots_mapValues = _.mapValues( lots_mapKeys, ( lot ) => {
+        return _.map( lot.panier_lot_articles, ( article ) => {
+            return article.panier_article_id
+        })
+    })
+    ////////console.log(lots_mapValues)
+
+    // Filters Lots
+    const lotsFiltered = _.mapValues( state.products, ( cat_val, cat_key ) => {
+        ////////console.log(cat_val)
+        ////////console.log( lots_mapValues )
+        const filtered = _.filter(cat_val, (lot_val,lot_key)=>{
+            return _.has(lots_mapValues, lot_key)
+        })
+
+        return _.isEmpty( filtered ) ?
+            {}:
+            _.mapKeys( filtered, (lot_val,lot_key) =>{
+                return lot_val.lot_id
+            })
+
+    } )
+
+    // Filters Products
+    let new_product = {};
+    let counterProduct = 0;
+    for( let cat_name in lotsFiltered ){
+        if( _.isEmpty( lotsFiltered[cat_name] ) === false ){
+            new_product[cat_name] = {}
+            for( let lot_id in lotsFiltered[cat_name] ){
+                new_product[cat_name][lot_id] = {}
+
+                new_product[cat_name][lot_id].lot_id = lotsFiltered[cat_name][lot_id].lot_id
+                new_product[cat_name][lot_id].lot_name = lotsFiltered[cat_name][lot_id].lot_name
+                new_product[cat_name][lot_id].lot_fournisseur_r1 = lotsFiltered[cat_name][lot_id].lot_fournisseur_r1
+
+                let products_array = []
+                // Good Products
+                for( let product of lotsFiltered[cat_name][lot_id].lot_products ){
+
+                    // Si variation empty
+                    if( _.isEmpty( product.variations ) === false ){
+                        for( let good_product_id of lots_mapValues[lot_id] ){
+                            for( let variation of product.variations ){
+                                if( parseInt(variation.variation_id) === parseInt(good_product_id) ){
+                                    // ajout
+                                    products_array.push( product )
+                                    counterProduct = counterProduct + 1;
+                                }
+                            }
+                        }
+                    }else{
+                        for( let good_product_id of lots_mapValues[lot_id] ){
+                            if( parseInt(product.id) === parseInt(good_product_id) ){
+                                // ajout
+                                products_array.push( product );
+                                counterProduct = counterProduct + 1;
+                            }
+                        }
+                    }
+
+                }
+
+                // Add Products
+                new_product[cat_name][lot_id].lot_products = products_array;
+
+            }
+        }
+    }
+
     return {
         "user":state.user,
         "paniers":state.paniers,
         "paniersSettings":state.paniersSettings,
+        "newProduct" : new_product,
+        "counterProduct": counterProduct
     }
 }
 

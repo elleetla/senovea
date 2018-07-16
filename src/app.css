@@ -124,6 +124,7 @@ button:focus {
     text-transform: uppercase;
     width: 100%;
     display: block;
+    text-align: center;
     border: 0;
     border-radius: 4px;
     color: #ffffff;
@@ -220,3 +221,31 @@ button:focus {
     color: #17D5C8;
     font-weight: 500; 
 }
+
+/* page détail panier */
+
+.section-infos-detail-panier{
+    padding: 16px 0;
+    background: linear-gradient(to right, rgba(130, 140, 236, 100), rgba(75, 89, 224, 100));
+    margin-bottom: 30px;
+    color: #ffffff;
+    font-weight: lighter;
+}
+
+.section-infos-detail-panier b{
+    color: #ffffff;
+}
+
+.section-infos-detail-panier .row{
+    align-items: center;
+}
+
+.date-detail-panier{
+    font-size: 21px;
+}
+
+.title-infos-detail-panier {
+    text-align: center;
+    margin-bottom: 0;
+    font-size: 22px;
+ }
