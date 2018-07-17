@@ -77,17 +77,17 @@ class CreatePanier extends Component{
     }
     /*handleCreatePanierSubmit(Formprops){
         ////console.log(Formprops)
-        // handlePanierCreation 
+        // handlePanierCreation
         const user_id = this.props.user.user_id;
         this.props.add_panier(Formprops, user_id, ( status, new_panier_id )=>{
             this.handleToggleModalCreatePanier();
             if( status === "success" ){
                 //this.handleUpdateActivePanier(new_panier_id);
-                // Ici on met le nouveau panier en panier actif 
+                // Ici on met le nouveau panier en panier actif
                 let new_panier_settings = _.cloneDeep(this.props.paniersSettings)
                 new_panier_settings.active_panier_id = new_panier_id
                 this.props.update_settings_panier(new_panier_settings);
-            } 
+            }
         });
     }*/
     render(){
@@ -120,7 +120,7 @@ class CreatePanier extends Component{
                             </Col>
 
                             <Col lg="4" className="text-right">
-                                <button onClick={this.handleToggleModalCreatePanier} className="btn-white btn btn-secondary">CRÉER UN NOUVEAU PANIER</button>
+                                <button onClick={this.handleToggleModalCreatePanier} className="btn-white btn btn-secondary">{this.props.paniers.length === 0 ? "CRÉER UN PANIER" : "CRÉER UN NOUVEAU PANIER"}</button>
                             </Col>
                         </Row>
                     </Container>

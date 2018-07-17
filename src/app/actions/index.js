@@ -11,8 +11,7 @@ export const USER_LOAD                = 'USER_LOAD';
 export const USER_REGISTER            = 'USER_REGISTER';
 export const USER_AUTH                = 'USER_AUTH';
 export const USER_UPDATE              = 'USER_UPDATE';
-export const USER_RESET = "USER_RESET"
-
+export const USER_RESET               = 'USER_RESET';
 
 export const SUPPLIER_ORDER_ACCEPT    = 'SUPPLIER_ORDER_ACCEPT';
 export const SUPPLIER_ORDER_REJECT    = 'SUPPLIER_ORDER_REJECT';
@@ -37,7 +36,6 @@ export const FILTERS_SUPPLIERS = "FILTERS_SUPPLIERS";
 
 export const UPDATE_APP_SETTINGS = "UPDATE_APP_SETTINGS"
 export const UPDATE_MODAL_SETTINGS = "UPDATE_MODAL_SETTINGS"
-
 
 export const ADD_ALERT = "ADD_ALERT"
 export const REMOVE_ALERT = "REMOVE_ALERT"
@@ -872,6 +870,7 @@ export function add_panier(formProps, user_id, callback){
                 })
                 // flashbag
                 // Callback
+                console.log(response.data);
                 callback('success', response.data.new_panier_id);
             }else{
                 // flashbag
@@ -918,7 +917,6 @@ export function add_product_to_panier( user_id, panier_id, product_id, lot_id, c
 
 }
 
-/*
 export function delete_panier(){
     return {
         "type":DELETE_PANIER,
@@ -926,7 +924,8 @@ export function delete_panier(){
     }
 }
 
-export function update_panier( new_panier ){
+
+/*export function update_panier( new_panier ){
 
     return {
         "type":UPDATE_PANIER,

@@ -1,7 +1,7 @@
 import { combineReducers }                from 'redux'
 import { reducer as formReducer }         from 'redux-form'
 
-import { USER_REGISTER }                  from '../actions/index'
+import {delete_panier, USER_REGISTER} from '../actions/index'
 import { USER_AUTH }                      from '../actions/index'
 import { USER_UPDATE }                    from '../actions/index'
 import { USER_LOAD }                      from '../actions/index'
@@ -210,7 +210,8 @@ function panierReducer( state = [], action ){
         }
 
         case DELETE_PANIER:{
-            return state
+            console.log("delete panier");
+            return action.payload
         }
         case UPDATE_PANIER:{
             return state
@@ -299,6 +300,16 @@ function alertsReducer( state = alertsReducer_init, action ){
     }
 }
 
+function deletePanier(state = {}, action){
+    switch( action.type ){
+        case DELETE_PANIER :{
+            return console.log('PANIER DELETE');
+        }
+        default:
+            return state;
+    }
+}
+
 // export reducers
 export const rootReducers = combineReducers({
     "user"      :userReducer,
@@ -312,5 +323,6 @@ export const rootReducers = combineReducers({
     "modalSettings":modalSettingsReducer,
     "users": callUsers,
     "suppliers" : reducerSuppliers,
-    "alerts": alertsReducer
+    "alerts": alertsReducer,
+    "deletePanier": deletePanier
 });

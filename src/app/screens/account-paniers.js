@@ -5,8 +5,9 @@ import { bindActionCreators } from "redux";
 import { Card, Button, CardHeader, CardFooter, CardBody, CardTitle, CardText,Badge } from 'reactstrap';
 import { Link } from "react-router-dom"
 import _ from "lodash"
-class AccountPaniers extends React.Component{
+import {delete_panier} from "../actions";
 
+class AccountPaniers extends React.Component{
     renderPanierStatus( status ){
         switch( status ){
             case"not sended":{
@@ -17,9 +18,12 @@ class AccountPaniers extends React.Component{
         }
     }
 
+    delete_panier(){
+        this.props.deletePanier();
+    }
+
     render(){
-        console.log(this.props.paniers.length);
-        //console.log(this)
+        console.log(this.props);
         return(
             <Account>
                 {
@@ -78,6 +82,7 @@ class AccountPaniers extends React.Component{
                                                     </div>
                                                     <hr/>
                                                     <Link to={{ pathname: `/account/paniers/${panier.id}` }}> <Button>Voir le panier</Button> </Link>
+                                                    <Button onClick={()=>{this.delete_panier()}}>Supprimer le panier</Button>
                                                 </CardBody>
                                             <CardFooter>id : {panier.id}</CardFooter>
                                         </Card>
@@ -95,12 +100,14 @@ class AccountPaniers extends React.Component{
 
 function mapStateToProps(state){
     return {
-        "paniers":state.paniers
+        "paniers":state.paniers,
+        "deletePanier": state.deletePanier
     }
 }
 
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
+        deletePanier: delete_panier()
     },dispatch)
 }
 

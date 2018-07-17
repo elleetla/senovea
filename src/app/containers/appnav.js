@@ -1,7 +1,6 @@
 import React                                from 'react'
 import { compose, bindActionCreators }      from 'redux'
 import { connect }                          from 'react-redux'
-import { Field, reduxForm }                 from 'redux-form'
 import { Link }                             from 'react-router-dom'
 
 // user logout action 
@@ -216,7 +215,6 @@ function mapDispatchToProps( dispatch ){
     }, dispatch)
 
 }
-
 
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),

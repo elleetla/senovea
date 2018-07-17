@@ -22,7 +22,9 @@ export class AllSuppliers extends Component{
 
     renderSuppliers(){
         const suppliersArray = this.props.suppliers.filter((data) => {
-            if (data.organisme.toLowerCase().indexOf(this.props.suppliersSettings.name.toLowerCase()) !== -1){
+            if (data.organisme.toLowerCase().indexOf(this.props.suppliersSettings.name.toLowerCase()) !== -1 &&
+                data.arrondissement.toLowerCase().indexOf(this.props.suppliersSettings.arrondissement.toLowerCase()) !== -1 &&
+                data.arrondissement.toLowerCase().indexOf(this.props.suppliersSettings.rang.toLowerCase()) !== -1){
                 return data;
             }
         });

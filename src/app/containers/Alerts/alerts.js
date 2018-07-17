@@ -38,14 +38,6 @@ class Alerts extends React.Component{
         }
     }
 
-    /*handleTriggerAlert(){
-        const new_alert = {
-            "status":"error",
-            "content":"Erreur lors de la connexion, bla bla bla bla v bla bla bla"
-        }
-        this.props.add_alert(new_alert)
-    }*/
-
     handleRemoveAlert(){
         this.props.remove_alert()
     }

@@ -12,7 +12,8 @@ import _ from "lodash"
 class FiltersSuppliers extends Component{
     constructor(props){
         super(props);
-        this.handleUpdateSupplierFilter = this.handleUpdateSupplierFilter.bind(this)
+        this.handleUpdateSupplierFilter = this.handleUpdateSupplierFilter.bind(this);
+        this.reinitializFilter = this.reinitializFilter.bind(this);
     }
 
     handleUpdateSupplierFilter( e, fieldName ){
@@ -36,8 +37,14 @@ class FiltersSuppliers extends Component{
         this.props.filter_suppliers_actions(new_settings)
     }
 
+    reinitializFilter(value = ""){
+        document.querySelector(".test").value = value;
+        return console.log(
+            this.props.suppliersSettings
+        );
+    }
+
     render(){
-        console.log(`Filtre name entreprise : ${this.props.suppliersSettings.name}`);
         console.log(this.props.suppliersSettings);
         return(
             <nav id="Filters">
@@ -50,10 +57,11 @@ class FiltersSuppliers extends Component{
                                     onChange={ (e)=>{ this.handleUpdateSupplierFilter(e, "name") }}
                                     type="text"
                                     placeholder="Nom de l'entreprise"
+                                    className="test"
                                 />
                                 <span className="icon-search">
-                                        <img src={iconSearch} alt="icon search filter"/>
-                                    </span>
+                                    <img src={iconSearch} alt="icon search filter"/>
+                                </span>
                             </FormGroup>
                         </Col>
                         <Col lg="3">
@@ -63,10 +71,11 @@ class FiltersSuppliers extends Component{
                                     onChange={ (e)=>{ this.handleUpdateSupplierFilter(e, "arrondissement") }}
                                     type="text"
                                     placeholder="Arrondissement"
+                                    className="test"
                                 />
                                 <span className="icon-search">
-                                        <img src={iconSearch} alt="icon search filter"/>
-                                    </span>
+                                    <img src={iconSearch} alt="icon search filter"/>
+                                </span>
                             </FormGroup>
                         </Col>
                         <Col lg="3">
@@ -76,14 +85,15 @@ class FiltersSuppliers extends Component{
                                     onChange={ (e)=>{ this.handleUpdateSupplierFilter(e, "rang") } }
                                     type="text"
                                     placeholder="Trier selon le rang"
+                                    className="test"
                                 />
                                 <span className="icon-search">
-                                        <img src={iconSearch} alt="icon search filter"/>
-                                    </span>
+                                    <img src={iconSearch} alt="icon search filter"/>
+                                </span>
                             </FormGroup>
                         </Col>
                         <Col lg="2">
-                            <button onClick={()=>{console.log("test")}} className="btn-green">Reinitialiser</button>
+                            <button onClick={() => {this.reinitializFilter("")}} className="btn-green">Reinitialiser</button>
                         </Col>
                     </Row>
                 </Container>
