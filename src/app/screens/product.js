@@ -75,9 +75,6 @@ class Product extends React.Component{
         const lot_id = e.target.getAttribute('data-lotkey')
         const user_id = this.props.user.user_id
         const panier_id = this.props.paniersSettings.active_panier_id;
-
-
-
         this.props.add_product_to_panier( user_id, panier_id, product_id, lot_id, ( status ) => {
             //////console.log(status)
 

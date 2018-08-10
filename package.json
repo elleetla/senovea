@@ -7,7 +7,7 @@
     "webpack_build_prod": "webpack --config webpack.prod.js",
     "webpack_build_dev": "webpack --config webpack.dev.js",
     "webpack_start_prod": "webpack-dev-server --open --config webpack.prod.js",
-    "webpack_start_dev": "webpack-dev-server --open --config webpack.dev.js"
+    "start:dev": "webpack-dev-server --open --config webpack.dev.js"
   },
   "author": "",
   "license": "ISC",

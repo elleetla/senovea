@@ -37,11 +37,13 @@ class FiltersSuppliers extends Component{
         this.props.filter_suppliers_actions(new_settings)
     }
 
-    reinitializFilter(value = ""){
-        document.querySelector(".test").value = value;
-        return console.log(
-            this.props.suppliersSettings
-        );
+    reinitializFilter(){
+        document.querySelector(".mb-0 input").value = "";
+        return console.log(this.props.suppliersSettings);
+    }
+
+    componentDidMount(){
+        this.reinitializFilter.bind(this);
     }
 
     render(){
@@ -93,7 +95,7 @@ class FiltersSuppliers extends Component{
                             </FormGroup>
                         </Col>
                         <Col lg="2">
-                            <button onClick={() => {this.reinitializFilter("")}} className="btn-green">Reinitialiser</button>
+                            <button onClick={(e) => {this.reinitializFilter(e)}} className="btn-green">Reinitialiser</button>
                         </Col>
                     </Row>
                 </Container>
