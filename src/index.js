@@ -63,11 +63,11 @@ const store = applyMiddleware(thunk)(createStore);
 class App extends React.Component {
 
     constructor(props){
-        super(props)
+        super(props);
 
         this.state = {
             cookieMentions : true
-        }
+        };
 
         this.handleOutsideModalClicks = this.handleOutsideModalClicks.bind(this);
     }
