@@ -249,3 +249,30 @@ button:focus {
     margin-bottom: 0;
     font-size: 22px;
  }
+/* panier */
+
+.bloc-panier{
+    background-color: #ffffff;
+}
+
+.header-bloc-panier {
+    padding: 30px 15px;
+}
+
+.statut-panier {
+    color: #ffffff;
+    background: #6B77E7;
+    margin-right: 16px;
+    font-size: 10px;
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    padding: 6px 10px;
+    text-transform: uppercase;
+}
+
+.bloc-panier button.btn-green {
+    width: 160px;
+    padding: 10px 10px;
+    font-size: 12px;
+}

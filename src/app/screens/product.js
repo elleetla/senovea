@@ -138,7 +138,7 @@ class Product extends React.Component{
     }
 
     render(){
-
+        console.log("test", this.props);
         let the_price = null;
         const the_variation = _.filter( this.props.product_value.variations, ( variation ) => {
             return parseInt(variation.variation_id) === parseInt(this.state.activeVariation)

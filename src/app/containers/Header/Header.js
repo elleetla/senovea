@@ -135,9 +135,9 @@ class Header extends React.Component{
                                 <NavItem>
                                     <Link to="/" className="nav-link">Catalogue</Link>
                                 </NavItem>
-                                <NavItem>
+                                {/*<NavItem>
                                     <Link to="/about" className="nav-link">Présentation</Link>
-                                </NavItem>
+                                </NavItem>*/}
                                 <NavItem>
                                     <Link to="/users" className="nav-link">Acheteurs</Link>
                                 </NavItem>

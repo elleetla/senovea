@@ -18,8 +18,9 @@ class AccountPaniersDetail extends React.Component{
     constructor(props){
         super(props);
         this.state = {
-            "orderLoading":false
-        }
+            "orderLoading":false,
+             "priceTotal": ""
+        };
 
         this.handleOrder = this.handleOrder.bind(this)
     }
@@ -58,7 +59,7 @@ class AccountPaniersDetail extends React.Component{
 
     } 
 
-    renderPanierStatus( status ){
+    renderPanierStatus(status){
         switch( status ){
             case"not sended":{
                 return <Badge color="warning"> {status} </Badge>
@@ -70,6 +71,8 @@ class AccountPaniersDetail extends React.Component{
 
 
     render(){
+         console.log(this.props);
+         console.log("totalPrice: ", this.props.totalPrice);
         return(
             <div>
                 <div className="section-infos-detail-panier">
@@ -167,7 +170,7 @@ class AccountPaniersDetail extends React.Component{
                                     )
                                 })}
                                 <Col md="12" className="mb-5">
-                                    <button className="btn-green"  onClick={ () => this.handleOrder() } >
+                                    <button className="btn-green"  onClick={() => this.handleOrder()} >
                                         {this.state.orderLoading ? "Commande en cours..." : "Commander mon panier"}
                                     </button>
                                 </Col>
@@ -183,7 +186,7 @@ function mapStateToProps(state, props){
 
     // Good panier
     const the_panier_id = props.routeProps.match.params.id;
-    const the_panier = _.get( _.pick( state.paniers, [the_panier_id] ), the_panier_id, {} )
+    const the_panier = _.get( _.pick( state.paniers, [the_panier_id] ), the_panier_id, {} );
 
     // Panier Products
     const lots_mapKeys = _.mapKeys( the_panier.lots, ( lot ) => {
@@ -218,6 +221,7 @@ function mapStateToProps(state, props){
     // Filters Products
     let new_product = {};
     let counterProduct = 0;
+    let totalPrice = 0;
     for( let cat_name in lotsFiltered ){
         if( _.isEmpty( lotsFiltered[cat_name] ) === false ){
             new_product[cat_name] = {}
@@ -240,6 +244,7 @@ function mapStateToProps(state, props){
                                     // ajout 
                                     products_array.push( product );
                                     counterProduct = counterProduct + 1;
+                                    totalPrice = totalPrice + variation.variation_price
                                 }
                             }
                         }
@@ -249,6 +254,7 @@ function mapStateToProps(state, props){
                                 // ajout 
                                 products_array.push( product );
                                 counterProduct = counterProduct + 1;
+                                 //totalPrice = totalPrice + variations.variation_price
                             }
                         }
                     }
@@ -274,7 +280,8 @@ function mapStateToProps(state, props){
         "panier":the_panier,
         "panierProducts":lots_mapValues,
         "paniersSettings":state.paniersSettings,
-        "counterProduct": counterProduct
+        "counterProduct": counterProduct,
+         "totalPrice" : totalPrice
     }
 
 }

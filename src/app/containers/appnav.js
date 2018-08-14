@@ -1,3 +1,4 @@
+/*
 import React                                from 'react'
 import { compose, bindActionCreators }      from 'redux'
 import { connect }                          from 'react-redux'
@@ -60,19 +61,19 @@ class AppNav extends React.Component{
                             <Button className={this.props.classes.button_white} variant="contained" color="secondary">
                                 Customer Cart
                             </Button>
-                            {/*<IconButton color="inherit">
+                            {/!*<IconButton color="inherit">
                                 <ShoppingCart />
                             </IconButton>
-                            */}
+                            *!/}
                         </Link>
 
                         <Link className={this.props.classes.link} to="/account" >
                             <Button className={this.props.classes.button_white} variant="contained" color="secondary">
                                 Customer Account
                             </Button>
-                            {/*<IconButton color="inherit">
+                            {/!*<IconButton color="inherit">
                                 <AccountCircle />
-                            </IconButton>*/}
+                            </IconButton>*!/}
                         </Link>
                     </div>
                     )
@@ -146,13 +147,13 @@ class AppNav extends React.Component{
                         <Link className={this.props.classes.link} to="/">Senovea-spa</Link>
                     </Typography>
 
-                    {/*
+                    {/!*
                     <Link className={this.props.classes.link} to="/offers" >
                         <Button className={this.props.classes.button_white} variant="contained" color="secondary">
                             All offers
                         </Button>
                     </Link>
-                    */}
+                    *!/}
 
                     <Link className={this.props.classes.link} to="/users" >
                         <Button className={this.props.classes.button_white} variant="contained" color="primary">
@@ -172,7 +173,7 @@ class AppNav extends React.Component{
                         </Button>
                     </Link>
 
-                    {/*
+                    {/!*
                     <Link className={this.props.classes.link} to="/account" >
                         <Button className={this.props.classes.button_white} variant="contained" color="secondary">
                             My Account
@@ -184,7 +185,7 @@ class AppNav extends React.Component{
                             My Cart
                         </Button>
                     </Link>
-                    */}
+                    *!/}
 
                     <CustomerMenu/>
                     <SupplierMenu/>
@@ -224,3 +225,4 @@ export default compose(
 
 
 
+*/
