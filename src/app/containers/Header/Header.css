@@ -12,6 +12,14 @@
     position: relative;
 }
 
+#header-app .navbar .navbar-nav .active{
+    border-bottom: 4px solid #24DBCF;
+}
+
+#header-app .dropdown-item{
+    font-size: 14px;
+}
+
 #header-app .navbar{
     padding: 0 1rem;
 }
@@ -32,15 +40,6 @@
 #header-app .navbar .navbar-nav li.nav-item .icon-nav {
     width: 25px;
     height: auto;
-}
-
-.navbar-light .navbar-nav .active>.nav-link,
-.navbar-light .navbar-nav .nav-link.active,
-.navbar-light .navbar-nav .nav-link.show,
-.navbar-light .navbar-nav .show>.nav-link {
-    color: #2C3948 !important;
-    font-weight: 600;
-    border-bottom: 4px solid #17D5C8;
 }
 
 .counter-panier {

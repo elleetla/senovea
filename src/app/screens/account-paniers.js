@@ -2,7 +2,7 @@ import React from "react";
 import Account from "./account";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Button, Row, Col, Container } from 'reactstrap';
+import { Row, Col, Container } from 'reactstrap';
 import { Link } from "react-router-dom"
 import _ from "lodash"
 import {delete_panier} from "../actions";
@@ -36,7 +36,7 @@ class AccountPaniers extends React.Component{
           }
      }
 
-     optionPanierRender(statut, id){
+     detailPanier(statut, id){
           if(statut === statutPanier.statut2){
                return(
                    <Link to={{ pathname: `/account/paniers/${id}`}}>
@@ -53,85 +53,69 @@ class AccountPaniers extends React.Component{
      render(){
           return(
               <Account>
-                   {
-                        _.isEmpty(this.props.paniers) ?
-                            <div>
-                                 <h3>Il n'y a aucun panier lié à votre compte</h3>
-                                 <button>Créer un panier</button>
-                            </div>
-                            :
-                            <div>
-                                 {
-                                      _.map( this.props.paniers, (panier) => {
-                                           return (
-                                               <div key={panier.id} className="bloc-panier" style={{marginBottom:"15px"}}>
-                                                    <div className="header-bloc-panier">
-                                                         <Container>
-                                                              <Row>
-                                                                   <Col md={5}>
-                                                                        {this.renderPanierStatut(statutPanier.statut2)}
-                                                                        {this.props.paniers !== 0 ?
-                                                                            <span>Panier du <b>{moment(panier.panier_date_created).locale('fr').format('L')}</b></span> : null
-                                                                        }
-                                                                   </Col>
-                                                                   <Col md={7}>
-                                                                        <h3 style={{fontSize: "22px", textAlign: "right"}}>{panier.nicename}</h3>
-                                                                   </Col>
-                                                              </Row>
-                                                              <Row>
-                                                                   <Col sm={6}>
-                                                                        {_.map( panier.lots, (lot) => {
-                                                                             return(
-                                                                                 <p key={lot.panier_lot_articles.panier_article_id}>
-                                                                                      {lot.panier_lot_articles.length} {lot.panier_lot_articles.length > 1 ? "articles" : "article"}
-                                                                                 </p>
-                                                                             )
-                                                                        })}
-                                                                   </Col>
-                                                                   <Col sm={6} className="text-right">
-                                                                        {this.optionPanierRender(statutPanier.statut2, panier.id)}
-                                                                   </Col>
-                                                              </Row>
-                                                         </Container>
-                                                    </div>
-                                                    <div>
-                                                         <div>
-                                                              <div>
-                                                                   {
-                                                                        _.isEmpty( panier.lots ) || panier.lots === false ?
-                                                                            <div>Il n'y a aucun lot associé à ce panier</div>
-                                                                            :
-                                                                            _.map( panier.lots, (lot) => {
-                                                                                 return(
-                                                                                     <div key={`${panier.id}_${lot.panier_lot_id}`}>
-                                                                                          <ul>
-                                                                                               <ul>
-                                                                                                    {_.isEmpty( lot.panier_lot_articles ) || lot.panier_lot_articles === false ?
-                                                                                                        <li><div> Articles empty </div></li>
-                                                                                                        :
-                                                                                                        _.map( lot.panier_lot_articles, (article, i) => {
-                                                                                                             return <li key={`${panier.id}_${lot.panier_lot_id}_${article.panier_article_id}_${i}`}><div> <strong>Article ID :</strong> {article.panier_article_id} </div></li>
-                                                                                                        } )
-                                                                                                    }
-                                                                                               </ul>
-                                                                                          </ul>
-                                                                                     </div>
-                                                                                 )
-                                                                            } )
-                                                                   }
-                                                              </div>
-                                                         </div>
-                                                    </div>
-                                               </div>
-                                           )
-                                      })
-                                 }
-                            </div>
+                   {_.isEmpty(this.props.paniers) ?
+                       <div style={{textAlign: "center"}}>
+                            <h3>Il n'y a aucun panier lié à votre compte</h3>
+                       </div>
+                       :
+                       _.map( this.props.paniers, (panier) => {
+                            return (
+                                <div key={panier.id} className="bloc-panier" style={{marginBottom:"15px"}}>
+                                     <div className="header-bloc-panier">
+                                          <Container>
+                                               <Row style={{marginBottom: "30px"}}>
+                                                    <Col md={5}>
+                                                         {this.renderPanierStatut(statutPanier.statut2)}
+                                                         {this.props.paniers !== 0 ?
+                                                             <span>Panier du <b>{moment(panier.panier_date_created).locale('fr').format('L')}</b></span> : null
+                                                         }
+                                                    </Col>
+                                                    <Col md={7}>
+                                                         <h3 style={{fontSize: "22px", textAlign: "right"}}>{panier.nicename}</h3>
+                                                    </Col>
+                                               </Row>
+                                               <Row>
+                                                    <Col sm={6}>
+                                                         { _.map( panier.lots, (lot) => {
+                                                              return(
+                                                                  <p className="count-lots-panier" key={lot.panier_lot_articles.panier_article_id}>
+                                                                       <b>{lot.panier_lot_articles.length}</b> {lot.panier_lot_articles.length > 1 ? "articles" : "article"}
+                                                                  </p>
+                                                              )
+                                                         })}
+                                                    </Col>
+                                                    <Col sm={6} className="text-right">
+                                                         {this.detailPanier(statutPanier.statut2, panier.id)}
+                                                    </Col>
+                                               </Row>
+                                          </Container>
+                                     </div>
+                                     { _.isEmpty( panier.lots ) || panier.lots === false ?
+                                         <p>Il n'y a aucun lot associé à ce panier</p>
+                                         :
+                                         _.map( panier.lots, (lot) => {
+                                              return(
+                                                  <div key={`${panier.id}_${lot.panier_lot_id}`}>
+                                                       <ul>
+                                                            {_.isEmpty( lot.panier_lot_articles ) || lot.panier_lot_articles === false ?
+                                                                <li><div> Articles empty </div></li>
+                                                                :
+                                                                _.map( lot.panier_lot_articles, (article, i) => {
+                                                                     return <li key={`${panier.id}_${lot.panier_lot_id}_${article.panier_article_id}_${i}`}><div> <strong>Article ID :</strong> {article.panier_article_id} </div></li>
+                                                                })
+                                                            }
+                                                       </ul>
+                                                  </div>
+                                              )
+                                         })
+                                     }
+                                </div>
+                            )
+                       })
                    }
               </Account>
           )
      }
-
 }
 
 function mapStateToProps(state){

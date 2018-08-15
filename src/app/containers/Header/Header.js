@@ -21,75 +21,81 @@ import {
     NavbarToggler,
     Nav,
     NavItem,
-    NavLink,} from 'reactstrap';
+    NavLink,
+    Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
 
 class Header extends React.Component{
     constructor(props){
         super(props);
         this.handleLogOut = this.handleLogOut.bind(this);
         this.toggle = this.toggle.bind(this);
+        this.togglePanier = this.togglePanier.bind(this);
         this.toogleModalConnect = this.toogleModalConnect.bind(this);
         this.toogleModalRegistration = this.toogleModalRegistration.bind(this);
         this.handleCartToggle = this.handleCartToggle.bind(this);
-        this.handleModalToggle = this.handleModalToggle.bind(this)
-        this.handleUpdateActivePanier = this.handleUpdateActivePanier.bind(this)
+        this.handleModalToggle = this.handleModalToggle.bind(this);
+        this.handleUpdateActivePanier = this.handleUpdateActivePanier.bind(this);
 
         this.state = {
             isOpen: false,
+            isOpenPanier: false,
             modalConnect: false,
             modalRegistration: false,
             popoverOpen: false,
-            dropDownMenu: false,
-            countLots: false
+            countLots: false,
+            dropdownOpen: false,
+            dropdownOpenPanier: false
         };
     }
 
-    toggle() {
-        this.setState({
-            isOpen: !this.state.isOpen
-        });
-    }
+    toggle(){
+          this.setState(prevState => ({
+               dropdownOpen: !prevState.dropdownOpen
+          }));
+     }
+
+     togglePanier(){
+          this.setState(prevState => ({
+               dropdownOpenPanier: !prevState.dropdownOpenPanier
+          }));
+     }
 
     toogleModalConnect() {
         this.setState({
             modalConnect: !this.state.modalConnect
-        })
+        });
     }
 
     toogleModalRegistration() {
         this.setState({
             modalRegistration: !this.state.modalRegistration
-        })
+        });
     }
 
     handleLogOut(){
-        // Logout action
         this.props.user_logout_action()
     }
 
     handleCartToggle(){
         this.setState({
-            popoverOpen: !this.state.popoverOpen
-          });
+             popoverOpen: !this.state.popoverOpen
+        });
     }
 
     handleModalToggle( component ){
-
-        const modalsize = component === "register" ? "big" : "medium";
-
-        this.props.update_modal_settings( {
-            "isOpen":true,
-            "title":component,
-            "component":component,
-            "size":modalsize
-        } )
-
+        const modalSize = component === "register" ? "big" : "medium";
+        this.props.update_modal_settings({
+            "isOpen": true,
+            "title": component,
+            "component": component,
+            "size": modalSize
+        });
     }
 
-    handleUpdateActivePanier( e ){
-        let new_panier_settings = _.cloneDeep(this.props.paniersSettings)
-        new_panier_settings.active_panier_id = e.target.value
-        this.props.update_settings_panier( new_panier_settings )
+    handleUpdateActivePanier(e){
+        let new_panier_settings = _.cloneDeep(this.props.paniersSettings);
+        new_panier_settings.active_panier_id = e.target.value;
+        this.props.update_settings_panier(new_panier_settings);
 
         this.props.add_alert({
             "status":"success",
@@ -110,81 +116,114 @@ class Header extends React.Component{
         }
     }
 
-    dropdownMenuHeader(){
+    dropdownDetailPanier(){
         const lotsInge = _.keys(this.props.newProduct.ingenieurie);
         const lotsTrav = _.keys(this.props.newProduct.travaux);
         const lotsPaniers = (lotsInge.length + lotsTrav.length);
 
         this.setState({
-            dropDownMenu: true,
-            countLots: lotsPaniers
+            countLots: lotsPaniers,
         });
     }
 
+    detailPanierToogle(){
+        const panierActive = this.props.paniersSettings.active_panier_id;
+        const detailPanier = this.props.paniers[panierActive];
+
+         if(detailPanier !== undefined){
+              return(
+                  <DropdownItem>
+                      <h6>{detailPanier.nicename}</h6>
+                      <span><b>Secteur d'intervention :</b></span>
+                      <p>{detailPanier.adresse}</p>
+                      {detailPanier.status === "not sended" ?
+                          <p style={{textAlign: "center"}}><Link className="btn-white" to={`/account/paniers/${panierActive}`}>Voir le panier</Link></p> : null
+                      }
+                  </DropdownItem>
+              )
+         } else {
+             return(
+                 <DropdownItem>
+                      <p>Aucun Panier actif pour le moment</p>
+                 </DropdownItem>
+             )
+         }
+    }
+
     render(){
+        console.log(this.props);
         return(
-            <div>
-                <header id="header-app">
-                    <Navbar light expand="md">
-                        <Link to="/" className="navbar-brand" style={{lineHeight:"1",display:"flex",alignItems:"center",padding:"0"}}>
-                            <img id="logo-app" src={Logo} alt="Logo Centralis"/>
-                        </Link>
-                        <NavbarToggler onClick={this.toggle} />
-                        <Collapse isOpen={this.state.isOpen} navbar>
-                            <Nav navbar>
+            <header id="header-app">
+                 <Navbar light expand="md">
+                      <Link to="/" className="navbar-brand" style={{lineHeight:"1",display:"flex",alignItems:"center",padding:"0"}}>
+                           <img id="logo-app" src={Logo} alt="Logo Centralis"/>
+                      </Link>
+                      <NavbarToggler onClick={this.toggle} />
+                      <Collapse isOpen={this.state.isOpen} navbar>
+                           <Nav navbar>
                                 <NavItem>
-                                    <Link to="/" className="nav-link">Catalogue</Link>
-                                </NavItem>
-                                {/*<NavItem>
-                                    <Link to="/about" className="nav-link">Présentation</Link>
-                                </NavItem>*/}
-                                <NavItem>
-                                    <Link to="/users" className="nav-link">Acheteurs</Link>
+                                     <Link to="/" className={this.props.routeProps.location.pathname === "/" ? "nav-link active" : "nav-link"}>Catalogue</Link>
                                 </NavItem>
                                 <NavItem>
-                                    <Link to="/suppliers" className="nav-link">Prestataires</Link>
+                                     <Link to="/about" className={this.props.routeProps.location.pathname === "/about" ? "nav-link active" : "nav-link"}>Présentation</Link>
                                 </NavItem>
                                 <NavItem>
-                                    <Link to="/telechargement" className="nav-link">Téléchargement</Link>
+                                     <Link to="/users" className={this.props.routeProps.location.pathname === "/users" ? "nav-link active" : "nav-link"}>Acheteurs</Link>
                                 </NavItem>
-                            </Nav>
-
-                                { this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false ?
-                                    <Nav className="ml-auto" navbar>
-                                        <NavItem>
-                                            <NavLink onClick={ ()=>{ this.handleModalToggle( 'register' ) } } className="nav-link">Inscription</NavLink>
-                                        </NavItem>
-                                        <NavItem>
-                                            <NavLink onClick={ ()=>{ this.handleModalToggle( 'login' ) } } className="nav-link">Connexion</NavLink>
-                                        </NavItem>
-                                        <NavItem>
-                                            <div onClick={ ()=>{ this.handleModalToggle( 'login' ) } } style={{marginLeft:"15px",width:"50px",height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}}>
-                                                <img height="auto" className="icon-nav" src={Panier} alt="Icon Panier"/>
-                                            </div>
-                                        </NavItem>
-                                    </Nav>
-                                    :
-                                    <Nav className="ml-auto" navbar>
-                                        <NavItem>
-                                            <Link to="/account/paniers" className="nav-link">{this.props.user.user_email}</Link>
-                                        </NavItem>
-                                        <NavItem>
-                                            <div onClick={ () => {this.dropdownMenuHeader() }} style={{width:"50px",height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}}>
-                                                <img height="auto" className="icon-nav" src={Panier} alt="Icon Panier"/>
-                                            </div>
-                                            <div id="dropdownMenu" className={this.state.dropDownMenu === true ? "dropdownMenuFade" : ""}>
-                                                {this.state.countLots}
-                                            </div>
-                                            {this.renderBullPaniers()}
-                                        </NavItem>
-                                    </Nav>
-                                }
-
-                        </Collapse>
-                    </Navbar>
-                </header>
-
-            </div>
+                                <NavItem>
+                                     <Link to="/suppliers" className={this.props.routeProps.location.pathname === "/suppliers" ? "nav-link active" : "nav-link"}>Prestataires</Link>
+                                </NavItem>
+                                <NavItem>
+                                     <Link to="/telechargement" className={this.props.routeProps.location.pathname === "/telechargement" ? "nav-link active" : "nav-link"}>Téléchargement</Link>
+                                </NavItem>
+                           </Nav>
+                           {this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false ?
+                               <Nav className="ml-auto" navbar>
+                                    <NavItem>
+                                         <NavLink onClick={()=>{ this.handleModalToggle('register')}} className="nav-link">Inscription</NavLink>
+                                    </NavItem>
+                                    <NavItem>
+                                         <NavLink onClick={()=>{ this.handleModalToggle('login')}} className="nav-link">Connexion</NavLink>
+                                    </NavItem>
+                                    <NavItem>
+                                         <div onClick={()=>{ this.handleModalToggle('login')}} style={{marginLeft:"15px", width:"50px", height:"100%", display:"flex", alignItems:"center", justifyContent:"center"}}>
+                                              <img height="auto" className="icon-nav" src={Panier} alt="Icon Panier"/>
+                                         </div>
+                                    </NavItem>
+                               </Nav>
+                               :
+                               <Nav className="ml-auto" navbar>
+                                    <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.toggle}>
+                                         <DropdownToggle nav caret>
+                                              {this.props.user.user_email}
+                                         </DropdownToggle>
+                                         <DropdownMenu right>
+                                              <DropdownItem>
+                                                   <Link to="/account/paniers">Mes paniers</Link>
+                                              </DropdownItem>
+                                              <DropdownItem disabled>Mon profil</DropdownItem>
+                                              <DropdownItem disabled>Gestion du mot de passe</DropdownItem>
+                                              <DropdownItem>
+                                                   <a onClick={ this.props.user_logout_action } href="javascript:void(0)">Déconnexion</a>
+                                              </DropdownItem>
+                                         </DropdownMenu>
+                                    </Dropdown>
+                                    <Dropdown nav isOpen={this.state.dropdownOpenPanier} toggle={this.togglePanier}>
+                                         <DropdownToggle nav>
+                                              <div style={{width:"40px",height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                                                   <img height="auto" className="icon-nav" src={Panier} alt="Icon Panier"/>
+                                                   {this.renderBullPaniers()}
+                                              </div>
+                                         </DropdownToggle>
+                                         <DropdownMenu right>
+                                              {this.detailPanierToogle()}
+                                         </DropdownMenu>
+                                    </Dropdown>
+                               </Nav>
+                           }
+                      </Collapse>
+                 </Navbar>
+            </header>
         )
     }
 
@@ -277,7 +316,8 @@ function mapStateToProps(state){
         "paniers":state.paniers,
         "paniersSettings":state.paniersSettings,
         "newProduct" : new_product,
-        "counterProduct": counterProduct
+        "counterProduct": counterProduct,
+         "alerts": state.alerts
     }
 }
 

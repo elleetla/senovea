@@ -188,12 +188,9 @@ class App extends React.Component {
                 :
                     <BrowserRouter>
                         <Route render={ ( routerProps ) =>{
-                            //console.log( "changin location" );
-                            //console.log( routerProps );
-                            //console.log( routerProps.location.key )
                             return(
                                 <div className="root-inside" onClick={this.handleOutsideModalClicks}>
-                                    <AppNav/>
+                                    <AppNav routeProps={routerProps}/>
                                     <TransitionGroup
                                     component={null}
                                     childFactory={(child)=>{
