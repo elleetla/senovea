@@ -307,32 +307,30 @@ function alertsReducer( state = alertsReducer_init, action ){
     }
 }
 
-<<<<<<< HEAD
+function orderReducer( state = [], action ) {
 
-function orderReducer( state = [], action ){
+     switch (action.type) {
 
-    switch( action.type ){
+          case GET_ORDER: {
+               console.log('get order reducer');
+               return action.payload
+          }
+          case POST_ORDER: {
+               console.log('post order reducer');
+               return action.payload
+          }
+          case PUT_ORDER: {
+               return state
+          }
+          case DELETE_ORDER: {
+               return state
+          }
+          default:
+               return state
 
-        case GET_ORDER:{
-            console.log('get order reducer');
-            return action.payload
-        }
-        case POST_ORDER:{
-            console.log('post order reducer');
-            return action.payload
-        }
-        case PUT_ORDER:{
-            return state
-        }
-        case DELETE_ORDER:{
-            return state
-        }
-        default:
-            return state
+     }
+}
 
-    }
-
-=======
 function deletePanier(state = {}, action){
     switch( action.type ){
         case DELETE_PANIER :{
@@ -341,7 +339,6 @@ function deletePanier(state = {}, action){
         default:
             return state;
     }
->>>>>>> julien
 }
 
 // export reducers
@@ -358,9 +355,6 @@ export const rootReducers = combineReducers({
     "users": callUsers,
     "suppliers" : reducerSuppliers,
     "alerts": alertsReducer,
-<<<<<<< HEAD
-    "orders":orderReducer
-=======
+    "orders":orderReducer,
     "deletePanier": deletePanier
->>>>>>> julien
 });

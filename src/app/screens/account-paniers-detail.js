@@ -30,14 +30,7 @@ class AccountPaniersDetail extends React.Component{
 
         this.setState({
             "orderLoading":true
-<<<<<<< HEAD
-        })
-        this.setState({
-            "orderLoading":false
-        })        
-=======
         });
->>>>>>> julien
 
         this.props.post_order( this.props.user.user_auth.auth_token , this.props.panier.id , ( order_panier_status ) =>{
             if( order_panier_status === "success" ){

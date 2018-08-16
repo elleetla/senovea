@@ -154,9 +154,11 @@ class Header extends React.Component{
                                 <NavItem>
                                      <Link to="/" className={this.props.routeProps.location.pathname === "/" ? "nav-link active" : "nav-link"}>Catalogue</Link>
                                 </NavItem>
+                                {/*
                                 <NavItem>
                                      <Link to="/about" className={this.props.routeProps.location.pathname === "/about" ? "nav-link active" : "nav-link"}>Présentation</Link>
                                 </NavItem>
+                                */}
                                 <NavItem>
                                      <Link to="/users" className={this.props.routeProps.location.pathname === "/users" ? "nav-link active" : "nav-link"}>Acheteurs</Link>
                                 </NavItem>
@@ -184,7 +186,7 @@ class Header extends React.Component{
                                :
                                <Nav className="ml-auto" navbar>
                                     <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                                         <DropdownToggle nav caret>
+                                         <DropdownToggle nav>
                                               {this.props.user.user_email}
                                          </DropdownToggle>
                                          <DropdownMenu right>
