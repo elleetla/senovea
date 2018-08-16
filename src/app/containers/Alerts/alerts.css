@@ -1,6 +1,7 @@
 .senovea-global-alert-wrap{
     position: fixed;
-    top: 0;
+    /*top: 0;*/
+    bottom:0;
     left: 0;
     width: 100%;
 }
@@ -9,7 +10,7 @@
     position: fixed;
     background-color: #24DBCF;
     align-items: center;
-    top: 0;
+    bottom: 0;
     color: #ffffff;
     left: 0;
     text-align: center;

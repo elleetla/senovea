@@ -112,7 +112,7 @@ export function user_register_action( user_infos, callback ){
 
     // Register a USER via wordpress API
     return function (dispatch) {
-        return axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v2/customer`, new_user_data, {
+        return axios.post(`${WORDPRESS_API_BASE_URL}/centralis/v2/controller/register`, new_user_data, {
             headers: {
                 'Content-Type': 'multipart/form-data' 
             }

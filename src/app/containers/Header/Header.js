@@ -141,7 +141,7 @@ class Header extends React.Component{
     }
 
     render(){
-        console.log("test", this.props);
+        //console.log("test", this.props);
         return(
             <header id="header-app">
                  <Navbar light expand="md">
@@ -220,7 +220,7 @@ class Header extends React.Component{
 }
 
 function mapStateToProps(state){
-
+/*
     // Good panier
     const the_panier_id = state.paniersSettings.active_panier_id;
     const the_panier = _.get( _.pick( state.paniers, [the_panier_id] ), the_panier_id, {} )
@@ -229,19 +229,19 @@ function mapStateToProps(state){
     const lots_mapKeys = _.mapKeys( the_panier.lots, ( lot ) => {
         return lot.panier_lot_id
     });
-    ////////console.log('mapStateToProps')
-    ////////console.log(lots_mapKeys)
+    //////////console.log('mapStateToProps')
+    //////////console.log(lots_mapKeys)
     const lots_mapValues = _.mapValues( lots_mapKeys, ( lot ) => {
         return _.map( lot.panier_lot_articles, ( article ) => {
             return article.panier_article_id
         })
     })
-    ////////console.log(lots_mapValues)
+    //////////console.log(lots_mapValues)
 
     // Filters Lots
     const lotsFiltered = _.mapValues( state.products, ( cat_val, cat_key ) => {
-        ////////console.log(cat_val)
-        ////////console.log( lots_mapValues )
+        //////////console.log(cat_val)
+        //////////console.log( lots_mapValues )
         const filtered = _.filter(cat_val, (lot_val,lot_key)=>{
             return _.has(lots_mapValues, lot_key)
         })
@@ -300,14 +300,14 @@ function mapStateToProps(state){
             }
         }
     }
-
+*/
     return {
         "user":state.user,
         "paniers":state.paniers,
         "paniersSettings":state.paniersSettings,
-        "newProduct" : new_product,
-        "counterProduct": counterProduct,
-         "alerts": state.alerts
+        //"newProduct" : new_product,
+        //"counterProduct": counterProduct,
+        "alerts": state.alerts
     }
 }
 

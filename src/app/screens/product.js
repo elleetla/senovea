@@ -194,9 +194,9 @@ class Product extends React.Component{
                 <Row>
                     <Col md="2">
                         <p>Réf : <b> 
-                        { 
+                        {/*  { 
                             `${this.props.product_value.attributes[0].attr_value[0]}.${this.props.product_value.attributes[1].attr_value[0]}.${this.props.product_value.attributes[2].attr_value[0]}.${this.props.product_value.attributes[3].attr_value[0]}.${this.props.product_value.attributes[5].attr_value[0]}`
-                        } 
+                         } */}
                         </b> </p>
                     </Col>
 
