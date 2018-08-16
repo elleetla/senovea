@@ -22,7 +22,7 @@ class Home extends Component{
         this.state = {
             collapse: false,
             isSticky: true
-        }
+        };
 
         this.toggle = this.toggle.bind(this);
     }
@@ -30,10 +30,6 @@ class Home extends Component{
         this.setState({ collapse: !this.state.collapse });
     }
     render() {
-
-        //console.log("HOME")
-        //console.log(this);
-
         return(
             <div>
                 <Banner

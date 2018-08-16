@@ -7,7 +7,7 @@
     "webpack_build_prod": "webpack --config webpack.prod.js",
     "webpack_build_dev": "webpack --config webpack.dev.js",
     "webpack_start_prod": "webpack-dev-server --open --config webpack.prod.js",
-    "webpack_start_dev": "webpack-dev-server --open --config webpack.dev.js"
+    "start:dev": "webpack-dev-server --open --config webpack.dev.js"
   },
   "author": "",
   "license": "ISC",
@@ -20,6 +20,7 @@
     "crypto-js": "^3.1.9-1",
     "cryptojs": "^2.5.3",
     "cryptojslib": "^3.1.2",
+    "emotion": "^9.2.6",
     "express": "^4.16.3",
     "gsap": "^1.20.6",
     "jquery": "^3.3.1",

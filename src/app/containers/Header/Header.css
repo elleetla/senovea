@@ -9,11 +9,29 @@
     display: inline-block;
     font-size: 14px;
     cursor: pointer;
+    transition-duration: 0s;
     position: relative;
 }
 
+#header-app .navbar .navbar-nav .active{
+    border-bottom: 3px solid #24DBCF;
+    transition-duration: 0s;
+}
+
+#header-app .dropdown-item{
+    font-size: 14px;
+}
+
 #header-app .navbar{
-    padding: 1rem;
+    padding: 0 1rem;
+}
+
+#header-app .navbar-expand-md .navbar-nav .nav-link {
+    padding: 1.5rem 0;
+}
+
+#header-app .navbar .navbar-nav li.nav-item {
+    padding: 0 0.6rem;
 }
 
 #logo-app {
@@ -28,7 +46,7 @@
 
 .counter-panier {
     position: absolute;
-    top: 0;
+    top: 14px;
     right: 0;
     background: #24dbcf;
     height: 18px;
@@ -38,6 +56,28 @@
     width: 18px;
     text-align: center;
     border-radius: 70px;
+}
+
+#dropdownMenu {
+    opacity: 0;
+    height: 100px;
+    background-color: #ffffff;
+    max-width: 240px;
+    position: absolute;
+    right: 0;
+    top: 50px;
+    display: none;
+    z-index: 5;
+    border-radius: 6px;
+    border: 1px solid #E0E3E5;
+    min-width: 240px;
+    box-shadow: 0px 0px 18px rgba(0, 0, 0, 0.06);
+}
+
+.dropdownMenuFade{
+    opacity: 1 !important;
+    transition-duration: 0.5s;
+    transition-delay: 0.2s;
 }
 
 .navbar-light .navbar-toggler{

@@ -69,11 +69,6 @@ class Products extends Component{
                                 :
                                 <Container>
                                 <Row>
-                                    <Col md="12">
-                                        <p>Tous les <strong>lots</strong> pour l'arrondissement: <strong>{this.props.user.user_arrondissement}</strong></p>
-                                    </Col>
-                                </Row>
-                                <Row>
                                     { _.map(this.props.products, (categories_values, categories_keys) => {
 
                                         ////console.log(categories_keys)
@@ -81,9 +76,7 @@ class Products extends Component{
 
                                         return(
                                             <Col md="12" key={categories_keys}>
-                                                {/*<h1>{categories_keys}</h1>*/}
                                                 { _.map( categories_values, ( lots_values, lots_keys ) => {
-                                                    //console.log(lots_values)
                                                     return(
                                                         <div key={lots_keys}>
 

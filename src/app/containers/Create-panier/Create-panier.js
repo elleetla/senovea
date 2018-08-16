@@ -77,17 +77,17 @@ class CreatePanier extends Component{
     }
     /*handleCreatePanierSubmit(Formprops){
         ////console.log(Formprops)
-        // handlePanierCreation 
+        // handlePanierCreation
         const user_id = this.props.user.user_id;
         this.props.add_panier(Formprops, user_id, ( status, new_panier_id )=>{
             this.handleToggleModalCreatePanier();
             if( status === "success" ){
                 //this.handleUpdateActivePanier(new_panier_id);
-                // Ici on met le nouveau panier en panier actif 
+                // Ici on met le nouveau panier en panier actif
                 let new_panier_settings = _.cloneDeep(this.props.paniersSettings)
                 new_panier_settings.active_panier_id = new_panier_id
                 this.props.update_settings_panier(new_panier_settings);
-            } 
+            }
         });
     }*/
     render(){
@@ -98,27 +98,29 @@ class CreatePanier extends Component{
                 <div id="nav-create-panier">
                     <Container>
                         <Row>
-                            <Col lg="8">
+                            <Col lg="7">
 
                             {
                                 this.props.paniers.length !== 0 ?
-                                <FormGroup style={{margin: "0px"}} >
+                                <FormGroup style={{margin: "0px"}}>
                                     <Input type="select" onChange={this.handleUpdateActivePanier} value={this.props.paniersSettings.active_panier_id} name="select_panier" id="select_panier">
                                         {_.map(this.props.paniers, (panier, i) => {
                                             return(
                                                 <option key={i} id={i} value={i}>{panier.nicename}</option>
                                             )
-                                        })}
+                                        }) }
                                     </Input>
                                 </FormGroup>
                                 :
-                                <p><b>Vous n’avez pas encore de panier</b></p>
+                                <p>
+                                    <b>Vous n’avez pas encore de panier</b>
+                                </p>
                             }
 
                             </Col>
 
-                            <Col lg="4" className="text-right">
-                                <button onClick={this.handleToggleModalCreatePanier} className="btn-white btn btn-secondary">CRÉER UN NOUVEAU PANIER</button>
+                            <Col lg="5" className="text-right">
+                                <button onClick={this.handleToggleModalCreatePanier} className="btn-white btn btn-secondary">{this.props.paniers.length === 0 ? "CRÉER UN PANIER" : "CRÉER UN NOUVEAU PANIER"}</button>
                             </Col>
                         </Row>
                     </Container>

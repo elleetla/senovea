@@ -1,18 +1,21 @@
 .senovea-global-alert-wrap{
     position: fixed;
-    bottom: 15px;
-    left: 15px;
-    right: 15px;
-    max-width: 500px;
+    top: 0;
+    left: 0;
+    width: 100%;
 }
 .senovea-global-alert-wrap .alert{
     margin-bottom:0px;
     position: fixed;
-    bottom: 15px;
-    left: 15px;
-    right: 15px;
-    max-width: 350px;
-    box-shadow: 0 15px 35px rgba(50,50,93,.1), 0 5px 15px rgba(0,0,0,.07);
+    background-color: #24DBCF;
+    align-items: center;
+    top: 0;
+    color: #ffffff;
+    left: 0;
+    text-align: center;
+    border-radius: 0;
+    border: 0px;
+    width: 100%;
 }
 .senovea-global-alert-wrap .alert .senovea-global-alert-close{
     position: absolute;

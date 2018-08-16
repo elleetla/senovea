@@ -124,6 +124,7 @@ button:focus {
     text-transform: uppercase;
     width: 100%;
     display: block;
+    text-align: center;
     border: 0;
     border-radius: 4px;
     color: #ffffff;
@@ -169,7 +170,7 @@ button:focus {
 }
 
 .bloc-lot {
-    margin-bottom: 25px;
+    margin-bottom: 30px;
 }
 
 /* cookies notice */
@@ -219,4 +220,63 @@ button:focus {
     font-size: 22px;
     color: #17D5C8;
     font-weight: 500; 
+}
+
+/* page détail panier */
+
+.section-infos-detail-panier{
+    padding: 16px 0;
+    background: linear-gradient(to right, rgba(130, 140, 236, 100), rgba(75, 89, 224, 100));
+    margin-bottom: 30px;
+    color: #ffffff;
+    font-weight: lighter;
+}
+
+.section-infos-detail-panier b{
+    color: #ffffff;
+}
+
+.section-infos-detail-panier .row{
+    align-items: center;
+}
+
+.date-detail-panier{
+    font-size: 21px;
+}
+
+.title-infos-detail-panier {
+    text-align: center;
+    margin-bottom: 0;
+    font-size: 22px;
+ }
+/* panier */
+
+.bloc-panier{
+    background-color: #ffffff;
+}
+
+.header-bloc-panier {
+    padding: 30px 15px;
+}
+
+.statut-panier {
+    color: #ffffff;
+    background: #6B77E7;
+    margin-right: 16px;
+    font-size: 10px;
+    border-radius: 30px;
+    -webkit-border-radius: 30px;
+    -moz-border-radius: 30px;
+    padding: 6px 10px;
+    text-transform: uppercase;
+}
+
+.count-lots-panier{
+    font-size: 20px;
+}
+
+.bloc-panier button.btn-green {
+    width: 160px;
+    padding: 10px 10px;
+    font-size: 12px;
 }

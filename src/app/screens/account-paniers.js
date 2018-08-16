@@ -1,108 +1,144 @@
-import React from "react";
+import React, {Component} from "react";
 import Account from "./account";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Card, Button, CardHeader, CardFooter, CardBody, CardTitle, CardText,Badge } from 'reactstrap';
-import { Link } from "react-router-dom"
-import _ from "lodash"
-class AccountPaniers extends React.Component{
+import { Row, Col, Container, Collapse } from 'reactstrap';
+import { Link } from "react-router-dom";
+import _ from "lodash";
+import {delete_panier} from "../actions";
+import moment from "moment/moment";
 
-    renderPanierStatus( status ){
+const statutPanier = {
+     "statut1": "À validé",
+     "statut2": "En cours",
+     "statut3": "Accepté",
+     "statut4": "Refusé"
+};
 
-        switch( status ){
-            case"not sended":{
-                return <Badge color="warning"> {status} </Badge>
-            }
-            default:
-                return <Badge color="info"> No status </Badge>
-        }
-    }
+class AccountPaniers extends Component{
 
-    render(){
-        //console.log(this)
-        return(
-            <Account>
-                {
-                    _.isEmpty(this.props.paniers) ? 
-                    <div>
-                        <h3>Il n'y a aucun panier lié à votre compte</h3>
-                        <button>Créer un panier</button>
-                    </div>
-                    :
-                    <div>
-                        { 
-                            _.map( this.props.paniers, (panier) => {
+     constructor(props){
+          super(props);
+          this.toggle = this.toggle.bind(this);
+          this.state = { collapse: false };
+     }
 
-                                //console.log(panier)
-                                return (
-                                        <Card key={panier.id} style={{marginBottom:"15px"}}>
-                                                <CardHeader>
+     renderPanierStatut(statut){
+          switch (statut){
+               case "À validé": {
+                    return <span className="statut-panier">À validé</span>
+               }
+               case "En cours": {
+                    return <span className="statut-panier">En cours</span>
+               }
+               case "Accepté": {
+                    return <span className="statut-panier">Accepté</span>
+               }
+               case "Refusé": {
+                    return <span className="statut-panier">Refusé</span>
+               }
+               default:
+                    return null
+          }
+     }
 
-                                                    {this.renderPanierStatus(panier.status)}
-                                                
-                                                </CardHeader>
-                                                <CardBody style={{padding:"25px",borderTop:"none"}}>
-                                                    <CardTitle>{panier.nicename}</CardTitle>
-                                                    <hr/>
-                                                    <div>
-                                                        <div>
-                                                        <h4>Panier Lots:</h4>
-                                                        </div>
-                                                        <div>
-                                                            {
-                                                                _.isEmpty( panier.lots ) || panier.lots === false ? 
-                                                                <div> lots empty </div>
+     detailPanier(statut, id){
+          if(statut === statutPanier.statut2){
+               return(
+                   <Link to={{ pathname: `/account/paniers/${id}`}}>
+                        <button className="btn-green">Valider le panier</button>
+                   </Link>
+               )
+          } else{
+               return(
+                   <button className="btn-green" onClick={this.toggle}>+ d'infos</button>
+               )
+          }
+     }
+
+     toggle() {
+          this.setState({ collapse: !this.state.collapse });
+     }
+
+     render(){
+          return(
+              <Account>
+                   {_.isEmpty(this.props.paniers) ?
+                       <div style={{textAlign: "center"}}>
+                            <h3>Il n'y a aucun panier lié à votre compte</h3>
+                       </div>
+                       :
+                       _.map( this.props.paniers, (panier) => {
+                            return (
+                                <div key={panier.id} className="bloc-panier" style={{marginBottom:"15px"}}>
+                                     <div className="header-bloc-panier">
+                                          <Container>
+                                               <Row style={{marginBottom: "30px"}}>
+                                                    <Col md={5}>
+                                                         {this.renderPanierStatut(statutPanier.statut2)}
+                                                         {this.props.paniers !== 0 ?
+                                                             <span>Panier du <b>{moment(panier.panier_date_created).locale('fr').format('L')}</b></span> : null
+                                                         }
+                                                    </Col>
+                                                    <Col md={7}>
+                                                         <h3 style={{fontSize: "22px", textAlign: "right"}}>{panier.nicename}</h3>
+                                                    </Col>
+                                               </Row>
+                                               <Row>
+                                                    <Col sm={6}>
+                                                         { _.map( panier.lots, (lot) => {
+                                                              return(
+                                                                  <p className="count-lots-panier" key={lot.panier_lot_id}>
+                                                                       <b>{lot.panier_lot_articles.length}</b> {lot.panier_lot_articles.length > 1 ? "articles" : "article"}
+                                                                  </p>
+                                                              )
+                                                         })}
+                                                    </Col>
+                                                    <Col sm={6}>
+                                                         <p className="text-right">{this.detailPanier(statutPanier.statut3, panier.id)}</p>
+                                                    </Col>
+                                               </Row>
+                                          </Container>
+                                     </div>
+                                     { _.isEmpty( panier.lots ) || panier.lots === false ?
+                                         <p>Il n'y a aucun lot associé à ce panier</p>
+                                         :
+                                         _.map( panier.lots, (lot) => {
+                                              return(
+                                                  <Collapse isOpen={this.state.collapse} key={`${panier.id}_${lot.panier_lot_id}`}>
+                                                       <ul style={{margin: 0}}>
+                                                            {_.isEmpty( lot.panier_lot_articles ) || lot.panier_lot_articles === false ?
+                                                                <li><div> Articles empty </div></li>
                                                                 :
-                                                                _.map( panier.lots, (lot) => {
-                                                                    return(
-                                                                        <div key={`${panier.id}_${lot.panier_lot_id}`}>
-                                                                        <ul>
-                                                                        <li><div> <strong>lot id :</strong>  {lot.panier_lot_id}</div></li>
-                                                                        <li><div> <strong>lot status :</strong> {lot.panier_lot_status} </div></li>
-                                                                        <li><div> <strong>lot articles :</strong> </div></li>
-                                                                        <ul>
-                                                                        {
-                                                                            _.isEmpty( lot.panier_lot_articles ) || lot.panier_lot_articles === false ? 
-                                                                            <li><div> Articles empty </div></li>
-                                                                            :
-                                                                            _.map( lot.panier_lot_articles, (article, i) => {
-                                                                                return <li key={`${panier.id}_${lot.panier_lot_id}_${article.panier_article_id}_${i}`}><div> <strong>Article ID :</strong> {article.panier_article_id} </div></li>
-                                                                            } )
-                                                                        }
-                                                                        </ul>
-                                                                        </ul>
-                                                                        </div>
-                                                                    )
-                                                                } )
+                                                                _.map( lot.panier_lot_articles, (article, i) => {
+                                                                     return <li key={`${panier.id}_${lot.panier_lot_id}_${article.panier_article_id}_${i}`}><div> <strong>Article ID :</strong> {article.panier_article_id} </div></li>
+                                                                })
                                                             }
-                                                        </div>
-                                                    </div>
-                                                    <hr/>
-                                                    <Link to={{ pathname: `/account/paniers/${panier.id}` }}> <Button>Voir le panier</Button> </Link>
-                                                </CardBody>
-                                            <CardFooter>id : {panier.id}</CardFooter>
-                                        </Card>
-                                )
-
-                            })
-                        }
-                    </div>
-                }
-            </Account>
-        )
-    }
-
+                                                       </ul>
+                                                  </Collapse>
+                                              )
+                                         })
+                                     }
+                                </div>
+                            )
+                       })
+                   }
+              </Account>
+          )
+     }
 }
 
 function mapStateToProps(state){
-    return {
-        "paniers":state.paniers
-    }
+     return {
+          "paniers":state.paniers,
+          "deletePanier": state.deletePanier
+     }
 }
 
 function mapDispatchToProps(dispatch){
-    return bindActionCreators({
-    },dispatch)
+     return bindActionCreators({
+          deletePanier: delete_panier()
+     },dispatch)
 }
 
 

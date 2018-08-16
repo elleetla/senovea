@@ -14,11 +14,9 @@ import "./alerts.css"
 class Alerts extends React.Component{
 
     constructor(props){
-        super(props)
-
-        this.renderAlertColor = this.renderAlertColor.bind(this)
-        //this.handleTriggerAlert = this.handleTriggerAlert.bind(this)
-        this.handleRemoveAlert = this.handleRemoveAlert.bind(this)
+        super(props);
+        this.renderAlertColor = this.renderAlertColor.bind(this);
+        this.handleRemoveAlert = this.handleRemoveAlert.bind(this);
     }
 
     renderAlertColor( status ){
@@ -39,14 +37,6 @@ class Alerts extends React.Component{
                 return "primary";
         }
     }
-
-    /*handleTriggerAlert(){
-        const new_alert = {
-            "status":"error",
-            "content":"Erreur lors de la connexion, bla bla bla bla v bla bla bla"
-        }
-        this.props.add_alert(new_alert)
-    }*/
 
     handleRemoveAlert(){
         this.props.remove_alert()
@@ -100,9 +90,11 @@ class Alerts extends React.Component{
                                     >
                                         <Alert color={this.renderAlertColor(alert.status)}>
                                             <div>
-                                                <strong>
-                                                { alert.status }:
-                                                </strong>
+                                                { alert.status === "success" ?
+                                                    <strong>Succès</strong>
+                                                    :
+                                                    <strong>Message</strong>
+                                                }
                                             </div>
                                             <div dangerouslySetInnerHTML={{__html: alert.content}}>
                                             </div>
