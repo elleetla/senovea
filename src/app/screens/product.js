@@ -73,27 +73,78 @@ class Product extends React.Component{
 
     handleAddToPanier( e, product_id ){
 
-        const lot_id = e.target.getAttribute('data-lotkey')
-        const user_id = this.props.user.user_id
-        const panier_id = this.props.paniersSettings.active_panier_id;
+        // vars 
+
+        const the_panier_id = this.props.paniersSettings.active_panier_id;
+        const the_panier = this.props.paniers[the_panier_id];
+        const the_lot_id = e.target.getAttribute('data-lotkey');
+        const the_product_id = ''+product_id;
+
+        console.log(the_lot_id)
+        console.log(the_product_id)
+
+        // ajouter item
+        
+        let the_new_panier = _.cloneDeep( the_panier );
+
+        if( the_new_panier.lots === false ){
+
+            the_new_panier.lots = []
+
+            let new_lot = {
+                'panier_lot_articles':[],
+                'panier_lot_id':the_lot_id,
+                'panier_lot_status':'not sended'
+            }
+
+            new_lot.panier_lot_articles.push( {'panier_article_id':the_product_id} )
+        
+            the_new_panier.lots.push( new_lot )
+
+        }else{
+
+            const the_lot_ids = _.map( the_new_panier.lots, ( lot ) => {
+                return lot.panier_lot_id
+            } )
+    
+            if( _.includes( the_lot_ids , the_lot_id) ){
+                // update 
+                _.each( the_new_panier.lots, ( lot ) => {
+                    if( parseInt( lot.panier_lot_id ) === parseInt( the_lot_id ) ){
+                        lot.panier_lot_articles.push( { 'panier_article_id':the_product_id } )
+                    }
+                } )
+            }else{
+                // create
+                the_new_panier.lots.push( { 
+                    'panier_lot_articles':[{'panier_article_id':the_product_id}],
+                    'panier_lot_id':the_lot_id,
+                    'panier_lot_status':'not sended'
+                 } )
+            }
+    
+        }
+
+        //console.log( the_new_panier );
+
+        const panier_update = {
+            "id":the_panier_id,
+            "lots":the_new_panier.lots
+        }
+
+        // Ici on update le panier
+        
+        this.props.update_panier( panier_update , this.props.user.user_auth.auth_token , ( status ) => {
+
+            console.log( status );
+
+        } );
 
 
-
-        this.props.add_product_to_panier( user_id, panier_id, product_id, lot_id, ( status ) => {
+        /*this.props.add_product_to_panier( user_id, panier_id, product_id, lot_id, ( status ) => {
             //////console.log(status)
-
             //console.log(this.props.paniers)
-
             if(status === "success"){
-
-                /*
-                this.props.add_alert({
-                    "status":"success",
-                    "content":`<strong>nom du produit</strong>, ajouté au panier ${this.props.panier[panier_id]}`
-                })
-                */
-
-                
                 this.setState({
                     isLoading:false
                 })
@@ -101,17 +152,13 @@ class Product extends React.Component{
                     "status":"success",
                     "content":`Le produit <strong>#${product_id}</strong> a été ajouté au panier: <strong>${this.props.paniers[panier_id].nicename}</strong>`
                 })
-
-
             }else{
                 this.props.add_alert({
                     "status":"error",
                     "content":`Erreur lors de l'ajout de <strong>nom du produit</strong> dans le panier ${this.props.paniers[panier_id].nicename}`
                 })
             }
-
-
-        } )
+        } )*/
 
     }
 

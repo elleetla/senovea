@@ -71,7 +71,7 @@ class Alerts extends React.Component{
                                     let tl = new TimelineLite();
                                     //TweenMax.fromTo( el, .5, { y: 15, opacity: 0, ease: Expo.easeOut }, { y: 0, opacity: 1, ease: Expo.easeOut } )
                                     tl.fromTo( el, .5, { y: 15, opacity: 0, ease: Expo.easeOut }, { y: 0, opacity: 1, ease: Expo.easeOut } )
-                                    tl.fromTo( el, 1, { y: 0, opacity: 1, ease: Expo.easeOut }, { y: -50, opacity: 0, ease: Expo.easeOut }, 5 )
+                                    tl.fromTo( el, .3, { y: 0, opacity: 1, ease: Expo.easeOut }, { y: 0, opacity: 0, ease: Expo.easeOut }, 5 )
 
                                 },
                                 onExit:(el, isAppearing)=>{
@@ -83,7 +83,7 @@ class Alerts extends React.Component{
 
                                     parseInt(el0pacity) === 0 ?
                                     null:
-                                    TweenMax.fromTo( el, 1, { y: 0, opacity: 1, ease: Expo.easeOut }, { y: -50, opacity: 0, ease: Expo.easeOut } )
+                                    TweenMax.fromTo( el, .3, { y: 0, opacity: 1, ease: Expo.easeOut }, { y: 0, opacity: 0, ease: Expo.easeOut } )
 
                                 }
                             })

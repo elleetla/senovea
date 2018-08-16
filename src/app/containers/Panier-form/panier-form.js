@@ -81,7 +81,8 @@ class PanierForm extends React.Component{
         ////console.log(Formprops)
         // handlePanierCreation 
         const user_id = this.props.user.user_id;
-        this.props.add_panier(Formprops, user_id, ( status, new_panier_id )=>{
+        const user_token = this.props.user.user_auth.auth_token;
+        this.props.add_panier(Formprops, user_token, ( status, new_panier_id )=>{
 
             //this.handleToggleModalCreatePanier();
             if( status === "success" ){
@@ -124,8 +125,6 @@ class PanierForm extends React.Component{
             } 
 
         });
-
-
     }
 
     render(){

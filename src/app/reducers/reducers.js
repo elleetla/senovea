@@ -31,6 +31,11 @@ import { UPDATE_MODAL_SETTINGS } from "../actions/index"
 import { ADD_ALERT } from "../actions/index"
 import { REMOVE_ALERT } from "../actions/index"
 
+import { GET_ORDER } from "../actions/index"
+import { POST_ORDER } from "../actions/index"
+import { PUT_ORDER } from "../actions/index"
+import { DELETE_ORDER } from "../actions/index"
+
 import _ from 'lodash'
 
 // suppliers 
@@ -213,7 +218,9 @@ function panierReducer( state = [], action ){
             return state
         }
         case UPDATE_PANIER:{
-            return state
+            console.log('update panier reducer')
+            //console.log( action.payload)
+            return action.payload
         }
         default:
             return state
@@ -299,6 +306,32 @@ function alertsReducer( state = alertsReducer_init, action ){
     }
 }
 
+
+function orderReducer( state = [], action ){
+
+    switch( action.type ){
+
+        case GET_ORDER:{
+            console.log('get order reducer');
+            return action.payload
+        }
+        case POST_ORDER:{
+            console.log('post order reducer');
+            return action.payload
+        }
+        case PUT_ORDER:{
+            return state
+        }
+        case DELETE_ORDER:{
+            return state
+        }
+        default:
+            return state
+
+    }
+
+}
+
 // export reducers
 export const rootReducers = combineReducers({
     "user"      :userReducer,
@@ -312,5 +345,6 @@ export const rootReducers = combineReducers({
     "modalSettings":modalSettingsReducer,
     "users": callUsers,
     "suppliers" : reducerSuppliers,
-    "alerts": alertsReducer
+    "alerts": alertsReducer,
+    "orders":orderReducer
 });

@@ -19,8 +19,8 @@ import { add_alert } from "../actions/index"
 
 // Fields
 const renderTextField = ( field ) => {
-    console.log("renderTextField")
-    console.log(field)
+    //console.log("renderTextField")
+    //console.log(field)
 
     let formFeedback = ""
     let invalidValue = false;
@@ -74,8 +74,8 @@ class LogIn extends React.Component{
 
         this.setState({"loadingBtn":true})
         
-        console.log( "handleSubmit" );
-        console.log( form_props );
+        //console.log( "handleSubmit" );
+        //console.log( form_props );
 
         // Calling login action
         this.props.user_auth_action(form_props,(status)=>{
@@ -84,42 +84,45 @@ class LogIn extends React.Component{
                 // Si c'est le cas on load les paniers
                 // & On load les products 
 
-                this.props.call_product(this.props.user.user_arrondissement, (products_status)=>{
-
+                this.props.call_product( this.props.user.user_auth.auth_token, this.props.user.user_arrondissement, (products_status)=>{
 
                     if( products_status === "success" ){
-
-
-                        this.props.load_panier(this.props.user.user_id, (panier_status)=>{                
-                            // On update le panier actif 
-                            // Par le dernier panier updaté
-                            if( panier_status === "success" ){
-                                let new_panier_settings = _.cloneDeep(this.props.paniersSettings)
-                                new_panier_settings.active_panier_id = _.findLastKey(this.props.paniers)
-                                this.props.update_settings_panier(new_panier_settings);
-        
-                                this.props.add_alert({
-                                    "status":"success",
-                                    "content":`Connexion de ${this.props.user.user_email}`
-                                })
-                            }else{
-                                this.props.add_alert({
-                                    "status":"error",
-                                    "content":`Erreur lors du chargement des paniers de ${this.props.user.user_email}`
-                                })
-                            }
+                        this.props.add_alert({
+                            "status":"success",
+                            "content":`Récupération des prestations.`
                         })
-        
-
                     }else{
-
                         this.props.add_alert({
                             "status":"error",
                             "content":`Erreur lors du chargement des prestations.`
                         })
-
                     }
 
+                })
+
+                this.props.load_panier( this.props.user.user_auth.auth_token , (panier_status)=>{                
+                    // On update le panier actif 
+                    // Par le dernier panier updaté
+                    if( panier_status === "success" ){
+                        let new_panier_settings = _.cloneDeep(this.props.paniersSettings)
+                        new_panier_settings.active_panier_id = _.findLastKey(this.props.paniers)
+                        this.props.update_settings_panier(new_panier_settings);
+
+                        this.props.add_alert({
+                            "status":"success",
+                            "content":`Récupération des paniers de ${this.props.user.user_email}`
+                        })
+                    }else{
+                        this.props.add_alert({
+                            "status":"error",
+                            "content":`Erreur lors du chargement des paniers de ${this.props.user.user_email}`
+                        })
+                    }
+                })
+
+                this.props.add_alert({
+                    "status":"success",
+                    "content":`Connexion de ${this.props.user.user_email}`
                 })
 
                 // stop load 
@@ -151,7 +154,7 @@ class LogIn extends React.Component{
     }
 
     render(){
-        console.log(this);
+        //console.log(this);
         return(
             <Row>
                 <Col md="12">

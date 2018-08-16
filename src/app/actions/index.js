@@ -1,206 +1,24 @@
 import axios from 'axios'
 import { WORDPRESS_API_BASE_URL } from '../../../config/config-api'
 
-////console.log("API BASE");
-////console.log(WORDPRESS_API_BASE_URL);
-
-// ACTIONS TYPES 
-
-// user actions types //
-export const USER_LOAD                = 'USER_LOAD';
-export const USER_REGISTER            = 'USER_REGISTER';
-export const USER_AUTH                = 'USER_AUTH';
-export const USER_UPDATE              = 'USER_UPDATE';
+/**
+ * API - ACTION CREATORS
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
+        
+// Customers
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+export const CALL_USERS = "CALL_USERS";
+export const USER_LOAD = 'USER_LOAD';
+export const USER_REGISTER = 'USER_REGISTER';
+export const USER_AUTH = 'USER_AUTH';
+export const USER_UPDATE = 'USER_UPDATE';
 export const USER_RESET = "USER_RESET"
 
-
-export const SUPPLIER_ORDER_ACCEPT    = 'SUPPLIER_ORDER_ACCEPT';
-export const SUPPLIER_ORDER_REJECT    = 'SUPPLIER_ORDER_REJECT';
-export const CALL_PRODUCTS            = 'CALL_PRODUCTS';
-export const ORDER_PRODUCT            = 'ORDER_PRODUCT';
-
-export const SUPPLIER_ORDER_ACCEPT_V2 = 'SUPPLIER_ORDER_ACCEPT_V2';
-export const SUPPLIER_ORDER_REJECT_V2 = 'SUPPLIER_ORDER_REJECT_V2';
-
-export const ADD_PANIER = "ADD_PANIER"
-export const LOAD_PANIER = "LOAD_PANIER"
-export const DELETE_PANIER = "DELETE_PANIER"
-export const UPDATE_PANIER = "UPDATE_PANIER"
-export const UPDATE_SETTINGS_PANIER = "UPDATE_SETTINGS_PANIER"
-export const ADD_PRODUCT_TO_PANIER = "ADD_PRODUCT_TO_PANIER"
-export const ORDER_PANIER = "ORDER_PANIER"
-
-export const CALL_USERS = "CALL_USERS";
-export const CALL_SUPPLIERS = "CALL_SUPPLIERS";
-
-export const FILTERS_SUPPLIERS = "FILTERS_SUPPLIERS";
-
-export const UPDATE_APP_SETTINGS = "UPDATE_APP_SETTINGS"
-export const UPDATE_MODAL_SETTINGS = "UPDATE_MODAL_SETTINGS"
-
-
-export const ADD_ALERT = "ADD_ALERT"
-export const REMOVE_ALERT = "REMOVE_ALERT"
-
-// ACTIONS CREATORS
-
-// supplier accept v2
-
-export function supplier_order_accept_v2( order_id, product_id, supplier_id, customer_id, mc_campaign_id, mc_email_id, callback ) {
-    
-    /*
-    ////console.log("order id")
-    ////console.log(order_id)
-    
-    ////console.log("product id")
-    ////console.log(product_id)
-
-    ////console.log("supplier id")
-    ////console.log(supplier_id)
-
-    ////console.log("customer id")
-    ////console.log(customer_id)
-
-    ////console.log("mc_campaign id")
-    ////console.log(mc_campaign_id)
-
-    ////console.log("mc_email id")
-    ////console.log(mc_email_id)
-    */
-
-    const order_accept_form_data = new FormData();
-
-    order_accept_form_data.append('order_id',parseInt(order_id))
-    order_accept_form_data.append('product_id',parseInt(product_id))
-    order_accept_form_data.append('supplier_id',parseInt(supplier_id))
-    order_accept_form_data.append('customer_id',parseInt(customer_id))
-    order_accept_form_data.append('mc_campaign_id',mc_campaign_id)
-    order_accept_form_data.append('mc_email_id',mc_email_id)
-
-    return function (dispatch) {
-        axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v2/order/accept`, order_accept_form_data, {})
-        .then(function (response) {
-            console.log('ok accept')
-            console.log(response)
-            dispatch({
-                "type":SUPPLIER_ORDER_ACCEPT_V2,
-                "payload":{}
-            })
-
-            response.data.status === "error" ? 
-            callback('already')
-            :
-            callback('success')
-
-        }).catch(function (error) {
-            callback('error')
-            ////console.log('accept ko')
-            ////console.log(error.message)
-        });
-    }
-}
-
-// supplier reject v2
-export function supplier_order_reject_v2( order_id, product_id, supplier_id, customer_id, mc_campaign_id, mc_email_id, callback ) {
-    
-    /*
-    ////console.log("order id")
-    ////console.log(order_id)
-    
-    ////console.log("product id")
-    ////console.log(product_id)
-
-    ////console.log("supplier id")
-    ////console.log(supplier_id)
-
-    ////console.log("customer id")
-    ////console.log(customer_id)
-
-    ////console.log("mc_campaign id")
-    ////console.log(mc_campaign_id)
-
-    ////console.log("mc_email id")
-    ////console.log(mc_email_id)
-    */
-
-    const order_reject_form_data = new FormData();
-
-    order_reject_form_data.append('order_id', parseInt(order_id))
-    order_reject_form_data.append('product_id', parseInt(product_id))
-    order_reject_form_data.append('supplier_id', parseInt(supplier_id))
-    order_reject_form_data.append('customer_id', parseInt(customer_id))
-    order_reject_form_data.append('mc_campaign_id', mc_campaign_id)
-    order_reject_form_data.append('mc_email_id', mc_email_id)
-
-    return function (dispatch) {
-        axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v2/order/reject`, order_reject_form_data, {})
-        .then(function (response) {
-            console.log('ok reject')
-            console.log(response)
-            dispatch({
-                "type":SUPPLIER_ORDER_REJECT_V2,
-                "payload":{}
-            })
-
-            response.data.status === "error" ? 
-                callback('already')
-                :
-                callback('success')
-
-        }).catch(function (error) {
-            callback('error')
-            ////console.log('reject ko')
-            ////console.log(error.message)
-        });
-    }
-}
-
-// CALL SUPPLIERS
-export function callSuppliers() {
-    return function (dispatch) {
-        axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/supplier`).then(response => {
-           console.log(response.data.data);
-           dispatch({
-               type: CALL_SUPPLIERS,
-               payload: response.data.data
-           })
-        }).catch(error => {
-            console.log(error);
-        })
-    }
-}
-
-// PRODUCTS 
-
-// Action call product
-export function call_product( user_arrondissement, callback ) {
-
-    ////console.log('ok call product');
-    ////console.log(user_arrondissement);
-
-    return function (dispatch) {
-        axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/products/${user_arrondissement}`,{}, {})
-            .then(function (response) {
-                ////console.log('ok product');
-                ////console.log(response);
-                ////console.log(typeof response.data.products_global);
-                dispatch({
-                    "type":CALL_PRODUCTS,
-                    "payload": response.data.products_global
-                });
-
-                callback('success')
-
-            }).catch(function (error) {
-                ////console.log('products ko')
-                ////console.log(error.message)
-                callback('error')
-            });
-    }
-
-}
-
-// function Call Users
 export function call_users(stored_user_token){
     return function (dispatch) {
         axios.get(`${WORDPRESS_API_BASE_URL}/wp/v2/users`, {
@@ -215,117 +33,10 @@ export function call_users(stored_user_token){
                 })
             })
             .catch(function (error) {
-                console.log(error);
+                //console.log(error);
         })
     }
 }
-
-// Action order product 
-export function order_product(customer_id, product_id){
-
-    ////console.log('order product action creator')
-    ////console.log(customer_id)
-    ////console.log(product_id)
-
-    let customer_order_data = new FormData()
-    customer_order_data.append('customer_id',parseInt(customer_id))
-    customer_order_data.append('product_id',parseInt(product_id))
-
-    return function (dispatch) {
-
-    axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v1/customer/order`, customer_order_data,{
-
-        }).then(function (response){
-            ////console.log("customer order ok")
-            ////console.log(response)
-            // dispatch new state
-            // update localstorage 
-            // flashbag
-            // callback 
-        }).catch(function (error){
-            ////console.log('customer order ko')
-            ////console.log(error.message)
-            // flashbag
-            // callback 
-        })
-
-    }
-
-}
-
-export function supplier_order_accept( order_id, supplier_id ){
-    ////console.log('action supplier_order_accept')
-    ////console.log(order_id)
-    ////console.log(supplier_id)
-
-    let supplier_order_accept_data = new FormData()
-    supplier_order_accept_data.append('order_id',order_id)
-    supplier_order_accept_data.append('supplier_id',supplier_id)
-
-    return function (dispatch) {
-        axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v1/supplier/accept`, supplier_order_accept_data,{
-
-        }).then(function (response){
-            ////console.log("accept order ok")
-            ////console.log(response)
-            // dispatch new state
-            dispatch({
-                "type":SUPPLIER_ORDER_ACCEPT,
-                "payload":order_id
-            })
-            // update localstorage 
-            // flashbag
-            // callback 
-        }).catch(function (error){
-            ////console.log('accept order ko')
-            ////console.log(error.message)
-            // flashbag
-            // callback 
-        })
-    }
-
-}
-
-export function supplier_order_reject( order_id, supplier_id ){
-    ////console.log('action supplier_order_reject')
-    ////console.log(order_id)
-    ////console.log(supplier_id)
-
-    let supplier_order_reject_data = new FormData()
-    supplier_order_reject_data.append('order_id',order_id)
-    supplier_order_reject_data.append('supplier_id',supplier_id)
-
-    return function (dispatch) {
-        axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v1/supplier/reject`, supplier_order_reject_data,{
-
-        }).then(function (response){
-
-            ////console.log("reject order ok")
-            ////console.log(response)
-
-            // dispatch new state
-            dispatch({
-                "type":SUPPLIER_ORDER_REJECT,
-                "payload":order_id
-            })
-            // update localstorage 
-
-            // flashbag
-
-            // callback 
-
-        }).catch(function (error){
-
-            ////console.log('reject order ko')
-            ////console.log(error.message)
-
-        })
-    }
-}
-
-
-// USER //
-
 export function user_load_action( callback ){
 
     // vérifier localstorage 
@@ -339,7 +50,7 @@ export function user_load_action( callback ){
     return function (dispatch) {
 
         let stored_user = localStorage.getItem('senovea_user');
-        //////console.log(stored_user)
+        ////////console.log(stored_user)
         if( stored_user !== null ){
 
             const json_stored_user = JSON.parse(stored_user)
@@ -352,8 +63,8 @@ export function user_load_action( callback ){
                     }
                 }).then(function (response){
 
-                    ////console.log("ok localstorage load")
-                    //////console.log(response)
+                    //////console.log("ok localstorage load")
+                    ////////console.log(response)
                     dispatch({
                         "type":USER_LOAD,
                         "payload":json_stored_user
@@ -363,20 +74,19 @@ export function user_load_action( callback ){
                     callback('success');
 
                 }).catch(function (error){
-                    ////console.log('localstorage ko')
-                    ////console.log(error.message)
+                    //////console.log('localstorage ko')
+                    //////console.log(error.message)
                     callback('error');
                 })
 
         }else{
-            ////console.log('localstorage ko')
+            //////console.log('localstorage ko')
             callback('error');
         }
 
     }
 
 }
-
 export function user_register_action( user_infos, callback ){
 
     // FormData 
@@ -408,8 +118,10 @@ export function user_register_action( user_infos, callback ){
             }
         }).then(function (response) {
 
-            ////console.log("ok post consumer")
-            ////console.log(response)
+            //console.log(response)
+
+            //////console.log("ok post consumer")
+            //////console.log(response)
             dispatch({
                 'type':USER_REGISTER,
                 'payload': {
@@ -477,18 +189,18 @@ export function user_register_action( user_infos, callback ){
             // Register in browser memory
             // Flashbag
             // Redirect
+            
             callback("success")
 
         }).catch(function (error) {
-            ////console.log("ko post consumer")
-            ////console.log(error.response)
+            //////console.log("ko post consumer")
+            //////console.log(error.response)
             // Flashbag
             callback("error")
         });
     }
 
 }
-
 export function user_auth_action( user_infos, callback ){
 
     // Generate Token
@@ -499,7 +211,7 @@ export function user_auth_action( user_infos, callback ){
         }).then(function (response) {
 
             //console.log("ok token")
-            ////console.log(response)
+            //console.log(response)
 
             // Get response
             const uid = response.data.user_id;
@@ -516,19 +228,25 @@ export function user_auth_action( user_infos, callback ){
             }).then(function (response){
 
                 //console.log("ok validate")
-                ////console.log(response)
+                //console.log(response)
 
                 // check if supplier or customer ( or administrator )
 
 
                 if( urole === 'customer' || urole === 'administrator' ){
-                    ////console.log('get customer')
+                    //////console.log('get customer')
                     // Get customer
-                    axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/customer/${uid}`)
+                    //axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/customer/${uid}`)
+                    axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/customer`, {
+                        headers: {
+                            'Authorization' : `Bearer ${auth_token}`,
+                            'Content-Type'  : 'application/json'
+                        }
+                    })
                     .then(function (response){
 
-                        console.log("ok user")
-                        console.log(response)
+                        //console.log("ok user")
+                        //console.log(response)
 
                         // user _ infos 
                         // manque isValidated
@@ -594,7 +312,7 @@ export function user_auth_action( user_infos, callback ){
                     }).catch(function (error) { 
 
                         //console.log("ko user")
-                        ////console.log(error.response)
+                        //console.log(error.response)
                         // Flashbag
                         // Enable to get customer
                         callback('error')
@@ -602,11 +320,11 @@ export function user_auth_action( user_infos, callback ){
                     })
 
                 }/*else if( urole === 'supplier' ){
-                    ////console.log('get supplier')
+                    //////console.log('get supplier')
                     axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v1/supplier/${uid}`)
                     .then(function (response){
-                        ////console.log('ok supplier')
-                        ////console.log(response)
+                        //////console.log('ok supplier')
+                        //////console.log(response)
                         
                         let supplier_payload =  {
  
@@ -641,28 +359,28 @@ export function user_auth_action( user_infos, callback ){
                         // Redirect
 
                     }).catch(function (error) {
-                        ////console.log('ko supplier')
-                        ////console.log(error)
+                        //////console.log('ko supplier')
+                        //////console.log(error)
                     })
 
                 }else{
                     // ko role 
-                    ////console.log('ko user role')
+                    //////console.log('ko user role')
                 }*/
 
 
 
             }).catch(function (error) {
                 //console.log("ko validate")
-                ////console.log(error.response)
+                //console.log(error)
                 // Flashbag
                 // Enable to validate token
                 callback('error')
             })
             
         }).catch(function (error) {
-            //console.log("ko user")
-            ////console.log(error.response)
+            //console.log("ko token")
+            //console.log(error)
             // Flashbag
             // Enable to generate token
             callback('error')
@@ -670,7 +388,6 @@ export function user_auth_action( user_infos, callback ){
     }
 
 }
-
 export function user_logout_action(){
 
     return function (dispatch) {
@@ -735,8 +452,8 @@ export function user_logout_action(){
 
             // Un - Register in browser memory
             localStorage.removeItem('senovea_user');
-            //////console.log("afterlogout")
-            //////console.log(localStorage.getItem('senovea_user'))
+            ////////console.log("afterlogout")
+            ////////console.log(localStorage.getItem('senovea_user'))
             // Flashbag
             // Redirect
 
@@ -744,7 +461,6 @@ export function user_logout_action(){
 
 
 }
-
 export function user_update_action(user_infos){
 
     // VALIDATE TOKEN FIRST
@@ -762,8 +478,8 @@ export function user_update_action(user_infos){
         return axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v1/customer/update/${uid}`, new_user_data ,{
             headers: {'Content-Type': 'multipart/form-data' }
         }).then(function(response){
-            ////console.log("success")
-            ////console.log(response)
+            //////console.log("success")
+            //////console.log(response)
 
 
 
@@ -776,31 +492,30 @@ export function user_update_action(user_infos){
             })
 
             // UPDATE LOCAL STORAGE ( dégeulasse )
-            ////console.log('after update')
+            //////console.log('after update')
             let stored_user = localStorage.getItem('senovea_user')
             let json_stored_user = JSON.parse(stored_user)
-            ////console.log(json_stored_user)
+            //////console.log(json_stored_user)
             json_stored_user.user_email = response.data.email
             localStorage.setItem('senovea_user', JSON.stringify(json_stored_user))
 
 
         }).catch(function (error) {
-            ////console.log("error")
-            ////console.log(error.response)
+            //////console.log("error")
+            //////console.log(error.response)
             // Flashbag
             // Enable to update
         });
     }
 
 }
-
 export function user_reset_action( user_email, callback ){
     const udata = new FormData;
     udata.append("customer_email", user_email);
     return ( dispatch ) => {
         return axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v2/customer/reset`,udata,{})
             .then((response) => {
-                console.log(response)
+                //console.log(response)
                 dispatch({
                     "type":USER_RESET,
                     "payload":{}
@@ -816,109 +531,246 @@ export function user_reset_action( user_email, callback ){
     }
 }
 
-// Paniers
 
-export function load_panier( user_id, callback ){
+// Suppliers
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+export const CALL_SUPPLIERS = "CALL_SUPPLIERS";
 
-    return (dispatch)=>{
-
-        return axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/panier/${user_id}`, {},{})
-            .then(function(response){
-
-                ////console.log('ok paniers')
-                ////console.log(response)
-
-                dispatch({
-                    "type":LOAD_PANIER,
-                    "payload":response.data.data
-                })
-
-                callback('success');
-
-            }).catch(function(error){
-
-                ////console.log('ko paniers')
-                ////console.log(error)
-
-                callback('error');
-
-            })
-
+export function callSuppliers() {
+    return function (dispatch) {
+        axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/supplier`).then(response => {
+           //console.log(response.data.data);
+           dispatch({
+               type: CALL_SUPPLIERS,
+               payload: response.data.data
+           })
+        }).catch(error => {
+            //console.log(error);
+        })
     }
 }
 
-export function add_panier(formProps, user_id, callback){
 
-    const addPanierData = new FormData();
-    addPanierData.append('user_id', user_id)
-    addPanierData.append('panier_code', formProps.create_panier_code)
-    addPanierData.append('panier_adresse', formProps.create_panier_adresse)
-    addPanierData.append('panier_arrondissement', formProps.create_panier_arrondissement)
-    addPanierData.append('panier_nom', formProps.create_panier_nom)
+// Products
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+export const CALL_PRODUCTS = 'CALL_PRODUCTS';
 
-    // handle panier creation
-    return (dispatch) => {
+export function call_product( utoken, user_arrondissement, callback ) {
 
-        return axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v2/panier`, addPanierData ,{
-            headers: {'Content-Type': 'multipart/form-data' }
-        }).then(function(response){
-            ////console.log('ok add panier')
-            ////console.log(response)
+    //////console.log('ok call product');
+    //////console.log(user_arrondissement);
 
-            if( response.data.status === "success" ){
-                dispatch ({
-                    "type":ADD_PANIER,
-                    "payload":response.data.data // tout les paniers
-                })
-                // flashbag
-                // Callback
-                callback('success', response.data.new_panier_id);
-            }else{
-                // flashbag
-                // Callback error
-                callback('error');
+    return function (dispatch) {
+        //axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/products/${user_arrondissement}`,{
+        axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/products/`,{    
+            headers: {
+                'Authorization' : `Bearer ${utoken}`,
+                'Content-Type'  : 'application/json'
             }
-        }).catch(function(error){
-            ////console.log('ko add panier')
+        })
+            .then(function (response) {
+                console.log('ok product');
+                console.log(response);
+                //////console.log(typeof response.data.products_global);
+                dispatch({
+                    "type":CALL_PRODUCTS,
+                    "payload": response.data.products_global
+                });
+
+                callback('success')
+
+            }).catch(function (error) {
+                //////console.log('products ko')
+                //////console.log(error.message)
+                callback('error')
+            });
+    }
+
+}
+
+
+// Orders
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+export const GET_ORDER = "GET_ORDER"
+export const POST_ORDER = "POST_ORDER"
+export const PUT_ORDER = "PUT_ORDER"
+export const DELETE_ORDER = "DELETE_ORDER"
+
+export function get_order( token, callback ){
+
+    return (dispatch) =>{
+
+        axios.get( `${WORDPRESS_API_BASE_URL}/senovea/v2/order`, {
+            headers: {
+                'Authorization' : `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data' 
+            }
+        } ).then((response)=>{
+            console.log('ok orders');
+            console.log(response)
+
+            dispatch({
+                "type":GET_ORDER,
+                "payload":response.data.data
+            })
+
+            callback('success')
+        }).catch((error)=>{
+            console.log('ko orders');
+            console.log(error)
+            callback('error')
         })
 
     }
 
 }
 
-export function add_product_to_panier( user_id, panier_id, product_id, lot_id, callback ){
+export function post_order( token , panier_id , callback ){
 
-    const productData = new FormData();
-    productData.append('user_id', user_id)
-    productData.append('panier_id', panier_id)
-    productData.append('product_id', product_id)
-    productData.append('lot_id', lot_id)
+    const panierDATA = new FormData();
+    panierDATA.append('panier_id',panier_id);
+
+    return (dispatch) =>{
+        axios.post(`${WORDPRESS_API_BASE_URL}/centralis/v2/controller/order`, panierDATA, {
+            headers: {
+                'Authorization' : `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data' 
+            }
+        }).then((response)=>{
+
+            console.log('ok post order')
+            console.log(response)
+
+            switch ( response.data.status ){
+                case 'success':{
+                    dispatch({
+                        "type":POST_ORDER,
+                        "payload": {}
+                    })
+                    callback('success')
+                    break;
+                }
+                case 'error':{
+                    callback('error')
+                    break;
+                }
+            }
+
+
+        }).catch((error)=>{
+            console.log("ko post order")
+            console.log(error)
+            callback('error')
+        })
+    }
+
+}
+
+
+// Paniers
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+export const LOAD_PANIER = "LOAD_PANIER"
+export const ADD_PANIER = "ADD_PANIER"
+export const UPDATE_PANIER = "UPDATE_PANIER"
+export const DELETE_PANIER = "DELETE_PANIER"
+export const ADD_PRODUCT_TO_PANIER = "ADD_PRODUCT_TO_PANIER"
+export const ORDER_PANIER = "ORDER_PANIER"
+
+export function load_panier( token , callback ){
+    return (dispatch)=>{
+        return axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/panier`, {
+            headers: {
+                'Authorization' : `Bearer ${token}`,
+                'Content-Type'  : 'application/json'
+            }
+        }).then(function(response){
+            console.log('ok paniers')
+            console.log(response)
+                dispatch({
+                    "type":LOAD_PANIER,
+                    "payload":response.data.data
+                })
+            callback('success');
+        }).catch(function(error){
+            //////console.log('ko paniers')
+            //////console.log(error)
+            callback('error');
+        })
+    }
+}
+
+export function add_panier( formProps , token , callback ){
+
+    const addPanierData = new FormData();
+    addPanierData.append('panier_code', formProps.create_panier_code)
+    addPanierData.append('panier_adresse', formProps.create_panier_adresse)
+    addPanierData.append('panier_arrondissement', formProps.create_panier_arrondissement)
+    addPanierData.append('panier_nom', formProps.create_panier_nom)
 
     return (dispatch) => {
 
-        return axios.post( `${WORDPRESS_API_BASE_URL}/senovea/v2/panier/addproduct`, productData, {} )
-                    .then( function ( response ){
+        return axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v2/panier`, addPanierData ,{
+            headers: {
+                'Authorization' : `Bearer ${token}`,
+                'Content-Type': 'multipart/form-data' 
+            }
+        }).then(function(response){
 
-                        console.log(response)
+            //console.log('ok add paniers')
+            //console.log(response)
 
-                        dispatch({
-                            "type":ADD_PRODUCT_TO_PANIER,
-                            "payload":response.data.data
-                        })
+            if( response.data.status === "success" ){
+                dispatch ({
+                    "type":ADD_PANIER,
+                    "payload":response.data.data // tout les paniers
+                })
+                callback('success', response.data.new_panier_id);
+            }else{
+                callback('error');
+            }
 
-                        callback('success');
-
-                    } ).catch( function ( error ){
-
-                        
-
-                    } )
+        }).catch(function(error){
+            //////console.log('ko add panier')
+        })
 
     }
 
 }
 
-/*
+export function update_panier( update_panier , token , callback ){
+
+    return ( dispatch ) => {
+
+        axios.put( `${WORDPRESS_API_BASE_URL}/senovea/v2/panier`, update_panier , {
+            headers: {
+                'Authorization' : `Bearer ${token}`,
+                //'Content-Type': 'multipart/form-data',
+                //'X-Http-Method-Override': 'PUT',
+            }
+        }).then( (response) => {
+            console.log("ok update panier")
+            console.log(response)
+
+            // dispatch here
+            if( response.data.status === "success" ){
+                dispatch ({
+                    "type":UPDATE_PANIER,
+                    "payload":response.data.data // tout les paniers
+                })
+                callback('success');
+            }else{
+                callback('error');
+            }
+
+
+        }).catch( (error) => {
+            console.log("ko update panier")
+            console.log(error)
+        })
+
+    }
+}
+
 export function delete_panier(){
     return {
         "type":DELETE_PANIER,
@@ -926,15 +778,21 @@ export function delete_panier(){
     }
 }
 
-export function update_panier( new_panier ){
 
-    return {
-        "type":UPDATE_PANIER,
-        "payload":{}
-    }
+/**
+ * SPA ONLY - ACTION CREATORS
+ * 
+ * 
+ * 
+ * 
+ * 
+ */
 
-}
-*/
+// Settings
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+export const UPDATE_APP_SETTINGS = "UPDATE_APP_SETTINGS"
+export const UPDATE_MODAL_SETTINGS = "UPDATE_MODAL_SETTINGS"
+export const UPDATE_SETTINGS_PANIER = "UPDATE_SETTINGS_PANIER"
 
 export function update_settings_panier( new_settings ){
     return {
@@ -942,33 +800,12 @@ export function update_settings_panier( new_settings ){
         "payload" : new_settings
     }
 }
-
-export function order_panier( panier_id, callback ){
-
-    // ici on order
-    // console.log(panier_id)
-
-    const panierDATA = new FormData();
-    panierDATA.append('panier_id',panier_id);
-
-    return (dispatch) =>{
-        axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v2/panier/order`, panierDATA, {})
-            .then((response)=>{
-                console.log(response)
-                callback('success')
-            }).catch((error)=>{
-                callback('error')
-            })
-    }
-}
-
 export function update_app_settings( new_settings ){
     return {
         "type":UPDATE_APP_SETTINGS,
         "payload":new_settings
     }
 }
-
 export function update_modal_settings( settings ){
 
     return{
@@ -978,6 +815,11 @@ export function update_modal_settings( settings ){
 
 }
 
+
+// Filters
+// * * * * * * * * * * * * * * * * * * * * * *
+export const FILTERS_SUPPLIERS = "FILTERS_SUPPLIERS";
+
 export function filter_suppliers_actions( new_settings ){
     return {
         "type" : FILTERS_SUPPLIERS,
@@ -985,15 +827,19 @@ export function filter_suppliers_actions( new_settings ){
     }
 }
 
+// Alerts
+// * * * * * * * * * * * * * * * * * * * * * *
+export const ADD_ALERT = "ADD_ALERT"
+export const REMOVE_ALERT = "REMOVE_ALERT"
+
 export function add_alert( alert ){
-    //console.log('alert action')
-    //console.log(alert)
+    ////console.log('alert action')
+    ////console.log(alert)
     return {
         "type":ADD_ALERT,
         "payload":alert
     }
 }
-
 export function remove_alert(  ){
     return {
         "type":REMOVE_ALERT,

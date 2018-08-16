@@ -12,6 +12,8 @@ import { Transition,CSSTransition,TransitionGroup } from 'react-transition-group
 import { TweenMax,TimelineLite } from "gsap";
 import _ from "lodash"
 import thunk from 'redux-thunk'
+import axios from 'axios'
+
 
 // components / containers
 import Routing from './app/containers/routing'
@@ -48,14 +50,29 @@ import './app.css';
 import { user_load_action } from './app/actions/index';
 import { call_product } from './app/actions/index';
 import { load_panier } from './app/actions/index';
+import { get_order } from './app/actions/index';
+
 import { update_app_settings } from './app/actions/index';
 import { update_settings_panier } from './app/actions/index';
 import { update_modal_settings } from './app/actions/index';
 import { add_alert } from './app/actions/index';
 
 
-const store = applyMiddleware(thunk)(createStore);
+                // TEST PDF 
+                /*axios.post( 'http://senovea-wp.brauperle/wp-json/centralis/v2/pdf/generate', {}, {
+                    headers:{
+                        'Authorization' : `Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwOlwvXC9zZW5vdmVhLXdwLmJyYXVwZXJsZSIsImlhdCI6MTUzMjk0MTg2NywibmJmIjoxNTMyOTQxODY3LCJleHAiOjE1MzM1NDY2NjcsImRhdGEiOnsidXNlciI6eyJpZCI6IjEifX19.SVDCWAr2DgFzuWOm8aZivK-eQP5ZMgLKz7kUH71IHnU`
+                    }
+                }).then( (response) => {
 
+                    console.log(reponse)
+                    console.log('row')
+
+                }).catch( (error) => {
+                    console.log(error)
+                })*/
+
+const store = applyMiddleware(thunk)(createStore);
 
 // https://stackoverflow.com/questions/43209666/react-router-v4-cannot-get-url
 // https://stackoverflow.com/questions/27928372/react-router-urls-dont-work-when-refreshing-or-writting-manually
@@ -80,6 +97,16 @@ class App extends React.Component {
 
     componentDidMount() { 
 
+        /*
+        axios.get('http://api.football-data.org/v2/competitions', {
+            'headers' : {'X-Auth-Token': '354d9ebebc7046dc8ea2262797d8c48a'}
+        }).then((response)=>{
+            console.log(response);
+        }).catch((error)=>{
+            console.log(error)
+        })
+        */
+
         ////console.log("componentDidMount")
 
         // Quand l'application se lance 
@@ -93,62 +120,79 @@ class App extends React.Component {
             ////console.log(status)
 
             if( status === "success" ){
-            // Si c'est le cas on load les paniers
-            // & On load les products 
-                ////console.log(this.props)
-                this.props.call_product(this.props.user.user_arrondissement, (products_status)=>{
 
+
+                // LOAD PRODUCT
+
+                this.props.call_product( this.props.user.user_auth.auth_token , this.props.user.user_arrondissement, ( products_status )=>{
                     ////console.log("products_status")
                     ////console.log(products_status)
-
                     if( products_status === "success" ){
-
-                        this.props.load_panier(this.props.user.user_id, (panier_status)=>{
-
-                            // On update le panier actif 
-                            // Par le dernier panier updaté
-                            if( panier_status === "success" ){
-                                ////console.log('les paniers')
-                                ////console.log(this.props.paniers)
-        
-                                let new_panier_settings = _.cloneDeep(this.props.paniersSettings)
-                                ////console.log(this.props.paniers)
-                                new_panier_settings.active_panier_id = _.findLastKey(this.props.paniers)
-                                this.props.update_settings_panier(new_panier_settings);
-        
-        
-                                this.props.add_alert({
-                                    "status":"success",
-                                    "content":`Connexion de ${this.props.user.user_email}`
-                                })
-        
-                            }else{
-        
-                                this.props.add_alert({
-                                    "status":"error",
-                                    "content":`Erreur lors du chargement des paniers de ${this.props.user.user_email}`
-                                })
-        
-                            }
-        
+                        this.props.add_alert({
+                            "status":"success",
+                            "content":`Récupération des prestations.`
                         })
-    
                     }else{
-
                         this.props.add_alert({
                             "status":"error",
                             "content":`Erreur lors du chargement des prestations.`
                         })
-
                     }
-                    
+                })
 
+                // LOAD PANIER
+
+                this.props.load_panier( this.props.user.user_auth.auth_token , ( panier_status )=>{
+                    // On update le panier actif 
+                    // Par le dernier panier updaté
+                    if( panier_status === "success" ){
+                        ////console.log('les paniers')
+                        ////console.log(this.props.paniers)
+                        let new_panier_settings = _.cloneDeep(this.props.paniersSettings)
+                        ////console.log(this.props.paniers)
+                        new_panier_settings.active_panier_id = _.findLastKey(this.props.paniers)
+                        this.props.update_settings_panier(new_panier_settings);
+                        this.props.add_alert({
+                            "status":"success",
+                            "content":`Récupération des paniers de ${this.props.user.user_email}`
+                        })
+                    }else{
+                        this.props.add_alert({
+                            "status":"error",
+                            "content":`Erreur lors du chargement des paniers de ${this.props.user.user_email}`
+                        })
+                    }
+                })
+
+                // LOAD ORDER
+
+                this.props.get_order( this.props.user.user_auth.auth_token , ( order_status ) => {
+
+                    if( order_status === "success" ){
+                        this.props.add_alert({
+                            "status":"success",
+                            "content":`Récupération des orders de ${this.props.user.user_email}`
+                        })
+                    }else{
+                        this.props.add_alert({
+                            "status":"error",
+                            "content":`Récupération des orders de ${this.props.user.user_email}`
+                        })
+                    }
+
+                } )
+
+                this.props.add_alert({
+                    "status":"success",
+                    "content":`Connexion de ${this.props.user.user_email}`
                 })
 
                 // on update les app settings 
                 let new_app_settings = _.cloneDeep(this.props.appSettings);
                 new_app_settings.globalLoading = false
                 this.props.update_app_settings( new_app_settings )
+
+
 
             }else{
 
@@ -439,6 +483,7 @@ function mapDispatchToProps( dispatch ){
         "user_load_action": user_load_action,
         "call_product": call_product,
         "load_panier": load_panier,
+        "get_order": get_order,
         "update_app_settings": update_app_settings,
         "update_settings_panier":update_settings_panier,
         "update_modal_settings":update_modal_settings,

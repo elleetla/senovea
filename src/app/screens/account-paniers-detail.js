@@ -4,6 +4,7 @@ import { bindActionCreators } from "redux";
 import _ from "lodash"
 import Product from "./product"
 
+import { post_order } from "../actions/index"
 import { order_panier } from "../actions/index"
 import { add_alert } from "../actions/index"
 
@@ -26,36 +27,56 @@ class AccountPaniersDetail extends React.Component{
     }
 
     handleOrder(  ){
-        
+
         this.setState({
             "orderLoading":true
         })
+        this.setState({
+            "orderLoading":false
+        })        
 
+        this.props.post_order( this.props.user.user_auth.auth_token , this.props.panier.id , ( order_panier_status ) =>{
+            if( order_panier_status === "success" ){
+
+                this.props.add_alert({
+                    "status":"success",
+                    "content":`Les commandes ont été crées`
+                })
+
+            }else{
+
+                this.props.add_alert({
+                    "status":"error",
+                    "content":`Erreur lors de la création des commandes`
+                })
+
+            }
+        })
+
+
+
+        /*this.setState({
+            "orderLoading":true
+        })
         // ici on valide le panier 
         // ( creation d'une order )
         this.props.order_panier( this.props.panier.id, ( order_panier_status ) =>{
-            
             // Callback
             if( order_panier_status === "success" ){
-
                 this.props.add_alert({
                     "status":"success",
                     "content":`Le panier a bien été commandé!`
                 })
             }else{
-
                 this.props.add_alert({
                     "status":"error",
                     "content":`Erreur lors de la commande du panier`
                 })
             }
-
             this.setState({
                 "orderLoading":false
             })
-
-
-        })
+        })*/
 
     } 
 
@@ -393,6 +414,7 @@ function mapStateToProps(state, props){
 
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
+        "post_order":post_order,
         "order_panier":order_panier,
         "add_alert":add_alert
     },dispatch)
