@@ -307,7 +307,6 @@ function alertsReducer( state = alertsReducer_init, action ){
     }
 }
 
-<<<<<<< HEAD
 
 function orderReducer( state = [], action ){
 
@@ -331,8 +330,8 @@ function orderReducer( state = [], action ){
             return state
 
     }
+}
 
-=======
 function deletePanier(state = {}, action){
     switch( action.type ){
         case DELETE_PANIER :{
@@ -341,7 +340,6 @@ function deletePanier(state = {}, action){
         default:
             return state;
     }
->>>>>>> julien
 }
 
 // export reducers
@@ -358,9 +356,6 @@ export const rootReducers = combineReducers({
     "users": callUsers,
     "suppliers" : reducerSuppliers,
     "alerts": alertsReducer,
-<<<<<<< HEAD
-    "orders":orderReducer
-=======
+    "orders":orderReducer,
     "deletePanier": deletePanier
->>>>>>> julien
 });
