@@ -9,11 +9,13 @@
     display: inline-block;
     font-size: 14px;
     cursor: pointer;
+    transition-duration: 0s;
     position: relative;
 }
 
 #header-app .navbar .navbar-nav .active{
-    border-bottom: 4px solid #24DBCF;
+    border-bottom: 3px solid #24DBCF;
+    transition-duration: 0s;
 }
 
 #header-app .dropdown-item{

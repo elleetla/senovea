@@ -98,7 +98,7 @@ class CreatePanier extends Component{
                 <div id="nav-create-panier">
                     <Container>
                         <Row>
-                            <Col lg="8">
+                            <Col lg="7">
 
                             {
                                 this.props.paniers.length !== 0 ?
@@ -119,7 +119,7 @@ class CreatePanier extends Component{
 
                             </Col>
 
-                            <Col lg="4" className="text-right">
+                            <Col lg="5" className="text-right">
                                 <button onClick={this.handleToggleModalCreatePanier} className="btn-white btn btn-secondary">{this.props.paniers.length === 0 ? "CRÉER UN PANIER" : "CRÉER UN NOUVEAU PANIER"}</button>
                             </Col>
                         </Row>

@@ -1,10 +1,10 @@
-import React from "react";
+import React, {Component} from "react";
 import Account from "./account";
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
-import { Row, Col, Container } from 'reactstrap';
-import { Link } from "react-router-dom"
-import _ from "lodash"
+import { Row, Col, Container, Collapse } from 'reactstrap';
+import { Link } from "react-router-dom";
+import _ from "lodash";
 import {delete_panier} from "../actions";
 import moment from "moment/moment";
 
@@ -15,7 +15,13 @@ const statutPanier = {
      "statut4": "Refusé"
 };
 
-class AccountPaniers extends React.Component{
+class AccountPaniers extends Component{
+
+     constructor(props){
+          super(props);
+          this.toggle = this.toggle.bind(this);
+          this.state = { collapse: false };
+     }
 
      renderPanierStatut(statut){
           switch (statut){
@@ -45,9 +51,13 @@ class AccountPaniers extends React.Component{
                )
           } else{
                return(
-                   <button className="btn-green" onClick={() => {alert("Ça marche")}}>+ d'infos</button>
+                   <button className="btn-green" onClick={this.toggle}>+ d'infos</button>
                )
           }
+     }
+
+     toggle() {
+          this.setState({ collapse: !this.state.collapse });
      }
 
      render(){
@@ -78,14 +88,14 @@ class AccountPaniers extends React.Component{
                                                     <Col sm={6}>
                                                          { _.map( panier.lots, (lot) => {
                                                               return(
-                                                                  <p className="count-lots-panier" key={lot.panier_lot_articles.panier_article_id}>
+                                                                  <p className="count-lots-panier" key={lot.panier_lot_id}>
                                                                        <b>{lot.panier_lot_articles.length}</b> {lot.panier_lot_articles.length > 1 ? "articles" : "article"}
                                                                   </p>
                                                               )
                                                          })}
                                                     </Col>
-                                                    <Col sm={6} className="text-right">
-                                                         {this.detailPanier(statutPanier.statut2, panier.id)}
+                                                    <Col sm={6}>
+                                                         <p className="text-right">{this.detailPanier(statutPanier.statut3, panier.id)}</p>
                                                     </Col>
                                                </Row>
                                           </Container>
@@ -95,8 +105,8 @@ class AccountPaniers extends React.Component{
                                          :
                                          _.map( panier.lots, (lot) => {
                                               return(
-                                                  <div key={`${panier.id}_${lot.panier_lot_id}`}>
-                                                       <ul>
+                                                  <Collapse isOpen={this.state.collapse} key={`${panier.id}_${lot.panier_lot_id}`}>
+                                                       <ul style={{margin: 0}}>
                                                             {_.isEmpty( lot.panier_lot_articles ) || lot.panier_lot_articles === false ?
                                                                 <li><div> Articles empty </div></li>
                                                                 :
@@ -105,7 +115,7 @@ class AccountPaniers extends React.Component{
                                                                 })
                                                             }
                                                        </ul>
-                                                  </div>
+                                                  </Collapse>
                                               )
                                          })
                                      }

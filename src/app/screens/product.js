@@ -6,9 +6,6 @@ import { update_panier } from "../actions/index"
 import { add_product_to_panier } from "../actions/index"
 import { add_alert } from "../actions/index"
 
-
-import LoadingSvg from '../assets/img/icon-preloader.svg';
-
 import {
     Row,
     Col,
@@ -19,19 +16,17 @@ import {
 class Product extends React.Component{
 
     constructor(props){
-        super(props)
-
+        super(props);
         this.state = {
-
             isOpen : false,
             activeVariation : "",
             isLoading: false
-        }
+        };
 
-        this.handleProductOpen = this.handleProductOpen.bind(this)
-        this.handleProductChangeVariation = this.handleProductChangeVariation.bind(this)
-        this.handleAddToPanier = this.handleAddToPanier.bind(this)
-        this.renderSwitchMode = this.renderSwitchMode.bind(this)
+        this.handleProductOpen = this.handleProductOpen.bind(this);
+        this.handleProductChangeVariation = this.handleProductChangeVariation.bind(this);
+        this.handleAddToPanier = this.handleAddToPanier.bind(this);
+        this.renderSwitchMode = this.renderSwitchMode.bind(this);
     }
 
     componentDidMount(){
@@ -61,9 +56,8 @@ class Product extends React.Component{
     }
 
     handleProductChangeVariation( e ){
-
         // new active variation 
-        const active_variation_id = e.target.value
+        const active_variation_id = e.target.value;
         this.setState({
             activeVariation:e.target.value
         })
@@ -72,13 +66,10 @@ class Product extends React.Component{
 
     handleAddToPanier( e, product_id ){
 
-        const lot_id = e.target.getAttribute('data-lotkey')
-        const user_id = this.props.user.user_id
+        const lot_id = e.target.getAttribute('data-lotkey');
+        const user_id = this.props.user.user_id;
         const panier_id = this.props.paniersSettings.active_panier_id;
         this.props.add_product_to_panier( user_id, panier_id, product_id, lot_id, ( status ) => {
-            //////console.log(status)
-
-            //console.log(this.props.paniers)
 
             if(status === "success"){
 
@@ -122,10 +113,7 @@ class Product extends React.Component{
                             } 
                         } style={{marginRight: "10px"}} className="btn-white" data-lotkey={ lot_key }> 
                             { 
-                                this.state.isLoading === true ?
-                                "sending"
-                                :
-                                "Ajouter aux paniers"
+                                this.state.isLoading === true ? "En cours…" : "Ajouter aux paniers"
                             }
                         </Button>
             }

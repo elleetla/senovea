@@ -82,7 +82,7 @@ class Header extends React.Component{
         });
     }
 
-    handleModalToggle( component ){
+    handleModalToggle(component){
         const modalSize = component === "register" ? "big" : "medium";
         this.props.update_modal_settings({
             "isOpen": true,
@@ -116,16 +116,6 @@ class Header extends React.Component{
         }
     }
 
-    dropdownDetailPanier(){
-        const lotsInge = _.keys(this.props.newProduct.ingenieurie);
-        const lotsTrav = _.keys(this.props.newProduct.travaux);
-        const lotsPaniers = (lotsInge.length + lotsTrav.length);
-
-        this.setState({
-            countLots: lotsPaniers,
-        });
-    }
-
     detailPanierToogle(){
         const panierActive = this.props.paniersSettings.active_panier_id;
         const detailPanier = this.props.paniers[panierActive];
@@ -133,29 +123,29 @@ class Header extends React.Component{
          if(detailPanier !== undefined){
               return(
                   <DropdownItem>
-                      <h6>{detailPanier.nicename}</h6>
-                      <span><b>Secteur d'intervention :</b></span>
-                      <p>{detailPanier.adresse}</p>
-                      {detailPanier.status === "not sended" ?
-                          <p style={{textAlign: "center"}}><Link className="btn-white" to={`/account/paniers/${panierActive}`}>Voir le panier</Link></p> : null
-                      }
+                       <h6>{detailPanier.nicename}</h6>
+                       <span><b>Secteur d'intervention :</b></span>
+                       <p>{detailPanier.adresse}</p>
+                       {detailPanier.status === "not sended" ?
+                           <p style={{textAlign: "center"}}><Link className="btn-white" to={`/account/paniers/${panierActive}`}>Voir le panier</Link></p> : null
+                       }
                   </DropdownItem>
               )
          } else {
-             return(
-                 <DropdownItem>
-                      <p>Aucun Panier actif pour le moment</p>
-                 </DropdownItem>
-             )
+              return(
+                  <DropdownItem>
+                       <p>Aucun Panier actif pour le moment</p>
+                  </DropdownItem>
+              )
          }
     }
 
     render(){
-        console.log(this.props);
+        console.log("test", this.props);
         return(
             <header id="header-app">
                  <Navbar light expand="md">
-                      <Link to="/" className="navbar-brand" style={{lineHeight:"1",display:"flex",alignItems:"center",padding:"0"}}>
+                      <Link to="/" className="navbar-brand" style={{lineHeight:"1", display:"flex", alignItems:"center", padding:"0"}}>
                            <img id="logo-app" src={Logo} alt="Logo Centralis"/>
                       </Link>
                       <NavbarToggler onClick={this.toggle} />
