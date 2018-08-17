@@ -189,7 +189,7 @@ class AccountPaniersDetail extends React.Component{
           })}
      <Col md="12" className="mb-5">
               <button className="btn-green"  onClick={() => this.handleOrder()} >
-          {this.state.orderLoading ? "Commande en cours..." : "Commander mon panier"}
+          {this.state.orderLoading ? "Commande en cours..." : "Valider le panier"}
      </button>
           </Col>
           </Row>

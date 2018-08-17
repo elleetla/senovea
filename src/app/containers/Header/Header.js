@@ -105,6 +105,7 @@ class Header extends React.Component{
 
     renderBullPaniers(){
         const panierArray = _.keys(this.props.paniers);
+        console.log("Counter panier : ", panierArray);
         if(panierArray.length !== 0){
             return(
                 <div>
@@ -126,9 +127,10 @@ class Header extends React.Component{
                        <h6>{detailPanier.nicename}</h6>
                        <span><b>Secteur d'intervention :</b></span>
                        <p>{detailPanier.adresse}</p>
-                       {detailPanier.status === "not sended" ?
+                       {/*detailPanier.status === "not sended" ?
                            <p style={{textAlign: "center"}}><Link className="btn-white" to={`/account/paniers/${panierActive}`}>Voir le panier</Link></p> : null
-                       }
+                       */}
+                       <p style={{textAlign: "center"}}><Link className="btn-white" to={`/account/paniers/${panierActive}`}>Voir le panier</Link></p>
                   </DropdownItem>
               )
          } else {

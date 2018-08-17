@@ -72,7 +72,7 @@ class Products extends Component{
 
                         const groupedArticlesByLot = _.groupBy( articles , ( article ) => {
                             return article.lot.lot_id;
-                        } )
+                        })
 
                         console.log(groupedArticlesByLot);
 
@@ -122,12 +122,15 @@ class Products extends Component{
                                 
                         )
                             
-                    } )
-
+                    })
                     :
-
-                    <div> Aucun articles ne correspond à la recherche. </div>
-
+                    <Container>
+                        <Row>
+                            <Col md={12}>
+                                 <h4 align="center">Aucun articles ne correspond à la recherche.</h4>
+                            </Col>
+                        </Row>
+                     </Container>
                 }
                 
                             {/*{ this.props.products.length === 0 ? 

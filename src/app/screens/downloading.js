@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
 // import grid Bootstrap
-import { Container, Row, Col } from 'reactstrap';
 import Banner from '../containers/Banner/Banner';
+import BlocConnect from '../components/bloc-download/bloc-download';
 
 export class Downloading extends Component{
     render() {
@@ -10,15 +10,13 @@ export class Downloading extends Component{
             <div>
                 <Banner
                     titleBanner="Téléchargement"
-                    desc="Aucun texte pour le moment"
+                    desc="Le Lorem Ipsum est simplement du faux texte employé dans la composition et la mise en page avant impression.
+                    Le Lorem Ipsum est le faux texte standard de l'imprimerie depuis les années 1500, quand un imprimeur anonyme
+                    assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte."
                 />
-                <Container>
-                    <Row>
-                        <Col md={{ size: 4, offset: 4 }} className="mt-5 mb-5">
-                            <a className="btn-green">Télécharger le bulletin d'adhésion</a>
-                        </Col>
-                    </Row>
-                </Container>
+                <BlocConnect
+                    titleBloc="Télécharger le bulletin d'adhésion"
+                />
             </div>
         )
     }
