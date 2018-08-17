@@ -40,7 +40,7 @@
 }
 
 #header-app .navbar .navbar-nav li.nav-item .icon-nav {
-    width: 25px;
+    width: 22px;
     height: auto;
 }
 
@@ -49,11 +49,11 @@
     top: 14px;
     right: 0;
     background: #24dbcf;
-    height: 18px;
+    height: 16px;
     color: #ffffff;
     font-size: 9px;
     line-height: 19px;
-    width: 18px;
+    width: 16px;
     text-align: center;
     border-radius: 70px;
 }

@@ -41,7 +41,7 @@ class BlocDownload extends React.Component{
                                 <p className="title-connect-bloc">{this.props.titleBloc}</p>
                                 <ul>
                                     <li><a href={`${urlApi}/wp-content/uploads/2018/06/offres-3.pdf`} target="_blank">bulletin d'adhésion</a></li>
-                                    <li><a href={`${urlApi}/wp-content/uploads/2018/06/offres-3.pdf`} target="_blank">Charte d'adhésion</a></li>
+                                    <li><a href={`${urlApi}/wp-content/uploads/2018/08/file-1.pdf`} target="_blank">Charte d'adhésion</a></li>
                                 </ul>
                             </div>
                         </Col>

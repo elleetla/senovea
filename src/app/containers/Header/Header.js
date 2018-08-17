@@ -180,7 +180,7 @@ class Header extends React.Component{
                                          <NavLink onClick={()=>{ this.handleModalToggle('login')}} className="nav-link">Connexion</NavLink>
                                     </NavItem>
                                     <NavItem>
-                                         <div onClick={()=>{ this.handleModalToggle('login')}} style={{marginLeft:"15px", width:"50px", height:"100%", display:"flex", alignItems:"center", justifyContent:"center"}}>
+                                         <div onClick={()=>{ this.handleModalToggle('login')}} style={{height:"100%", display:"flex", alignItems:"center", justifyContent:"center"}}>
                                               <img height="auto" className="icon-nav" src={Panier} alt="Icon Panier"/>
                                          </div>
                                     </NavItem>
@@ -204,7 +204,7 @@ class Header extends React.Component{
                                     </Dropdown>
                                     <Dropdown nav isOpen={this.state.dropdownOpenPanier} toggle={this.togglePanier}>
                                          <DropdownToggle nav>
-                                              <div style={{width:"40px",height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                                              <div style={{height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}}>
                                                    <img height="auto" className="icon-nav" src={Panier} alt="Icon Panier"/>
                                                    {this.renderBullPaniers()}
                                               </div>
