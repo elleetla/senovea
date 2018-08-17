@@ -112,7 +112,7 @@ export function user_register_action( user_infos, callback ){
 
     // Register a USER via wordpress API
     return function (dispatch) {
-        return axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v2/customer`, new_user_data, {
+        return axios.post(`${WORDPRESS_API_BASE_URL}/centralis/v2/controller/register`, new_user_data, {
             headers: {
                 'Content-Type': 'multipart/form-data' 
             }
@@ -574,7 +574,7 @@ export function call_product( utoken, user_arrondissement, callback ) {
                 //////console.log(typeof response.data.products_global);
                 dispatch({
                     "type":CALL_PRODUCTS,
-                    "payload": response.data.products_global
+                    "payload": response.data.allproducts
                 });
 
                 callback('success')
@@ -819,6 +819,8 @@ export function update_modal_settings( settings ){
 // Filters
 // * * * * * * * * * * * * * * * * * * * * * *
 export const FILTERS_SUPPLIERS = "FILTERS_SUPPLIERS";
+export const UPDATE_PRODUCTS_FILTERSETTINGS = "UPDATE_PRODUCTS_FILTERSETTINGS";
+
 
 export function filter_suppliers_actions( new_settings ){
     return {
@@ -826,6 +828,16 @@ export function filter_suppliers_actions( new_settings ){
         "payload" : new_settings
     }
 }
+
+export function filter_products_actions( new_settings ){
+
+    return{
+        "type" : UPDATE_PRODUCTS_FILTERSETTINGS,
+        "payload" : new_settings
+    }
+
+}
+
 
 // Alerts
 // * * * * * * * * * * * * * * * * * * * * * *

@@ -8,11 +8,17 @@ import { update_modal_settings } from '../../actions/index';
 import iconSearch from '../../assets/img/icon_search.svg';
 import { bindActionCreators } from "redux"
 
+
+import { filter_products_actions } from '../../actions/index';
+
+
 class Filters extends Component{
 
     constructor(props){
         super(props);
         this.handleModalToggle = this.handleModalToggle.bind(this)
+        this.handleFilterInputUpdate = this.handleFilterInputUpdate.bind(this)
+        this.handleResetFilterSettings = this.handleResetFilterSettings.bind(this)
     }
 
     handleModalToggle( component ){
@@ -27,6 +33,54 @@ class Filters extends Component{
         })
     }
 
+    handleFilterButtonUpdate( bname , e ){
+        let productsFilterSettingsClone = _.cloneDeep( this.props.productsFilterSettings )
+        switch( bname ){
+            case "ingenieurie":{
+                productsFilterSettingsClone.categorie = "ingenieurie";
+                this.props.filter_products_actions( productsFilterSettingsClone )
+                break;
+            }
+            case "travaux":{
+                productsFilterSettingsClone.categorie = "travaux";
+                this.props.filter_products_actions( productsFilterSettingsClone )
+                break;
+            }
+            default :{
+                break;
+            }
+        }
+    }
+
+    handleFilterInputUpdate( iname , e ){
+        let productsFilterSettingsClone = _.cloneDeep( this.props.productsFilterSettings )
+        switch( iname ){
+            case "prestation":{
+                productsFilterSettingsClone.prestation = e.target.value;
+                this.props.filter_products_actions( productsFilterSettingsClone )
+                break;
+            }
+            case "ref":{
+                productsFilterSettingsClone.ref = e.target.value;
+                this.props.filter_products_actions( productsFilterSettingsClone )
+                break;
+            }   
+            default :{
+                break;
+            }
+        }
+    }
+
+
+    handleResetFilterSettings(){
+
+        this.props.filter_products_actions( { 
+            "categorie":"ingenieurie",
+            "prestation":"",
+            "ref":""
+         } )
+    }
+
     render(){
         return(
                 <nav id="Filters" onClick={ () => {
@@ -39,28 +93,44 @@ class Filters extends Component{
                         <Row>
                             <Col lg="3">
                                 <ul className="category-filter">
-                                    <li><a onClick={this.filterTest.bind(this)}>Ingénierie</a></li>
-                                    <li><a onClick={this.filterTest.bind(this)}>Travaux</a></li>
+                                    <li><a onClick={ ( e ) => { this.handleFilterButtonUpdate( "ingenieurie" , e ) } } href="javascript:void(0)" data-categorie="ingenieurie" style={ this.props.productsFilterSettings.categorie === "ingenieurie" ? { background:"linear-gradient(to right, rgba(130, 140, 236, 100), rgba(75, 89, 224, 100))", color:"#FFF" } : null } >Ingénierie</a></li>
+                                    <li><a onClick={ ( e ) => { this.handleFilterButtonUpdate( "travaux" , e ) } } href="javascript:void(0)" data-categorie="travaux" style={ this.props.productsFilterSettings.categorie === "travaux" ? { background:"linear-gradient(to right, rgba(130, 140, 236, 100), rgba(75, 89, 224, 100))", color:"#FFF"  } : null } >Travaux</a></li>
                                 </ul>
                             </Col>
                             <Col lg="4">
                                 <FormGroup className="mb-0">
-                                    <Input type="text" name="text" placeholder="Saisir une préstation, ex : Espace Vert" />
+
+                                    <Input 
+                                        type="text" 
+                                        name="text"
+                                        placeholder="Saisir une préstation, ex : Espace Vert" 
+                                        value={this.props.productsFilterSettings.prestation}
+                                        onChange={ ( e ) => { this.handleFilterInputUpdate( "prestation" , e ) } }
+                                    />
                                     <span className="icon-search">
                                         <img src={iconSearch} alt="icon search filter"/>
                                     </span>
+
                                 </FormGroup>
                             </Col>
                             <Col lg="3">
+
                                 <FormGroup className="mb-0">
-                                    <Input type="text" name="text" placeholder="Référence article" />
+                                    <Input 
+                                        type="text" 
+                                        name="text" 
+                                        placeholder="Référence article"
+                                        value={this.props.productsFilterSettings.ref}
+                                        onChange={ ( e ) => { this.handleFilterInputUpdate( "ref" , e ) } }
+                                    />
                                     <span className="icon-search">
                                         <img src={iconSearch} alt="icon search filter"/>
                                     </span>
+
                                 </FormGroup>
                             </Col>
                             <Col lg="2">
-                                <button className="btn-green">Reinitialiser</button>
+                                <button onClick={ this.handleResetFilterSettings } className="btn-green">Reinitialiser</button>
                             </Col>
                         </Row>
                     </Container>
@@ -68,25 +138,27 @@ class Filters extends Component{
         )
     }
 
-    filterTest(){
+    /*filterTest(){
         this.props.products.map((data) => {
             if(data.categories[0].slug === "travaux"){
                 console.log(data.name);
             }
         })
-    }
+    }*/
 }
 
 // export
 function mapStateToProps(state){
     return {
         "products": state.products,
-        "user": state.user
+        "user": state.user,
+        "productsFilterSettings":state.productsFilterSettings
     }
 }
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
-        "update_modal_settings":update_modal_settings
+        "update_modal_settings":update_modal_settings,
+        "filter_products_actions":filter_products_actions
     },dispatch)
 }
 //       
