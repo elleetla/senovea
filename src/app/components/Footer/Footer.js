@@ -8,9 +8,13 @@ import {connect} from "react-redux";
 
 class Footer extends Component{
     render(){
+        console.log(this.props);
         return(
             <div>
-                <a id="btn-call">Besoin d'une assistance ?</a>
+                 {this.props.user.user_auth.isAuth !== false ?
+                     <a id="btn-call">Besoin d'une assistance ?</a> :
+                     null
+                 }
                 <footer id="footer-app">
                     <Container>
                         <Row>
