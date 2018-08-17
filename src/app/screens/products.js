@@ -77,9 +77,9 @@ class Products extends Component{
                         console.log(groupedArticlesByLot);
 
                         return (
-                            <Container>
+                            <Container key={indexF}>
                                 <Row>
-                            <Col md="12" key={indexF} style={{marginBottom:"50px"}}>
+                            <Col md="12" style={{marginBottom:"50px"}}>
 
                                 <div style={{marginBottom:"15px",display:"flex",alignItems:"stretch",backgroundColor:"#FFF",border:"1px solid #D9E1E8",borderRadius:"4px",boxShadow:"0px 2px 16px rgba(61, 68, 139, 0.05)"}} className="senovea-fournisseur-block">
                                     <div style={{flexGrow:"1"}} className="senovea-fournisseur-block-infos">
