@@ -538,7 +538,7 @@ export const CALL_SUPPLIERS = "CALL_SUPPLIERS";
 
 export function callSuppliers() {
     return function (dispatch) {
-        axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/supplier`).then(response => {
+        axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/suppliers`).then(response => {
            //console.log(response.data.data);
            dispatch({
                type: CALL_SUPPLIERS,
