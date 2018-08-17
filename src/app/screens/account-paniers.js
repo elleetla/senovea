@@ -46,12 +46,12 @@ class AccountPaniers extends Component{
           if(statut === statutPanier.statut2){
                return(
                    <Link to={{ pathname: `/account/paniers/${id}`}}>
-                        <button className="btn-green">Valider le panier</button>
+                        <button className="btn-green float-right">Valider le panier</button>
                    </Link>
                )
           } else{
                return(
-                   <button className="btn-green" onClick={this.toggle}>+ d'infos</button>
+                   <button className="btn-green float-right" onClick={this.toggle}>+ d'infos</button>
                )
           }
      }
@@ -95,13 +95,13 @@ class AccountPaniers extends Component{
                                                          })}
                                                     </Col>
                                                     <Col sm={6}>
-                                                         <p className="text-right">{this.detailPanier(statutPanier.statut3, panier.id)}</p>
+                                                         <p className="text-right">{this.detailPanier(statutPanier.statut2, panier.id)}</p>
                                                     </Col>
                                                </Row>
                                           </Container>
                                      </div>
                                      { _.isEmpty( panier.lots ) || panier.lots === false ?
-                                         <p>Il n'y a aucun lot associé à ce panier</p>
+                                         null
                                          :
                                          _.map( panier.lots, (lot) => {
                                               return(
