@@ -73,8 +73,8 @@ class Product extends React.Component{
         const the_lot_id = e.target.getAttribute('data-lotkey');
         const the_product_id = ''+product_id;
 
-        console.log(the_lot_id)
-        console.log(the_product_id)
+        //console.log(the_lot_id)
+        //console.log(the_product_id)
 
         // ajouter item
         
@@ -118,7 +118,7 @@ class Product extends React.Component{
     
         }
 
-        //console.log( the_new_panier );
+        ////console.log( the_new_panier );
 
         const panier_update = {
             "id":the_panier_id,
@@ -129,14 +129,17 @@ class Product extends React.Component{
         
         this.props.update_panier( panier_update , this.props.user.user_auth.auth_token , ( status ) => {
 
-            console.log( status );
+            //console.log( status );
+            this.setState({
+                "isLoading":false
+            })
 
         } );
 
 
         /*this.props.add_product_to_panier( user_id, panier_id, product_id, lot_id, ( status ) => {
-            //////console.log(status)
-            //console.log(this.props.paniers)
+            ////////console.log(status)
+            ////console.log(this.props.paniers)
             if(status === "success"){
                 this.setState({
                     isLoading:false
@@ -156,14 +159,17 @@ class Product extends React.Component{
     }
 
     renderSwitchMode( mode, lot_key ){
-        ////console.log(mode)
+        //////console.log(mode)
         switch( mode ){
             case "catalog":{
                 return <Button onClick={ 
+                        !_.isEmpty( this.props.paniers ) ? 
                             (e) => {    
                                 this.setState({isLoading:true})
                                 this.handleAddToPanier( e, this.state.activeVariation ) 
                             } 
+                        :
+                        null
                         } style={{marginRight: "10px"}} className="btn-white" data-lotkey={ lot_key }> 
                             { 
                                 this.state.isLoading === true ? "En cours…" : "Ajouter aux paniers"
@@ -179,7 +185,7 @@ class Product extends React.Component{
     }
 
     render(){
-        console.log("test", this.props);
+        //console.log("test", this.props);
         let the_price = null;
         const the_variation = _.filter( this.props.product_value.variations, ( variation ) => {
             return parseInt(variation.variation_id) === parseInt(this.state.activeVariation)
@@ -192,18 +198,19 @@ class Product extends React.Component{
 
             <div className="article-bloc">
                 <Row>
-                    <Col md="2">
+                    <Col md="4">
                         <p>Réf : <b> 
-                        {/*  { 
-                            `${this.props.product_value.attributes[0].attr_value[0]}.${this.props.product_value.attributes[1].attr_value[0]}.${this.props.product_value.attributes[2].attr_value[0]}.${this.props.product_value.attributes[3].attr_value[0]}.${this.props.product_value.attributes[5].attr_value[0]}`
-                         } */}
+                        { 
+                            `${this.props.product_value.attributes[0].attr_value[0]}-${this.props.product_value.attributes[1].attr_value[0]}-${this.props.product_value.attributes[2].attr_value[0]}-${this.props.product_value.attributes[4].attr_value[0]}`
+                        }
                         </b> </p>
                     </Col>
 
-                    <Col md="3">
+                    <Col md="4">
                         <p><b>{this.props.product_value.name}</b></p>
                     </Col>
 
+                    {/*
                     <Col md="3">
                     <div style={{display:"flex",alignItems:"center",justifyContent:"flex-start"}}>
                         
@@ -227,6 +234,7 @@ class Product extends React.Component{
 
                     </div>
                     </Col>
+                    */}
 
                     <Col md="1">
                             <div>
@@ -246,8 +254,8 @@ class Product extends React.Component{
                             :
                             null
                         }
-                        <Button onClick={this.handleProductOpen} className="btn-white">Détails</Button>
-
+                        {/*<Button onClick={this.handleProductOpen} className="btn-white">Détails</Button>*/}
+                        <Button className="btn-white">Détails</Button>
                     </Col>
 
                 </Row> 

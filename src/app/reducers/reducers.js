@@ -36,6 +36,9 @@ import { POST_ORDER } from "../actions/index"
 import { PUT_ORDER } from "../actions/index"
 import { DELETE_ORDER } from "../actions/index"
 
+import { UPDATE_PRODUCTS_FILTERSETTINGS } from "../actions/index"
+
+
 import _ from 'lodash'
 
 // suppliers 
@@ -342,6 +345,24 @@ function deletePanier(state = {}, action){
     }
 }
 
+
+const productsFilterSettings_initdata = {
+    "categorie":"ingenieurie",
+    "prestation":"",
+    "ref":""
+}
+
+function productsFilterSettings( state = productsFilterSettings_initdata, action ){
+    switch( action.type ){
+        case UPDATE_PRODUCTS_FILTERSETTINGS:{
+            return action.payload;
+        }
+        default:
+            return state
+    }
+}
+
+
 // export reducers
 export const rootReducers = combineReducers({
     "user"      :userReducer,
@@ -357,5 +378,6 @@ export const rootReducers = combineReducers({
     "suppliers" : reducerSuppliers,
     "alerts": alertsReducer,
     "orders":orderReducer,
-    "deletePanier": deletePanier
+    "deletePanier": deletePanier,
+    "productsFilterSettings":productsFilterSettings
 });

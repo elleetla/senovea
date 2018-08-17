@@ -574,7 +574,7 @@ export function call_product( utoken, user_arrondissement, callback ) {
                 //////console.log(typeof response.data.products_global);
                 dispatch({
                     "type":CALL_PRODUCTS,
-                    "payload": response.data.products_global
+                    "payload": response.data.allproducts
                 });
 
                 callback('success')
@@ -819,6 +819,8 @@ export function update_modal_settings( settings ){
 // Filters
 // * * * * * * * * * * * * * * * * * * * * * *
 export const FILTERS_SUPPLIERS = "FILTERS_SUPPLIERS";
+export const UPDATE_PRODUCTS_FILTERSETTINGS = "UPDATE_PRODUCTS_FILTERSETTINGS";
+
 
 export function filter_suppliers_actions( new_settings ){
     return {
@@ -826,6 +828,16 @@ export function filter_suppliers_actions( new_settings ){
         "payload" : new_settings
     }
 }
+
+export function filter_products_actions( new_settings ){
+
+    return{
+        "type" : UPDATE_PRODUCTS_FILTERSETTINGS,
+        "payload" : new_settings
+    }
+
+}
+
 
 // Alerts
 // * * * * * * * * * * * * * * * * * * * * * *

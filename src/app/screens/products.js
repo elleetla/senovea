@@ -11,6 +11,7 @@ import Product from "./product"
 
 // Actions
 import { call_product } from '../actions/index';
+import { filter_products_actions } from '../actions/index';
 
 // import grid Bootstrap
 import {
@@ -51,20 +52,81 @@ class Products extends Component{
         ////console.log("PRODUCTS")
         ////console.log(this);
 
+        console.log( this.props )
+        
+
+        const groupedArticlesByFournisseurs = _.groupBy( this.props.productsFiltered , ( product ) => {
+            return product.lot.lot_fournisseur_r1.ID;
+        } );
+
+        console.log( groupedArticlesByFournisseurs );
+    
         return(
             <div>
-                            { this.props.products.length === 0 ? 
-                                /*<div>
-                                <Container>
-                                    <Row>
-                                        <Col xs="12" className="mb-5 mt-5 text-center mt-4 mb-4">
-                                            <div className="preloader">
-                                                <img src={LoadingSvg}/>
+                
+                {
+
+                    !_.isEmpty( groupedArticlesByFournisseurs ) ?
+
+                    _.map( groupedArticlesByFournisseurs , ( articles, indexF ) => {
+
+                        const groupedArticlesByLot = _.groupBy( articles , ( article ) => {
+                            return article.lot.lot_id;
+                        } )
+
+                        console.log(groupedArticlesByLot);
+
+                        return (
+                            <Col md="12" key={indexF} style={{marginBottom:"50px"}}>
+
+                                <div style={{marginBottom:"15px",display:"flex",alignItems:"stretch",backgroundColor:"#FFF",border:"1px solid #D9E1E8",borderRadius:"4px",boxShadow:"0px 2px 16px rgba(61, 68, 139, 0.05)"}} className="senovea-fournisseur-block">
+                                    <div style={{flexGrow:"1"}} className="senovea-fournisseur-block-infos">
+                                        <div style={{padding:"20px",borderBottom:"1px solid #D9E1E8"}}>
+                                            <p style={{margin:"0px",color:"#17D5C8",fontWeight:"500"}}>{articles[0].lot.lot_fournisseur_r1.supplier_organisme}</p>
+                                        </div>
+                                        <div style={{padding:"20px"}}> 
+                                            <ul>
+                                                <li>Lot: <strong> { articles[0].lot.lot_name } </strong></li>
+                                                <li>Secteur: <strong> { articles[0].lot.lot_fournisseur_r1.supplier_arrondissement } </strong></li>
+                                                <li>Adresse: <strong> { articles[0].lot.lot_fournisseur_r1.supplier_adresse } </strong></li>
+                                                <li>Contact: <strong> { articles[0].lot.lot_fournisseur_r1.supplier_contact} </strong></li>
+                                                <li>Téléphone: <strong> { articles[0].lot.lot_fournisseur_r1.supplier_phone} </strong></li>
+                                                <li>Email: <strong> { articles[0].lot.lot_fournisseur_r1.user_email} </strong></li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <div style={{width:"25%",backgroundColor:"#EDEDED"}} className="senovea-fournisseur-block-img">
+                                        <div style={{borderTopRightRadius:"4px",borderBottomRightRadius:"4px",height:"100%",background:"url('http://www.tremoine.com/UserFiles_tremoine/image/portraits/thierry.JPG')",backgroundSize:"cover",backgroundPosition:"center"}}>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {_.map( groupedArticlesByLot , ( articles, indexL ) => {
+                                    return (
+                                        <div className="bloc-lot" key={indexL}>
+                                            <div className="title-bloc-lot">
+                                                <p>{articles[0].lot.lot_name} ({articles.length} articles)</p>
                                             </div>
-                                        </Col>
-                                    </Row>
-                                </Container>
-                                </div>*/
+                                            {_.map( articles , ( article , indexA ) => {
+                                                return <Product key={article.id} product_value={article} product_key={article.id} lot_key={indexL} mode="catalog"   />
+                                            } )}
+                                        </div>
+                                    )
+                                })}
+
+                            </Col>
+
+                        )
+                            
+                    } )
+
+                    :
+
+                    <div> Aucun articles ne correspond à la recherche. </div>
+
+                }
+                
+                            {/*{ this.props.products.length === 0 ? 
                                 null
                                 :
                                 <Container>
@@ -122,21 +184,66 @@ class Products extends Component{
                                     })}
                                 </Row>
                                 </Container>
-                            }
+                            }*/}
             </div>
         )
     }
 }
 
 function mapStateToProps(state){
+
+    // Prep Data ( Filter )
+
+    // * * * * * * * *
+    // Catégories
+    let productsFilterCateg = {}
+    switch( state.productsFilterSettings.categorie ){
+        case "ingenieurie":{
+            productsFilterCateg = _.filter( state.products, ( product ) => {
+                return product.categories[0] === "Ingénieurie"
+            } )
+            break;
+        }
+        case "travaux":{
+            productsFilterCateg = _.filter( state.products, ( product ) => {
+                return product.categories[0] === "Travaux"
+            } )
+            break;
+        }
+        default:{
+            break;
+        }
+    }
+
+    // * * * * * * * *
+    // Prestations
+    const productsFilterCategPresta = _.filter( productsFilterCateg, ( product ) => {
+        return product.name.toLowerCase().includes( state.productsFilterSettings.prestation.toLowerCase() )
+    } )
+
+    // * * * * * * * *
+    // Ref
+    const productsFilterCategPrestaRef = _.filter( productsFilterCategPresta, ( product ) => {
+        const ref = `${product.attributes[0].attr_value[0]}-${product.attributes[1].attr_value[0]}-${product.attributes[2].attr_value[0]}-${product.attributes[4].attr_value[0]}`
+        return ref.toLowerCase().includes( state.productsFilterSettings.ref.toLowerCase() )
+    } )
+
+    const productsFiltered = productsFilterCategPrestaRef;
+
     return {
         "products": state.products,
-        "user": state.user
+        "productsFilterCateg":productsFilterCateg,
+        "productsFilterCategPresta":productsFilterCategPresta,
+        "productsFilterCategPrestaRef":productsFilterCategPrestaRef,
+        "productsFiltered":productsFiltered,
+        "user": state.user,
+        "productsSettings": state.productsFilterSettings
     }
 }
 function mapDispatchToProps(dispatch){
     return bindActionCreators({
-        "call_product":call_product
+        "call_product":call_product,
+        "filter_products_actions":filter_products_actions
     },dispatch)
 }
 // export
