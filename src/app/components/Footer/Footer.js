@@ -10,11 +10,7 @@ class Footer extends Component{
     render(){
         return(
             <div>
-                { this.props.user.user_auth.isAuth === true ?
-                    <a id="btn-call">Besoin d'une assistance ?</a>
-                    :
-                    null
-                }
+                <a id="btn-call">Besoin d'une assistance ?</a>
                 <footer id="footer-app">
                     <Container>
                         <Row>

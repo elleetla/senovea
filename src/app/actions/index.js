@@ -17,7 +17,7 @@ export const USER_LOAD = 'USER_LOAD';
 export const USER_REGISTER = 'USER_REGISTER';
 export const USER_AUTH = 'USER_AUTH';
 export const USER_UPDATE = 'USER_UPDATE';
-export const USER_RESET = "USER_RESET"
+export const USER_RESET = "USER_RESET";
 
 export function call_users(stored_user_token){
     return function (dispatch) {
@@ -538,7 +538,7 @@ export const CALL_SUPPLIERS = "CALL_SUPPLIERS";
 
 export function callSuppliers() {
     return function (dispatch) {
-        axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/supplier`).then(response => {
+        axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/suppliers`).then(response => {
            //console.log(response.data.data);
            dispatch({
                type: CALL_SUPPLIERS,
@@ -550,6 +550,23 @@ export function callSuppliers() {
     }
 }
 
+// acheteur
+// * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+export const CALL_CUSTOMERS = "CALL_CUSTOMERS";
+
+export function callCustomers() {
+     return function (dispatch) {
+          axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/customers`).then(response => {
+               //console.log(response.data.data);
+               dispatch({
+                    type: CALL_CUSTOMERS,
+                    payload: response.data.data
+               })
+          }).catch(error => {
+               console.log(error);
+          })
+     }
+}
 
 // Products
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

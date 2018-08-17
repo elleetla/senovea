@@ -37,6 +37,7 @@ import { PUT_ORDER } from "../actions/index"
 import { DELETE_ORDER } from "../actions/index"
 
 import { UPDATE_PRODUCTS_FILTERSETTINGS } from "../actions/index"
+import { CALL_CUSTOMERS } from "../actions/index";
 
 
 import _ from 'lodash'
@@ -265,6 +266,17 @@ function reducerSuppliers(state = [], action){
     }
 }
 
+function reducerCustomers(state = [], action){
+     switch (action.type) {
+          case CALL_CUSTOMERS: {
+               console.log("test suppliers");
+               return action.payload
+          }
+          default:
+               return state
+     }
+}
+
 const modalSettingsReducer_init = {
     "isOpen":false,
     "title":"",
@@ -379,5 +391,6 @@ export const rootReducers = combineReducers({
     "alerts": alertsReducer,
     "orders":orderReducer,
     "deletePanier": deletePanier,
-    "productsFilterSettings":productsFilterSettings
+    "productsFilterSettings":productsFilterSettings,
+    "customers": reducerCustomers
 });
