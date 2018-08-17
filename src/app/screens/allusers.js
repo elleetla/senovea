@@ -1,26 +1,26 @@
-import React from 'react'
+import React from 'react';
 
-
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Divider from '@material-ui/core/Divider';
+// import grid Bootstrap
+import { Container, Row } from 'reactstrap';
+import Users from '../containers/Users/users';
+import Banner from '../containers/Banner/Banner';
 
 export class AllUsers extends React.Component{
 
     render(){
         return(
-            <Paper elevation={1}>
-                <div style={{padding:'0px'}}>
-
-                        <div style={{padding:'30px'}}>
-                        <Typography variant="headline" color="inherit">
-                            All Users
-                        </Typography>
-                        </div>
-                </div>
-            </Paper>
-
+            <div>
+                <Banner
+                    titleBanner="Acheteurs référencés"
+                    desc="Nous nous réjouissions de compter dans notre communauté d'acheteurs
+                    des institutions prestigieuses qui nous font confiance dans le choix de leurs fournisseurs."
+                />
+                <Container>
+                    <Row>
+                        <Users/>
+                    </Row>
+                </Container>
+            </div>
         )
     }
-
 }

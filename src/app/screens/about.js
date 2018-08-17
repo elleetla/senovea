@@ -1,26 +1,19 @@
-import React from 'react'
+import React, { Component } from 'react';
 
+// import grid Bootstrap
+import { Container, Row, Col } from 'reactstrap';
 
-import Typography from '@material-ui/core/Typography';
-import Paper from '@material-ui/core/Paper';
-import Divider from '@material-ui/core/Divider';
-
-export class About extends React.Component{
-
-    render(){
+export class About extends Component{
+    render() {
         return(
-            <Paper elevation={1}>
-                <div style={{padding:'0px'}}>
-
-                        <div style={{padding:'30px'}}>
-                        <Typography variant="headline" color="inherit">
-                            About
-                        </Typography>
-                        </div>
-                </div>
-            </Paper>
-
+            <div>
+                <Container>
+                    <Row>
+                        <Col md="12">
+                        </Col>
+                    </Row>
+                </Container>
+            </div>
         )
     }
-
 }

@@ -1,0 +1,109 @@
+/* Style component Header App */
+
+#header-app {
+    border-bottom: 1px solid #EFEFEF;
+    background-color: #ffffff;
+}
+
+#header-app .navbar .navbar-nav li.nav-item {
+    display: inline-block;
+    font-size: 14px;
+    cursor: pointer;
+    transition-duration: 0s;
+    position: relative;
+}
+
+#header-app .navbar .navbar-nav .active{
+    border-bottom: 3px solid #24DBCF;
+    transition-duration: 0s;
+}
+
+#header-app .dropdown-item{
+    font-size: 14px;
+}
+
+#header-app .navbar{
+    padding: 0 1rem;
+}
+
+#header-app .navbar-expand-md .navbar-nav .nav-link {
+    padding: 1.5rem 0;
+}
+
+#header-app .navbar .navbar-nav li.nav-item {
+    padding: 0 0.6rem;
+}
+
+#logo-app {
+    width: 130px;
+    height: auto;
+}
+
+#header-app .navbar .navbar-nav li.nav-item .icon-nav {
+    width: 25px;
+    height: auto;
+}
+
+.counter-panier {
+    position: absolute;
+    top: 14px;
+    right: 0;
+    background: #24dbcf;
+    height: 18px;
+    color: #ffffff;
+    font-size: 9px;
+    line-height: 19px;
+    width: 18px;
+    text-align: center;
+    border-radius: 70px;
+}
+
+#dropdownMenu {
+    opacity: 0;
+    height: 100px;
+    background-color: #ffffff;
+    max-width: 240px;
+    position: absolute;
+    right: 0;
+    top: 50px;
+    display: none;
+    z-index: 5;
+    border-radius: 6px;
+    border: 1px solid #E0E3E5;
+    min-width: 240px;
+    box-shadow: 0px 0px 18px rgba(0, 0, 0, 0.06);
+}
+
+.dropdownMenuFade{
+    opacity: 1 !important;
+    transition-duration: 0.5s;
+    transition-delay: 0.2s;
+}
+
+.navbar-light .navbar-toggler{
+    border: 0;
+    padding: 0;
+}
+
+/*
+modal
+*/
+
+#modal-login{
+    -webkit-transform: translate(0,-50%);
+    -o-transform: translate(0,-50%);
+    transform: translate(0,-50%);
+    top: 50%;
+    margin: 0 auto;
+}
+
+@media screen and (max-width: 600px)
+{
+    #header-app .navbar {
+        padding: 0.4rem 1rem;
+    }
+
+    #logo-app {
+        width: 120px;
+    }
+}

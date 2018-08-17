@@ -9,7 +9,8 @@ module.exports = {
     },
     output: {
         filename: '[name].[hash].js',
-        path: path.resolve(__dirname, 'build')
+        path: path.resolve(__dirname, 'build'),
+        publicPath: '/'
     },
 
     module: {
@@ -52,7 +53,13 @@ module.exports = {
         // Plugin : HtmlWebpack
         // Generate html output, automate bundle sourcing
         new HtmlWebpackPlugin({
-            title: 'SENOVEA',
+            //title: 'SENOVEA',
+            filename: 'index.html',
+            template: './src/index.html'
+        }),
+        new HtmlWebpackPlugin({
+            //title: 'SENOVEA',
+            filename: '200.html',
             template: './src/index.html'
         })
     ],

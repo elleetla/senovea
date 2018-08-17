@@ -6,7 +6,9 @@ module.exports = merge(common, {
     mode: 'development',
     devtool: 'inline-source-map',
     devServer: {
-        contentBase: './src'
+        contentBase: './src',
+        historyApiFallback: true,
+        //https:true
     }
 
 });

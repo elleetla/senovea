@@ -1,0 +1,41 @@
+.senovea-global-alert-wrap{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+}
+.senovea-global-alert-wrap .alert{
+    margin-bottom:0px;
+    position: fixed;
+    background-color: #24DBCF;
+    align-items: center;
+    top: 0;
+    color: #ffffff;
+    left: 0;
+    text-align: center;
+    border-radius: 0;
+    border: 0px;
+    width: 100%;
+}
+.senovea-global-alert-wrap .alert .senovea-global-alert-close{
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10px;
+    height: 10px;
+}
+.senovea-global-alert-wrap .alert .senovea-global-alert-close > div{
+    line-height: 0;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 10px;
+    height: 10px;
+}
+.senovea-global-alert-wrap .alert .senovea-global-alert-close > div:hover{
+    cursor:pointer;
+}

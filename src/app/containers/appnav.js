@@ -1,7 +1,7 @@
+/*
 import React                                from 'react'
 import { compose, bindActionCreators }      from 'redux'
 import { connect }                          from 'react-redux'
-import { Field, reduxForm }                 from 'redux-form'
 import { Link }                             from 'react-router-dom'
 
 // user logout action 
@@ -21,11 +21,12 @@ import ShoppingCart from '@material-ui/icons/ShoppingCart';
 const styles = {
     flex : {flex:1},
     button : {
-        marginLeft:15,
+        marginLeft:5,
         color:'#000',
     },
     button_white : {
-        marginRight:15,
+        //marginRight:15,
+        marginLeft:5,
         color:'#FFF',
     },
     link : {
@@ -47,28 +48,84 @@ class AppNav extends React.Component{
     }
 
     render(){
+        console.log('appnav')
         console.log(this.props)
+        const CustomerMenu = (  ) => {
+            if( this.props.user.user_auth.auth_token !== '' && this.props.user.user_auth.isAuth !== false ){
+                // co
+                if( this.props.user.user_auth.isCustomer === true && this.props.user.user_auth.isSupplier === false ){
+                    // customer
+                    return(
+                    <div>
+                        <Link className={this.props.classes.link} to="/cart" >
+                            <Button className={this.props.classes.button_white} variant="contained" color="secondary">
+                                Customer Cart
+                            </Button>
+                            {/!*<IconButton color="inherit">
+                                <ShoppingCart />
+                            </IconButton>
+                            *!/}
+                        </Link>
+
+                        <Link className={this.props.classes.link} to="/account" >
+                            <Button className={this.props.classes.button_white} variant="contained" color="secondary">
+                                Customer Account
+                            </Button>
+                            {/!*<IconButton color="inherit">
+                                <AccountCircle />
+                            </IconButton>*!/}
+                        </Link>
+                    </div>
+                    )
+                }else{
+                    return('');
+                }
+            }else{
+                return('');
+            }
+        }
+        const SupplierMenu = (  ) => {
+            if( this.props.user.user_auth.auth_token !== '' && this.props.user.user_auth.isAuth !== false ){
+                // co
+                if( this.props.user.user_auth.isCustomer === false && this.props.user.user_auth.isSupplier === true ){
+                    // customer
+                    return(
+                    <div>
+                        <Link className={this.props.classes.link} to="/supplier-orders" >
+                            <Button className={this.props.classes.button_white} variant="contained" color="secondary">
+                                Supplier orders
+                            </Button>
+                        </Link>
+                    </div>
+                    )
+                }else{
+                    return('');
+                }
+            }else{
+                return('');
+            }
+        }
         return(
             <div style={{marginBottom:'8px'}}>
                 <div style={{marginBottom:'0'}}>
-            <AppBar style={{marginBottom:'8px'}} position="static" color="inherit" elevation={1}>
-                <Toolbar>
+            <AppBar style={{marginBottom:'8px',padding:'0'}} position="static" color="inherit" elevation={0}>
+                <Toolbar style={{minHeight:'auto',padding:'0'}}>
                     <Typography variant="title" color="inherit" className={this.props.classes.flex}>
 
                     </Typography>
 
                     { 
-                        this.props.auth.auth_token === '' && this.props.auth.isAuth === false ?
+                        this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false ?
 
                             <div>
                                 <Link to="/register">
                                     <Button className={this.props.classes.button} variant="outlined" color="default">
-                                        Register
+                                        Request invite
                                     </Button>
                                 </Link>
                                 <Link to="/login">
                                     <Button className={this.props.classes.button} variant="outlined" color="default">
-                                        Login
+                                        Customer/Supplier Login
                                     </Button>
                                 </Link>
                             </div>
@@ -90,13 +147,13 @@ class AppNav extends React.Component{
                         <Link className={this.props.classes.link} to="/">Senovea-spa</Link>
                     </Typography>
 
-                    {/*
+                    {/!*
                     <Link className={this.props.classes.link} to="/offers" >
                         <Button className={this.props.classes.button_white} variant="contained" color="secondary">
                             All offers
                         </Button>
                     </Link>
-                    */}
+                    *!/}
 
                     <Link className={this.props.classes.link} to="/users" >
                         <Button className={this.props.classes.button_white} variant="contained" color="primary">
@@ -116,7 +173,7 @@ class AppNav extends React.Component{
                         </Button>
                     </Link>
 
-                    {/*
+                    {/!*
                     <Link className={this.props.classes.link} to="/account" >
                         <Button className={this.props.classes.button_white} variant="contained" color="secondary">
                             My Account
@@ -128,21 +185,11 @@ class AppNav extends React.Component{
                             My Cart
                         </Button>
                     </Link>
-                    */}
+                    *!/}
 
-                    <Link className={this.props.classes.link} to="/cart" >
-                        <IconButton color="inherit">
-                            <ShoppingCart />
-                        </IconButton>
-                    </Link>
+                    <CustomerMenu/>
+                    <SupplierMenu/>
 
-                    <Link className={this.props.classes.link} to="/account" >
-                        <IconButton color="inherit">
-                            <AccountCircle />
-                        </IconButton>
-                    </Link>
-
-                
                 </Toolbar>
             </AppBar>
             </div>
@@ -156,7 +203,8 @@ function mapStateToProps( state ){
 
     return {
         "user":state.user,
-        "auth":state.auth
+        //"supplier":state.supplier,
+        //"auth":state.auth
     }
 
 }
@@ -169,7 +217,6 @@ function mapDispatchToProps( dispatch ){
 
 }
 
-
 export default compose(
     connect(mapStateToProps, mapDispatchToProps),
     withStyles(styles)
@@ -178,3 +225,4 @@ export default compose(
 
 
 
+*/
