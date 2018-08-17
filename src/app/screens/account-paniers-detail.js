@@ -122,16 +122,16 @@ class AccountPaniersDetail extends React.Component{
               <div>
               <h4>Adresse du lieu d'intervention </h4>
           <FormGroup>
-          <Label> Code Arrondissement </Label>
-          <Input disabled type="text" placeholder="Code Arrondissement"  defaultValue={this.props.panier.arrondissement}/>
+          <Label>Arrondissement</Label>
+          <Input disabled type="text" placeholder="Arrondissement"  defaultValue={this.props.panier.arrondissement}/>
           </FormGroup>
           <FormGroup>
           <Label> Code Postal </Label>
           <Input type="text" placeholder="Code Postal" defaultValue={this.props.panier.code_postal}/>
           </FormGroup>
           <FormGroup>
-          <Label> Adresse Intervention </Label>
-          <Input type="text" placeholder="Ville"  defaultValue={this.props.panier.adresse}/>
+          <Label> Adresse d'intervention </Label>
+          <Input type="text" placeholder="Adresse d'intervention"  defaultValue={this.props.panier.adresse}/>
           </FormGroup>
           </div>
           </Col>
@@ -140,7 +140,7 @@ class AccountPaniersDetail extends React.Component{
               <h4> Message à l'attention du fournisseur </h4>
           <FormGroup>
           <Label> Message </Label>
-          <Input style={{marginBottom: "211px"}} type="textarea" defaultValue="message" defaultValue={this.props.panier.message}/>
+          <Input style={{height: "211px"}} type="textarea" defaultValue="message" defaultValue={this.props.panier.message}/>
           </FormGroup>
           <div>
           <button className="btn-white">Annuler</button>

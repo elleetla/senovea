@@ -118,9 +118,8 @@ class Header extends React.Component{
     }
 
     detailPanierToogle(){
-        const panierActive = this.props.paniersSettings.active_panier_id;
-        const detailPanier = this.props.paniers[panierActive];
-
+         const panierActive = this.props.paniersSettings.active_panier_id;
+         const detailPanier = this.props.paniers[panierActive];
          if(detailPanier !== undefined){
               return(
                   <DropdownItem>
@@ -143,7 +142,7 @@ class Header extends React.Component{
     }
 
     render(){
-        //console.log("test", this.props);
+        _.map(this.props.paniers.lots);
         return(
             <header id="header-app">
                  <Navbar light expand="md">

@@ -65,36 +65,27 @@ class Product extends React.Component{
     }
 
     handleAddToPanier( e, product_id ){
-
-        // vars 
-
+        // vars
         const the_panier_id = this.props.paniersSettings.active_panier_id;
         const the_panier = this.props.paniers[the_panier_id];
         const the_lot_id = e.target.getAttribute('data-lotkey');
         const the_product_id = ''+product_id;
 
-        //console.log(the_lot_id)
-        //console.log(the_product_id)
-
-        // ajouter item
-        
         let the_new_panier = _.cloneDeep( the_panier );
-
         if( the_new_panier.lots === false ){
 
-            the_new_panier.lots = []
+            the_new_panier.lots = [];
 
             let new_lot = {
                 'panier_lot_articles':[],
                 'panier_lot_id':the_lot_id,
                 'panier_lot_status':'not sended'
-            }
+            };
 
-            new_lot.panier_lot_articles.push( {'panier_article_id':the_product_id} )
-        
+            new_lot.panier_lot_articles.push({'panier_article_id':the_product_id});
             the_new_panier.lots.push( new_lot )
 
-        }else{
+        } else {
 
             const the_lot_ids = _.map( the_new_panier.lots, ( lot ) => {
                 return lot.panier_lot_id
@@ -261,42 +252,9 @@ class Product extends React.Component{
                 <Row>
                     <Col md="12">
                         <Collapse isOpen={this.state.isOpen}>
-                                <div>
+                                <div style={{marginTop: "30px"}}>
                                     <h4>Product Description : </h4>
                                     <p dangerouslySetInnerHTML={{__html: this.props.product_value.description}}></p>
-                                </div>
-                                <div>
-                                    <h4>Product Base Price : </h4>
-                                    <p> {this.props.product_value.price} €</p>
-                                </div>
-                                <div>
-                                    <h4>Product Variations : </h4>
-
-                                    {
-                                        this.props.product_value.variations.length !== 0 ? 
-                                            _.map( this.props.product_value.variations, ( variation ) => {
-
-                                                return (
-
-                                                    <div key={variation.variation_id}>
-                                                        <hr/>
-                                                        <p> <b>Variation Attribute :</b> </p>
-                                                        <p> { variation.variation_attributes.attribute_quantity } </p>
-
-                                                        <p> <b>Variation Description :</b> </p>
-                                                        <p> {variation.variation_description} </p>
-
-                                                        <p> <b>Variation Price :</b> </p>
-                                                        <p> {variation.variation_price} €</p>
-                                                        <hr/>
-                                                    </div>
-
-                                                )
-
-                                            })
-                                        :
-                                        <p> aucune variation du produit disponible </p>
-                                    }
                                 </div>
                         </Collapse>
                     </Col>

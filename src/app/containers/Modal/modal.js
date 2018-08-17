@@ -14,7 +14,7 @@ import { update_modal_settings } from "../../actions/index"
 
 class ModalSenovea extends React.Component{
     constructor(props){
-        super(props)
+        super(props);
 
         this.renderModalTitle = this.renderModalTitle.bind(this)
         this.renderModalContent = this.renderModalContent.bind(this)
@@ -31,7 +31,7 @@ class ModalSenovea extends React.Component{
                 return " Oublie de mes identifiants "
             }
             case "panier_create":{
-                return " Creation d'un panier "
+                return " Création d'un panier "
             }
             default :
                 return " Title "
