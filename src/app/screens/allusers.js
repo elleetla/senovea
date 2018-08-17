@@ -27,6 +27,7 @@ class AllUsers extends Component{
      }
 
      render(){
+          console.log(this.props);
           return(
               <div>
                    <Banner
@@ -36,6 +37,11 @@ class AllUsers extends Component{
                    />
                    <Container className="mb-5 mt-5">
                         <Row>
+                             <Col sm={12}>
+                                  <div className="title-bloc-lot">
+                                       <p>Acheteurs référencés</p>
+                                  </div>
+                             </Col>
                              {this.renderCustomers()}
                         </Row>
                    </Container>

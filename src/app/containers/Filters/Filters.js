@@ -103,7 +103,7 @@ class Filters extends Component{
                                     <Input 
                                         type="text" 
                                         name="text"
-                                        placeholder="Saisir une préstation, ex : Espace Vert" 
+                                        placeholder="Saisir une prestation, ex : Espace Vert"
                                         value={this.props.productsFilterSettings.prestation}
                                         onChange={ ( e ) => { this.handleFilterInputUpdate( "prestation" , e ) } }
                                     />
@@ -130,7 +130,7 @@ class Filters extends Component{
                                 </FormGroup>
                             </Col>
                             <Col lg="2">
-                                <button onClick={ this.handleResetFilterSettings } className="btn-green">Reinitialiser</button>
+                                <button onClick={ this.handleResetFilterSettings } className="btn-green">Réinitialiser</button>
                             </Col>
                         </Row>
                     </Container>

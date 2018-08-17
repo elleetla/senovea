@@ -140,7 +140,7 @@ class AccountPaniersDetail extends React.Component{
               <h4> Message à l'attention du fournisseur </h4>
           <FormGroup>
           <Label> Message </Label>
-          <Input type="textarea" defaultValue="message" defaultValue={this.props.panier.message}/>
+          <Input style={{marginBottom: "211px"}} type="textarea" defaultValue="message" defaultValue={this.props.panier.message}/>
           </FormGroup>
           <div>
           <button className="btn-white">Annuler</button>

@@ -189,7 +189,7 @@ class Product extends React.Component{
         let the_price = null;
         const the_variation = _.filter( this.props.product_value.variations, ( variation ) => {
             return parseInt(variation.variation_id) === parseInt(this.state.activeVariation)
-        })
+        });
         if( the_variation.length !== 0  ){
             the_price = the_variation[0].variation_price
         }
@@ -198,7 +198,7 @@ class Product extends React.Component{
 
             <div className="article-bloc">
                 <Row>
-                    <Col md="4">
+                    <Col md="3">
                         <p>Réf : <b> 
                         { 
                             `${this.props.product_value.attributes[0].attr_value[0]}-${this.props.product_value.attributes[1].attr_value[0]}-${this.props.product_value.attributes[2].attr_value[0]}-${this.props.product_value.attributes[4].attr_value[0]}`
@@ -206,7 +206,7 @@ class Product extends React.Component{
                         </b> </p>
                     </Col>
 
-                    <Col md="4">
+                    <Col md="3">
                         <p><b>{this.props.product_value.name}</b></p>
                     </Col>
 
@@ -236,12 +236,12 @@ class Product extends React.Component{
                     </Col>
                     */}
 
-                    <Col md="1">
+                    <Col md="3">
                             <div>
                                 { this.props.product_value.variations.length !== 0 ?
-                                    <p>Price : <b>{the_price}€</b></p>
+                                    <p>À partir de : <b>{the_price}€</b></p>
                                     :
-                                    <p>Price : <b>{this.props.product_value.price }€</b></p>
+                                    <p>À partir de : <b>{this.props.product_value.price }€</b></p>
                                 }
                             </div>
                     </Col>
@@ -254,14 +254,11 @@ class Product extends React.Component{
                             :
                             null
                         }
-                        {/*<Button onClick={this.handleProductOpen} className="btn-white">Détails</Button>*/}
-                        <Button className="btn-white">Détails</Button>
+                        <Button onClick={this.handleProductOpen} className="btn-white">Détails</Button>
                     </Col>
-
                 </Row> 
 
                 <Row>
-
                     <Col md="12">
                         <Collapse isOpen={this.state.isOpen}>
                                 <div>

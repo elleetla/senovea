@@ -33,7 +33,7 @@ class Home extends Component{
         return(
             <div>
                 <Banner
-                    titleBanner="Votre centrale d'achats public dédiée à l'ingénierie et aux travaux"
+                    titleBanner="Votre centrale d'achats publics dédiée à l'ingénierie et aux travaux"
                 />
                 <Filters/>
                 <CreatePanier/>

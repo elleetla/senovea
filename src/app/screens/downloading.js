@@ -15,7 +15,7 @@ export class Downloading extends Component{
                     assembla ensemble des morceaux de texte pour réaliser un livre spécimen de polices de texte."
                 />
                 <BlocConnect
-                    titleBloc="Télécharger le bulletin d'adhésion"
+                    titleBloc="Télécharger les documents"
                 />
             </div>
         )
