@@ -1,0 +1,65 @@
+/* bloc connect home */
+
+.connect-bloc {
+    background-color: #ffffff;
+    text-align: center;
+    padding: 38px 75px;
+    box-shadow: 0 0px 20px rgba(61, 68, 139, 0.06)
+}
+
+.connect-bloc .title-connect-bloc {
+    font-size: 20px;
+    line-height: 26px;
+    margin-bottom: 40px;
+    font-weight: 500;
+}
+
+.picto-user {
+    width: 54px;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.connect-bloc ul li {
+    display: inline-block;
+    padding: 0 14px;
+    line-height: 18px;
+}
+
+.connect-bloc ul li:first-child{
+    border-right: 1px solid #9DA9E8;
+}
+
+.connect-bloc ul li a:hover {
+    color: #9DA9E8;
+    border-bottom: 1px solid #9DA9E8;
+}
+
+.connect-bloc ul {
+    padding: 0px;
+    margin: 0px;
+    font-size: 16px;
+}
+
+@media screen and (max-width: 600px)
+{
+    .connect-bloc {
+        padding: 30px 20px;
+    }
+
+    .picto-user{
+        width: 46px;
+    }
+
+    .connect-bloc .title-connect-bloc {
+        font-size: 16px;
+        line-height: 24px;
+        margin-bottom: 20px;
+    }
+
+    .connect-bloc ul {
+        padding: 0px;
+        margin: 0px;
+        font-size: 14px;
+    }
+}

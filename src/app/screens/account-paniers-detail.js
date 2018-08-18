@@ -3,7 +3,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 import _ from "lodash"
 import Product from "./product"
-import moment from 'moment'
+import moment from 'moment';
 
 import { post_order } from "../actions/index"
 import { order_panier } from "../actions/index"
@@ -11,7 +11,7 @@ import { add_alert } from "../actions/index"
 
 import { Card, Container, Row, Col, Badge, Input, Label, FormGroup } from 'reactstrap';
 
-    import LoadingSvg from '../assets/img/icon-preloader-connect.svg';
+import LoadingSvg from '../assets/img/icon-preloader-connect.svg';
 
 
 class AccountPaniersDetail extends React.Component{
@@ -204,120 +204,114 @@ class AccountPaniersDetail extends React.Component{
 
 function mapStateToProps(state, props){
 
-    // Good panier
-    const the_panier_id = props.routeProps.match.params.id;
-    const the_panier = _.get( _.pick( state.paniers, [the_panier_id] ), the_panier_id, {} );
+     // Good panier
+     const the_panier_id = props.routeProps.match.params.id;
+     const the_panier = _.get( _.pick( state.paniers, [the_panier_id] ), the_panier_id, {} );
 
-    // Panier Products
-    const lots_mapKeys = _.mapKeys( the_panier.lots, ( lot ) => {
-        return lot.panier_lot_id
-    })
+     // Panier Products
+     const lots_mapKeys = _.mapKeys( the_panier.lots, ( lot ) => {
+          return lot.panier_lot_id
+     })
+     ////////console.log('mapStateToProps')
+     ////////console.log(lots_mapKeys)
+     const lots_mapValues = _.mapValues( lots_mapKeys, ( lot ) => {
+          return _.map( lot.panier_lot_articles, ( article ) => {
+               return article.panier_article_id
+          })
+     })
+     ////////console.log(lots_mapValues)
 
-    //console.log( lots_mapKeys );
+     // Filters Lots
+     const lotsFiltered = _.mapValues( state.products, ( cat_val, cat_key ) => {
+          ////////console.log(cat_val)
+          ////////console.log( lots_mapValues )
 
-    ////////console.log('mapStateToProps')
-    ////////console.log(lots_mapKeys)
-    
-    const lots_mapValues = _.mapValues( lots_mapKeys, ( lot ) => {
-        return _.map( lot.panier_lot_articles, ( article ) => {
-            return article.panier_article_id
-        })
-    })
-    ////////console.log(lots_mapValues)
+          const filtered = _.filter(cat_val, (lot_val,lot_key)=>{
+               return _.has(lots_mapValues, lot_key)
+          })
 
-    // Filters Lots
-    const lotsFiltered = _.mapValues( state.products, ( cat_val, cat_key ) => {
-        ////////console.log(cat_val)
-        ////////console.log( lots_mapValues )
-        
-        const filtered = _.filter(cat_val, (lot_val,lot_key)=>{
-            return _.has(lots_mapValues, lot_key)
-        })
+          return _.isEmpty( filtered ) ?
+              {}:
+              _.mapKeys( filtered, (lot_val,lot_key) =>{
+                   return lot_val.lot_id
+              })
 
-        return _.isEmpty( filtered ) ? 
-            {}:
-            _.mapKeys( filtered, (lot_val,lot_key) =>{
-                return lot_val.lot_id
-            })
+     } )
 
-    } )
+     // Filters Products
+     let new_product = {};
+     let counterProduct = 0;
+     let totalPrice = 0;
+     for( let cat_name in lotsFiltered ){
+          if( _.isEmpty( lotsFiltered[cat_name] ) === false ){
+               new_product[cat_name] = {}
+               for( let lot_id in lotsFiltered[cat_name] ){
+                    new_product[cat_name][lot_id] = {}
 
-    // Filters Products
-    let new_product = {};
-    let counterProduct = 0;
-    let totalPrice = 0;
-    for( let cat_name in lotsFiltered ){
-        if( _.isEmpty( lotsFiltered[cat_name] ) === false ){
-            new_product[cat_name] = {}
-            for( let lot_id in lotsFiltered[cat_name] ){
-                new_product[cat_name][lot_id] = {}
-                
-                new_product[cat_name][lot_id].lot_id = lotsFiltered[cat_name][lot_id].lot_id
-                new_product[cat_name][lot_id].lot_name = lotsFiltered[cat_name][lot_id].lot_name
-                new_product[cat_name][lot_id].lot_fournisseur_r1 = lotsFiltered[cat_name][lot_id].lot_fournisseur_r1
+                    new_product[cat_name][lot_id].lot_id = lotsFiltered[cat_name][lot_id].lot_id
+                    new_product[cat_name][lot_id].lot_name = lotsFiltered[cat_name][lot_id].lot_name
+                    new_product[cat_name][lot_id].lot_fournisseur_r1 = lotsFiltered[cat_name][lot_id].lot_fournisseur_r1
 
-                let products_array = []
-                // Good Products 
-                for( let product of lotsFiltered[cat_name][lot_id].lot_products ){
+                    let products_array = []
+                    // Good Products
+                    for( let product of lotsFiltered[cat_name][lot_id].lot_products ){
 
-                    // Si variation empty
-                    if( _.isEmpty( product.variations ) === false ){
-                        for( let good_product_id of lots_mapValues[lot_id] ){
-                            for( let variation of product.variations ){
-                                if( parseInt(variation.variation_id) === parseInt(good_product_id) ){
-                                    // ajout 
-                                    products_array.push( product );
-                                    counterProduct = counterProduct + 1;
-                                    totalPrice = totalPrice + variation.variation_price
-                                }
-                            }
-                        }
-                    }else{
-                        for( let good_product_id of lots_mapValues[lot_id] ){
-                            if( parseInt(product.id) === parseInt(good_product_id) ){
-                                // ajout 
-                                products_array.push( product );
-                                counterProduct = counterProduct + 1;
-                                 //totalPrice = totalPrice + variations.variation_price
-                            }
-                        }
+                         // Si variation empty
+                         if( _.isEmpty( product.variations ) === false ){
+                              for( let good_product_id of lots_mapValues[lot_id] ){
+                                   for( let variation of product.variations ){
+                                        if( parseInt(variation.variation_id) === parseInt(good_product_id) ){
+                                             // ajout
+                                             products_array.push( product );
+                                             counterProduct = counterProduct + 1;
+                                             totalPrice = totalPrice + variation.variation_price
+                                        }
+                                   }
+                              }
+                         }else{
+                              for( let good_product_id of lots_mapValues[lot_id] ){
+                                   if( parseInt(product.id) === parseInt(good_product_id) ){
+                                        // ajout
+                                        products_array.push( product );
+                                        counterProduct = counterProduct + 1;
+                                        //totalPrice = totalPrice + variations.variation_price
+                                   }
+                              }
+                         }
+
                     }
 
-                }   
+                    // Add Products
+                    new_product[cat_name][lot_id].lot_products = products_array;
 
-                // Add Products
-                new_product[cat_name][lot_id].lot_products = products_array;
+               }
+          }
+     }
 
-            }
-        }
-    }
+     //////console.log(new_product)
+     ////////console.log(lotsFiltered)
 
-    //////console.log(new_product)
-    ////////console.log(lotsFiltered)
 
-    // Good product 
+     // Good product
 
-    console.log( the_panier_id )
-    console.log( the_panier )
-
-    return {
-        "user":state.user,
-        "products":new_product,
-        "panier":the_panier,
-        "panierProducts":lots_mapValues,
-        "paniersSettings":state.paniersSettings,
-        "counterProduct": counterProduct,
-        "totalPrice" : totalPrice
-    }
+     return {
+          "user":state.user,
+          "products":new_product,
+          "panier":the_panier,
+          "panierProducts":lots_mapValues,
+          "paniersSettings":state.paniersSettings,
+          "counterProduct": counterProduct,
+          "totalPrice" : totalPrice
+     }
 
 }
 
 function mapDispatchToProps(dispatch){
-    return bindActionCreators({
-        "post_order":post_order,
-        "order_panier":order_panier,
-        "add_alert":add_alert
-    },dispatch)
+     return bindActionCreators({
+          "post_order":post_order,
+          "order_panier":order_panier,
+          "add_alert":add_alert
+     },dispatch)
 }
 
 export default connect(mapStateToProps, mapDispatchToProps)(AccountPaniersDetail)

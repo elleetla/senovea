@@ -1,9 +1,9 @@
 .senovea-global-alert-wrap{
     position: fixed;
-    /*top: 0;*/
     bottom:0;
     left: 0;
     width: 100%;
+    z-index: 3;
 }
 .senovea-global-alert-wrap .alert{
     margin-bottom:0px;

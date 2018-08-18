@@ -105,6 +105,7 @@ class Header extends React.Component{
 
     renderBullPaniers(){
         const panierArray = _.keys(this.props.paniers);
+        console.log("Counter panier : ", panierArray);
         if(panierArray.length !== 0){
             return(
                 <div>
@@ -117,18 +118,18 @@ class Header extends React.Component{
     }
 
     detailPanierToogle(){
-        const panierActive = this.props.paniersSettings.active_panier_id;
-        const detailPanier = this.props.paniers[panierActive];
-
+         const panierActive = this.props.paniersSettings.active_panier_id;
+         const detailPanier = this.props.paniers[panierActive];
          if(detailPanier !== undefined){
               return(
                   <DropdownItem>
                        <h6>{detailPanier.nicename}</h6>
                        <span><b>Secteur d'intervention :</b></span>
                        <p>{detailPanier.adresse}</p>
-                       {detailPanier.status === "not sended" ?
+                       {/*detailPanier.status === "not sended" ?
                            <p style={{textAlign: "center"}}><Link className="btn-white" to={`/account/paniers/${panierActive}`}>Voir le panier</Link></p> : null
-                       }
+                       */}
+                       <p style={{textAlign: "center"}}><Link className="btn-white" to={`/account/paniers/${panierActive}`}>Voir le panier</Link></p>
                   </DropdownItem>
               )
          } else {
@@ -141,7 +142,7 @@ class Header extends React.Component{
     }
 
     render(){
-        //console.log("test", this.props);
+        _.map(this.props.paniers.lots);
         return(
             <header id="header-app">
                  <Navbar light expand="md">
@@ -178,7 +179,7 @@ class Header extends React.Component{
                                          <NavLink onClick={()=>{ this.handleModalToggle('login')}} className="nav-link">Connexion</NavLink>
                                     </NavItem>
                                     <NavItem>
-                                         <div onClick={()=>{ this.handleModalToggle('login')}} style={{marginLeft:"15px", width:"50px", height:"100%", display:"flex", alignItems:"center", justifyContent:"center"}}>
+                                         <div onClick={()=>{ this.handleModalToggle('login')}} style={{height:"100%", display:"flex", alignItems:"center", justifyContent:"center"}}>
                                               <img height="auto" className="icon-nav" src={Panier} alt="Icon Panier"/>
                                          </div>
                                     </NavItem>
@@ -186,7 +187,7 @@ class Header extends React.Component{
                                :
                                <Nav className="ml-auto" navbar>
                                     <Dropdown nav isOpen={this.state.dropdownOpen} toggle={this.toggle}>
-                                         <DropdownToggle nav caret>
+                                         <DropdownToggle nav>
                                               {this.props.user.user_email}
                                          </DropdownToggle>
                                          <DropdownMenu right>
@@ -202,7 +203,7 @@ class Header extends React.Component{
                                     </Dropdown>
                                     <Dropdown nav isOpen={this.state.dropdownOpenPanier} toggle={this.togglePanier}>
                                          <DropdownToggle nav>
-                                              <div style={{width:"40px",height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}}>
+                                              <div style={{height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}}>
                                                    <img height="auto" className="icon-nav" src={Panier} alt="Icon Panier"/>
                                                    {this.renderBullPaniers()}
                                               </div>

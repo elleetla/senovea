@@ -93,8 +93,8 @@ class Filters extends Component{
                         <Row>
                             <Col lg="3">
                                 <ul className="category-filter">
-                                    <li><a onClick={ ( e ) => { this.handleFilterButtonUpdate( "ingenieurie" , e ) } } href="javascript:void(0)" data-categorie="ingenieurie" style={ this.props.productsFilterSettings.categorie === "ingenieurie" ? { background:"linear-gradient(to right, rgba(130, 140, 236, 100), rgba(75, 89, 224, 100))", color:"#FFF" } : null } >Ingénierie</a></li>
-                                    <li><a onClick={ ( e ) => { this.handleFilterButtonUpdate( "travaux" , e ) } } href="javascript:void(0)" data-categorie="travaux" style={ this.props.productsFilterSettings.categorie === "travaux" ? { background:"linear-gradient(to right, rgba(130, 140, 236, 100), rgba(75, 89, 224, 100))", color:"#FFF"  } : null } >Travaux</a></li>
+                                    <li><a onClick={(e) => {this.handleFilterButtonUpdate("ingenieurie",e)}} data-categorie="ingenieurie" style={ this.props.productsFilterSettings.categorie === "ingenieurie" ? { background:"#EBEEFD", color:"#2C3948" } : null } >Ingénierie</a></li>
+                                    <li><a onClick={(e) => {this.handleFilterButtonUpdate("travaux",e)}} data-categorie="travaux" style={ this.props.productsFilterSettings.categorie === "travaux" ? { background:"#EBEEFD"  } : null } >Travaux</a></li>
                                 </ul>
                             </Col>
                             <Col lg="4">
@@ -103,7 +103,7 @@ class Filters extends Component{
                                     <Input 
                                         type="text" 
                                         name="text"
-                                        placeholder="Saisir une préstation, ex : Espace Vert" 
+                                        placeholder="Saisir une prestation, ex : Espace Vert"
                                         value={this.props.productsFilterSettings.prestation}
                                         onChange={ ( e ) => { this.handleFilterInputUpdate( "prestation" , e ) } }
                                     />
@@ -130,7 +130,7 @@ class Filters extends Component{
                                 </FormGroup>
                             </Col>
                             <Col lg="2">
-                                <button onClick={ this.handleResetFilterSettings } className="btn-green">Reinitialiser</button>
+                                <button onClick={ this.handleResetFilterSettings } className="btn-green">Réinitialiser</button>
                             </Col>
                         </Row>
                     </Container>
