@@ -159,34 +159,36 @@ class AccountPaniersDetail extends React.Component{
                     </Row>
 
                     <Row>
-                        { this.props.products.length === 0 ?
-                            <Col md="12">
-                                Aucun article n'est présent dans ce panier
-                            </Col>
-                            :
-                            _.map(this.props.products, (categories_values, categories_keys) => {
-                                    return(
-                                        <Col md="12" key={categories_keys}>
-                                            { _.map( categories_values, ( lots_values, lots_keys ) => {
-                                                return(
-                                                    <div key={lots_keys}>
-                                                        <div className="bloc-lot">
-                                                            <div className="title-bloc-lot">
-                                                                <p>{lots_values.lot_name} ({lots_values.lot_products.length} articles)</p>
+                            
+                            { this.props.products.length === 0 ?
+                                <Col md="12">
+                                    Aucun article n'est présent dans ce panier
+                                </Col>
+                                :
+                                _.map(this.props.products, (categories_values, categories_keys) => {
+                                        return(
+                                            <Col md="12" key={categories_keys}>
+                                                { _.map( categories_values, ( lots_values, lots_keys ) => {
+                                                    return(
+                                                        <div key={lots_keys}>
+                                                            <div className="bloc-lot">
+                                                                <div className="title-bloc-lot">
+                                                                    <p>{lots_values.lot_name} ({lots_values.lot_products.length} articles)</p>
+                                                                </div>
+                                                                { _.map( lots_values.lot_products, ( prestations_values, prestations_keys ) =>{
+                                                                    ////////console.log(prestations_values)
+                                                                    return(
+                                                                        <Product key={prestations_keys} product_value={prestations_values} product_key={prestations_keys} lot_key={lots_keys} mode="panier"  />
+                                                                    )
+                                                                })}
                                                             </div>
-                                                            { _.map( lots_values.lot_products, ( prestations_values, prestations_keys ) =>{
-                                                                ////////console.log(prestations_values)
-                                                                return(
-                                                                    <Product key={prestations_keys} product_value={prestations_values} product_key={prestations_keys} lot_key={lots_keys} mode="panier"  />
-                                                                )
-                                                            })}
                                                         </div>
-                                                    </div>
-                                                )
-                                            })}
-                                        </Col>
-                                    )
-                                })}
+                                                    )
+                                                })}
+                                            </Col>
+                                        )
+                                    })}
+                                
                                 <Col md="12" className="mb-5">
                                     <button className="btn-green"  onClick={() => this.handleOrder()} >
                                         {this.state.orderLoading ? "Commande en cours..." : "Commander mon panier"}
@@ -210,8 +212,12 @@ function mapStateToProps(state, props){
     const lots_mapKeys = _.mapKeys( the_panier.lots, ( lot ) => {
         return lot.panier_lot_id
     })
+
+    //console.log( lots_mapKeys );
+
     ////////console.log('mapStateToProps')
     ////////console.log(lots_mapKeys)
+    
     const lots_mapValues = _.mapValues( lots_mapKeys, ( lot ) => {
         return _.map( lot.panier_lot_articles, ( article ) => {
             return article.panier_article_id
@@ -289,9 +295,11 @@ function mapStateToProps(state, props){
     //////console.log(new_product)
     ////////console.log(lotsFiltered)
 
-
     // Good product 
-    
+
+    console.log( the_panier_id )
+    console.log( the_panier )
+
     return {
         "user":state.user,
         "products":new_product,
@@ -299,7 +307,7 @@ function mapStateToProps(state, props){
         "panierProducts":lots_mapValues,
         "paniersSettings":state.paniersSettings,
         "counterProduct": counterProduct,
-         "totalPrice" : totalPrice
+        "totalPrice" : totalPrice
     }
 
 }
