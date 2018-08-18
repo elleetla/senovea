@@ -95,7 +95,7 @@ class FiltersSuppliers extends Component{
                             </FormGroup>
                         </Col>
                         <Col lg="2">
-                            <button onClick={(e) => {this.reinitializFilter(e)}} className="btn-green">Reinitialiser</button>
+                            <button onClick={(e) => {this.reinitializFilter(e)}} className="btn-green">Réinitialiser</button>
                         </Col>
                     </Row>
                 </Container>

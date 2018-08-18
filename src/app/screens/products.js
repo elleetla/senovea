@@ -72,7 +72,7 @@ class Products extends Component{
 
                         const groupedArticlesByLot = _.groupBy( articles , ( article ) => {
                             return article.lot.lot_id;
-                        } )
+                        })
 
                         console.log(groupedArticlesByLot);
 
@@ -107,7 +107,7 @@ class Products extends Component{
                                     return (
                                         <div className="bloc-lot" key={indexL}>
                                             <div className="title-bloc-lot">
-                                                <p>{articles[0].lot.lot_name} ({articles.length} articles)</p>
+                                                <p>{articles[0].lot.lot_name} ({articles.length} {articles.length === 1 ? "article" : "articles"})</p>
                                             </div>
                                             {_.map( articles , ( article , indexA ) => {
                                                 return <Product key={article.id} product_value={article} product_key={article.id} lot_key={indexL} mode="catalog"   />
@@ -122,12 +122,15 @@ class Products extends Component{
                                 
                         )
                             
-                    } )
-
+                    })
                     :
-
-                    <div> Aucun articles ne correspond à la recherche. </div>
-
+                    <Container>
+                        <Row>
+                            <Col md={12}>
+                                 <h5 align="center" style={{marginTop: "30px"}}>Aucun article ne correspond à la recherche.</h5>
+                            </Col>
+                        </Row>
+                     </Container>
                 }
                 
                             {/*{ this.props.products.length === 0 ? 

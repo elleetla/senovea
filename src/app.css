@@ -147,9 +147,7 @@ button:focus {
 .btn-green:hover{
     background-color: #565f65;
 }
-#btn-call{
-    display: none;
-}
+
 #btn-call:hover{
     background-color: #15c3b7;
 }
