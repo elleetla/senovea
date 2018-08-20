@@ -4,30 +4,27 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import './Footer.css';
 import LogoFooter from '../../assets/img/logo-light.png';
+import PictoMessage from '../../assets/img/picto_message.svg';
 import {connect} from "react-redux";
 
 class Footer extends Component{
     render(){
-        console.log(this.props);
         return(
-            <div>
-                 {this.props.user.user_auth.isAuth !== false ?
-                     <a id="btn-call">Besoin d'une assistance ?</a> :
-                     null
-                 }
-                <footer id="footer-app">
-                    <Container>
-                        <Row>
-                            <Col lg="6">
+            <footer id="footer-app">
+                 <a id="btn-call">
+                      <img src={PictoMessage}/>
+                 </a>
+                 <Container>
+                      <Row>
+                           <Col lg="6">
                                 <img id="logo-footer" src={LogoFooter} alt=""/>
-                            </Col>
-                            <Col lg="6" className="text-right">
+                           </Col>
+                           <Col lg="6" className="text-right">
                                 <a href="#">Mentions légales</a> - <a href="#">Conditions générales</a> - <a href="#">FAQ</a> - <a href="#">Nous contacter</a>
-                            </Col>
-                        </Row>
-                    </Container>
-                </footer>
-            </div>
+                           </Col>
+                      </Row>
+                 </Container>
+            </footer>
         )
     }
 }
