@@ -9,6 +9,7 @@ import {connect} from "react-redux";
 
 class Footer extends Component{
     render(){
+        //console.log(this.props);
         return(
             <footer id="footer-app">
                  <a id="btn-call">

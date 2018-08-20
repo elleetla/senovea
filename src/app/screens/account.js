@@ -62,8 +62,8 @@ class Account extends React.Component{
                     <Col md={3}>
                         <ListGroup>
                             <ListGroupItem><Link to="/account/paniers">Mes paniers</Link></ListGroupItem>
-                            <ListGroupItem><a href="#" onClick={() => {alert("Pas encore fait")}}>Mon profil</a></ListGroupItem>
-                            <ListGroupItem><a href="javascript:void(0)">Gestion du mot de passe</a></ListGroupItem>
+                            <ListGroupItem><Link to="/account/informations">Mon profil</Link></ListGroupItem>
+                            <ListGroupItem><Link to="/account/mdp">Gestion du mot de passe</Link></ListGroupItem>
                             <ListGroupItem><a onClick={ this.props.user_logout_action } href="javascript:void(0)">Déconnexion</a></ListGroupItem>
                         </ListGroup>
                     </Col>
