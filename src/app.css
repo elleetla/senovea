@@ -292,3 +292,8 @@ button:focus {
     list-style-type: none;
     line-height: 30px;
 }
+
+.bloc-about {
+    background: #ffff;
+    margin: 0;
+}

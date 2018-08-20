@@ -257,9 +257,8 @@ class App extends React.Component {
                                         <Transition 
                                             key={ routerProps.location.key } 
                                             timeout={{enter:500,exit:500}}
-                                            appear={true}  
                                         >
-                                            <div className="main" /*style={{position:"absolute",top:"70px",width:"100%",height:"100%"}}*/>
+                                            <div className="main">
                                                 <Switch location={routerProps.location} >
                                                     <Route exact path="/" component={Home} />
                                                     <Route path="/supplier/accept" component={SupplierAccept} />
