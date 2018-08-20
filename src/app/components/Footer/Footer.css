@@ -13,16 +13,30 @@
 
 #btn-call{
     background-color: #24DBCF;
-    padding: 18px 28px;
-    border-radius: 4px 0 0 0;
+    height: 60px;
+    width: 60px;
+    border-radius: 50px;
     color: #ffffff;
     z-index: 2;
     position: fixed;
     transition-duration: 0.4s;
     cursor: pointer;
     font-size: 16px;
-    bottom: 0;
-    right: 0;
+    bottom: 14px;
+    right: 14px;
+    align-content: center;
+    justify-content: center;
+    display: flex;
+    box-shadow: 0px 2px 16px rgba(61, 68, 139, 0.05);
+}
+
+#btn-call:hover{
+    background-color: #6B77E7 !important;
+}
+
+#btn-call img {
+    width: 25px;
+    padding-top: 6px;
 }
 
 /* responsive */

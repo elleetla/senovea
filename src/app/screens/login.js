@@ -165,8 +165,8 @@ class LogIn extends React.Component{
                                     id="login_username"
                                     component={renderTextField}
                                     type="text"
-                                    placeholder="User Name"
-                                    label="User Name"
+                                    placeholder="Nom d'utilisateur"
+                                    label="Nom d'utilisateur"
                                 />
                             
                                 <Field
@@ -174,8 +174,8 @@ class LogIn extends React.Component{
                                     id="login_password"
                                     component={renderTextField}
                                     type="password"
-                                    placeholder="User Password"
-                                    label="User Password"
+                                    placeholder="Mot de passe"
+                                    label="Mot de passe"
                                 />
 
                                 <div>
@@ -188,7 +188,7 @@ class LogIn extends React.Component{
                     </form>
                 </Col>
                 <Col md="12">
-                    <p style={{textAlign:"center",marginBottom:"0px",marginTop:"1rem"}}> <a onClick={ ()=>{ this.handleModalToggle( 'register' ) } } href="javascript:void(0)">Inscription</a> | <a onClick={ ()=>{ this.handleModalToggle( 'resend' ) } } href="javascript:void(0)">J'ai oublié mes identifiants</a> </p>
+                    <p style={{textAlign:"center",marginBottom:"0px",marginTop:"1rem"}}> <a onClick={ ()=>{ this.handleModalToggle( 'register' ) } } href="javascript:void(0)">Vous n'avez pas de compte ? <b>Cliquez-ici !</b></a> | <a onClick={ ()=>{ this.handleModalToggle( 'resend' ) } } href="javascript:void(0)">Mot de passe oublié ?</a> </p>
                 </Col>
             </Row>
         )

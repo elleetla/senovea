@@ -1,0 +1,21 @@
+.about-nav{
+    text-align: center;
+    padding: 8px 0;
+    background: #ffffff;
+    font-size: 14px;
+}
+
+.about-nav ul{
+    padding: 0;
+    margin: 0;
+}
+
+.about-nav li {
+    display: inline-block;
+    padding: 10px 15px;
+    border-right: 1px solid #EFEFEF;
+}
+
+.about-nav li:last-child{
+    border-right: 0;
+}
