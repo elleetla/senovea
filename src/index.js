@@ -355,7 +355,6 @@ class App extends React.Component {
                                     <p>Ce site utilise des cookies. En poursuivant la navigation, vous acceptez l'utilisation de cookies.</p>
                                     <button onClick={() => this.closeCookies()} className="btn-green">Fermer et continuer</button>
                                 </div>
-
                                 <Footer/>
                                 <ModalSenovea/>
                                 <Alerts/>

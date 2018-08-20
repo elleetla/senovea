@@ -139,11 +139,11 @@ class PanierForm extends React.Component{
                         component={renderTextField}
                         //component="input"
                         type="text"
-                        placeholder="Arrondissement Napoléonien"
+                        placeholder="Arrondissement"
                         value={this.props.user.user_arrondissement}
                         initialvalues={this.props.user.user_arrondissement}
                         disabled
-                        label="Arrondissement Napoléonien"
+                        label="Arrondissement"
                     />
                     <Field
                         name="create_panier_code"

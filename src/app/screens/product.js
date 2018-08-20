@@ -189,7 +189,7 @@ class Product extends React.Component{
 
             <div className="article-bloc">
                 <Row>
-                    <Col md="3">
+                    <Col md="2">
                         <p>Réf : <b> 
                         { 
                             `${this.props.product_value.attributes[0].attr_value[0]}-${this.props.product_value.attributes[1].attr_value[0]}-${this.props.product_value.attributes[2].attr_value[0]}-${this.props.product_value.attributes[4].attr_value[0]}`
@@ -201,33 +201,7 @@ class Product extends React.Component{
                         <p><b>{this.props.product_value.name}</b></p>
                     </Col>
 
-                    {/*
-                    <Col md="3">
-                    <div style={{display:"flex",alignItems:"center",justifyContent:"flex-start"}}>
-                        
-                        <div>
-                        <label style={{margin:"0 5px 0 0"}}>Quantité : </label>
-                        </div>
-                        <div>
-                        <Input type="select" className="select-product" value={ this.state.activeVariation } onChange={ this.handleProductChangeVariation } >
-                            {
-                                this.props.product_value.variations.length !== 0 ? 
-                                    _.map( this.props.product_value.variations, ( variation ) => {
-                                        return (
-                                            <option key={variation.variation_id} value={variation.variation_id} > { variation.variation_attributes.attribute_quantity } </option>
-                                        )
-                                    })
-                                :
-                                <option value={ this.state.activeVariation } > Aucune Variation </option>
-                            }
-                        </Input>
-                        </div>
-
-                    </div>
-                    </Col>
-                    */}
-
-                    <Col md="3">
+                    <Col md="2">
                             <div>
                                 { this.props.product_value.variations.length !== 0 ?
                                     <p>À partir de : <b>{the_price}€</b></p>
@@ -236,6 +210,12 @@ class Product extends React.Component{
                                 }
                             </div>
                     </Col>
+
+                     <Col md="2">
+                          <div>
+                               <p>Quantité : test</p>
+                          </div>
+                     </Col>
 
                     <Col md="3" className="text-right">
 
