@@ -33,7 +33,7 @@ export function call_users(stored_user_token){
                 })
             })
             .catch(function (error) {
-                //console.log(error);
+                ////console.log(error);
         })
     }
 }
@@ -50,7 +50,7 @@ export function user_load_action( callback ){
     return function (dispatch) {
 
         let stored_user = localStorage.getItem('senovea_user');
-        ////////console.log(stored_user)
+        //////////console.log(stored_user)
         if( stored_user !== null ){
 
             const json_stored_user = JSON.parse(stored_user)
@@ -63,8 +63,8 @@ export function user_load_action( callback ){
                     }
                 }).then(function (response){
 
-                    //////console.log("ok localstorage load")
-                    ////////console.log(response)
+                    ////////console.log("ok localstorage load")
+                    //////////console.log(response)
                     dispatch({
                         "type":USER_LOAD,
                         "payload":json_stored_user
@@ -74,13 +74,13 @@ export function user_load_action( callback ){
                     callback('success');
 
                 }).catch(function (error){
-                    //////console.log('localstorage ko')
-                    //////console.log(error.message)
+                    ////////console.log('localstorage ko')
+                    ////////console.log(error.message)
                     callback('error');
                 })
 
         }else{
-            //////console.log('localstorage ko')
+            ////////console.log('localstorage ko')
             callback('error');
         }
 
@@ -112,16 +112,16 @@ export function user_register_action( user_infos, callback ){
 
     // Register a USER via wordpress API
     return function (dispatch) {
-        return axios.post(`${WORDPRESS_API_BASE_URL}/centralis/v2/controller/register`, new_user_data, {
+        return axios.post(`${WORDPRESS_API_BASE_URL}/centralis/v2/controller/customer/register`, new_user_data, {
             headers: {
                 'Content-Type': 'multipart/form-data' 
             }
         }).then(function (response) {
 
-            //console.log(response)
+            ////console.log(response)
 
-            //////console.log("ok post consumer")
-            //////console.log(response)
+            ////////console.log("ok post consumer")
+            ////////console.log(response)
             dispatch({
                 'type':USER_REGISTER,
                 'payload': {
@@ -193,8 +193,8 @@ export function user_register_action( user_infos, callback ){
             callback("success")
 
         }).catch(function (error) {
-            //////console.log("ko post consumer")
-            //////console.log(error.response)
+            ////////console.log("ko post consumer")
+            ////////console.log(error.response)
             // Flashbag
             callback("error")
         });
@@ -210,8 +210,8 @@ export function user_auth_action( user_infos, callback ){
                 password:user_infos.login_password
         }).then(function (response) {
 
-            //console.log("ok token")
-            //console.log(response)
+            ////console.log("ok token")
+            ////console.log(response)
 
             // Get response
             const uid = response.data.user_id;
@@ -227,14 +227,14 @@ export function user_auth_action( user_infos, callback ){
                 }
             }).then(function (response){
 
-                //console.log("ok validate")
-                //console.log(response)
+                ////console.log("ok validate")
+                ////console.log(response)
 
                 // check if supplier or customer ( or administrator )
 
 
                 if( urole === 'customer' || urole === 'administrator' ){
-                    //////console.log('get customer')
+                    ////////console.log('get customer')
                     // Get customer
                     //axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/customer/${uid}`)
                     axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/customer`, {
@@ -245,8 +245,8 @@ export function user_auth_action( user_infos, callback ){
                     })
                     .then(function (response){
 
-                        //console.log("ok user")
-                        //console.log(response)
+                        ////console.log("ok user")
+                        ////console.log(response)
 
                         // user _ infos 
                         // manque isValidated
@@ -311,8 +311,8 @@ export function user_auth_action( user_infos, callback ){
 
                     }).catch(function (error) { 
 
-                        //console.log("ko user")
-                        //console.log(error.response)
+                        ////console.log("ko user")
+                        ////console.log(error.response)
                         // Flashbag
                         // Enable to get customer
                         callback('error')
@@ -320,11 +320,11 @@ export function user_auth_action( user_infos, callback ){
                     })
 
                 }/*else if( urole === 'supplier' ){
-                    //////console.log('get supplier')
+                    ////////console.log('get supplier')
                     axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v1/supplier/${uid}`)
                     .then(function (response){
-                        //////console.log('ok supplier')
-                        //////console.log(response)
+                        ////////console.log('ok supplier')
+                        ////////console.log(response)
                         
                         let supplier_payload =  {
  
@@ -359,28 +359,28 @@ export function user_auth_action( user_infos, callback ){
                         // Redirect
 
                     }).catch(function (error) {
-                        //////console.log('ko supplier')
-                        //////console.log(error)
+                        ////////console.log('ko supplier')
+                        ////////console.log(error)
                     })
 
                 }else{
                     // ko role 
-                    //////console.log('ko user role')
+                    ////////console.log('ko user role')
                 }*/
 
 
 
             }).catch(function (error) {
-                //console.log("ko validate")
-                //console.log(error)
+                ////console.log("ko validate")
+                ////console.log(error)
                 // Flashbag
                 // Enable to validate token
                 callback('error')
             })
             
         }).catch(function (error) {
-            //console.log("ko token")
-            //console.log(error)
+            ////console.log("ko token")
+            ////console.log(error)
             // Flashbag
             // Enable to generate token
             callback('error')
@@ -452,8 +452,8 @@ export function user_logout_action(){
 
             // Un - Register in browser memory
             localStorage.removeItem('senovea_user');
-            ////////console.log("afterlogout")
-            ////////console.log(localStorage.getItem('senovea_user'))
+            //////////console.log("afterlogout")
+            //////////console.log(localStorage.getItem('senovea_user'))
             // Flashbag
             // Redirect
 
@@ -478,8 +478,8 @@ export function user_update_action(user_infos){
         return axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v1/customer/update/${uid}`, new_user_data ,{
             headers: {'Content-Type': 'multipart/form-data' }
         }).then(function(response){
-            //////console.log("success")
-            //////console.log(response)
+            ////////console.log("success")
+            ////////console.log(response)
 
 
 
@@ -492,17 +492,17 @@ export function user_update_action(user_infos){
             })
 
             // UPDATE LOCAL STORAGE ( dégeulasse )
-            //////console.log('after update')
+            ////////console.log('after update')
             let stored_user = localStorage.getItem('senovea_user')
             let json_stored_user = JSON.parse(stored_user)
-            //////console.log(json_stored_user)
+            ////////console.log(json_stored_user)
             json_stored_user.user_email = response.data.email
             localStorage.setItem('senovea_user', JSON.stringify(json_stored_user))
 
 
         }).catch(function (error) {
-            //////console.log("error")
-            //////console.log(error.response)
+            ////////console.log("error")
+            ////////console.log(error.response)
             // Flashbag
             // Enable to update
         });
@@ -513,9 +513,9 @@ export function user_reset_action( user_email, callback ){
     const udata = new FormData;
     udata.append("customer_email", user_email);
     return ( dispatch ) => {
-        return axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v2/customer/reset`,udata,{})
+        return axios.post(`${WORDPRESS_API_BASE_URL}/centralis/v2/controller/customer/reset`,udata,{})
             .then((response) => {
-                //console.log(response)
+                ////console.log(response)
                 dispatch({
                     "type":USER_RESET,
                     "payload":{}
@@ -539,13 +539,13 @@ export const CALL_SUPPLIERS = "CALL_SUPPLIERS";
 export function callSuppliers() {
     return function (dispatch) {
         axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/suppliers`).then(response => {
-           //console.log(response.data.data);
+           ////console.log(response.data.data);
            dispatch({
                type: CALL_SUPPLIERS,
                payload: response.data.data
            })
         }).catch(error => {
-            //console.log(error);
+            ////console.log(error);
         })
     }
 }
@@ -557,13 +557,13 @@ export const CALL_CUSTOMERS = "CALL_CUSTOMERS";
 export function callCustomers() {
      return function (dispatch) {
           axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/customers`).then(response => {
-               //console.log(response.data.data);
+               ////console.log(response.data.data);
                dispatch({
                     type: CALL_CUSTOMERS,
                     payload: response.data.data
                })
           }).catch(error => {
-               console.log(error);
+               //console.log(error);
           })
      }
 }
@@ -574,8 +574,8 @@ export const CALL_PRODUCTS = 'CALL_PRODUCTS';
 
 export function call_product( utoken, user_arrondissement, callback ) {
 
-    //////console.log('ok call product');
-    //////console.log(user_arrondissement);
+    ////////console.log('ok call product');
+    ////////console.log(user_arrondissement);
 
     return function (dispatch) {
         //axios.get(`${WORDPRESS_API_BASE_URL}/senovea/v2/products/${user_arrondissement}`,{
@@ -586,9 +586,9 @@ export function call_product( utoken, user_arrondissement, callback ) {
             }
         })
             .then(function (response) {
-                console.log('ok product');
-                console.log(response);
-                //////console.log(typeof response.data.products_global);
+                //console.log('ok product');
+                //console.log(response);
+                ////////console.log(typeof response.data.products_global);
                 dispatch({
                     "type":CALL_PRODUCTS,
                     "payload": response.data.allproducts
@@ -597,8 +597,8 @@ export function call_product( utoken, user_arrondissement, callback ) {
                 callback('success')
 
             }).catch(function (error) {
-                //////console.log('products ko')
-                //////console.log(error.message)
+                ////////console.log('products ko')
+                ////////console.log(error.message)
                 callback('error')
             });
     }
@@ -623,8 +623,8 @@ export function get_order( token, callback ){
                 'Content-Type': 'multipart/form-data' 
             }
         } ).then((response)=>{
-            console.log('ok orders');
-            console.log(response)
+            //console.log('ok orders');
+            //console.log(response)
 
             dispatch({
                 "type":GET_ORDER,
@@ -633,8 +633,8 @@ export function get_order( token, callback ){
 
             callback('success')
         }).catch((error)=>{
-            console.log('ko orders');
-            console.log(error)
+            //console.log('ko orders');
+            //console.log(error)
             callback('error')
         })
 
@@ -648,15 +648,15 @@ export function post_order( token , panier_id , callback ){
     panierDATA.append('panier_id',panier_id);
 
     return (dispatch) =>{
-        axios.post(`${WORDPRESS_API_BASE_URL}/centralis/v2/controller/order`, panierDATA, {
+        axios.post(`${WORDPRESS_API_BASE_URL}/centralis/v2/controller/customer/order`, panierDATA, {
             headers: {
                 'Authorization' : `Bearer ${token}`,
                 'Content-Type': 'multipart/form-data' 
             }
         }).then((response)=>{
 
-            console.log('ok post order')
-            console.log(response)
+            //console.log('ok post order')
+            //console.log(response)
 
             switch ( response.data.status ){
                 case 'success':{
@@ -675,8 +675,8 @@ export function post_order( token , panier_id , callback ){
 
 
         }).catch((error)=>{
-            console.log("ko post order")
-            console.log(error)
+            //console.log("ko post order")
+            //console.log(error)
             callback('error')
         })
     }
@@ -709,8 +709,8 @@ export function load_panier( token , callback ){
                 })
             callback('success');
         }).catch(function(error){
-            //////console.log('ko paniers')
-            //////console.log(error)
+            ////////console.log('ko paniers')
+            ////////console.log(error)
             callback('error');
         })
     }
@@ -733,8 +733,8 @@ export function add_panier( formProps , token , callback ){
             }
         }).then(function(response){
 
-            //console.log('ok add paniers')
-            //console.log(response)
+            ////console.log('ok add paniers')
+            ////console.log(response)
 
             if( response.data.status === "success" ){
                 dispatch ({
@@ -747,7 +747,7 @@ export function add_panier( formProps , token , callback ){
             }
 
         }).catch(function(error){
-            //////console.log('ko add panier')
+            ////////console.log('ko add panier')
         })
 
     }
@@ -765,8 +765,8 @@ export function update_panier( update_panier , token , callback ){
                 //'X-Http-Method-Override': 'PUT',
             }
         }).then( (response) => {
-            console.log("ok update panier")
-            console.log(response)
+            //console.log("ok update panier")
+            //console.log(response)
 
             // dispatch here
             if( response.data.status === "success" ){
@@ -781,8 +781,8 @@ export function update_panier( update_panier , token , callback ){
 
 
         }).catch( (error) => {
-            console.log("ko update panier")
-            console.log(error)
+            //console.log("ko update panier")
+            //console.log(error)
         })
 
     }
@@ -862,8 +862,8 @@ export const ADD_ALERT = "ADD_ALERT"
 export const REMOVE_ALERT = "REMOVE_ALERT"
 
 export function add_alert( alert ){
-    ////console.log('alert action')
-    ////console.log(alert)
+    //////console.log('alert action')
+    //////console.log(alert)
     return {
         "type":ADD_ALERT,
         "payload":alert

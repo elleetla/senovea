@@ -32,6 +32,7 @@ import SupplierOrders from './app/screens/supplier-orders'
 import AllProducts from './app/screens/allproducts'
 import AccountPaniers from "./app/screens/account-paniers";
 import AccountInformations from "./app/screens/account-informations";
+import AccountMdp from "./app/screens/account-mdp";
 import AccountPaniersDetail from "./app/screens/account-paniers-detail";
 import GlobalLoading from './app/screens/globalLoading'
 import SupplierAccept from './app/screens/supplieraccept'
@@ -65,11 +66,11 @@ import { add_alert } from './app/actions/index';
                     }
                 }).then( (response) => {
 
-                    console.log(reponse)
-                    console.log('row')
+                    ////console.log(reponse)
+                    ////console.log('row')
 
                 }).catch( (error) => {
-                    console.log(error)
+                    ////console.log(error)
                 })*/
 
 const store = applyMiddleware(thunk)(createStore);
@@ -101,13 +102,13 @@ class App extends React.Component {
         axios.get('http://api.football-data.org/v2/competitions', {
             'headers' : {'X-Auth-Token': '354d9ebebc7046dc8ea2262797d8c48a'}
         }).then((response)=>{
-            console.log(response);
+            ////console.log(response);
         }).catch((error)=>{
-            console.log(error)
+            ////console.log(error)
         })
         */
 
-        ////console.log("componentDidMount")
+        ////////console.log("componentDidMount")
 
         // Quand l'application se lance 
 
@@ -117,7 +118,7 @@ class App extends React.Component {
 
         this.props.user_load_action((status)=>{
 
-            ////console.log(status)
+            ////////console.log(status)
 
             if( status === "success" ){
 
@@ -125,8 +126,8 @@ class App extends React.Component {
                 // LOAD PRODUCT
 
                 this.props.call_product( this.props.user.user_auth.auth_token , this.props.user.user_arrondissement, ( products_status )=>{
-                    ////console.log("products_status")
-                    ////console.log(products_status)
+                    ////////console.log("products_status")
+                    ////////console.log(products_status)
                     if( products_status === "success" ){
                         this.props.add_alert({
                             "status":"success",
@@ -146,10 +147,10 @@ class App extends React.Component {
                     // On update le panier actif 
                     // Par le dernier panier updaté
                     if( panier_status === "success" ){
-                        ////console.log('les paniers')
-                        ////console.log(this.props.paniers)
+                        ////////console.log('les paniers')
+                        ////////console.log(this.props.paniers)
                         let new_panier_settings = _.cloneDeep(this.props.paniersSettings)
-                        ////console.log(this.props.paniers)
+                        ////////console.log(this.props.paniers)
                         new_panier_settings.active_panier_id = _.findLastKey(this.props.paniers)
                         this.props.update_settings_panier(new_panier_settings);
                         this.props.add_alert({
@@ -225,7 +226,7 @@ class App extends React.Component {
     }
 
     render(){
-        //console.log(this)
+        //////console.log(this)
         return(
                 this.props.appSettings.globalLoading === true ? 
                     <GlobalLoading/>
@@ -241,13 +242,13 @@ class App extends React.Component {
                                         const dynamicChild = React.cloneElement(
                                         child,{
                                             onEnter:(el, isAppearing)=>{ 
-                                                //console.log("enter")
-                                                //console.log(el)
+                                                //////console.log("enter")
+                                                //////console.log(el)
                                                 TweenMax.fromTo( el, .5, { y: 15, opacity: 0, ease: Power4.easeOut }, { y: 0, opacity: 1, ease: Power4.easeOut } ).delay(0.5)                                            
                                             },
                                             onExit:(el, isAppearing)=>{
-                                                //console.log("exit")
-                                                //console.log(el)
+                                                //////console.log("exit")
+                                                //////console.log(el)
                                                 TweenMax.fromTo( el, .5, { y: 0, position:"absolute", top:"70px",width:"100%",height:"100%", opacity: 1, ease: Power4.easeOut }, { y: 15, opacity: 0, ease: Power4.easeOut } )
                                             }
                                         })
@@ -296,6 +297,13 @@ class App extends React.Component {
                                                             return <AccountInformations/>
                                                         }
                                                     }}/>
+                                                    <Route path="/account/mdp" render={ (props) => {
+                                                        if(this.props.user.user_auth.isAuth === false ){
+                                                            return <Redirect to="/"/>
+                                                        }else{
+                                                            return <AccountMdp/>
+                                                        }
+                                                    }}/>                                                    
                                                     <Route path="/account" render={ () => {
                                                         if(this.props.user.user_auth.isAuth === false ){
                                                             return <Redirect to="/"/>

@@ -35,7 +35,7 @@ class Products extends Component{
         this.handleAddToPanier = this.handleAddToPanier.bind(this);
     }
     componentDidMount( ){
-        ////console.log(this)
+        //////console.log(this)
         //this.props.call_product(this.props.user.user_arrondissement);
     }
     toggle(){
@@ -43,23 +43,23 @@ class Products extends Component{
     }
 
     handleAddToPanier( key ){
-        ////console.log('handleAddToPanier')
-        ////console.log(key)
+        //////console.log('handleAddToPanier')
+        //////console.log(key)
     }
 
     render() {
 
-        ////console.log("PRODUCTS")
-        ////console.log(this);
+        //////console.log("PRODUCTS")
+        //////console.log(this);
 
-        console.log( this.props )
+        //console.log( this.props )
         
 
         const groupedArticlesByFournisseurs = _.groupBy( this.props.productsFiltered , ( product ) => {
             return product.lot.lot_fournisseur_r1.ID;
         } );
 
-        console.log( groupedArticlesByFournisseurs );
+        //console.log( groupedArticlesByFournisseurs );
     
         return(
             <div>
@@ -74,7 +74,7 @@ class Products extends Component{
                             return article.lot.lot_id;
                         })
 
-                        console.log(groupedArticlesByLot);
+                        //console.log(groupedArticlesByLot);
 
                         return (
                             <Container key={indexF}>
@@ -140,8 +140,8 @@ class Products extends Component{
                                 <Row>
                                     { _.map(this.props.products, (categories_values, categories_keys) => {
 
-                                        ////console.log(categories_keys)
-                                        //console.log(categories_values)
+                                        //////console.log(categories_keys)
+                                        ////console.log(categories_values)
 
                                         return(
                                             <Col md="12" key={categories_keys}>
@@ -177,7 +177,7 @@ class Products extends Component{
                                                                     <p>{lots_values.lot_name} ({lots_values.lot_products.length} articles)</p>
                                                                 </div>
                                                             { _.map( lots_values.lot_products, ( prestations_values, prestations_keys ) =>{
-                                                                ////console.log(prestations_values)
+                                                                //////console.log(prestations_values)
                                                                 return(
                                                                     <Product key={prestations_keys} product_value={prestations_values} product_key={prestations_keys} lot_key={lots_keys} mode="catalog"   />
                                                                 )

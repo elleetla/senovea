@@ -8,7 +8,7 @@ import {connect} from "react-redux";
 
 class Footer extends Component{
     render(){
-        console.log(this.props);
+        //console.log(this.props);
         return(
             <div>
                  {this.props.user.user_auth.isAuth !== false ?
