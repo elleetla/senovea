@@ -77,13 +77,14 @@ class Product extends React.Component{
 
     }
 
-    handleAddToPanier( e, product_id ){
+    handleAddToPanier( e, product_id , product_quantity ){
 
         // vars
         const the_panier_id = this.props.paniersSettings.active_panier_id;
         const the_panier = this.props.paniers[the_panier_id];
         const the_lot_id = e.target.getAttribute('data-lotkey');
         const the_product_id = product_id;
+        const the_product_quantity = product_quantity;
 
         //console.log( e )
         //console.log( the_product_id );
@@ -133,10 +134,13 @@ class Product extends React.Component{
             "lid":the_lot_id,
             "pid":the_panier_id,
             "productid":the_product_id,
+            "productQuantity":the_product_quantity,
             "action":"add"
         }
 
         // Ici on update le panier
+
+        //console.log( panier_update );
         
         this.props.update_product_to_panier( panier_update , this.props.user.user_auth.auth_token , ( status ) => {
 
@@ -198,7 +202,7 @@ class Product extends React.Component{
 
     }
 
-    renderSwitchMode( mode, lot_key ){
+    renderSwitchMode( mode , lot_key ){
         //////console.log(mode)
         //console.log('yey')
         switch( mode ){
@@ -207,7 +211,7 @@ class Product extends React.Component{
                         !_.isEmpty( this.props.paniers ) ? 
                             (e) => {    
                                 this.setState({isLoading:true})
-                                this.handleAddToPanier( e, this.state.activeVariation ) 
+                                this.handleAddToPanier( e, this.state.activeVariation , this.state.activeNumbr ) 
                             } 
                         :
                         null
