@@ -754,19 +754,19 @@ export function add_panier( formProps , token , callback ){
 
 }
 
-export function update_panier( update_panier , token , callback ){
+export function update_product_to_panier( update_panier , token , callback ){
 
     return ( dispatch ) => {
 
-        axios.put( `${WORDPRESS_API_BASE_URL}/senovea/v2/panier`, update_panier , {
+        axios.put( `${WORDPRESS_API_BASE_URL}/senovea/v2/panier/products`, update_panier , {
             headers: {
                 'Authorization' : `Bearer ${token}`,
                 //'Content-Type': 'multipart/form-data',
                 //'X-Http-Method-Override': 'PUT',
             }
         }).then( (response) => {
-            //console.log("ok update panier")
-            //console.log(response)
+            console.log("ok update panier")
+            console.log(response)
 
             // dispatch here
             if( response.data.status === "success" ){

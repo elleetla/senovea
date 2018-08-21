@@ -2,7 +2,7 @@ import React from "react"
 import { connect } from "react-redux";
 import { bindActionCreators } from "redux";
 
-import { update_panier } from "../actions/index"
+import { update_product_to_panier } from "../actions/index"
 import { add_product_to_panier } from "../actions/index"
 import { add_alert } from "../actions/index"
 
@@ -20,6 +20,7 @@ class Product extends React.Component{
         this.state = {
             isOpen : false,
             activeVariation : "",
+            activeNumbr:0,
             isLoading: false
         };
 
@@ -27,6 +28,12 @@ class Product extends React.Component{
         this.handleProductChangeVariation = this.handleProductChangeVariation.bind(this);
         this.handleAddToPanier = this.handleAddToPanier.bind(this);
         this.renderSwitchMode = this.renderSwitchMode.bind(this);
+
+        this.upQuantity = this.upQuantity.bind(this);
+        this.downQuantity = this.downQuantity.bind(this);
+        this.renderQuantityInput = this.renderQuantityInput.bind(this);
+
+        
     }
 
     componentDidMount(){
@@ -44,6 +51,12 @@ class Product extends React.Component{
             })
 
         }
+
+        this.setState(
+            {
+                activeNumbr:0
+            }
+        )
 
     }
 
@@ -65,13 +78,17 @@ class Product extends React.Component{
     }
 
     handleAddToPanier( e, product_id ){
+
         // vars
         const the_panier_id = this.props.paniersSettings.active_panier_id;
         const the_panier = this.props.paniers[the_panier_id];
         const the_lot_id = e.target.getAttribute('data-lotkey');
-        const the_product_id = ''+product_id;
+        const the_product_id = product_id;
 
-        let the_new_panier = _.cloneDeep( the_panier );
+        //console.log( e )
+        //console.log( the_product_id );
+
+        /*let the_new_panier = _.cloneDeep( the_panier );
         if( the_new_panier.lots === false ){
 
             the_new_panier.lots = [];
@@ -107,18 +124,21 @@ class Product extends React.Component{
                  } )
             }
     
-        }
+        }*/
 
         ////console.log( the_new_panier );
 
         const panier_update = {
-            "id":the_panier_id,
-            "lots":the_new_panier.lots
+            "uid":this.props.user.user_id,
+            "lid":the_lot_id,
+            "pid":the_panier_id,
+            "productid":the_product_id,
+            "action":"add"
         }
 
         // Ici on update le panier
         
-        this.props.update_panier( panier_update , this.props.user.user_auth.auth_token , ( status ) => {
+        this.props.update_product_to_panier( panier_update , this.props.user.user_auth.auth_token , ( status ) => {
 
             //console.log( status );
             this.setState({
@@ -149,8 +169,38 @@ class Product extends React.Component{
 
     }
 
+
+    handleRemoveToPanier( e, product_id ){
+
+        // vars
+        const the_panier_id = this.props.paniersSettings.active_panier_id;
+        const the_panier = this.props.paniers[the_panier_id];
+        const the_lot_id = e.target.getAttribute('data-lotkey');
+        const the_product_id = product_id;
+
+        const panier_update = {
+            "uid":this.props.user.user_id,
+            "lid":the_lot_id,
+            "pid":the_panier_id,
+            "productid":the_product_id,
+            "action":"remove"
+        }
+
+        this.props.update_product_to_panier( panier_update , this.props.user.user_auth.auth_token , ( status ) => {
+
+            //console.log( status );
+            /*this.setState({
+                "isLoading":false
+            })*/
+
+        } );
+
+
+    }
+
     renderSwitchMode( mode, lot_key ){
         //////console.log(mode)
+        //console.log('yey')
         switch( mode ){
             case "catalog":{
                 return <Button onClick={ 
@@ -168,11 +218,47 @@ class Product extends React.Component{
                         </Button>
             }
             case "panier":{
-                return <Button style={{marginRight: "10px"}} className="btn-white" >Retirer du panier</Button>
+                return <Button onClick={ 
+                    (e) => {    
+                        this.setState({isLoading:true})
+                        this.handleRemoveToPanier( e, this.state.activeVariation ) 
+                    } 
+                } style={{marginRight: "10px"}} className="btn-white" data-lotkey={ lot_key }>Retirer du panier</Button>
             }
             default :
             break;
         }
+    }
+
+    upQuantity(){
+        console.log( "upQuantity" )
+
+        this.setState({
+            activeNumbr:this.state.activeNumbr + 1
+        })
+
+    }
+    downQuantity(){
+        console.log( "downQuantity" )
+
+        this.state.activeNumbr === 0 ?
+        null
+        :
+        this.setState({
+            activeNumbr:this.state.activeNumbr - 1
+        })
+
+    }
+
+    renderQuantityInput(){
+
+        return(
+            <div className="" style={{display:"flex",alignItems:"center"}}>
+                <Button style={{textAlign:"center"}} onClick={ this.downQuantity } className="">-</Button>
+                    <Input type="number" value={ this.state.activeNumbr } />
+                <Button style={{textAlign:"center"}} onClick={ this.upQuantity } className="">+</Button>
+            </div>
+        )
     }
 
     render(){
@@ -185,11 +271,14 @@ class Product extends React.Component{
             the_price = the_variation[0].variation_price
         }
 
+        console.log(this.state)
+
         return(
 
             <div className="article-bloc">
                 <Row>
                     <Col md="2">
+                        <p>{this.state.activeVariation}</p>
                         <p>Réf : <b> 
                         { 
                             `${this.props.product_value.attributes[0].attr_value[0]}-${this.props.product_value.attributes[1].attr_value[0]}-${this.props.product_value.attributes[2].attr_value[0]}-${this.props.product_value.attributes[4].attr_value[0]}`
@@ -203,7 +292,8 @@ class Product extends React.Component{
 
                     <Col md="2">
                             <div>
-                                { this.props.product_value.variations.length !== 0 ?
+                                { 
+                                    this.props.product_value.variations.length !== 0 ?
                                     <p>À partir de : <b>{the_price}€</b></p>
                                     :
                                     <p>À partir de : <b>{this.props.product_value.price }€</b></p>
@@ -213,12 +303,27 @@ class Product extends React.Component{
 
                      <Col md="2">
                           <div>
-                               <p>Quantité : test</p>
+
+                                <div>
+                                    <p>Quantité:</p>
+                                </div>
+                            
+                               <div>
+                                    {
+                                        _.has( this.props, "mode" ) ? 
+                                            this.props.mode === "panier" ? 
+                                            <p>Quantity:{this.props.quantity}</p>
+                                            :
+                                            this.renderQuantityInput()
+                                        :
+                                        null
+                                    }
+                               </div>
+
                           </div>
                      </Col>
 
                     <Col md="3" className="text-right">
-
                         {
                             _.has( this.props, "mode" ) ? 
                                 this.renderSwitchMode( this.props.mode, this.props.lot_key )
@@ -261,7 +366,7 @@ function mapDispatchToProps( dispatch ){
 
     return bindActionCreators({
 
-        "update_panier":update_panier,
+        "update_product_to_panier":update_product_to_panier,
         "add_product_to_panier":add_product_to_panier,
         "add_alert":add_alert
 
