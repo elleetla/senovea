@@ -297,3 +297,78 @@ button:focus {
     background: #ffff;
     margin: 0;
 }
+
+.content-bloc {
+    padding: 50px 60px;
+}
+
+.content-bloc h3{
+    font-size: 24px;
+    margin-bottom: 37px;
+}
+
+.content-bloc-img {
+    position: relative;
+    overflow: hidden;
+}
+
+.content-bloc-img img {
+    position: absolute;
+    left: 50%;
+    width: 100%;
+    top: 50%;
+    overflow: hidden;
+    transform: translate(-50%, -50%);
+}
+
+.section-bloc-about{
+    margin-bottom: 20px;
+}
+
+.section-bloc-about:last-child{
+    margin-bottom: 60px;
+}
+
+.list-section-about {
+    padding: 0;
+    list-style-type: none;
+    margin: 0;
+}
+
+.list-section-about li {
+    margin-bottom: 20px;
+    padding-left: 70px;
+    position: relative;
+}
+
+.icon-list-about {
+    background: #2C3948;
+    height: 33px;
+    display: flex;
+    font-size: 17px;
+    align-items: center;
+    justify-content: center;
+    width: 33px;
+    color: #ffffff;
+    position: absolute;
+    left: 0;
+    border-radius: 44px;
+    top: 0;
+}
+
+.section-bloc-about a{
+    color: #237CE2;
+}
+
+.list-section-about li:last-child{
+    margin: 0;
+}
+
+.table thead th, .table td, .table th{
+    border: 0;
+    vertical-align: middle;
+}
+
+.table-striped tbody tr:nth-of-type(odd){
+    background-color: #EBEEFD;
+}
