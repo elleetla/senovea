@@ -75,18 +75,13 @@ import { add_alert } from './app/actions/index';
 
 const store = applyMiddleware(thunk)(createStore);
 
-// https://stackoverflow.com/questions/43209666/react-router-v4-cannot-get-url
-// https://stackoverflow.com/questions/27928372/react-router-urls-dont-work-when-refreshing-or-writting-manually
-// https://stackoverflow.com/questions/35604617/react-router-with-optional-path-parameter
 class App extends React.Component {
 
     constructor(props){
         super(props);
-
         this.state = {
             cookieMentions : true
         };
-
         this.handleOutsideModalClicks = this.handleOutsideModalClicks.bind(this);
     }
 
@@ -121,8 +116,6 @@ class App extends React.Component {
             ////////console.log(status)
 
             if( status === "success" ){
-
-
                 // LOAD PRODUCT
 
                 this.props.call_product( this.props.user.user_auth.auth_token , this.props.user.user_arrondissement, ( products_status )=>{

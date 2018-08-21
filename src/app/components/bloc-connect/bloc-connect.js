@@ -15,7 +15,7 @@ import { update_modal_settings } from '../../actions/index';
 // creation of the class "AllSupliers"
 class BlocConnect extends React.Component{
     constructor(props){
-        super(props)
+        super(props);
         this.handleModalToggle = this.handleModalToggle.bind(this)
     }
 

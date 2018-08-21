@@ -198,9 +198,9 @@ button:focus {
 
 .displayBlocOpacity{
     opacity: 0;
-    transition-duration: 0.4s;
+    transition-duration: 1s;
     transition-delay: 0.2s;
-    margin-left: -400px;
+    margin-left: -580px;
 }
 
 
@@ -387,4 +387,16 @@ button:focus {
 
 .nav-account li .active{
     font-weight: 600;
+}
+
+.btn-quantity-count {
+    background: none;
+    border: 1px solid #dddddd;
+    padding: 4px 6px;
+    cursor: pointer;
+}
+
+.count-quantity {
+    width: 25px;
+    text-align: center;
 }
