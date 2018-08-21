@@ -89,8 +89,8 @@ class AccountPaniersDetail extends React.Component{
 
 
     render(){
-         console.log(this.props);
-         console.log("totalPrice: ", this.props.totalPrice);
+         //console.log(this.props);
+         //console.log("totalPrice: ", this.props.totalPrice);
 
         const groupedArticlesByFournisseurs = _.groupBy( this.props.panier.products_lots , ( product ) => {
             return product.lot.lot_fournisseur_r1.ID;
@@ -171,7 +171,7 @@ class AccountPaniersDetail extends React.Component{
 
                     <Row>
                     <Col md="12">
-                        <h4>Articles</h4>
+                        <h4 style={{marginBottom:"25px"}}>Articles</h4>
                     </Col>
                     </Row>
 
@@ -190,7 +190,7 @@ class AccountPaniersDetail extends React.Component{
                                                 return article.lot.lot_id;
                                             })
 
-                                            //console.log(groupedArticlesByLot);
+                                            ////console.log(groupedArticlesByLot);
 
                                             return (
 
@@ -222,12 +222,12 @@ class AccountPaniersDetail extends React.Component{
 
                                                     {_.map( groupedArticlesByLot , ( articles, indexL ) => {
                                                         return (
-                                                            <div className="bloc-lot" key={indexL}>
+                                                            <div style={{marginBottom:"25px"}} className="bloc-lot" key={indexL}>
                                                                 <div className="title-bloc-lot">
                                                                     <p>{articles[0].lot.lot_name} ({articles.length} {articles.length === 1 ? "article" : "articles"})</p>
                                                                 </div>
                                                                 {_.map( articles , ( article , indexA ) => {
-                                                                    return <Product key={article.id} product_value={article} product_key={article.id} lot_key={indexL} mode="panier"   />
+                                                                    return <Product key={indexA} product_value={article} product_key={article.id} lot_key={indexL} mode="panier"   />
                                                                 } )}
                                                             </div>
                                                         )
@@ -270,7 +270,7 @@ class AccountPaniersDetail extends React.Component{
                                                                         <p>{lots_values.lot_name} ({lots_values.lot_products.length} articles)</p>
                                                                     </div>
                                                                     { _.map( lots_values.lot_products, ( prestations_values, prestations_keys ) =>{
-                                                                        ////////console.log(prestations_values)
+                                                                        //////////console.log(prestations_values)
                                                                         return(
                                                                             <Product key={prestations_keys} product_value={prestations_values} product_key={prestations_keys} lot_key={lots_keys} mode="panier"  />
                                                                         )
@@ -311,19 +311,19 @@ function mapStateToProps(state, props){
      const lots_mapKeys = _.mapKeys( the_panier.lots, ( lot ) => {
           return lot.panier_lot_id
      })
-     ////////console.log('mapStateToProps')
-     ////////console.log(lots_mapKeys)
+     //////////console.log('mapStateToProps')
+     //////////console.log(lots_mapKeys)
      const lots_mapValues = _.mapValues( lots_mapKeys, ( lot ) => {
           return _.map( lot.panier_lot_articles, ( article ) => {
                return article.panier_article_id
           })
      })
-     ////////console.log(lots_mapValues)
+     //////////console.log(lots_mapValues)
 
      // Filters Lots
      const lotsFiltered = _.mapValues( state.products, ( cat_val, cat_key ) => {
-          ////////console.log(cat_val)
-          ////////console.log( lots_mapValues )
+          //////////console.log(cat_val)
+          //////////console.log( lots_mapValues )
 
           const filtered = _.filter(cat_val, (lot_val,lot_key)=>{
                return _.has(lots_mapValues, lot_key)
@@ -387,8 +387,8 @@ function mapStateToProps(state, props){
           }
      }
 
-     //////console.log(new_product)
-     ////////console.log(lotsFiltered)
+     ////////console.log(new_product)
+     //////////console.log(lotsFiltered)
 
 
      // Good product

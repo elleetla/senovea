@@ -304,11 +304,12 @@ class App extends React.Component {
                                                             return <AccountMdp/>
                                                         }
                                                     }}/>                                                    
-                                                    <Route path="/account" render={ () => {
+                                                    <Route path="/account" render={ ( props ) => {
                                                         if(this.props.user.user_auth.isAuth === false ){
                                                             return <Redirect to="/"/>
                                                         }else{
                                                             if ( this.props.user.user_auth.isCustomer === true && this.props.user.user_auth.isSupplier === false ){
+                                                                
                                                                 return (
                                                                     <div>
                                                                         <Account/>

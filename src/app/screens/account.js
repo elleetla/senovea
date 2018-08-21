@@ -46,6 +46,8 @@ class Account extends React.Component{
     render(){
         // Account data 
 
+        //console.log(this.props)
+
         //console.log(this)
         const account_data = {
             'update_user_email':this.props.user.user_email,
