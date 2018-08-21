@@ -6,6 +6,7 @@ import { connect } from 'react-redux'
 import { Field, reduxForm } from 'redux-form'
 import { Redirect, Link } from 'react-router-dom'
 import TextField from '@material-ui/core/TextField';
+import {urlfront} from '../../../config/config-api';
 
 import { Container, Row, Col, ListGroup, ListGroupItem } from 'reactstrap';
 
@@ -32,51 +33,40 @@ const renderField = (props) => {
 class Account extends React.Component{
 
     constructor(props){
-        super(props)
-        this.handleSubmit = this.handleSubmit.bind(this)
+        super(props);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleSubmit(formProps){
-        formProps.update_id = this.props.user.user_id
+        formProps.update_id = this.props.user.user_id;
         this.props.user_update_action(formProps)
         //console.log("submit")
         //console.log(formProps)
     }
 
     render(){
-        // Account data 
-
-        //console.log(this)
         const account_data = {
             'update_user_email':this.props.user.user_email,
             'update_user_name':this.props.user.user_name,
-        }
-        const activeStep = this.props.user.user_auth.isValidated ? 2 : 1
+        };
+        const activeStep = this.props.user.user_auth.isValidated ? 2 : 1;
 
         return(
-
             <Container style={{margin:"25px auto"}}>
-
                 <Row>
-
                     <Col md={3}>
-                        <ListGroup>
-                            <ListGroupItem><Link to="/account/paniers">Mes paniers</Link></ListGroupItem>
-                            <ListGroupItem><Link to="/account/informations">Mon profil</Link></ListGroupItem>
-                            <ListGroupItem><Link to="/account/mdp">Gestion du mot de passe</Link></ListGroupItem>
-                            <ListGroupItem><a onClick={ this.props.user_logout_action } href="javascript:void(0)">Déconnexion</a></ListGroupItem>
-                        </ListGroup>
+                        <ul className="nav-account">
+                             <li><Link to="/account/paniers" className={window.location.href === `${urlfront}/account/paniers` ? "active" : null}>Mes paniers</Link></li>
+                             <li><a href="#" className={window.location.href === `${urlfront}/account/profil` ? "active" : null}>Mon profil</a></li>
+                             <li><a href="javascript:void(0)">Gestion du mot de passe</a></li>
+                             <li><a onClick={ this.props.user_logout_action } href="javascript:void(0)">Déconnexion</a></li>
+                        </ul>
                     </Col>
                     <Col md={9}>
-
                         {this.props.children}
-
                     </Col>
-
                 </Row>
-
             </Container>
-
         )
     }
 

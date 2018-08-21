@@ -258,9 +258,8 @@ class App extends React.Component {
                                         <Transition 
                                             key={ routerProps.location.key } 
                                             timeout={{enter:500,exit:500}}
-                                            appear={true}  
                                         >
-                                            <div className="main" /*style={{position:"absolute",top:"70px",width:"100%",height:"100%"}}*/>
+                                            <div className="main">
                                                 <Switch location={routerProps.location} >
                                                     <Route exact path="/" component={Home} />
                                                     <Route path="/supplier/accept" component={SupplierAccept} />
@@ -283,18 +282,18 @@ class App extends React.Component {
                                                             return <AccountPaniersDetail routeProps={props} />
                                                         }
                                                     }}/>
-                                                    <Route path="/account/paniers" render={ (props) => {
+                                                    <Route path="/account/paniers" render={props => {
                                                         if(this.props.user.user_auth.isAuth === false ){
                                                             return <Redirect to="/"/>
                                                         }else{
-                                                            return <AccountPaniers/>
+                                                            return <AccountPaniers routeProps={props}/>
                                                         }
-                                                    }}/>
-                                                    <Route path="/account/informations" render={ (props) => {
+                                                    }} />
+                                                    <Route path="/account/informations" render={props => {
                                                         if(this.props.user.user_auth.isAuth === false ){
                                                             return <Redirect to="/"/>
-                                                        }else{
-                                                            return <AccountInformations/>
+                                                        } else{
+                                                            return <AccountInformations routeProps={props}/>
                                                         }
                                                     }}/>
                                                     <Route path="/account/mdp" render={ (props) => {
@@ -311,7 +310,7 @@ class App extends React.Component {
                                                             if ( this.props.user.user_auth.isCustomer === true && this.props.user.user_auth.isSupplier === false ){
                                                                 return (
                                                                     <div>
-                                                                        <Account/>
+                                                                        <Account routeProps={props}/>
                                                                     </div>
                                                                 )
                                                             }else{

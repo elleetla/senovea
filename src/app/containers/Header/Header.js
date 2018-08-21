@@ -142,6 +142,7 @@ class Header extends React.Component{
     }
 
     render(){
+         console.log(this.props);
         _.map(this.props.paniers.lots);
         return(
             <header id="header-app">

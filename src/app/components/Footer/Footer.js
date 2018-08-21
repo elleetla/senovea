@@ -12,9 +12,7 @@ class Footer extends Component{
         //console.log(this.props);
         return(
             <footer id="footer-app">
-                 <a id="btn-call">
-                      <img src={PictoMessage}/>
-                 </a>
+                 <a id="btn-call" href="mailto:contact@centralis.com"><img src={PictoMessage}/></a>
                  <Container>
                       <Row>
                            <Col lg="6">

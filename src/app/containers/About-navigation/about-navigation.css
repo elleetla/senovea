@@ -1,21 +1,44 @@
-.about-nav{
+#centralisNav{
     text-align: center;
-    padding: 8px 0;
+    padding: 12px 0;
     background: #ffffff;
     font-size: 14px;
+    z-index: 2;
 }
 
-.about-nav ul{
+.sticky-nav-fixed{
+    position: fixed;
+    left: 0;
+    top: 0;
+    width: 100%;
+    box-shadow: 0 0 40px rgba(0, 0, 0, 0.05);
+}
+
+#centralisNav ul{
     padding: 0;
     margin: 0;
 }
 
-.about-nav li {
+#centralisNav li a {
+    padding: 14px 18px;
     display: inline-block;
-    padding: 10px 15px;
+}
+
+#centralisNav li a:hover,
+#centralisNav li a:active,
+#centralisNav li a:focus{
+    color: #2C3948;
+    font-weight: 500;
+    border-radius: 4px;
+    background-color: #EBEEFD;
+}
+
+#centralisNav li {
+    display: inline-block;
+    padding: 0px 4px;
     border-right: 1px solid #EFEFEF;
 }
 
-.about-nav li:last-child{
+#centralisNav li:last-child{
     border-right: 0;
 }
