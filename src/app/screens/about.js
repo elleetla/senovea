@@ -13,7 +13,17 @@ export class About extends Component{
         return(
             <div>
                  <Banner titleBanner="Présentation"/>
-                 <AboutNavigation about={"#qui-sommes-nous"}/>
+
+                 <AboutNavigation about={
+                      {
+                           "section1" : "#section1",
+                           "section2" : "#section2",
+                           "section3" : "#section3",
+                           "section4" : "#section4",
+                           "section5" : "#section5"
+                      }
+                 }/>
+
                  <section className="container">
                       <Row>
                            <Col sm={12} className="mb-4 mt-4">
@@ -26,7 +36,7 @@ export class About extends Component{
                       </Row>
                  </section>
 
-                 <section id="qui-sommes-nous" className="container section-bloc-about">
+                 <section id="section1" className="container section-bloc-about">
                       <Row className="bloc-about">
                            <Col sm={8} className="align-self-center content-bloc">
                                 <h3>Qui sommes-nous ?</h3>
@@ -39,7 +49,7 @@ export class About extends Component{
                       </Row>
                  </section>
 
-                 <section className="container section-bloc-about">
+                 <section id="section2" className="container section-bloc-about">
                       <Row className="bloc-about">
                            <Col sm={4} className="p-0 content-bloc-img">
                                 <img className="img-fluid" src={`${urlApi}/wp-content/uploads/2018/08/chateau_chantier@2x.jpg`} alt=""/>
@@ -58,7 +68,7 @@ export class About extends Component{
                       </Row>
                  </section>
 
-                 <section className="container section-bloc-about">
+                 <section id="section3" className="container section-bloc-about">
                       <Row className="bloc-about">
                            <Col sm={8} className="align-self-center content-bloc">
                                 <h3>Qui sont les fournisseurs ?</h3>
@@ -73,7 +83,7 @@ export class About extends Component{
                       </Row>
                  </section>
 
-                 <section className="container section-bloc-about">
+                 <section id="section4" className="container section-bloc-about">
                       <Row className="bloc-about">
                            <Col sm={4} className="p-0 content-bloc-img">
                                 <img className="img-fluid" src={`${urlApi}/wp-content/uploads/2018/08/acheteur-centralis.jpg`} alt=""/>
@@ -83,8 +93,8 @@ export class About extends Component{
                                 <ul className="list-section-about">
                                      <li>
                                           <span className="icon-list-about">1</span>
-                                          Si vous n’êtes pas déjà adhérent, <a href="#">téléchargez le formulaire d’adhésion
-                                          à compléter</a> et <a href="#">inscrivez-vous en ligne</a>.
+                                          Si vous n’êtes pas déjà adhérent, <a href={`${urlApi}/wp-content/uploads/2018/06/offres-3.pdf`} target="_blank">téléchargez le bulletin d’adhésion
+                                          à compléter</a> et <a onClick={()=>{ this.handleModalToggle('login')}}>inscrivez-vous en ligne</a>.
                                           <br/>
                                           <br/>
                                           Le mot de passe sera envoyé rapidement dès validation de votre
@@ -111,7 +121,7 @@ export class About extends Component{
                       </Row>
                  </section>
 
-                 <section className="container section-bloc-about">
+                 <section id="section5" className="container section-bloc-about">
                       <Row className="bloc-about">
                            <Col sm={8} className="align-self-center content-bloc">
                                 <h3>Quel est le montant de l’adhésion ?</h3>
@@ -125,9 +135,9 @@ export class About extends Component{
                                      </thead>
                                      <tbody>
                                           <tr>
-                                               <td>500 €</td>
-                                               <td>Moins de 1 000</td>
-                                               <td>1</td>
+                                               <td><strong>500 €</strong></td>
+                                               <td><strong>Moins de 1 000</strong></td>
+                                               <td><strong>1</strong></td>
                                           </tr>
                                           <tr>
                                                <td>1000 €</td>
@@ -135,9 +145,9 @@ export class About extends Component{
                                                <td>2</td>
                                           </tr>
                                           <tr>
-                                               <td>5000 €</td>
-                                               <td>2 001 à 3 000</td>
-                                               <td>3</td>
+                                               <td><strong>5000 €</strong></td>
+                                               <td><strong>2 001 à 3 000</strong></td>
+                                               <td><strong>3</strong></td>
                                           </tr>
                                           <tr>
                                                <td>10 000 €</td>
@@ -145,9 +155,9 @@ export class About extends Component{
                                                <td>4</td>
                                           </tr>
                                           <tr>
-                                               <td>15 000 €</td>
-                                               <td>5 001 à 10 000</td>
-                                               <td>5 à 10</td>
+                                               <td><strong>15 000 €</strong></td>
+                                               <td><strong>5 001 à 10 000</strong></td>
+                                               <td><strong>5 à 10</strong></td>
                                           </tr>
                                           <tr>
                                                <td>20 000 €</td>
@@ -155,9 +165,9 @@ export class About extends Component{
                                                <td>11 à 20</td>
                                           </tr>
                                           <tr>
-                                               <td>25 000 €</td>
-                                               <td>20 001 à 50 000</td>
-                                               <td>21 à 50</td>
+                                               <td><strong>25 000 €</strong></td>
+                                               <td><strong>20 001 à 50 000</strong></td>
+                                               <td><strong>21 à 50</strong></td>
                                           </tr>
                                           <tr>
                                                <td>30 000 €</td>
@@ -165,9 +175,9 @@ export class About extends Component{
                                                <td>51 à 100</td>
                                           </tr>
                                           <tr>
-                                               <td>35 000 €</td>
-                                               <td>Plus de 100 000</td>
-                                               <td>Plus de 100</td>
+                                               <td><strong>35 000 €</strong></td>
+                                               <td><strong>Plus de 100 000</strong></td>
+                                               <td><strong>Plus de 100</strong></td>
                                           </tr>
                                      </tbody>
                                 </Table>

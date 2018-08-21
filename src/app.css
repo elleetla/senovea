@@ -3,12 +3,12 @@
 html, body, #root, .root-inside{
     height: 100%;
 }
+
 .main{
     min-height: 100%;
 }
 
 body {
-    /*background: linear-gradient(rgba(234, 239, 245, 100), rgba(248, 249, 250, 50));*/
     background-color: rgba(234, 239, 245, 100);
     font-family: 'Work Sans', sans-serif;
     color: #2C3948;
@@ -371,4 +371,20 @@ button:focus {
 
 .table-striped tbody tr:nth-of-type(odd){
     background-color: #EBEEFD;
+}
+
+.nav-account {
+    padding: 15px 36px;
+    margin: 0;
+    border: 1px solid #D9E1E8;
+    background-color: #ffffff;
+}
+
+.nav-account li {
+    list-style-type: none;
+    padding: 10px 0px;
+}
+
+.nav-account li .active{
+    font-weight: 600;
 }

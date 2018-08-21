@@ -281,28 +281,28 @@ class App extends React.Component {
                                                             return <AccountPaniersDetail routeProps={props} />
                                                         }
                                                     }}/>
-                                                    <Route path="/account/paniers" render={ (props) => {
+                                                    <Route path="/account/paniers" render={props => {
                                                         if(this.props.user.user_auth.isAuth === false ){
                                                             return <Redirect to="/"/>
                                                         }else{
-                                                            return <AccountPaniers/>
+                                                            return <AccountPaniers routeProps={props}/>
                                                         }
-                                                    }}/>
-                                                    <Route path="/account/informations" render={ (props) => {
+                                                    }} />
+                                                    <Route path="/account/informations" render={props => {
                                                         if(this.props.user.user_auth.isAuth === false ){
                                                             return <Redirect to="/"/>
-                                                        }else{
-                                                            return <AccountInformations/>
+                                                        } else{
+                                                            return <AccountInformations routeProps={props}/>
                                                         }
                                                     }}/>
-                                                    <Route path="/account" render={ () => {
+                                                    <Route path="/account" render={ (props) => {
                                                         if(this.props.user.user_auth.isAuth === false ){
                                                             return <Redirect to="/"/>
                                                         }else{
                                                             if ( this.props.user.user_auth.isCustomer === true && this.props.user.user_auth.isSupplier === false ){
                                                                 return (
                                                                     <div>
-                                                                        <Account/>
+                                                                        <Account routeProps={props}/>
                                                                     </div>
                                                                 )
                                                             }else{

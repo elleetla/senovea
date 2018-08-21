@@ -1,6 +1,6 @@
 #centralisNav{
     text-align: center;
-    padding: 8px 0;
+    padding: 12px 0;
     background: #ffffff;
     font-size: 14px;
     z-index: 2;
@@ -29,12 +29,13 @@
 #centralisNav li a:focus{
     color: #2C3948;
     font-weight: 500;
+    border-radius: 4px;
     background-color: #EBEEFD;
 }
 
 #centralisNav li {
     display: inline-block;
-    padding: 10px 6px;
+    padding: 0px 4px;
     border-right: 1px solid #EFEFEF;
 }
 
