@@ -86,8 +86,8 @@ class Product extends React.Component{
         const the_product_id = product_id;
         const the_product_quantity = product_quantity;
 
-        //console.log( e )
-        //console.log( the_product_id );
+        //////console.log( e )
+        //////console.log( the_product_id );
 
         /*let the_new_panier = _.cloneDeep( the_panier );
         if( the_new_panier.lots === false ){
@@ -127,7 +127,7 @@ class Product extends React.Component{
     
         }*/
 
-        ////console.log( the_new_panier );
+        ////////console.log( the_new_panier );
 
         const panier_update = {
             "uid":this.props.user.user_id,
@@ -140,11 +140,11 @@ class Product extends React.Component{
 
         // Ici on update le panier
 
-        //console.log( panier_update );
+        //////console.log( panier_update );
         
         this.props.update_product_to_panier( panier_update , this.props.user.user_auth.auth_token , ( status ) => {
 
-            //console.log( status );
+            //////console.log( status );
             this.setState({
                 "isLoading":false
             })
@@ -153,8 +153,8 @@ class Product extends React.Component{
 
 
         /*this.props.add_product_to_panier( user_id, panier_id, product_id, lot_id, ( status ) => {
-            ////////console.log(status)
-            ////console.log(this.props.paniers)
+            ////////////console.log(status)
+            ////////console.log(this.props.paniers)
             if(status === "success"){
                 this.setState({
                     isLoading:false
@@ -192,7 +192,7 @@ class Product extends React.Component{
 
         this.props.update_product_to_panier( panier_update , this.props.user.user_auth.auth_token , ( status ) => {
 
-            //console.log( status );
+            //////console.log( status );
             /*this.setState({
                 "isLoading":false
             })*/
@@ -203,8 +203,8 @@ class Product extends React.Component{
     }
 
     renderSwitchMode( mode , lot_key ){
-        //////console.log(mode)
-        //console.log('yey')
+        //////////console.log(mode)
+        //////console.log('yey')
         switch( mode ){
             case "catalog":{
                 return <Button onClick={ 
@@ -222,12 +222,13 @@ class Product extends React.Component{
                         </Button>
             }
             case "panier":{
-                return <Button onClick={ 
+                /*return <Button onClick={ 
                     (e) => {    
                         this.setState({isLoading:true})
                         this.handleRemoveToPanier( e, this.state.activeVariation ) 
                     } 
-                } style={{marginRight: "10px"}} className="btn-white" data-lotkey={ lot_key }>Retirer du panier</Button>
+                } style={{marginRight: "10px"}} className="btn-white" data-lotkey={ lot_key }>Retirer du panier</Button>*/
+                return null
             }
             default :
             break;
@@ -235,7 +236,7 @@ class Product extends React.Component{
     }
 
     upQuantity(){
-        console.log( "upQuantity" )
+        ////console.log( "upQuantity" )
 
         this.setState({
             activeNumbr:this.state.activeNumbr + 1
@@ -243,7 +244,7 @@ class Product extends React.Component{
 
     }
     downQuantity(){
-        console.log( "downQuantity" )
+        ////console.log( "downQuantity" )
 
         this.state.activeNumbr === 0 ?
         null
@@ -266,7 +267,7 @@ class Product extends React.Component{
     }
 
     render(){
-        //console.log("test", this.props);
+        //////console.log("test", this.props);
         let the_price = null;
         const the_variation = _.filter( this.props.product_value.variations, ( variation ) => {
             return parseInt(variation.variation_id) === parseInt(this.state.activeVariation)
@@ -275,7 +276,7 @@ class Product extends React.Component{
             the_price = the_variation[0].variation_price
         }
 
-        console.log(this.state)
+        //console.log(this)
 
         return(
 
@@ -316,7 +317,7 @@ class Product extends React.Component{
                                     {
                                         _.has( this.props, "mode" ) ? 
                                             this.props.mode === "panier" ? 
-                                            <p>Quantity:{this.props.quantity}</p>
+                                            <p><strong>{this.props.product_value.quantity}</strong></p>
                                             :
                                             this.renderQuantityInput()
                                         :
