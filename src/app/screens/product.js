@@ -20,7 +20,7 @@ class Product extends React.Component{
         this.state = {
             isOpen : false,
             activeVariation : "",
-            activeNumbr:0,
+            activeNumbr: 1,
             isLoading: false
         };
 
@@ -54,7 +54,7 @@ class Product extends React.Component{
 
         this.setState(
             {
-                activeNumbr:0
+                activeNumbr: 1
             }
         )
 
@@ -359,11 +359,9 @@ function mapStateToProps( state ){
 function mapDispatchToProps( dispatch ){
 
     return bindActionCreators({
-
         "update_product_to_panier":update_product_to_panier,
         "add_product_to_panier":add_product_to_panier,
         "add_alert":add_alert
-
     },dispatch)
 
 }

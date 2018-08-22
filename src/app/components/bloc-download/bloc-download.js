@@ -32,7 +32,7 @@ class BlocDownload extends React.Component{
 
     render(){
         return(
-            <div style={{marginTop:"100px",marginBottom:"100px"}}>
+            <section className="p-section-bloc">
                 <Container>
                     <Row>
                         <Col md={{ size: 6, offset: 3 }}>
@@ -40,14 +40,14 @@ class BlocDownload extends React.Component{
                                 <img src={PictoDoc} className="picto-user"/>
                                 <p className="title-connect-bloc">{this.props.titleBloc}</p>
                                 <ul>
-                                    <li><a href={`${urlApi}/wp-content/uploads/2018/06/offres-3.pdf`} target="_blank">Bulletin d'adhésion</a></li>
-                                    <li><a href={`${urlApi}/wp-content/uploads/2018/08/file-1.pdf`} target="_blank">Charte d'adhésion</a></li>
+                                    <li><a href={`${urlApi}/wp-content/uploads/2018/08/bulletin-adhesion.pdf`} target="_blank">Bulletin d'adhésion</a></li>
+                                    <li><a href={`${urlApi}/wp-content/uploads/2018/08/charte-adhesion.pdf`} target="_blank">Charte d'adhésion</a></li>
                                 </ul>
                             </div>
                         </Col>
                     </Row>
                 </Container>
-            </div>
+            </section>
         )
     }
 }

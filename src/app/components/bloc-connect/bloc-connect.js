@@ -34,7 +34,7 @@ class BlocConnect extends React.Component{
 
     render(){
         return(
-            <div style={{marginTop:"100px",marginBottom:"100px"}}>
+            <section className="p-section-bloc">
                 <Container>
                     <Row>
                         <Col md={{ size: 6, offset: 3 }}>
@@ -49,7 +49,7 @@ class BlocConnect extends React.Component{
                         </Col>
                     </Row>
                 </Container>
-            </div>
+            </section>
         )
     }
 }

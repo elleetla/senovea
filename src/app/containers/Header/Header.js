@@ -128,7 +128,7 @@ class Header extends React.Component{
                        {/*detailPanier.status === "not sended" ?
                            <p style={{textAlign: "center"}}><Link className="btn-white" to={`/account/paniers/${panierActive}`}>Voir le panier</Link></p> : null
                        */}
-                       <p style={{textAlign: "center"}}><Link className="btn-white" to={`/account/paniers/${panierActive}`}>Voir le panier</Link></p>
+                       <p style={{textAlign: "center"}}><Link className="btn-white" to={`/compte/panier/${panierActive}`}>Voir le panier</Link></p>
                   </DropdownItem>
               )
          } else{
@@ -156,7 +156,7 @@ class Header extends React.Component{
                                      <Link to="/" className={this.props.routeProps.location.pathname === "/" ? "nav-link active" : "nav-link"}>Catalogue</Link>
                                 </NavItem>
                                 <NavItem>
-                                     <Link to="/a-propos" className={this.props.routeProps.location.pathname === "/a-propos" ? "nav-link active" : "nav-link"}>Présentation</Link>
+                                     <Link to="/presentation" className={this.props.routeProps.location.pathname === "/presentation" ? "nav-link active" : "nav-link"}>Présentation</Link>
                                 </NavItem>
                                 <NavItem>
                                      <Link to="/acheteurs" className={this.props.routeProps.location.pathname === "/acheteurs" ? "nav-link active" : "nav-link"}>Acheteurs</Link>

@@ -80,6 +80,8 @@ import { add_alert } from './app/actions/index';
 
 const store = applyMiddleware(thunk)(createStore);
 
+console.log( WORDPRESS_API_BASE_URL );
+
 class App extends React.Component {
 
     constructor(props){
@@ -273,13 +275,15 @@ class App extends React.Component {
                                                             )
                                                         }
                                                     }}/>
-                                                    <Route path="/account/paniers/:id" render={ (props) => {
+
+                                                    <Route path="/compte/panier/:id" render={(props) => {
                                                         if(this.props.user.user_auth.isAuth === false ){
                                                             return <Redirect to="/"/>
-                                                        }else{
+                                                        } else{
                                                             return <AccountPaniersDetail routeProps={props} />
                                                         }
                                                     }}/>
+
                                                     <Route path="/compte/paniers" render={props => {
                                                         if(this.props.user.user_auth.isAuth === false ){
                                                             return <Redirect to="/"/>
@@ -349,7 +353,7 @@ class App extends React.Component {
                                                     }}/>
                                                     <Route path="/acheteurs" component={AllUsers}/>
                                                     <Route path="/prestataires" component={AllSuppliers}/>
-                                                    <Route exact path="/a-propos" component={About}/>
+                                                    <Route exact path="/presentation" component={About}/>
                                                     <Route exact path="/rgpd" component={Rgpd}/>
                                                     <Route exact path="/mentions-legales" component={MentionsLegales}/>
                                                     <Route exact path="/conditions-generales" component={Terms}/>

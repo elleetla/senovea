@@ -7,6 +7,7 @@ import { Link } from "react-router-dom";
 import _ from "lodash";
 import {delete_panier} from "../actions";
 import moment from "moment/moment";
+import Panier from '../assets/img/icon-panier.svg';
 
 const statutPanier = {
      "statut1": "À validé",
@@ -45,7 +46,7 @@ class AccountPaniers extends Component{
      detailPanier(statut, id){
           if(statut === statutPanier.statut2){
                return(
-                   <Link to={{ pathname: `/account/paniers/${id}`}}>
+                   <Link to={{ pathname: `/compte/panier/${id}`}}>
                         <button className="btn-green float-right">Voir le panier</button>
                    </Link>
                )
@@ -61,11 +62,15 @@ class AccountPaniers extends Component{
      }
 
      render(){
+          console.log("Prix détail panier :", this.props);
           return(
               <Account>
                    {_.isEmpty(this.props.paniers) ?
-                       <div style={{textAlign: "center"}}>
-                            <h3>Il n'y a aucun panier lié à votre compte</h3>
+                       <div style={{textAlign: "center"}} className="bloc-panier">
+                            <div className="header-bloc-panier">
+                                 <img height="auto" style={{width: "50px", marginBottom: "30px"}} src={Panier} alt="Icon Panier"/>
+                                 <h4>Il n'y a aucun panier lié à votre compte</h4>
+                            </div>
                        </div>
                        :
                        _.map( this.props.paniers, (panier) => {

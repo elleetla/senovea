@@ -17,7 +17,7 @@ class Footer extends Component{
                                 <img id="logo-footer" src={LogoFooter} alt="logo Centralis"/>
                            </Col>
                            <Col lg="6" className="text-right">
-                                <Link to="/mentions-legales">Mentions légales</Link> - <Link to="/conditions-generales">Conditions générales</Link> - <Link to="/rgpd">Rgpd</Link> - <Link to="/faq">FAQ</Link> - <Link to="/nous-contacter">Nous contacter</Link>
+                                <Link to="/mentions-legales">Mentions légales</Link> - <Link to="/conditions-generales">Conditions générales</Link> - <Link to="/rgpd">RGPD</Link> - <Link to="/faq">FAQ</Link> - <Link to="/nous-contacter">Nous contacter</Link>
                            </Col>
                       </Row>
                  </Container>

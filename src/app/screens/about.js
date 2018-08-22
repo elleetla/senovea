@@ -6,10 +6,10 @@ import {Row, Col, Table} from 'reactstrap';
 // import component centralis
 import Banner from '../containers/Banner/Banner';
 import AboutNavigation from '../containers/About-navigation/about-navigation';
-import {urlApi} from '../../../config/config-api';
-import {update_modal_settings} from "../actions";
-import {bindActionCreators} from "redux";
-import { connect } from 'react-redux'
+import { urlApi } from '../../../config/config-api';
+import { update_modal_settings } from "../actions";
+import { bindActionCreators } from "redux";
+import { connect } from 'react-redux';
 
 class About extends Component{
 
@@ -116,7 +116,7 @@ class About extends Component{
                                   <ul className="list-section-about">
                                        <li>
                                             <span className="icon-list-about">1</span>
-                                            Si vous n’êtes pas déjà adhérent, <a className="link-bloc-about" href={`${urlApi}/wp-content/uploads/2018/06/offres-3.pdf`} target="_blank">téléchargez le bulletin d’adhésion
+                                            Si vous n’êtes pas déjà adhérent, <a className="link-bloc-about" href={`${urlApi}/wp-content/uploads/2018/08/bulletin-adhesion.pdf`} target="_blank">téléchargez le bulletin d’adhésion
                                             à compléter</a> et <a className="link-bloc-about" onClick={()=>{this.handleModalToggle('register')}}>inscrivez-vous en ligne</a>.
                                             <br/>
                                             <br/>

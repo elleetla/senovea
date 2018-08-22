@@ -52,7 +52,7 @@ class Products extends Component{
         //console.log( groupedArticlesByFournisseurs );
     
         return(
-            <div>
+            <section className="p-section">
                 {!_.isEmpty( groupedArticlesByFournisseurs ) ?
                     _.map( groupedArticlesByFournisseurs , ( articles, indexF ) => {
                         const groupedArticlesByLot = _.groupBy( articles , ( article ) => {
@@ -60,7 +60,7 @@ class Products extends Component{
                         });
 
                         return (
-                            <Container key={indexF} style={{marginBottom: "120px"}}>
+                            <Container key={indexF}>
                                 <Row>
                                     <Col md="12" style={{marginBottom:"30px"}}>
                                         <Row className="bloc-suppliers" style={{marginBottom:"11px", marginLeft: "0px", marginRight: "0px"}}>
@@ -180,7 +180,7 @@ class Products extends Component{
                                 </Row>
                                 </Container>
                             }*/}
-            </div>
+            </section>
         )
     }
 }

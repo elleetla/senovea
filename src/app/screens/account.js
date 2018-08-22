@@ -40,8 +40,6 @@ class Account extends React.Component{
     handleSubmit(formProps){
         formProps.update_id = this.props.user.user_id;
         this.props.user_update_action(formProps)
-        //console.log("submit")
-        //console.log(formProps)
     }
 
     render(){
@@ -56,7 +54,7 @@ class Account extends React.Component{
                 <Row>
                     <Col md={3}>
                         <ul className="nav-account">
-                             <li><Link to="/account/paniers" className={window.location.href === `${urlfront}/account/paniers` ? "active" : null}>Mes paniers</Link></li>
+                             <li><Link to="/compte/paniers" className={window.location.href === `${urlfront}/account/paniers` ? "active" : null}>Mes paniers</Link></li>
                              <li><a href="#" className={window.location.href === `${urlfront}/account/profil` ? "active" : null}>Mon profil</a></li>
                              <li><a onClick={ this.props.user_logout_action } href="javascript:void(0)">Déconnexion</a></li>
                         </ul>

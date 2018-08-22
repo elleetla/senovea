@@ -8,6 +8,14 @@ html, body, #root, .root-inside{
     min-height: 100%;
 }
 
+.p-section-bloc{
+    padding: 100px 0;
+}
+
+.p-section{
+    padding: 0 0 140px 0;
+}
+
 body {
     background-color: rgba(234, 239, 245, 100);
     font-family: 'Work Sans', sans-serif;
