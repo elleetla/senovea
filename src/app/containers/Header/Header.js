@@ -105,7 +105,6 @@ class Header extends React.Component{
 
     renderBullPaniers(){
         const panierArray = _.keys(this.props.paniers);
-        //console.log("Counter panier : ", panierArray);
         if(panierArray.length !== 0){
             return(
                 <div>
@@ -135,7 +134,7 @@ class Header extends React.Component{
          } else {
               return(
                   <DropdownItem>
-                       <p>Aucun Panier actif pour le moment</p>
+                       <p>Aucun panier actif pour le moment</p>
                   </DropdownItem>
               )
          }
@@ -157,16 +156,16 @@ class Header extends React.Component{
                                      <Link to="/" className={this.props.routeProps.location.pathname === "/" ? "nav-link active" : "nav-link"}>Catalogue</Link>
                                 </NavItem>
                                 <NavItem>
-                                     <Link to="/about" className={this.props.routeProps.location.pathname === "/about" ? "nav-link active" : "nav-link"}>Présentation</Link>
+                                     <Link to="/a-propos" className={this.props.routeProps.location.pathname === "/a-propos" ? "nav-link active" : "nav-link"}>Présentation</Link>
                                 </NavItem>
                                 <NavItem>
-                                     <Link to="/users" className={this.props.routeProps.location.pathname === "/users" ? "nav-link active" : "nav-link"}>Acheteurs</Link>
+                                     <Link to="/acheteurs" className={this.props.routeProps.location.pathname === "/acheteurs" ? "nav-link active" : "nav-link"}>Acheteurs</Link>
                                 </NavItem>
                                 <NavItem>
-                                     <Link to="/suppliers" className={this.props.routeProps.location.pathname === "/suppliers" ? "nav-link active" : "nav-link"}>Prestataires</Link>
+                                     <Link to="/prestataires" className={this.props.routeProps.location.pathname === "/prestataires" ? "nav-link active" : "nav-link"}>Prestataires</Link>
                                 </NavItem>
                                 <NavItem>
-                                     <Link to="/telechargement" className={this.props.routeProps.location.pathname === "/telechargement" ? "nav-link active" : "nav-link"}>Téléchargement</Link>
+                                     <Link to="/telechargements" className={this.props.routeProps.location.pathname === "/telechargements" ? "nav-link active" : "nav-link"}>Téléchargements</Link>
                                 </NavItem>
                            </Nav>
                            {this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false ?
@@ -191,10 +190,9 @@ class Header extends React.Component{
                                          </DropdownToggle>
                                          <DropdownMenu right>
                                               <DropdownItem>
-                                                   <Link to="/account/paniers">Mes paniers</Link>
+                                                   <Link to="/compte/paniers">Mes paniers</Link>
                                               </DropdownItem>
                                               <DropdownItem disabled>Mon profil</DropdownItem>
-                                              <DropdownItem disabled>Gestion du mot de passe</DropdownItem>
                                               <DropdownItem>
                                                    <a onClick={ this.props.user_logout_action } href="javascript:void(0)">Déconnexion</a>
                                               </DropdownItem>
@@ -218,97 +216,13 @@ class Header extends React.Component{
             </header>
         )
     }
-
 }
 
 function mapStateToProps(state){
-/*
-    // Good panier
-    const the_panier_id = state.paniersSettings.active_panier_id;
-    const the_panier = _.get( _.pick( state.paniers, [the_panier_id] ), the_panier_id, {} )
-
-    // Panier Products
-    const lots_mapKeys = _.mapKeys( the_panier.lots, ( lot ) => {
-        return lot.panier_lot_id
-    });
-    ////////////console.log('mapStateToProps')
-    ////////////console.log(lots_mapKeys)
-    const lots_mapValues = _.mapValues( lots_mapKeys, ( lot ) => {
-        return _.map( lot.panier_lot_articles, ( article ) => {
-            return article.panier_article_id
-        })
-    })
-    ////////////console.log(lots_mapValues)
-
-    // Filters Lots
-    const lotsFiltered = _.mapValues( state.products, ( cat_val, cat_key ) => {
-        ////////////console.log(cat_val)
-        ////////////console.log( lots_mapValues )
-        const filtered = _.filter(cat_val, (lot_val,lot_key)=>{
-            return _.has(lots_mapValues, lot_key)
-        })
-
-        return _.isEmpty( filtered ) ?
-            {}:
-            _.mapKeys( filtered, (lot_val,lot_key) =>{
-                return lot_val.lot_id
-            })
-
-    } )
-
-    // Filters Products
-    let new_product = {};
-    let counterProduct = 0;
-    for( let cat_name in lotsFiltered ){
-        if( _.isEmpty( lotsFiltered[cat_name] ) === false ){
-            new_product[cat_name] = {}
-            for( let lot_id in lotsFiltered[cat_name] ){
-                new_product[cat_name][lot_id] = {}
-
-                new_product[cat_name][lot_id].lot_id = lotsFiltered[cat_name][lot_id].lot_id
-                new_product[cat_name][lot_id].lot_name = lotsFiltered[cat_name][lot_id].lot_name
-                new_product[cat_name][lot_id].lot_fournisseur_r1 = lotsFiltered[cat_name][lot_id].lot_fournisseur_r1
-
-                let products_array = []
-                // Good Products
-                for( let product of lotsFiltered[cat_name][lot_id].lot_products ){
-
-                    // Si variation empty
-                    if( _.isEmpty( product.variations ) === false ){
-                        for( let good_product_id of lots_mapValues[lot_id] ){
-                            for( let variation of product.variations ){
-                                if( parseInt(variation.variation_id) === parseInt(good_product_id) ){
-                                    // ajout
-                                    products_array.push( product )
-                                    counterProduct = counterProduct + 1;
-                                }
-                            }
-                        }
-                    }else{
-                        for( let good_product_id of lots_mapValues[lot_id] ){
-                            if( parseInt(product.id) === parseInt(good_product_id) ){
-                                // ajout
-                                products_array.push( product );
-                                counterProduct = counterProduct + 1;
-                            }
-                        }
-                    }
-
-                }
-
-                // Add Products
-                new_product[cat_name][lot_id].lot_products = products_array;
-
-            }
-        }
-    }
-*/
     return {
         "user":state.user,
         "paniers":state.paniers,
         "paniersSettings":state.paniersSettings,
-        //"newProduct" : new_product,
-        //"counterProduct": counterProduct,
         "alerts": state.alerts
     }
 }

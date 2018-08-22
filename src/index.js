@@ -26,7 +26,12 @@ import Account from './app/screens/account'
 import {Cart} from './app/screens/cart'
 import AllUsers from './app/screens/allusers'
 import AllSuppliers from './app/screens/allsuppliers'
-import {About} from './app/screens/about'
+import About from './app/screens/about';
+import Rgpd from './app/screens/rgpd';
+import MentionsLegales from './app/screens/mentions-legales';
+import Terms from './app/screens/terms';
+import ContactUs from './app/screens/contact-us';
+import Faq from './app/screens/faq';
 import {Downloading} from "./app/screens/downloading";
 import SupplierOrders from './app/screens/supplier-orders'
 import AllProducts from './app/screens/allproducts'
@@ -75,18 +80,13 @@ import { add_alert } from './app/actions/index';
 
 const store = applyMiddleware(thunk)(createStore);
 
-// https://stackoverflow.com/questions/43209666/react-router-v4-cannot-get-url
-// https://stackoverflow.com/questions/27928372/react-router-urls-dont-work-when-refreshing-or-writting-manually
-// https://stackoverflow.com/questions/35604617/react-router-with-optional-path-parameter
 class App extends React.Component {
 
     constructor(props){
         super(props);
-
         this.state = {
             cookieMentions : true
         };
-
         this.handleOutsideModalClicks = this.handleOutsideModalClicks.bind(this);
     }
 
@@ -121,8 +121,6 @@ class App extends React.Component {
             ////////console.log(status)
 
             if( status === "success" ){
-
-
                 // LOAD PRODUCT
 
                 this.props.call_product( this.props.user.user_auth.auth_token , this.props.user.user_arrondissement, ( products_status )=>{
@@ -282,7 +280,7 @@ class App extends React.Component {
                                                             return <AccountPaniersDetail routeProps={props} />
                                                         }
                                                     }}/>
-                                                    <Route path="/account/paniers" render={props => {
+                                                    <Route path="/compte/paniers" render={props => {
                                                         if(this.props.user.user_auth.isAuth === false ){
                                                             return <Redirect to="/"/>
                                                         }else{
@@ -349,10 +347,15 @@ class App extends React.Component {
                                                             }
                                                         }
                                                     }}/>
-                                                    <Route path="/users" component={AllUsers}/>
-                                                    <Route path="/suppliers" component={AllSuppliers}/>
-                                                    <Route exact path="/about" component={About}/>
-                                                    <Route path="/telechargement" component={Downloading}/>
+                                                    <Route path="/acheteurs" component={AllUsers}/>
+                                                    <Route path="/prestataires" component={AllSuppliers}/>
+                                                    <Route exact path="/a-propos" component={About}/>
+                                                    <Route exact path="/rgpd" component={Rgpd}/>
+                                                    <Route exact path="/mentions-legales" component={MentionsLegales}/>
+                                                    <Route exact path="/conditions-generales" component={Terms}/>
+                                                     <Route exact path="/nous-contacter" component={ContactUs}/>
+                                                    <Route exact path="/faq" component={Faq}/>
+                                                    <Route path="/telechargements" component={Downloading}/>
                                                 </Switch>
                                             </div>
                                         </Transition>

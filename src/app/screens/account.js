@@ -58,7 +58,6 @@ class Account extends React.Component{
                         <ul className="nav-account">
                              <li><Link to="/account/paniers" className={window.location.href === `${urlfront}/account/paniers` ? "active" : null}>Mes paniers</Link></li>
                              <li><a href="#" className={window.location.href === `${urlfront}/account/profil` ? "active" : null}>Mon profil</a></li>
-                             <li><a href="javascript:void(0)">Gestion du mot de passe</a></li>
                              <li><a onClick={ this.props.user_logout_action } href="javascript:void(0)">Déconnexion</a></li>
                         </ul>
                     </Col>

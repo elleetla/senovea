@@ -217,7 +217,7 @@ class Product extends React.Component{
                         null
                         } style={{marginRight: "10px"}} className="btn-white" data-lotkey={ lot_key }> 
                             { 
-                                this.state.isLoading === true ? "En cours…" : "Ajouter aux paniers"
+                                this.state.isLoading === true ? "En cours…" : "Ajouter au panier"
                             }
                         </Button>
             }
@@ -243,8 +243,6 @@ class Product extends React.Component{
 
     }
     downQuantity(){
-        console.log( "downQuantity" )
-
         this.state.activeNumbr === 0 ?
         null
         :
@@ -255,18 +253,17 @@ class Product extends React.Component{
     }
 
     renderQuantityInput(){
-
         return(
-            <div className="" style={{display:"flex",alignItems:"center"}}>
-                <Button style={{textAlign:"center"}} onClick={ this.downQuantity } className="">-</Button>
-                    <Input type="number" value={ this.state.activeNumbr } />
-                <Button style={{textAlign:"center"}} onClick={ this.upQuantity } className="">+</Button>
+            <div className="quantity-count" style={{display:"flex",alignItems:"center"}}>
+                <span style={{marginRight: "20px"}}>Quantité:</span>
+                <button style={{textAlign:"center"}} onClick={ this.downQuantity } className="btn-quantity-count">-</button>
+                    <span className="count-quantity">{this.state.activeNumbr}</span>
+                <button style={{textAlign:"center"}} onClick={ this.upQuantity } className="btn-quantity-count">+</button>
             </div>
         )
     }
 
     render(){
-        //console.log("test", this.props);
         let the_price = null;
         const the_variation = _.filter( this.props.product_value.variations, ( variation ) => {
             return parseInt(variation.variation_id) === parseInt(this.state.activeVariation)
@@ -298,22 +295,17 @@ class Product extends React.Component{
                             <div>
                                 { 
                                     this.props.product_value.variations.length !== 0 ?
-                                    <p>À partir de : <b>{the_price}€</b></p>
+                                    <p>À partir de : <b>{the_price}€/m<sup>2</sup></b></p>
                                     :
-                                    <p>À partir de : <b>{this.props.product_value.price }€</b></p>
+                                    <p>À partir de : <b>{this.props.product_value.price }€/m<sup>2</sup></b></p>
                                 }
                             </div>
                     </Col>
 
                      <Col md="2">
                           <div>
-
-                                <div>
-                                    <p>Quantité:</p>
-                                </div>
                             
-                               <div>
-                                    {
+                                {
                                         _.has( this.props, "mode" ) ? 
                                             this.props.mode === "panier" ? 
                                             <p>Quantity:{this.props.quantity}</p>
@@ -322,7 +314,6 @@ class Product extends React.Component{
                                         :
                                         null
                                     }
-                               </div>
 
                           </div>
                      </Col>

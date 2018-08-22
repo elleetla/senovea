@@ -12,13 +12,14 @@ import Divider from '@material-ui/core/Divider';
 import Checkbox from '@material-ui/core/Checkbox';*/
 
 // react strap
-import { Form, FormGroup, Row, Col, Input, Label, FormFeedback } from 'reactstrap';
+import { FormGroup, Row, Col, Input, Label, FormFeedback } from 'reactstrap';
 import LoadingSvg from '../assets/img/icon-preloader-connect.svg';
 
 // user auth action 
 import { user_register_action } from '../actions/index' 
 import { update_modal_settings } from '../actions/index';
 import { add_alert } from "../actions/index"
+import {urlApi} from "../../../config/config-api";
 
 
 // FIX FOR INPUT TYPE FILE
@@ -114,7 +115,7 @@ class Register extends React.Component{
 
 
                 // load 
-                this.setState({"loadingBtn":false})
+                this.setState({"loadingBtn":false});
 
                 // on close la modale 
                 let newModalSettings = _.cloneDeep(this.props.modalSettings)
@@ -166,7 +167,12 @@ class Register extends React.Component{
 
             <Row>
                 <Col md="12">
-
+                    <p className="text-center">
+                         Avant de vous inscrire veuillez <b>télécharger</b>,<br/>compléter et signer la charte d’adhésion.
+                    </p>
+                    <p className="text-center">
+                         <a style={{color: "#4B59E0", marginBottom: "20px"}} href={`${urlApi}/wp-content/uploads/2018/08/file-1.pdf`} target="_blank">TÉLÉCHARGER LE MODÈLE DE CHARTE</a>
+                    </p>
                     <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
 
                     <Row>
@@ -176,8 +182,8 @@ class Register extends React.Component{
                                 id="register_organisme"
                                 component={renderTextField}
                                 type="text"
-                                placeholder="Nom de l'organisme"
-                                label="Organisme"
+                                placeholder="Organisme acheteur"
+                                label="Organisme acheteur"
                             />
                         </Col>
                         <Col md="6">
@@ -186,8 +192,8 @@ class Register extends React.Component{
                                 id="register_service"
                                 component={renderTextField}
                                 type="text"
-                                placeholder="Nom du service ou du département"
-                                label="Service/Département"
+                                placeholder="Nom du service/département"
+                                label="Nom du service/département *"
                             />
                         </Col>
                     </Row>
@@ -209,7 +215,7 @@ class Register extends React.Component{
                                 id="register_nom"
                                 component={renderTextField}
                                 type="text"
-                                placeholder="Nom de la personne référente"
+                                placeholder="Nom"
                                 label="Nom"
                             />
                         </Col>
@@ -219,7 +225,7 @@ class Register extends React.Component{
                                 id="register_prenom"
                                 component={renderTextField}
                                 type="text"
-                                placeholder="Prénom de la personne référente"
+                                placeholder="Prénom"
                                 label="Prénom"
                             />
                         </Col>
@@ -232,8 +238,8 @@ class Register extends React.Component{
                                 id="register_arrondissement"
                                 component={renderTextField}
                                 type="number"
-                                placeholder="Arrondissement Napoléonien"
-                                label="Arrondissement Napoléonien"
+                                placeholder="Arrondissement"
+                                label="Arrondissement *"
                             />
                         </Col>
                         <Col md="6">
@@ -243,7 +249,7 @@ class Register extends React.Component{
                                 component={renderTextField}
                                 type="text"
                                 placeholder="Adresse"
-                                label="Adresse"
+                                label="Adresse *"
                             />
                         </Col>
                         <Col md="6">
@@ -253,7 +259,7 @@ class Register extends React.Component{
                                 component={renderTextField}
                                 type="number"
                                 placeholder="Code Postal"
-                                label="Code Postal"
+                                label="Code Postal *"
                             />
                         </Col>
                         <Col md="6">
@@ -263,7 +269,7 @@ class Register extends React.Component{
                                 component={renderTextField}
                                 type="text"
                                 placeholder="Ville"
-                                label="Ville"
+                                label="Ville *"
                             />
                         </Col>
                     </Row>
@@ -276,7 +282,7 @@ class Register extends React.Component{
                                 component={renderTextField}
                                 type="text"
                                 placeholder="Email"
-                                label="Email"
+                                label="Email *"
                             />
                         </Col>
                         <Col md="6">
@@ -285,8 +291,8 @@ class Register extends React.Component{
                                 id="register_phone"
                                 component={renderTextField}
                                 type="number"
-                                placeholder="Num. Téléphone"
-                                label="Num. Téléphone"
+                                placeholder="Numéro de téléphone"
+                                label="Numéro de téléphone *"
                             />
                         </Col>
                     </Row>
@@ -294,7 +300,7 @@ class Register extends React.Component{
                     <Row>
                         <Col md="12">
                             <Label variant="subheading" color="inherit">
-                                Importer la carte d'adhésion
+                                Importer la charte d'adhésion *
                             </Label>
                             <div>
                             <Field
@@ -330,9 +336,6 @@ class Register extends React.Component{
                         </Col>
                     </Row>
                     </form>
-                </Col>
-                <Col md="12">
-                    <p style={{textAlign:"center",marginBottom:"0px",marginTop:"1rem"}}> <a onClick={ ()=>{ this.handleModalToggle( 'login' ) } } href="javascript:void(0)">Se connecter</a>  </p>
                 </Col>
             </Row>  
         )

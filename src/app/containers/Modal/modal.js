@@ -3,6 +3,9 @@ import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import { Modal, ModalHeader, ModalBody } from 'reactstrap';
 
+// style
+import './modal.css';
+
 // components
 import LogIn from '../../screens/login'
 import Register from '../../screens/register'
@@ -22,33 +25,33 @@ class ModalSenovea extends React.Component{
     renderModalTitle(){
         switch(this.props.modalSettings.title){
             case "register":{
-                return " Inscription "
+                return "Inscrivez-vous ! "
             }
             case "login":{
-                return " Connexion "
+                return "Connectez-vous !"
             }
             case "resend":{
-                return " Oublie de mes identifiants "
+                return "Mot de passe oublié"
             }
             case "panier_create":{
-                return " Création d'un panier "
+                return "Créer un nouveau panier"
             }
             default :
-                return " Title "
+                return "Title"
         }
     }
     renderModalContent(){
         switch(this.props.modalSettings.component){
-            case "register":{
+            case "register": {
                 return <Register/>
             }
-            case "login":{
+            case "login": {
                 return <LogIn/>
             }
-            case "resend":{
+            case "resend": {
                 return <ReSend/>
             }
-            case "panier_create":{
+            case "panier_create": {
                 return <PanierForm/>
             }
             default :

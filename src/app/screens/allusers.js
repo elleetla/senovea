@@ -17,7 +17,7 @@ class AllUsers extends Component{
                         <div className="article-bloc">
                              <Row>
                                   <Col md="12" className="text-center">
-                                       <b>{data.username}</b>
+                                       <b>{/*data.username*/} Nom acheteur</b>
                                   </Col>
                              </Row>
                         </div>
