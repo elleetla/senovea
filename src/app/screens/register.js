@@ -171,7 +171,7 @@ class Register extends React.Component{
                          Avant de vous inscrire veuillez <b>télécharger</b>,<br/>compléter et signer la charte d’adhésion.
                     </p>
                     <p className="text-center">
-                         <a style={{color: "#4B59E0", marginBottom: "20px"}} href={`${urlApi}/wp-content/uploads/2018/08/file-1.pdf`} target="_blank">TÉLÉCHARGER LE MODÈLE DE CHARTE</a>
+                         <a style={{color: "#4B59E0", marginBottom: "20px"}} href={`${urlApi}/wp-content/uploads/2018/08/charte-adhesion.pdf`} target="_blank">TÉLÉCHARGER LE MODÈLE DE CHARTE</a>
                     </p>
                     <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
 

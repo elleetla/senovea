@@ -80,6 +80,8 @@ import { add_alert } from './app/actions/index';
 
 const store = applyMiddleware(thunk)(createStore);
 
+console.log( WORDPRESS_API_BASE_URL );
+
 class App extends React.Component {
 
     constructor(props){
