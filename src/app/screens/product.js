@@ -280,7 +280,7 @@ class Product extends React.Component{
             <div className="article-bloc">
                 <Row>
                     <Col md="2">
-                        <p>{this.state.activeVariation}</p>
+                        {/*<p>{this.state.activeVariation}</p>*/}
                         <p>Réf : <b> 
                         { 
                             `${this.props.product_value.attributes[0].attr_value[0]}-${this.props.product_value.attributes[1].attr_value[0]}-${this.props.product_value.attributes[2].attr_value[0]}-${this.props.product_value.attributes[4].attr_value[0]}`
