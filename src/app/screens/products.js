@@ -57,12 +57,10 @@ class Products extends Component{
                     _.map( groupedArticlesByFournisseurs , ( articles, indexF ) => {
                         const groupedArticlesByLot = _.groupBy( articles , ( article ) => {
                             return article.lot.lot_id;
-                        })
-
-                        //console.log(groupedArticlesByLot);
+                        });
 
                         return (
-                            <Container key={indexF}>
+                            <Container key={indexF} style={{marginBottom: "120px"}}>
                                 <Row>
                                     <Col md="12" style={{marginBottom:"30px"}}>
                                         <Row className="bloc-suppliers" style={{marginBottom:"11px", marginLeft: "0px", marginRight: "0px"}}>
