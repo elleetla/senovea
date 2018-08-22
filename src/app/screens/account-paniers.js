@@ -46,7 +46,7 @@ class AccountPaniers extends Component{
           if(statut === statutPanier.statut2){
                return(
                    <Link to={{ pathname: `/account/paniers/${id}`}}>
-                        <button className="btn-green float-right">Valider le panier</button>
+                        <button className="btn-green float-right">Voir le panier</button>
                    </Link>
                )
           } else{

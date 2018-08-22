@@ -72,7 +72,7 @@ class LogIn extends React.Component{
 
     handleSubmit(form_props){
 
-        this.setState({"loadingBtn":true})
+        this.setState({"loadingBtn":true});
         
         //console.log( "handleSubmit" );
         //console.log( form_props );
@@ -158,37 +158,36 @@ class LogIn extends React.Component{
         return(
             <Row>
                 <Col md="12">
-                    <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+                     <p className="text-center">Site web privé, réservé aux adhérents,<br/>veuillez vous connecter pour effectuer une recherche</p>
+                     <form onSubmit={this.props.handleSubmit(this.handleSubmit)}>
+                          <Field
+                              name="login_username"
+                              id="login_username"
+                              component={renderTextField}
+                              type="text"
+                              placeholder="Identifiant"
+                              label="Identifiant"
+                          />
 
-                                <Field
-                                    name="login_username"
-                                    id="login_username"
-                                    component={renderTextField}
-                                    type="text"
-                                    placeholder="Nom d'utilisateur"
-                                    label="Nom d'utilisateur"
-                                />
-                            
-                                <Field
-                                    name="login_password"
-                                    id="login_password"
-                                    component={renderTextField}
-                                    type="password"
-                                    placeholder="Mot de passe"
-                                    label="Mot de passe"
-                                />
-
-                                <div>
-                                <button style={{display:"flex",alignItems:"center",justifyContent:"space-between"}} id="btn-connect-modal" type="submit" className="btn-green" disabled={ this.props.submitting }>
-                                    <div style={{lineHeight:"1"}}>Se connecter</div>
-                                    <div style={ this.state.loadingBtn ? {marginLeft:"0",opacity:"1"} : {marginLeft:"0",opacity:"0"} } className="preloader-connect-user"><img src={LoadingSvg}/></div>
-                                </button>
-                                </div>
-
-                    </form>
+                          <Field
+                              name="login_password"
+                              id="login_password"
+                              component={renderTextField}
+                              type="password"
+                              placeholder="Mot de passe"
+                              label="Mot de passe"
+                          />
+                          <button style={{display:"flex",alignItems:"center",justifyContent:"space-between"}} id="btn-connect-modal" type="submit" className="btn-green" disabled={ this.props.submitting }>
+                               <div style={{lineHeight:"1"}}>Se connecter</div>
+                               <div style={ this.state.loadingBtn ? {marginLeft:"0",opacity:"1"} : {marginLeft:"0",opacity:"0"} } className="preloader-connect-user"><img src={LoadingSvg}/></div>
+                          </button>
+                     </form>
                 </Col>
                 <Col md="12">
-                    <p style={{textAlign:"center",marginBottom:"0px",marginTop:"1rem"}}> <a onClick={ ()=>{ this.handleModalToggle( 'register' ) } } href="javascript:void(0)">Vous n'avez pas de compte ? <b>Cliquez-ici !</b></a> | <a onClick={ ()=>{ this.handleModalToggle( 'resend' ) } } href="javascript:void(0)">Mot de passe oublié ?</a> </p>
+                    <p style={{textAlign:"center",marginBottom:"0px",marginTop:"1rem"}}>
+                         <a onClick={ ()=>{ this.handleModalToggle( 'resend' ) } } href="javascript:void(0)">Mot de passe oublié ?</a><br/>
+                         <a onClick={ ()=>{ this.handleModalToggle( 'register' ) } } href="javascript:void(0)">Vous n'avez pas de compte ? <b>Cliquez-ici !</b></a>
+                    </p>
                 </Col>
             </Row>
         )

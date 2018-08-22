@@ -5,7 +5,7 @@ import './about-navigation.css';
 import {Container, Row, Col} from 'reactstrap';
 
 class AboutNavigation extends Component{
-    
+
     constructor(props){
         super(props);
     }
