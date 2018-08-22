@@ -655,14 +655,14 @@ export function post_order( token , panier_id , callback ){
             }
         }).then((response)=>{
 
-            //console.log('ok post order')
-            //console.log(response)
+            console.log('ok post order')
+            console.log(response)
 
             switch ( response.data.status ){
                 case 'success':{
                     dispatch({
                         "type":POST_ORDER,
-                        "payload": {}
+                        "payload": { "panier_sent":panier_id }
                     })
                     callback('success')
                     break;

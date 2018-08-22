@@ -333,6 +333,7 @@ function orderReducer( state = [], action ){
         }
         case POST_ORDER:{
             console.log('post order reducer');
+            console.log(state);
             return action.payload
         }
         case PUT_ORDER:{

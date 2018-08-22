@@ -4,6 +4,7 @@ import { bindActionCreators } from "redux";
 import _ from "lodash"
 import Product from "./product"
 import moment from 'moment';
+import { BrowserRouter, HashRouter, Switch, Route, Redirect } from 'react-router-dom'
 
 import { post_order } from "../actions/index"
 import { order_panier } from "../actions/index"
@@ -29,7 +30,7 @@ class AccountPaniersDetail extends React.Component{
     handleOrder(  ){
 
         this.setState({
-            "orderLoading":false
+            "orderLoading":true
         })        
 
         this.props.post_order( this.props.user.user_auth.auth_token , this.props.panier.id , ( order_panier_status ) =>{
@@ -40,12 +41,20 @@ class AccountPaniersDetail extends React.Component{
                     "content":`Les commandes ont été crées`
                 })
 
+                this.setState({
+                    "orderLoading":false
+                })       
+            
             }else{
 
                 this.props.add_alert({
                     "status":"error",
                     "content":`Erreur lors de la création des commandes`
                 })
+
+                this.setState({
+                    "orderLoading":false
+                })  
 
             }
         })
@@ -89,6 +98,11 @@ class AccountPaniersDetail extends React.Component{
 
 
     render(){
+
+        if( this.props.panier.status !== "not sended" ) {
+            return <Redirect to="/account/paniers"/>
+        }
+
          //console.log(this.props);
          //console.log("totalPrice: ", this.props.totalPrice);
 
