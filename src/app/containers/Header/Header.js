@@ -131,7 +131,7 @@ class Header extends React.Component{
                        <p style={{textAlign: "center"}}><Link className="btn-white" to={`/account/paniers/${panierActive}`}>Voir le panier</Link></p>
                   </DropdownItem>
               )
-         } else {
+         } else{
               return(
                   <DropdownItem>
                        <p>Aucun panier actif pour le moment</p>
