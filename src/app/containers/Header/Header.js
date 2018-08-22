@@ -165,7 +165,7 @@ class Header extends React.Component{
                                      <Link to="/suppliers" className={this.props.routeProps.location.pathname === "/suppliers" ? "nav-link active" : "nav-link"}>Prestataires</Link>
                                 </NavItem>
                                 <NavItem>
-                                     <Link to="/telechargement" className={this.props.routeProps.location.pathname === "/telechargement" ? "nav-link active" : "nav-link"}>Téléchargement</Link>
+                                     <Link to="/telechargement" className={this.props.routeProps.location.pathname === "/telechargement" ? "nav-link active" : "nav-link"}>Téléchargements</Link>
                                 </NavItem>
                            </Nav>
                            {this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false ?

@@ -4,13 +4,14 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import './Footer.css';
 import LogoFooter from '../../assets/img/logo-light.png';
-import PictoMessage from '../../assets/img/picto_message.svg';
 
 class Footer extends Component{
     render(){
         return(
             <footer id="footer-app">
-                 <a id="btn-call" href="mailto:contact@centralis.com"><img src={PictoMessage}/></a>
+                 <a id="btn-call" href="mailto:contact@centralis.com">
+                      Besoin d'une assistance ?
+                 </a>
                  <Container>
                       <Row>
                            <Col lg="6">

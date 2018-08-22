@@ -213,7 +213,7 @@ class Product extends React.Component{
                         null
                         } style={{marginRight: "10px"}} className="btn-white" data-lotkey={ lot_key }> 
                             { 
-                                this.state.isLoading === true ? "En cours…" : "Ajouter aux paniers"
+                                this.state.isLoading === true ? "En cours…" : "Ajouter au panier"
                             }
                         </Button>
             }
@@ -291,9 +291,9 @@ class Product extends React.Component{
                             <div>
                                 { 
                                     this.props.product_value.variations.length !== 0 ?
-                                    <p>À partir de : <b>{the_price}€</b></p>
+                                    <p>À partir de : <b>{the_price}€/m<sup>2</sup></b></p>
                                     :
-                                    <p>À partir de : <b>{this.props.product_value.price }€</b></p>
+                                    <p>À partir de : <b>{this.props.product_value.price }€/m<sup>2</sup></b></p>
                                 }
                             </div>
                     </Col>

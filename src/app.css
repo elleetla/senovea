@@ -356,8 +356,13 @@ button:focus {
     top: 0;
 }
 
-.section-bloc-about a{
+.section-bloc-about .list-section-about .link-bloc-about{
     color: #237CE2;
+    cursor: pointer;
+}
+
+.section-bloc-about .list-section-about .link-bloc-about:hover{
+    color: #24DBCF;
 }
 
 .list-section-about li:last-child{

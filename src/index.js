@@ -26,7 +26,7 @@ import Account from './app/screens/account'
 import {Cart} from './app/screens/cart'
 import AllUsers from './app/screens/allusers'
 import AllSuppliers from './app/screens/allsuppliers'
-import {About} from './app/screens/about'
+import About from './app/screens/about'
 import {Downloading} from "./app/screens/downloading";
 import SupplierOrders from './app/screens/supplier-orders'
 import AllProducts from './app/screens/allproducts'
