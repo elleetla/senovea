@@ -209,7 +209,7 @@ class About extends Component{
                         </Row>
                    </section>
 
-                   <section id="section5" className="container section-bloc-about">
+                   <section id="section5" className="container section-bloc-about" style={{marginBottom: "100px"}}>
                         <Row>
                              <Col sm={12}>
                                   <button className="btn-green" onClick={() => {this.handleModalToggle('register')}}>Inscrivez-vous !</button>
