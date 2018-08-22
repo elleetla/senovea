@@ -44,13 +44,7 @@ class Products extends Component{
     }
 
     render() {
-
-        //////console.log("PRODUCTS")
-        //////console.log(this);
-
-        //console.log( this.props )
-        
-
+        console.log("suppliers :", this.props);
         const groupedArticlesByFournisseurs = _.groupBy( this.props.productsFiltered , ( product ) => {
             return product.lot.lot_fournisseur_r1.ID;
         } );
@@ -79,15 +73,16 @@ class Products extends Component{
                                                                <p style={{margin:"0px",color:"#17D5C8",fontWeight:"500", fontSize: "22px"}}>{articles[0].lot.lot_fournisseur_r1.supplier_organisme}</p>
                                                           </div>
                                                           <div style={{padding:"20px"}}>
+                                                               {console.log("test", articles[0].lot)}
                                                                <Row>
                                                                     <Col sm={6}>
-                                                                         <li>Lot : <strong> { articles[0].lot.lot_name } </strong></li>
-                                                                         <li>Secteur : <strong> { articles[0].lot.lot_fournisseur_r1.supplier_arrondissement } </strong></li>
-                                                                         <li>Adresse : <strong> { articles[0].lot.lot_fournisseur_r1.supplier_adresse } </strong></li>
+                                                                         <li>Lot : <strong> {articles[0].lot.lot_id} - {articles[0].lot.lot_name} </strong></li>
+                                                                         <li>Secteur : <strong>{articles[0].lot.lot_fournisseur_r1.supplier_arrondissement} - Nom du secteur</strong></li>
+                                                                         <li>Adresse : <strong> { articles[0].lot.lot_fournisseur_r1.supplier_adresse }</strong></li>
                                                                     </Col>
                                                                     <Col sm={6}>
-                                                                         <li>Contact : <strong> { articles[0].lot.lot_fournisseur_r1.supplier_contact} </strong></li>
-                                                                         <li>Téléphone : <strong> { articles[0].lot.lot_fournisseur_r1.supplier_phone} </strong></li>
+                                                                         <li>Contact : <strong> { articles[0].lot.lot_fournisseur_r1.supplier_contact}</strong></li>
+                                                                         <li>Téléphone : <strong> + 33 (0){articles[0].lot.lot_fournisseur_r1.supplier_phone}</strong></li>
                                                                          <li>Email : <strong> { articles[0].lot.lot_fournisseur_r1.user_email} </strong></li>
                                                                     </Col>
                                                                </Row>

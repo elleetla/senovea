@@ -26,7 +26,12 @@ import Account from './app/screens/account'
 import {Cart} from './app/screens/cart'
 import AllUsers from './app/screens/allusers'
 import AllSuppliers from './app/screens/allsuppliers'
-import About from './app/screens/about'
+import About from './app/screens/about';
+import Rgpd from './app/screens/rgpd';
+import MentionsLegales from './app/screens/mentions-legales';
+import Terms from './app/screens/terms';
+import ContactUs from './app/screens/contact-us';
+import Faq from './app/screens/faq';
 import {Downloading} from "./app/screens/downloading";
 import SupplierOrders from './app/screens/supplier-orders'
 import AllProducts from './app/screens/allproducts'
@@ -345,6 +350,11 @@ class App extends React.Component {
                                                     <Route path="/users" component={AllUsers}/>
                                                     <Route path="/suppliers" component={AllSuppliers}/>
                                                     <Route exact path="/about" component={About}/>
+                                                    <Route exact path="/rgpd" component={Rgpd}/>
+                                                    <Route exact path="/mentions-legales" component={MentionsLegales}/>
+                                                    <Route exact path="/conditions-generales" component={Terms}/>
+                                                     <Route exact path="/nous-contacter" component={ContactUs}/>
+                                                    <Route exact path="/faq" component={Faq}/>
                                                     <Route path="/telechargement" component={Downloading}/>
                                                 </Switch>
                                             </div>

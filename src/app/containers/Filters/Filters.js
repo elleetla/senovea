@@ -99,11 +99,10 @@ class Filters extends Component{
                             </Col>
                             <Col lg="4">
                                 <FormGroup className="mb-0">
-
                                     <Input 
                                         type="text" 
                                         name="text"
-                                        placeholder="Saisir une prestation, ex : Espace Vert"
+                                        placeholder="Saisir une prestation, ex : Tonte de gazon"
                                         value={this.props.productsFilterSettings.prestation}
                                         onChange={ ( e ) => { this.handleFilterInputUpdate( "prestation" , e ) } }
                                     />
