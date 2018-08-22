@@ -280,7 +280,7 @@ class App extends React.Component {
                                                             return <AccountPaniersDetail routeProps={props} />
                                                         }
                                                     }}/>
-                                                    <Route path="/account/paniers" render={props => {
+                                                    <Route path="/compte/paniers" render={props => {
                                                         if(this.props.user.user_auth.isAuth === false ){
                                                             return <Redirect to="/"/>
                                                         }else{
@@ -347,15 +347,15 @@ class App extends React.Component {
                                                             }
                                                         }
                                                     }}/>
-                                                    <Route path="/users" component={AllUsers}/>
-                                                    <Route path="/suppliers" component={AllSuppliers}/>
-                                                    <Route exact path="/about" component={About}/>
+                                                    <Route path="/acheteurs" component={AllUsers}/>
+                                                    <Route path="/prestataires" component={AllSuppliers}/>
+                                                    <Route exact path="/a-propos" component={About}/>
                                                     <Route exact path="/rgpd" component={Rgpd}/>
                                                     <Route exact path="/mentions-legales" component={MentionsLegales}/>
                                                     <Route exact path="/conditions-generales" component={Terms}/>
                                                      <Route exact path="/nous-contacter" component={ContactUs}/>
                                                     <Route exact path="/faq" component={Faq}/>
-                                                    <Route path="/telechargement" component={Downloading}/>
+                                                    <Route path="/telechargements" component={Downloading}/>
                                                 </Switch>
                                             </div>
                                         </Transition>

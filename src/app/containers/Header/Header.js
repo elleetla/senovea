@@ -134,7 +134,7 @@ class Header extends React.Component{
          } else {
               return(
                   <DropdownItem>
-                       <p>Aucun Panier actif pour le moment</p>
+                       <p>Aucun panier actif pour le moment</p>
                   </DropdownItem>
               )
          }
@@ -156,16 +156,16 @@ class Header extends React.Component{
                                      <Link to="/" className={this.props.routeProps.location.pathname === "/" ? "nav-link active" : "nav-link"}>Catalogue</Link>
                                 </NavItem>
                                 <NavItem>
-                                     <Link to="/about" className={this.props.routeProps.location.pathname === "/about" ? "nav-link active" : "nav-link"}>Présentation</Link>
+                                     <Link to="/a-propos" className={this.props.routeProps.location.pathname === "/a-propos" ? "nav-link active" : "nav-link"}>Présentation</Link>
                                 </NavItem>
                                 <NavItem>
-                                     <Link to="/users" className={this.props.routeProps.location.pathname === "/users" ? "nav-link active" : "nav-link"}>Acheteurs</Link>
+                                     <Link to="/acheteurs" className={this.props.routeProps.location.pathname === "/acheteurs" ? "nav-link active" : "nav-link"}>Acheteurs</Link>
                                 </NavItem>
                                 <NavItem>
-                                     <Link to="/suppliers" className={this.props.routeProps.location.pathname === "/suppliers" ? "nav-link active" : "nav-link"}>Prestataires</Link>
+                                     <Link to="/prestataires" className={this.props.routeProps.location.pathname === "/prestataires" ? "nav-link active" : "nav-link"}>Prestataires</Link>
                                 </NavItem>
                                 <NavItem>
-                                     <Link to="/telechargement" className={this.props.routeProps.location.pathname === "/telechargement" ? "nav-link active" : "nav-link"}>Téléchargements</Link>
+                                     <Link to="/telechargements" className={this.props.routeProps.location.pathname === "/telechargements" ? "nav-link active" : "nav-link"}>Téléchargements</Link>
                                 </NavItem>
                            </Nav>
                            {this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false ?
@@ -190,7 +190,7 @@ class Header extends React.Component{
                                          </DropdownToggle>
                                          <DropdownMenu right>
                                               <DropdownItem>
-                                                   <Link to="/account/paniers">Mes paniers</Link>
+                                                   <Link to="/compte/paniers">Mes paniers</Link>
                                               </DropdownItem>
                                               <DropdownItem disabled>Mon profil</DropdownItem>
                                               <DropdownItem>
