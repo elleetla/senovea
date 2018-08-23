@@ -275,6 +275,51 @@ button:focus {
     color:#FFF;
 }
 
+.title-panier{
+    font-size: 22px;
+    margin: 0;
+    width: 100%;
+    text-align: right;
+}
+
+.bloc-panier-sent .statut-panier{
+    background-color: #ffffff;
+    color: #6B77E7;
+}
+
+.list-infos-panier{
+    padding: 0;
+    margin: 0;
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.list-infos-panier b, .date-panier b{
+    font-weight: 500;
+    color: #ffffff;
+}
+
+.date-panier {
+    font-size: 20px;
+    font-weight: 300;
+}
+
+.list-infos-panier li {
+    display: inline-block;
+    padding-right: 20px;
+    padding-left: 20px;
+    border-right: 1px solid #9DA9E8;
+}
+
+.list-infos-panier li:last-child{
+    padding-right: 0;
+    border: 0;
+}
+
+.list-infos-panier li:first-child{
+    padding-left: 0;
+}
+
 .bloc-panier-table{
     width: 100%;
     box-shadow: 0px 2px 16px rgba(61, 68, 139, 0.05);
