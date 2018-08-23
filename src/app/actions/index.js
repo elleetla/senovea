@@ -18,6 +18,7 @@ export const USER_REGISTER = 'USER_REGISTER';
 export const USER_AUTH = 'USER_AUTH';
 export const USER_UPDATE = 'USER_UPDATE';
 export const USER_RESET = "USER_RESET";
+export const PAGE_ABOUT = "PAGE_ABOUT";
 
 export function call_users(stored_user_token){
     return function (dispatch) {
@@ -37,6 +38,19 @@ export function call_users(stored_user_token){
         })
     }
 }
+
+// action data call_users
+export function pageAbout() {
+     return function (dispatch) {
+          axios.get(`${WORDPRESS_API_BASE_URL}/wp/v2/pages/637`).then((response) => {
+               dispatch({
+                    "type": PAGE_ABOUT,
+                    "payload": response.data.acf
+               })
+          });
+     }
+}
+
 export function user_load_action( callback ){
 
     // vérifier localstorage 

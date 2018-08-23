@@ -7,7 +7,7 @@ import {Row, Col, Table} from 'reactstrap';
 import Banner from '../containers/Banner/Banner';
 import AboutNavigation from '../containers/About-navigation/about-navigation';
 import { urlApi } from '../../../config/config-api';
-import { update_modal_settings } from "../actions";
+import { update_modal_settings, pageAbout } from "../actions";
 import { bindActionCreators } from "redux";
 import { connect } from 'react-redux';
 
@@ -22,6 +22,10 @@ class About extends Component{
           };
      }
 
+     componentWillMount(){
+          this.props.pageAbout();
+     }
+
      handleModalToggle(component){
           const modalSize = component === "register" ? "big" : "medium";
           this.props.update_modal_settings({
@@ -33,6 +37,7 @@ class About extends Component{
      }
 
      render(){
+          console.log(this.props.aboutPage.section_about !== undefined ? this.props.aboutPage : null);
           return(
               <div>
                    <Banner titleBanner="Présentation"/>
@@ -222,12 +227,15 @@ class About extends Component{
 }
 
 function mapStateToProps(state){
-     return {state};
+     return {
+          "aboutPage": state.aboutPage
+     }
 }
 
 function mapDispatchToProps(dispatch){
      return bindActionCreators({
-          "update_modal_settings":update_modal_settings
+          "update_modal_settings":update_modal_settings,
+          "pageAbout": pageAbout
      }, dispatch)
 }
 

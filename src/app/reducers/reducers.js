@@ -38,8 +38,7 @@ import { DELETE_ORDER } from "../actions/index"
 
 import { UPDATE_PRODUCTS_FILTERSETTINGS } from "../actions/index"
 import { CALL_CUSTOMERS } from "../actions/index";
-
-
+import { PAGE_ABOUT } from "../actions/index";
 import _ from 'lodash'
 
 // suppliers 
@@ -104,6 +103,15 @@ function productReducer(state = [], action) {
     }
     return state
 }
+
+export const aboutPageReducer = (state = [], action) => {
+     switch (action.type){
+          case PAGE_ABOUT :
+               return action.payload;
+          default:
+               return state;
+     }
+};
 
 function userReducer( state = USER_INITIAL_STATE , action ){
     switch (action.type) {
@@ -293,6 +301,7 @@ function modalSettingsReducer( state = modalSettingsReducer_init, action ){
             return state
     }
 }
+
 function reducerFilterSuppliers(state = { "name": "", "rang": "", "arrondissement" : ""}, action){
     switch( action.type ){
         case FILTERS_SUPPLIERS:{
@@ -321,7 +330,6 @@ function alertsReducer( state = alertsReducer_init, action ){
             return state;
     }
 }
-
 
 function orderReducer( state = [], action ){
 
@@ -358,7 +366,6 @@ function deletePanier(state = {}, action){
     }
 }
 
-
 const productsFilterSettings_initdata = {
     "categorie":"ingenieurie",
     "prestation":"",
@@ -393,5 +400,6 @@ export const rootReducers = combineReducers({
     "orders":orderReducer,
     "deletePanier": deletePanier,
     "productsFilterSettings":productsFilterSettings,
-    "customers": reducerCustomers
+    "customers": reducerCustomers,
+    "aboutPage": aboutPageReducer
 });
