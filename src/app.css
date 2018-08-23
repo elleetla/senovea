@@ -4,7 +4,9 @@ html, body, #root, .root-inside{
     height: 100%;
 }
 
-.main{
+.main {
+    height: auto;
+    padding-top: 72px;
     min-height: 100%;
 }
 
@@ -13,7 +15,7 @@ html, body, #root, .root-inside{
 }
 
 .p-section{
-    padding: 0 0 140px 0;
+    padding: 0 0 30px 0;
 }
 
 body {

@@ -203,23 +203,21 @@ class AccountPaniers extends Component{
     
     render(){
         return(
-            <Account>   
-            <Container>
-            {
-                _.isEmpty(this.props.paniers) ?
-                <div style={{textAlign: "center"}} className="bloc-panier">
-                    <div className="header-bloc-panier">
-                        <img height="auto" style={{width: "50px", marginBottom: "30px"}} src={Panier} alt="Icon Panier"/>
-                        <h4>Il n'y a aucun panier lié à votre compte</h4>
-                    </div>
-                </div>
-                :
-                
-                _.map( this.props.paniers, (panier) => {
-                    return panier.status === "sended" ? this.renderSentPanier( panier ) : this.renderNotSentPanier( panier )
-                })   
-            }
-            </Container>
+            <Account>
+                 {
+                      _.isEmpty(this.props.paniers) ?
+                          <div style={{textAlign: "center"}} className="bloc-panier">
+                               <div className="header-bloc-panier">
+                                    <img height="auto" style={{width: "50px", marginBottom: "30px"}} src={Panier} alt="Icon Panier"/>
+                                    <h4>Il n'y a aucun panier lié à votre compte</h4>
+                               </div>
+                          </div>
+                          :
+
+                          _.map( this.props.paniers, (panier) => {
+                               return panier.status === "sended" ? this.renderSentPanier( panier ) : this.renderNotSentPanier( panier )
+                          })
+                 }
             </Account>
         )
         
