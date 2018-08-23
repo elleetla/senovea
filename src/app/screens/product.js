@@ -222,13 +222,12 @@ class Product extends React.Component{
                         </Button>
             }
             case "panier":{
-                /*return <Button onClick={ 
+                return <Button onClick={ 
                     (e) => {    
                         this.setState({isLoading:true})
                         this.handleRemoveToPanier( e, this.state.activeVariation ) 
                     } 
-                } style={{marginRight: "10px"}} className="btn-white" data-lotkey={ lot_key }>Retirer du panier</Button>*/
-                return null
+                } style={{marginRight: "10px"}} className="btn-white" data-lotkey={ lot_key }>Retirer du panier</Button>
             }
             default :
             break;
@@ -307,7 +306,7 @@ class Product extends React.Component{
                                 {
                                         _.has( this.props, "mode" ) ? 
                                             this.props.mode === "panier" ? 
-                                            <p><strong>{this.props.product_value.quantity}</strong></p>
+                                            <p><strong>Quantité : {this.props.product_value.quantity}</strong></p>
                                             :
                                             this.renderQuantityInput()
                                         :

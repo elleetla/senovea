@@ -30,7 +30,7 @@ class Home extends Component{
         this.setState({ collapse: !this.state.collapse });
     }
     render() {
-        console.log("suppliers test :", this.props);
+        //console.log("suppliers test :", this.props);
         return(
             <div>
                 <Banner

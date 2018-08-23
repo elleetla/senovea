@@ -30,7 +30,7 @@ class Products extends Component{
         this.handleAddToPanier = this.handleAddToPanier.bind(this);
     }
     componentDidMount( ){
-        //////console.log(this)
+        ////////console.log(this)
         //this.props.call_product(this.props.user.user_arrondissement);
     }
 
@@ -39,17 +39,17 @@ class Products extends Component{
     }
 
     handleAddToPanier( key ){
-        //////console.log('handleAddToPanier')
-        //////console.log(key)
+        ////////console.log('handleAddToPanier')
+        ////////console.log(key)
     }
 
     render() {
-        console.log("suppliers :", this.props);
+        //console.log("suppliers :", this.props);
         const groupedArticlesByFournisseurs = _.groupBy( this.props.productsFiltered , ( product ) => {
             return product.lot.lot_fournisseur_r1.ID;
         } );
 
-        //console.log( groupedArticlesByFournisseurs );
+        ////console.log( groupedArticlesByFournisseurs );
     
         return(
             <section className="p-section">
@@ -71,7 +71,6 @@ class Products extends Component{
                                                                <p style={{margin:"0px",color:"#17D5C8",fontWeight:"500", fontSize: "22px"}}>{articles[0].lot.lot_fournisseur_r1.supplier_organisme}</p>
                                                           </div>
                                                           <div style={{padding:"20px"}}>
-                                                               {console.log("test", articles[0].lot)}
                                                                <Row>
                                                                     <Col sm={6}>
                                                                          <li>Lot : <strong> {articles[0].lot.lot_id} - {articles[0].lot.lot_name} </strong></li>
@@ -128,8 +127,8 @@ class Products extends Component{
                                 <Row>
                                     { _.map(this.props.products, (categories_values, categories_keys) => {
 
-                                        //////console.log(categories_keys)
-                                        ////console.log(categories_values)
+                                        ////////console.log(categories_keys)
+                                        //////console.log(categories_values)
 
                                         return(
                                             <Col md="12" key={categories_keys}>
@@ -165,7 +164,7 @@ class Products extends Component{
                                                                     <p>{lots_values.lot_name} ({lots_values.lot_products.length} articles)</p>
                                                                 </div>
                                                             { _.map( lots_values.lot_products, ( prestations_values, prestations_keys ) =>{
-                                                                //////console.log(prestations_values)
+                                                                ////////console.log(prestations_values)
                                                                 return(
                                                                     <Product key={prestations_keys} product_value={prestations_values} product_key={prestations_keys} lot_key={lots_keys} mode="catalog"   />
                                                                 )
