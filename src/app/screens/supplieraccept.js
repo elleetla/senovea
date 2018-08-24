@@ -9,7 +9,7 @@ class SupplierAccept extends React.Component{
         super(props)
         this.state = {
             "order_status":""
-        }
+        };
         this.getUrlParameter = this.getUrlParameter.bind(this);
     }
     getUrlParameter(name){

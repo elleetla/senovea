@@ -140,6 +140,7 @@ export function user_load_action( callback ){
     }
 
 }
+
 export function user_register_action( user_infos, callback ){
 
     // FormData 
@@ -254,6 +255,7 @@ export function user_register_action( user_infos, callback ){
     }
 
 }
+
 export function user_auth_action( user_infos, callback ){
 
     // Generate Token
@@ -441,6 +443,7 @@ export function user_auth_action( user_infos, callback ){
     }
 
 }
+
 export function user_logout_action(){
 
     return function (dispatch) {
@@ -514,18 +517,19 @@ export function user_logout_action(){
 
 
 }
+
 export function user_update_action(user_infos){
 
     // VALIDATE TOKEN FIRST
 
-    //uid 
+    //uid
     let uid = user_infos.update_id
 
-    // FormData 
+    // FormData
     let new_user_data = new FormData()
     new_user_data.append('email',user_infos.update_email)
 
-    // ici vérifier le user token 
+    // ici vérifier le user token
 
     return function (dispatch) {
         return axios.post(`${WORDPRESS_API_BASE_URL}/senovea/v1/customer/update/${uid}`, new_user_data ,{
@@ -536,7 +540,7 @@ export function user_update_action(user_infos){
 
 
 
-            // new email 
+            // new email
             dispatch({
                 "type":USER_UPDATE,
                 "payload":{
@@ -562,6 +566,7 @@ export function user_update_action(user_infos){
     }
 
 }
+
 export function user_reset_action( user_email, callback ){
     const udata = new FormData;
     udata.append("customer_email", user_email);
@@ -583,7 +588,6 @@ export function user_reset_action( user_email, callback ){
 
     }
 }
-
 
 // Suppliers
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
@@ -658,13 +662,12 @@ export function call_product( utoken, user_arrondissement, callback ) {
 
 }
 
-
 // Orders
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-export const GET_ORDER = "GET_ORDER"
-export const POST_ORDER = "POST_ORDER"
-export const PUT_ORDER = "PUT_ORDER"
-export const DELETE_ORDER = "DELETE_ORDER"
+export const GET_ORDER = "GET_ORDER";
+export const POST_ORDER = "POST_ORDER";
+export const PUT_ORDER = "PUT_ORDER";
+export const DELETE_ORDER = "DELETE_ORDER";
 
 export function get_order( token, callback ){
 
@@ -736,15 +739,14 @@ export function post_order( token , panier_id , callback ){
 
 }
 
-
 // Paniers
 // * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-export const LOAD_PANIER = "LOAD_PANIER"
-export const ADD_PANIER = "ADD_PANIER"
-export const UPDATE_PANIER = "UPDATE_PANIER"
-export const DELETE_PANIER = "DELETE_PANIER"
-export const ADD_PRODUCT_TO_PANIER = "ADD_PRODUCT_TO_PANIER"
-export const ORDER_PANIER = "ORDER_PANIER"
+export const LOAD_PANIER = "LOAD_PANIER";
+export const ADD_PANIER = "ADD_PANIER";
+export const UPDATE_PANIER = "UPDATE_PANIER";
+export const DELETE_PANIER = "DELETE_PANIER";
+export const ADD_PRODUCT_TO_PANIER = "ADD_PRODUCT_TO_PANIER";
+export const ORDER_PANIER = "ORDER_PANIER";
 
 export function load_panier( token , callback ){
     return (dispatch)=>{
@@ -847,7 +849,6 @@ export function delete_panier(){
         "payload":{}
     }
 }
-
 
 /**
  * SPA ONLY - ACTION CREATORS
