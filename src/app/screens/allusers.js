@@ -1,13 +1,15 @@
-import React, {Component} from 'react';
+import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import Banner from '../containers/Banner/Banner';
-import {connect} from "react-redux";
-import {bindActionCreators} from "redux";
-import {callCustomers} from "../actions/index";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import { callCustomers } from "../actions/index";
+import { pageCustomers } from "../actions/index";
 
 class AllUsers extends Component{
      componentDidMount(){
           this.props.callCustomers();
+          this.props.pageCustomers();
      }
 
      renderCustomers(){
@@ -17,7 +19,7 @@ class AllUsers extends Component{
                         <div className="article-bloc">
                              <Row>
                                   <Col md="12" className="text-center">
-                                       <b>{/*data.username*/} Nom acheteur</b>
+                                       <b>{data.username}</b>
                                   </Col>
                              </Row>
                         </div>
@@ -27,13 +29,12 @@ class AllUsers extends Component{
      }
 
      render(){
-          console.log(this.props);
+          console.log("Users Banner :", this.props);
           return(
               <div>
                    <Banner
-                       titleBanner="Acheteurs référencés"
-                       desc="Nous nous réjouissions de compter dans notre communauté d'acheteurs
-                       des institutions prestigieuses qui nous font confiance dans le choix de leurs fournisseurs."
+                       titleBanner={this.props.customersPage.acf !== undefined ? this.props.customersPage.acf.banner_page.title_banner_page : null}
+                       desc={this.props.customersPage.acf !== undefined ? this.props.customersPage.acf.banner_page.subtitle_banner_page : null}
                    />
                    <Container className="mb-5 mt-5">
                         <Row>
@@ -57,15 +58,18 @@ function mapStateToProps(state){
           "user": state.user,
           "suppliers": state.suppliers,
           "suppliersSettings": state.suppliersSettings,
-          "customers": state.customers
+          "customers": state.customers,
+          "customersPage": state.customersPage
      }
 }
 
 function mapDispatchToPros(disptach){
      return(
-         bindActionCreators(
-             {"callCustomers":callCustomers}, disptach)
-     )
+         bindActionCreators({
+              "callCustomers": callCustomers,
+              "pageCustomers": pageCustomers
+         }, disptach)
+     );
 }
 
 // export

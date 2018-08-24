@@ -8,6 +8,7 @@ html, body, #root, .root-inside{
     height: auto;
     padding-top: 72px;
     min-height: 100%;
+    padding-bottom: 70px;
 }
 
 .p-section-bloc{
@@ -101,18 +102,64 @@ button:focus {
     box-shadow: 0px 2px 16px rgba(61, 68, 139, 0.05);
 }
 
+.bloc-download {
+    padding: 10px 20px;
+    display: block;
+    background: #ffffff;
+    border-radius: 4px;
+    -webkit-border-radius: 4px;
+    line-height: 18px;
+    color: #565F65;
+    font-weight: lighter;
+    -moz-border-radius: 4px;
+    border: 1px solid #D9E1E8;
+    margin-bottom: 4px;
+    box-shadow: 0px 2px 16px rgba(61, 68, 139, 0.05);
+}
+
+.bloc-download img{
+    margin-bottom: 0;
+}
+
 .select-product{
     display: inline-block;
     width: auto;
     font-size: 0.7rem;
 }
 
-.article-bloc .row {
+.article-bloc .row,
+.bloc-download .row {
     align-items: center;
 }
 
-.article-bloc p{
+.bloc-download ul{
+    padding: 0;
     margin: 0;
+    text-align: right;
+}
+
+.bloc-download li{
+    list-style-type: none;
+    margin-bottom: 10px;
+}
+
+.bloc-download li a{
+    text-decoration: underline;
+}
+
+.bloc-download li:last-child{
+    margin-bottom: 0;
+}
+
+.article-bloc p, .bloc-download p{
+    margin: 0;
+}
+
+p.title-bloc-download {
+    font-weight: 500;
+    font-size: 18px;
+    margin-bottom: 6px;
+    color: #2C3948;
 }
 
 .card{

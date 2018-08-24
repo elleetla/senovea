@@ -2,7 +2,7 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
-import { callSuppliers } from '../actions/index';
+import { callSuppliers, pageProviders } from '../actions/index';
 
 // import components elle&la
 import BlocConnect from '../components/bloc-connect/bloc-connect';
@@ -18,6 +18,7 @@ export class AllSuppliers extends Component{
 
     componentDidMount(){
         this.props.callSuppliers();
+        this.props.pageProviders();
     }
 
     renderSuppliers(){
@@ -58,11 +59,8 @@ export class AllSuppliers extends Component{
         return(
             <div>
                 <Banner
-                    titleBanner="Prestataires référencés"
-                    desc="Nous nous réjouissions de compter parmis nos entreprises
-                    partenaires des fournisseurs de services reconnus pour la qualité
-                    de leur travail et de leur accompaganement auprès d’organismes publics
-                    de dimensions nationale et internationale."
+                    titleBanner={this.props.providersPage.acf !== undefined ? this.props.providersPage.acf.banner_page.title_banner_page : null}
+                    desc={this.props.providersPage.acf !== undefined ? this.props.providersPage.acf.banner_page.subtitle_banner_page : null}
                 />
                 { this.props.user.user_auth.auth_token === '' && this.props.user.user_auth.isAuth === false ?
                     <BlocConnect
@@ -89,13 +87,17 @@ function mapStateToProps(state){
         "products": state.products,
         "user": state.user,
         "suppliers": state.suppliers,
-        "suppliersSettings": state.suppliersSettings
+        "suppliersSettings": state.suppliersSettings,
+        "providersPage": state.providersPage
     }
 }
 
 function mapDispatchToPros(disptach){
     return(
-        bindActionCreators({"callSuppliers":callSuppliers}, disptach)
+        bindActionCreators({
+             "callSuppliers": callSuppliers,
+             "pageProviders": pageProviders
+        }, disptach)
     )
 }
 

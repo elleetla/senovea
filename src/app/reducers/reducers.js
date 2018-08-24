@@ -40,6 +40,8 @@ import { UPDATE_PRODUCTS_FILTERSETTINGS } from "../actions/index"
 import { CALL_CUSTOMERS } from "../actions/index";
 import { PAGE_ABOUT } from "../actions/index";
 import { PAGE_DOWNLOADING } from "../actions/index";
+import { PAGE_PROVIDERS } from "../actions/index";
+import { PAGE_CUSTOMERS } from "../actions/index";
 import _ from 'lodash'
 
 // suppliers 
@@ -108,6 +110,24 @@ function productReducer(state = [], action) {
 export const aboutPageReducer = (state = [], action) => {
      switch (action.type){
           case PAGE_ABOUT :
+               return action.payload;
+          default:
+               return state;
+     }
+};
+
+export const customersPageReducer = (state = [], action) => {
+     switch (action.type){
+          case PAGE_CUSTOMERS :
+               return action.payload;
+          default:
+               return state;
+     }
+};
+
+export const providersPageReducer = (state = [], action) => {
+     switch (action.type){
+          case PAGE_PROVIDERS :
                return action.payload;
           default:
                return state;
@@ -413,5 +433,7 @@ export const rootReducers = combineReducers({
     "productsFilterSettings":productsFilterSettings,
     "customers": reducerCustomers,
     "aboutPage": aboutPageReducer,
-    "downloadingPage": dowloadingPageReducer
+    "downloadingPage": dowloadingPageReducer,
+    "providersPage": providersPageReducer,
+    "customersPage": customersPageReducer
 });

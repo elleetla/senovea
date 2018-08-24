@@ -1,17 +1,14 @@
 import React, {Component} from 'react'
 import { bindActionCreators } from 'redux'
 import { connect } from 'react-redux'
-import { urlApi } from '../../../../config/config-api';
 
 // import styles
 import { Container, Row, Col, } from 'reactstrap';
 import './bloc-download.css';
-
-// import assets
 import PictoDoc from '../../assets/img/picto_doc.svg';
 
 import { update_modal_settings } from '../../actions/index';
-import {pageDownloading} from "../../actions";
+import { pageDownloading } from "../../actions";
 
 // creation of the class "AllSupliers"
 class BlocDownload extends Component{
@@ -36,25 +33,35 @@ class BlocDownload extends Component{
     }
 
     render(){
-        console.log("data Download : ", this.props.downloadingPage.acf !== undefined ? this.props.downloadingPage.acf.section_doc_download : null);
         return(
-            <section className="p-section-bloc">
-                <Container>
+            <section>
+                <Container className="mb-5 mt-5">
                      <Row>
                           { this.props.downloadingPage.acf !== undefined ?
                               this.props.downloadingPage.acf.section_doc_download.map(data => {
                                    return(
-                                       <Col sm={12} style={{marginBottom: "20px"}}>
-                                           <div className="connect-bloc">
-                                                <img src={PictoDoc} className="picto-user"/>
-                                                <p>{data.title_section}</p>
-                                                <p>{data.subtitle_section}</p>
-                                                {data.file_section.map((dataFile) => {
-                                                    const numberDoc = 0;
-                                                     return(
-                                                         <a href={dataFile.file_download} target="_blank">Document {numberDoc + 1}</a>
-                                                     )
-                                                })}
+                                       <Col sm={12}>
+                                            <div className="bloc-download">
+                                                 <Row>
+                                                      <Col md="1">
+                                                           <img src={PictoDoc} className="picto-user"/>
+                                                      </Col>
+                                                      <Col md="6">
+                                                           <p className="title-bloc-download">{data.title_section}</p>
+                                                           <p className="subtitle-bloc-download">{data.subtitle_section}</p>
+                                                     </Col>
+                                                     <Col md="5">
+                                                          <ul>
+                                                               { data.file_section.map((dataFile) => {
+                                                                    return(
+                                                                        <li>
+                                                                             <a href={dataFile.file_download.url} target="_blank" download={dataFile.file_download.filename}>{dataFile.file_download.filename}</a>
+                                                                        </li>
+                                                                    )
+                                                               })}
+                                                          </ul>
+                                                      </Col>
+                                                </Row>
                                            </div>
                                        </Col>
                                    )

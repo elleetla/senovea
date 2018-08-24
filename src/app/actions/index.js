@@ -20,6 +20,8 @@ export const USER_UPDATE = 'USER_UPDATE';
 export const USER_RESET = "USER_RESET";
 export const PAGE_ABOUT = "PAGE_ABOUT";
 export const PAGE_DOWNLOADING = "PAGE_DOWNLOADING";
+export const PAGE_PROVIDERS = "PAGE_PROVIDERS";
+export const PAGE_CUSTOMERS = "PAGE_CUSTOMERS";
 
 export function call_users(stored_user_token){
     return function (dispatch) {
@@ -62,6 +64,30 @@ export function pageDownloading(){
              })
          })
     }
+}
+
+// action data page downloading
+export function pageCustomers(){
+     return function (dispatch) {
+          axios.get(`${WORDPRESS_API_BASE_URL}/wp/v2/pages/717`).then(response => {
+               dispatch({
+                    "type": PAGE_CUSTOMERS,
+                    "payload": response.data
+               })
+          })
+     }
+}
+
+// action data page providers
+export function pageProviders(){
+     return function (dispatch) {
+          axios.get(`${WORDPRESS_API_BASE_URL}/wp/v2/pages/705`).then(response => {
+               dispatch({
+                    "type": PAGE_PROVIDERS,
+                    "payload": response.data
+               })
+          })
+     }
 }
 
 export function user_load_action( callback ){
