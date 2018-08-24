@@ -39,6 +39,7 @@ import { DELETE_ORDER } from "../actions/index"
 import { UPDATE_PRODUCTS_FILTERSETTINGS } from "../actions/index"
 import { CALL_CUSTOMERS } from "../actions/index";
 import { PAGE_ABOUT } from "../actions/index";
+import { PAGE_DOWNLOADING } from "../actions/index";
 import _ from 'lodash'
 
 // suppliers 
@@ -111,6 +112,16 @@ export const aboutPageReducer = (state = [], action) => {
           default:
                return state;
      }
+};
+
+// reducer page downloading
+export const dowloadingPageReducer = (state = [], action) => {
+    switch (action.type){
+         case PAGE_DOWNLOADING :
+             return action.payload;
+         default:
+             return state;
+    }
 };
 
 function userReducer( state = USER_INITIAL_STATE , action ){
@@ -401,5 +412,6 @@ export const rootReducers = combineReducers({
     "deletePanier": deletePanier,
     "productsFilterSettings":productsFilterSettings,
     "customers": reducerCustomers,
-    "aboutPage": aboutPageReducer
+    "aboutPage": aboutPageReducer,
+    "downloadingPage": dowloadingPageReducer
 });

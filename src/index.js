@@ -32,7 +32,7 @@ import MentionsLegales from './app/screens/mentions-legales';
 import Terms from './app/screens/terms';
 import ContactUs from './app/screens/contact-us';
 import Faq from './app/screens/faq';
-import {Downloading} from "./app/screens/downloading";
+import Downloading from "./app/screens/downloading";
 import SupplierOrders from './app/screens/supplier-orders'
 import AllProducts from './app/screens/allproducts'
 import AccountPaniers from "./app/screens/account-paniers";

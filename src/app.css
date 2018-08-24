@@ -438,7 +438,7 @@ button:focus {
 }
 
 .content-bloc {
-    padding: 50px 60px;
+    padding: 50px 60px 40px 60px;
 }
 
 .content-bloc h3{
@@ -515,6 +515,10 @@ button:focus {
 
 .table-striped tbody tr:nth-of-type(odd){
     background-color: #EBEEFD;
+}
+
+.table-striped tbody tr:nth-of-type(odd) td {
+    font-weight: bold;
 }
 
 .nav-account {
