@@ -37,9 +37,8 @@ class BlocDownload extends Component{
             <section>
                 <Container className="mb-5 mt-5">
                      <Row>
-                          { this.props.downloadingPage.acf !== undefined ?
+                          {this.props.downloadingPage.acf !== undefined ?
                               this.props.downloadingPage.acf.section_doc_download.map(data => {
-                                  console.log("test pour id : ", data);
                                    return(
                                        <Col sm={12}>
                                             <div className="bloc-download">
@@ -53,7 +52,7 @@ class BlocDownload extends Component{
                                                      </Col>
                                                      <Col md="5">
                                                           <ul>
-                                                               {data.file_section.map((dataFile) => {
+                                                               {data.file_section.map(dataFile => {
                                                                     return(
                                                                         <li key={dataFile.file_download.id}>
                                                                              <a href={dataFile.file_download.url} target="_blank" download={dataFile.file_download.filename}>{dataFile.file_download.filename}</a>

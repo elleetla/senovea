@@ -16,7 +16,6 @@ class About extends Component{
      constructor(props){
           super(props);
           this.handleModalToggle = this.handleModalToggle.bind(this);
-
           this.state = {
                modalRegistration: false,
           };
@@ -40,7 +39,6 @@ class About extends Component{
           return(
               <div>
                    <Banner titleBanner={this.props.aboutPage.banner_page !== undefined ? this.props.aboutPage.banner_page.title_banner_page : null}/>
-
                    <AboutNavigation about={
                         {
                              "section1" : "#section1",
