@@ -188,11 +188,11 @@ class About extends Component{
                                   <h3>Quel est le montant de l’adhésion ?</h3>
                                   <Table size="sm" className="text-center" striped>
                                        <thead>
-                                       <tr>
-                                            <th>Adhésion annuelle</th>
-                                            <th>Pour les collectivités<br/>(en habitants)</th>
-                                            <th>Pour les autres organismes<br/>(en salariés)</th>
-                                       </tr>
+                                            <tr>
+                                                 <th>Adhésion annuelle</th>
+                                                 <th>Pour les collectivités<br/>(en habitants)</th>
+                                                 <th>Pour les autres organismes<br/>(en salariés)</th>
+                                            </tr>
                                        </thead>
                                        <tbody>
                                        { this.props.aboutPage.section_about !== undefined ?

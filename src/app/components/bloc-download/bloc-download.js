@@ -1,8 +1,7 @@
-import React                                from 'react'
-import { compose, bindActionCreators }      from 'redux'
-import { connect }                          from 'react-redux'
-import { Link }                             from 'react-router-dom'
-import {urlApi}                             from '../../../../config/config-api';
+import React, {Component} from 'react'
+import { bindActionCreators } from 'redux'
+import { connect } from 'react-redux'
+import { urlApi } from '../../../../config/config-api';
 
 // import styles
 import { Container, Row, Col, } from 'reactstrap';
@@ -12,12 +11,18 @@ import './bloc-download.css';
 import PictoDoc from '../../assets/img/picto_doc.svg';
 
 import { update_modal_settings } from '../../actions/index';
+import {pageDownloading} from "../../actions";
 
 // creation of the class "AllSupliers"
-class BlocDownload extends React.Component{
+class BlocDownload extends Component{
+
     constructor(props){
-        super(props)
+        super(props);
         this.handleModalToggle = this.handleModalToggle.bind(this)
+    }
+
+    componentWillMount(){
+        this.props.pageDownloading();
     }
 
     handleModalToggle( component ){
@@ -27,25 +32,36 @@ class BlocDownload extends React.Component{
             "title":component,
             "component":component,
             "size":modalsize
-        })
+        });
     }
 
     render(){
+        console.log("data Download : ", this.props.downloadingPage.acf !== undefined ? this.props.downloadingPage.acf.section_doc_download : null);
         return(
             <section className="p-section-bloc">
                 <Container>
-                    <Row>
-                        <Col md={{ size: 6, offset: 3 }}>
-                            <div className="connect-bloc">
-                                <img src={PictoDoc} className="picto-user"/>
-                                <p className="title-connect-bloc">{this.props.titleBloc}</p>
-                                <ul>
-                                    <li><a href={`${urlApi}/wp-content/uploads/2018/08/bulletin-adhesion.pdf`} target="_blank">Bulletin d'adhésion</a></li>
-                                    <li><a href={`${urlApi}/wp-content/uploads/2018/08/charte-adhesion.pdf`} target="_blank">Charte d'adhésion</a></li>
-                                </ul>
-                            </div>
-                        </Col>
-                    </Row>
+                     <Row>
+                          { this.props.downloadingPage.acf !== undefined ?
+                              this.props.downloadingPage.acf.section_doc_download.map(data => {
+                                   return(
+                                       <Col sm={12} style={{marginBottom: "20px"}}>
+                                           <div className="connect-bloc">
+                                                <img src={PictoDoc} className="picto-user"/>
+                                                <p>{data.title_section}</p>
+                                                <p>{data.subtitle_section}</p>
+                                                {data.file_section.map((dataFile) => {
+                                                    const numberDoc = 0;
+                                                     return(
+                                                         <a href={dataFile.file_download} target="_blank">Document {numberDoc + 1}</a>
+                                                     )
+                                                })}
+                                           </div>
+                                       </Col>
+                                   )
+                              })
+                              : null
+                          }
+                     </Row>
                 </Container>
             </section>
         )
@@ -53,16 +69,16 @@ class BlocDownload extends React.Component{
 }
 
 function mapStateToProps(state){
-    return{
-
-    }
+     return{
+          "downloadingPage": state.downloadingPage
+     }
 }
 
-// export
-function mapDispatchToProps(dispatch){
-    return bindActionCreators({
-        "update_modal_settings":update_modal_settings
-    }, dispatch)
+function mapDispatchTopProps(dispatch) {
+     return bindActionCreators({
+          "pageDownloading": pageDownloading,
+          "update_modal_settings":update_modal_settings
+     }, dispatch);
 }
 
-export default compose(connect(mapStateToProps, mapDispatchToProps))(BlocDownload)
+export default connect(mapStateToProps, mapDispatchTopProps)(BlocDownload);
