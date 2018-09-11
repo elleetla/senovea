@@ -30,7 +30,7 @@ class Products extends Component{
         this.handleAddToPanier = this.handleAddToPanier.bind(this);
     }
     componentDidMount( ){
-        ////////console.log(this)
+        ////////////console.logthis)
         //this.props.call_product(this.props.user.user_arrondissement);
     }
 
@@ -39,25 +39,30 @@ class Products extends Component{
     }
 
     handleAddToPanier( key ){
-        ////////console.log('handleAddToPanier')
-        ////////console.log(key)
+        ////////////console.log'handleAddToPanier')
+        ////////////console.logkey)
     }
 
     render() {
-        //console.log("suppliers :", this.props);
-        const groupedArticlesByFournisseurs = _.groupBy( this.props.productsFiltered , ( product ) => {
-            return product.lot.lot_fournisseur_r1.ID;
+
+        //////console.logthis.props)
+        
+        const groupedLotsByFournisseurs = _.groupBy( this.props.productsFiltered , ( lot ) => {
+            return lot.lot_fournisseur_R1.ID;
         } );
 
-        ////console.log( groupedArticlesByFournisseurs );
+        ////console.log groupedLotsByFournisseurs );
     
         return(
             <section className="p-section">
-                {!_.isEmpty( groupedArticlesByFournisseurs ) ?
-                    _.map( groupedArticlesByFournisseurs , ( articles, indexF ) => {
-                        const groupedArticlesByLot = _.groupBy( articles , ( article ) => {
+                {!_.isEmpty( groupedLotsByFournisseurs ) ?
+                    _.map( groupedLotsByFournisseurs , ( fournisseurLots, indexF ) => {
+
+                        //////console.log fournisseurLots )
+
+                        /*const groupedArticlesByLot = _.groupBy( articles , ( article ) => {
                             return article.lot.lot_id;
-                        });
+                        });*/
 
                         return (
                             <Container key={indexF}>
@@ -68,19 +73,19 @@ class Products extends Component{
                                                 <Row>
                                                      <Col sm={8}>
                                                           <div style={{padding:"20px",borderBottom:"1px solid #D9E1E8"}}>
-                                                               <p style={{margin:"0px",color:"#17D5C8",fontWeight:"500", fontSize: "22px"}}>{articles[0].lot.lot_fournisseur_r1.supplier_organisme}</p>
+                                                               <p style={{margin:"0px",color:"#17D5C8",fontWeight:"500", fontSize: "22px"}}>{ fournisseurLots[0].lot_fournisseur_R1.organisme }</p>
                                                           </div>
                                                           <div style={{padding:"20px"}}>
                                                                <Row>
                                                                     <Col sm={6}>
-                                                                         <li>Lot : <strong> {articles[0].lot.lot_id} - {articles[0].lot.lot_name} </strong></li>
-                                                                         <li>Secteur : <strong>{articles[0].lot.lot_fournisseur_r1.supplier_arrondissement} - Nom du secteur</strong></li>
-                                                                         <li>Adresse : <strong> { articles[0].lot.lot_fournisseur_r1.supplier_adresse }</strong></li>
+                                                                         <li>Lot : <strong> { fournisseurLots[0].lot_id } - { fournisseurLots[0].lot_name } </strong></li>
+                                                                         <li>Secteur : <strong>{ fournisseurLots[0].lot_fournisseur_R1.arrondissement } - Nom du secteur</strong></li>
+                                                                         <li>Adresse : <strong> { fournisseurLots[0].lot_fournisseur_R1.adresse }</strong></li>
                                                                     </Col>
                                                                     <Col sm={6}>
-                                                                         <li>Contact : <strong> { articles[0].lot.lot_fournisseur_r1.supplier_contact}</strong></li>
-                                                                         <li>Téléphone : <strong> + 33 (0){articles[0].lot.lot_fournisseur_r1.supplier_phone}</strong></li>
-                                                                         <li>Email : <strong> { articles[0].lot.lot_fournisseur_r1.user_email} </strong></li>
+                                                                         <li>Contact : <strong> { fournisseurLots[0].lot_fournisseur_R1.contact }</strong></li>
+                                                                         <li>Téléphone : <strong> + 33 (0){ fournisseurLots[0].lot_fournisseur_R1.phone }</strong></li>
+                                                                         <li>Email : <strong> { fournisseurLots[0].lot_fournisseur_R1.email } </strong></li>
                                                                     </Col>
                                                                </Row>
                                                           </div>
@@ -92,20 +97,37 @@ class Products extends Component{
                                                 </Row>
                                             </Col>
                                         </Row>
-                                        {_.map( groupedArticlesByLot , ( articles, indexL ) => {
-                                            return (
-                                                <div className="bloc-lot" key={indexL}>
-                                                    <div className="title-bloc-lot">
-                                                         <p>{articles[0].lot.lot_name}<span style={{paddingLeft: "84px"}}><strong>{articles.length}</strong> {articles.length === 1 ? "article" : "articles"}</span></p>
-                                                    </div>
-                                                    {_.map( articles , ( article , indexA ) => {
-                                                        return <Product key={article.id} product_value={article} product_key={article.id} lot_key={indexL} mode="catalog"   />
-                                                    } )}
-                                                </div>
-                                            )
-                                        })}
+                                        <Row>
+                                            <Col>
+                                            {
+                                                _.map( fournisseurLots , ( lot, indexL ) => {
+                                                    
+                                                    return (
+                                                        <div className="bloc-lot" key={indexL}>
+                                                            <div className="title-bloc-lot">
+                                                                <p>{lot.lot_name}<span style={{paddingLeft: "84px"}}><strong>{lot.lot_products.length}</strong> {lot.lot_products.length === 1 ? "article" : "articles"}</span></p>
+                                                            </div>
+                                                            {_.map( lot.lot_products , ( article, indexA ) => {
+                                                            
+                                                                ////console.log article )
+                                                                return (
+                                                                    <div key={article.id}>
+                                                                        <Product key={article.id} product_value={article} product_key={article.id} lot_key={indexL} mode="catalog"   />
+                                                                    </div>
+                                                                )
 
-                            </Col>
+                
+                                                            })}
+                                                        </div>
+                                                    )
+
+                                                })
+                                            }
+                                            </Col> 
+                                        </Row>
+                                        
+
+                                     </Col>
                                 </Row>
                             </Container>
                         )
@@ -127,8 +149,8 @@ class Products extends Component{
                                 <Row>
                                     { _.map(this.props.products, (categories_values, categories_keys) => {
 
-                                        ////////console.log(categories_keys)
-                                        //////console.log(categories_values)
+                                        ////////////console.logcategories_keys)
+                                        //////////console.logcategories_values)
 
                                         return(
                                             <Col md="12" key={categories_keys}>
@@ -164,7 +186,7 @@ class Products extends Component{
                                                                     <p>{lots_values.lot_name} ({lots_values.lot_products.length} articles)</p>
                                                                 </div>
                                                             { _.map( lots_values.lot_products, ( prestations_values, prestations_keys ) =>{
-                                                                ////////console.log(prestations_values)
+                                                                ////////////console.logprestations_values)
                                                                 return(
                                                                     <Product key={prestations_keys} product_value={prestations_values} product_key={prestations_keys} lot_key={lots_keys} mode="catalog"   />
                                                                 )
@@ -186,50 +208,69 @@ class Products extends Component{
 
 function mapStateToProps(state){
 
-    // Prep Data ( Filter )
+    // * * * * * * * *
+    // Si il y a des produits associés 
+    
+    let lotWithProducts = _.filter( state.products, ( lot ) => {
+        return !_.isEmpty( lot.lot_products )
+    } );
 
     // * * * * * * * *
     // Catégories
-    let productsFilterCateg = {}
+    
+    let productsFilterCateg = []
+    
     switch( state.productsFilterSettings.categorie ){
         case "ingenieurie":{
-            productsFilterCateg = _.filter( state.products, ( product ) => {
-                return product.categories[0] === "Ingénieurie"
+            productsFilterCateg = _.filter( lotWithProducts, ( product ) => {
+                return product.lot_products[0].attributes[4].attr_value[0] === "Ingénieurie"
             } )
             break;
         }
         case "travaux":{
-            productsFilterCateg = _.filter( state.products, ( product ) => {
-                return product.categories[0] === "Travaux"
+            productsFilterCateg = _.filter( lotWithProducts, ( product ) => {
+                return product.lot_products[0].attributes[4].attr_value[0] === "Travaux"
             } )
             break;
         }
         default:{
             break;
         }
-    }
+    }   
+
+    _.each( productsFilterCateg , ( lot , index ) => {
+
+        // * * * * * * * *
+        // Prestations && Ref
+        const productsFiltered = _.filter( lot.lot_products, ( product ) => {
+            //////console.logproduct)
+            const ref = `${product.attributes[0].attr_value[0]}-${product.attributes[1].attr_value[0]}-${product.attributes[2].attr_value[0]}-${product.attributes[4].attr_value[0]}`
+            return product.name.toLowerCase().includes( state.productsFilterSettings.prestation.toLowerCase() ) && ref.toLowerCase().includes( state.productsFilterSettings.ref.toLowerCase() )
+        } );
+
+        productsFilterCateg[index].lot_products = productsFiltered
+
+    } );
+
 
     // * * * * * * * *
-    // Prestations
-    const productsFilterCategPresta = _.filter( productsFilterCateg, ( product ) => {
-        return product.name.toLowerCase().includes( state.productsFilterSettings.prestation.toLowerCase() )
-    } )
+    // Si il y a des produits associés 
+    
+    lotWithProducts = _.filter( productsFilterCateg, ( lot ) => {
+        return !_.isEmpty( lot.lot_products )
+    } );
 
-    // * * * * * * * *
-    // Ref
-    const productsFilterCategPrestaRef = _.filter( productsFilterCategPresta, ( product ) => {
-        const ref = `${product.attributes[0].attr_value[0]}-${product.attributes[1].attr_value[0]}-${product.attributes[2].attr_value[0]}-${product.attributes[4].attr_value[0]}`
-        return ref.toLowerCase().includes( state.productsFilterSettings.ref.toLowerCase() )
-    } )
+    //////console.loglotWithProducts);
 
-    const productsFiltered = productsFilterCategPrestaRef;
+ 
+    //////console.log productsFilterCateg );
 
     return {
         "products": state.products,
-        "productsFilterCateg":productsFilterCateg,
-        "productsFilterCategPresta":productsFilterCategPresta,
-        "productsFilterCategPrestaRef":productsFilterCategPrestaRef,
-        "productsFiltered":productsFiltered,
+        //"productsFilterCateg":productsFilterCateg,
+        //"productsFilterCategPresta":productsFilterCategPresta,
+        //"productsFilterCategPrestaRef":productsFilterCategPrestaRef,
+        "productsFiltered":lotWithProducts,
         "user": state.user,
         "productsSettings": state.productsFilterSettings
     }

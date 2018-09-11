@@ -586,12 +586,12 @@ export function call_product( utoken, user_arrondissement, callback ) {
             }
         })
             .then(function (response) {
-                //console.log('ok product');
-                //console.log(response);
+                console.log('ok product');
+                console.log(response);
                 ////////console.log(typeof response.data.products_global);
                 dispatch({
                     "type":CALL_PRODUCTS,
-                    "payload": response.data.allproducts
+                    "payload": response.data.data
                 });
 
                 callback('success')
