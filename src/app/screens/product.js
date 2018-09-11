@@ -32,8 +32,6 @@ class Product extends React.Component{
         this.upQuantity = this.upQuantity.bind(this);
         this.downQuantity = this.downQuantity.bind(this);
         this.renderQuantityInput = this.renderQuantityInput.bind(this);
-
-        
     }
 
     componentDidMount(){
