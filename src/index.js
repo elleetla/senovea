@@ -8,7 +8,6 @@ import { BrowserRouter, HashRouter, Switch, Route, Redirect } from 'react-router
 import { Provider, connect } from 'react-redux'
 import { createStore, applyMiddleware, bindActionCreators } from 'redux'
 import { rootReducers } from './app/reducers/reducers'
-import { Transition,CSSTransition,TransitionGroup } from 'react-transition-group';
 import { TweenMax,TimelineLite } from "gsap";
 import _ from "lodash"
 import thunk from 'redux-thunk'
@@ -236,29 +235,6 @@ class App extends React.Component {
                             return(
                                 <div className="root-inside" onClick={this.handleOutsideModalClicks}>
                                     <AppNav routeProps={routerProps}/>
-                                    <TransitionGroup
-                                    component={null}
-                                    childFactory={(child)=>{
-                                        const dynamicChild = React.cloneElement(
-                                        child,{
-                                            onEnter:(el, isAppearing)=>{ 
-                                                //////console.log("enter")
-                                                //////console.log(el)
-                                                TweenMax.fromTo( el, .5, { y: 15, opacity: 0, ease: Power4.easeOut }, { y: 0, opacity: 1, ease: Power4.easeOut } ).delay(0.5)                                            
-                                            },
-                                            onExit:(el, isAppearing)=>{
-                                                //////console.log("exit")
-                                                //////console.log(el)
-                                                TweenMax.fromTo( el, .5, { y: 0, position:"absolute", top:"70px",width:"100%",height:"100%", opacity: 1, ease: Power4.easeOut }, { y: 15, opacity: 0, ease: Power4.easeOut } )
-                                            }
-                                        })
-                                        return dynamicChild
-                                    }}
-                                    >
-                                        <Transition 
-                                            key={ routerProps.location.key } 
-                                            timeout={{enter:500,exit:500}}
-                                        >
                                             <div className="main">
                                                 <Switch location={routerProps.location} >
                                                     <Route exact path="/" component={Home} />
@@ -362,8 +338,6 @@ class App extends React.Component {
                                                     <Route path="/telechargements" component={Downloading}/>
                                                 </Switch>
                                             </div>
-                                        </Transition>
-                                    </TransitionGroup>
 
                                 { this.state.cookieMentions === false ? localStorage.setItem("cookiesNotices", JSON.stringify(false)) : null}
                                 <div id="cookie-notice" className={localStorage.getItem("cookiesNotices")  ? 'displayBlocOpacity' : null}>

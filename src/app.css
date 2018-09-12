@@ -6,7 +6,7 @@ html, body, #root, .root-inside{
 
 .main {
     height: auto;
-    padding-top: 72px;
+    padding-top: 70px;
     min-height: 100%;
     padding-bottom: 70px;
 }
@@ -594,4 +594,13 @@ p.title-bloc-download {
 .count-quantity {
     width: 25px;
     text-align: center;
+}
+
+/* media queries */
+
+@media screen and (max-width: 600px){
+
+    .main{
+        padding-top: 4em;
+    }
 }

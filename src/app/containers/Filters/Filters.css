@@ -84,13 +84,12 @@ ul.category-filter li a:hover{
 
 /* responsive */
 
-@media screen and (max-width: 600px)
-{
+@media screen and (max-width: 767px){
     ul.category-filter{
         margin: 0 0 10px 0;
     }
 
     #Filters .form-control{
         margin-bottom: 10px;
-    }
+    }   
 }

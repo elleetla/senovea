@@ -40,13 +40,17 @@
 
 /* responsive */
 
-@media screen and (max-width: 600px)
-{
+@media screen and (max-width: 767px){
+    #footer-app{
+        padding: 0 0 30px 0;
+    }
+    
     #btn-call {
         border-radius: 0;
         display: block;
         text-align: center;
         position: relative;
         font-size: 14px;
+        margin-bottom: 30px
     }
 }

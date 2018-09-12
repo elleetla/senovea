@@ -40,7 +40,7 @@ class BlocDownload extends Component{
                           {this.props.downloadingPage.acf !== undefined ?
                               this.props.downloadingPage.acf.section_doc_download.map(data => {
                                    return(
-                                       <Col sm={12}>
+                                       <Col sm={12} key={'id-' + Math.random().toString(36).substr(2, 16)}>
                                             <div className="bloc-download">
                                                  <Row>
                                                       <Col md="1">

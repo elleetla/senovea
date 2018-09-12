@@ -6,12 +6,17 @@
     z-index: 2;
 }
 
-.sticky-nav-fixed{
+.nav-sticky {
     position: fixed;
+    top: 70px;
     left: 0;
-    top: 0;
     width: 100%;
-    box-shadow: 0 0 40px rgba(0, 0, 0, 0.05);
+    border-bottom: 1px solid #EFEFEF;
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.01);
+}
+
+.nav-sticky + .section-page{
+    padding-top: 70px;
 }
 
 #centralisNav ul{
@@ -20,8 +25,9 @@
 }
 
 #centralisNav li a {
-    padding: 14px 18px;
+    padding: 8px 18px;
     display: inline-block;
+    font-size: 14px;
 }
 
 #centralisNav li a:hover,

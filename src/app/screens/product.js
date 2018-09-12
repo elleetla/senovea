@@ -19,60 +19,34 @@ class Product extends React.Component{
         super(props);
         this.state = {
             isOpen : false,
-            activeVariation : "",
+            isLoading: false,
             activeNumbr: 1,
-            isLoading: false
+            activePrice:0,
+            activePalier:1,
+            //activeVariation : "",
         };
 
         this.handleProductOpen = this.handleProductOpen.bind(this);
-        this.handleProductChangeVariation = this.handleProductChangeVariation.bind(this);
         this.handleAddToPanier = this.handleAddToPanier.bind(this);
         this.renderSwitchMode = this.renderSwitchMode.bind(this);
-
+        this.changeQuantity = this.changeQuantity.bind(this)
+        this.renderPrice = this.renderPrice.bind(this)
         this.upQuantity = this.upQuantity.bind(this);
         this.downQuantity = this.downQuantity.bind(this);
         this.renderQuantityInput = this.renderQuantityInput.bind(this);
     }
 
     componentDidMount(){
-
-        if( this.props.product_value.variations.length !== 0 ){
-            
-            this.setState({
-                activeVariation: this.props.product_value.variations[0].variation_id
-            })
-
-        }else{
-
-            this.setState({
-                activeVariation: this.props.product_value.id
-            })
-
-        }
-
-        this.setState(
-            {
-                activeNumbr: 1
-            }
-        )
-
+        this.setState({
+            activeNumbr: 1,
+            activePalier: 1
+        })
     }
 
     handleProductOpen(e){
-
         this.setState({
             isOpen : !this.state.isOpen 
         })
-
-    }
-
-    handleProductChangeVariation( e ){
-        // new active variation 
-        const active_variation_id = e.target.value;
-        this.setState({
-            activeVariation:e.target.value
-        })
-
     }
 
     handleAddToPanier( e, product_id , product_quantity ){
@@ -84,49 +58,6 @@ class Product extends React.Component{
         const the_product_id = product_id;
         const the_product_quantity = product_quantity;
 
-        //////console.log( e )
-        //////console.log( the_product_id );
-
-        /*let the_new_panier = _.cloneDeep( the_panier );
-        if( the_new_panier.lots === false ){
-
-            the_new_panier.lots = [];
-
-            let new_lot = {
-                'panier_lot_articles':[],
-                'panier_lot_id':the_lot_id,
-                'panier_lot_status':'not sended'
-            };
-
-            new_lot.panier_lot_articles.push({'panier_article_id':the_product_id});
-            the_new_panier.lots.push( new_lot )
-
-        } else {
-
-            const the_lot_ids = _.map( the_new_panier.lots, ( lot ) => {
-                return lot.panier_lot_id
-            } )
-    
-            if( _.includes( the_lot_ids , the_lot_id) ){
-                // update 
-                _.each( the_new_panier.lots, ( lot ) => {
-                    if( parseInt( lot.panier_lot_id ) === parseInt( the_lot_id ) ){
-                        lot.panier_lot_articles.push( { 'panier_article_id':the_product_id } )
-                    }
-                } )
-            }else{
-                // create
-                the_new_panier.lots.push( { 
-                    'panier_lot_articles':[{'panier_article_id':the_product_id}],
-                    'panier_lot_id':the_lot_id,
-                    'panier_lot_status':'not sended'
-                 } )
-            }
-    
-        }*/
-
-        ////////console.log( the_new_panier );
-
         const panier_update = {
             "uid":this.props.user.user_id,
             "lid":the_lot_id,
@@ -135,42 +66,25 @@ class Product extends React.Component{
             "productQuantity":the_product_quantity,
             "action":"add"
         }
-
-        // Ici on update le panier
-
-        //////console.log( panier_update );
-        
+        // Ici on update le panier        
         this.props.update_product_to_panier( panier_update , this.props.user.user_auth.auth_token , ( status ) => {
-
-            //////console.log( status );
-            this.setState({
-                "isLoading":false
-            })
-
-        } );
-
-
-        /*this.props.add_product_to_panier( user_id, panier_id, product_id, lot_id, ( status ) => {
-            ////////////console.log(status)
-            ////////console.log(this.props.paniers)
             if(status === "success"){
-                this.setState({
-                    isLoading:false
-                });
                 this.props.add_alert({
                     "status":"success",
                     "content":`Le produit <strong>#${product_id}</strong> a été ajouté au panier: <strong>${this.props.paniers[panier_id].nicename}</strong>`
                 })
-            }else{
+            } else{
                 this.props.add_alert({
                     "status":"error",
                     "content":`Erreur lors de l'ajout de <strong>nom du produit</strong> dans le panier ${this.props.paniers[panier_id].nicename}`
                 })
             }
-        } )*/
+            this.setState({
+                "isLoading":false
+            })
+        } );
 
     }
-
 
     handleRemoveToPanier( e, product_id ){
 
@@ -189,20 +103,12 @@ class Product extends React.Component{
         }
 
         this.props.update_product_to_panier( panier_update , this.props.user.user_auth.auth_token , ( status ) => {
-
-            //////console.log( status );
-            /*this.setState({
-                "isLoading":false
-            })*/
-
         } );
-
 
     }
 
     renderSwitchMode( mode , lot_key ){
-        //////////console.log(mode)
-        //////console.log('yey')
+
         switch( mode ){
             case "catalog":{
                 return <Button onClick={ 
@@ -230,91 +136,121 @@ class Product extends React.Component{
             default :
             break;
         }
+        
     }
 
-    upQuantity(){
-        ////console.log( "upQuantity" )
+    renderPaliers( variations ){
 
-        this.setState({
-            activeNumbr:this.state.activeNumbr + 1
-        })
+        ////console.log variations )
+        const variations_F1 = _.filter( variations , ( variation ) => {
+            return variation.variation_sku.includes('R1');
+        } ); 
+        
+        //console.log variations_F1 );
 
-    }
-    downQuantity(){
-        this.state.activeNumbr === 0 ?
-        null
-        :
-        this.setState({
-            activeNumbr:this.state.activeNumbr - 1
-        })
-
-    }
-
-    renderQuantityInput(){
         return(
-            <div className="quantity-count" style={{display:"flex",alignItems:"center"}}>
-                <span style={{marginRight: "20px"}}>Quantité:</span>
-                <button style={{textAlign:"center"}} onClick={ this.downQuantity } className="btn-quantity-count">-</button>
-                    <span className="count-quantity">{this.state.activeNumbr}</span>
-                <button style={{textAlign:"center"}} onClick={ this.upQuantity } className="btn-quantity-count">+</button>
+            <div>
+                    <div>
+                        <p>Paliers:</p>
+                    </div>
+                {
+                    _.map( variations_F1 , ( variation , index ) => {
+                        return (
+                            <div key={ variation.variation_id } style={ index === 0 ? {display:"flex",textAlign:"center",padding:"5px",background:"#17D5C8",color:"#FFF",borderRadius:"4px"} : {display:"flex",textAlign:"center",padding:"5px"} }> 
+                                <div style={{ marginRight:"5px" }} > <strong> { variation.variation_attributes.attribute_quantite }: </strong> </div>
+                                <div> <i> {variation.variation_price}€</i> </div>
+                            </div> 
+                        )
+                    })
+                }
             </div>
         )
+
+    }
+
+    changeQuantity( e , quantity ){
+
+        // Change active number
+        this.setState({
+            activeNumbr:e.target.value
+        })
+        
+        // Change active palier 
+        _.each( quantity.attr_value , ( quantityNum , index ) => {
+            if( e.target.value >= quantityNum ){
+                this.setState({
+                    activePalier: index + 1
+                })
+            }
+        })
+
+    } 
+
+    renderPrice( activeNumbr , activePalier ){
+        
+        console.log( this.state.activeNumbr )
+        console.log( this.state.activePalier )
+
+
+
+        /*const variations_F1 = _.filter( variations , ( variation ) => {
+            return variation.variation_sku.includes('R1');
+        } ); 
+        _.mapValues( variations_F1 , ( var ) => {
+        } );
+        return activeNumbr;*/
+
     }
 
     render(){
-        let the_price = null;
-        const the_variation = _.filter( this.props.product_value.variations, ( variation ) => {
-            return parseInt(variation.variation_id) === parseInt(this.state.activeVariation)
-        });
-        if( the_variation.length !== 0  ){
-            the_price = the_variation[0].variation_price
-        }
-
-        //console.log(this)
-
+        console.log("test");
         return(
             <div className="article-bloc">
                 <Row>
-                    <Col md="2">
-                        <p>Réf : <b> 
+                    <Col md="1">
+                        <p>Réf: <strong> 
                         { 
-                            `${this.props.product_value.attributes[0].attr_value[0]}-${this.props.product_value.attributes[1].attr_value[0]}-${this.props.product_value.attributes[2].attr_value[0]}-${this.props.product_value.attributes[4].attr_value[0]}`
+                            `${this.props.product_value.attributes[0].attr_value[0]}
+                            ${this.props.product_value.attributes[1].attr_value[0]}
+                            ${this.props.product_value.attributes[2].attr_value[0]}
+                            ${this.props.product_value.attributes[3].attr_value[0]}`
                         }
-                        </b> </p>
+                        </strong> </p>
                     </Col>
-
-                    <Col md="3">
-                        <p><b>{this.props.product_value.name}</b></p>
-                    </Col>
-
                     <Col md="2">
-                            <div>
-                                { 
-                                    this.props.product_value.variations.length !== 0 ?
-                                    <p>À partir de : <b>{the_price}€/m<sup>2</sup></b></p>
-                                    :
-                                    <p>À partir de : <b>{this.props.product_value.price }€/m<sup>2</sup></b></p>
-                                }
-                            </div>
+                        <p>Nom: 
+                            <strong>
+                                {this.props.product_value.name}
+                            </strong>
+                        </p>
                     </Col>
-
-                     <Col md="2">
-                          <div>
-                            
-                                {
-                                        _.has( this.props, "mode" ) ? 
-                                            this.props.mode === "panier" ? 
-                                            <p><strong>Quantité : {this.props.product_value.quantity}</strong></p>
-                                            :
-                                            this.renderQuantityInput()
-                                        :
-                                        null
-                                    }
-
-                          </div>
-                     </Col>
-
-                    <Col md="3" className="text-right">
+                    <Col md="2">
+                        <p>Unité: 
+                            <strong>
+                                {this.props.product_value.attributes[5].attr_value[0]}
+                            </strong>
+                        </p>
+                    </Col>
+                    <Col md="2">
+                        { this.renderPaliers( this.props.product_value.variations ) }
+                    </Col>
+                    <Col md="2">
+                        <div>
+                            <div>Quantité:</div>
+                            <div><Input onChange={ (e) => this.changeQuantity( e , this.props.product_value.attributes[6] ) } type="number" value={this.state.activeNumbr} /></div>
+                        </div>
+                    </Col>
+                    <Col md="1">
+                        <div>
+                            <p>Total:</p>
+                            <p>
+                                <strong>
+                                    { this.renderPrice( this.state.activeNumbr , this.props.product_value.variations ) }€
+                                </strong>
+                            </p>
+                        </div>
+                    </Col>
+                    <Col md="2" className="text-right">
                         {
                             _.has( this.props, "mode" ) ? 
                                 this.renderSwitchMode( this.props.mode, this.props.lot_key )
@@ -324,7 +260,6 @@ class Product extends React.Component{
                         <Button onClick={this.handleProductOpen} className="btn-white">Détails</Button>
                     </Col>
                 </Row> 
-
                 <Row>
                     <Col md="12">
                         <Collapse isOpen={this.state.isOpen}>
@@ -334,9 +269,7 @@ class Product extends React.Component{
                                 </div>
                         </Collapse>
                     </Col>
-
                 </Row>
-                
             </div>
 
         )
@@ -345,7 +278,6 @@ class Product extends React.Component{
 }
 
 function mapStateToProps( state ){
-
     return{
         "user":state.user,
         "paniers":state.paniers,
@@ -354,7 +286,6 @@ function mapStateToProps( state ){
 }
 
 function mapDispatchToProps( dispatch ){
-
     return bindActionCreators({
         "update_product_to_panier":update_product_to_panier,
         "add_product_to_panier":add_product_to_panier,

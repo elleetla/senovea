@@ -4,9 +4,10 @@ import React, { Component } from 'react';
 import { Container, Row, Col } from 'reactstrap';
 import './Footer.css';
 import LogoFooter from '../../assets/img/logo-light.png';
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 
 class Footer extends Component{
+
     render(){
         return(
             <footer id="footer-app">
@@ -17,7 +18,10 @@ class Footer extends Component{
                                 <img id="logo-footer" src={LogoFooter} alt="logo Centralis"/>
                            </Col>
                            <Col lg="6" className="text-right">
-                                <Link to="/mentions-legales">Mentions légales</Link> - <Link to="/conditions-generales">Conditions générales</Link> - <Link to="/rgpd">RGPD</Link> - <Link to="/faq">FAQ</Link> - <Link to="/nous-contacter">Nous contacter</Link>
+                                <Link to="/mentions-legales">Mentions légales</Link> - 
+                                <Link to="/conditions-generales">Conditions générales</Link> - 
+                                <Link to="/rgpd">RGPD</Link> - <Link to="/faq">FAQ</Link> - 
+                                <Link to="/nous-contacter">Nous contacter</Link>
                            </Col>
                       </Row>
                  </Container>

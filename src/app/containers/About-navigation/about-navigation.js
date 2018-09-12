@@ -8,6 +8,30 @@ class AboutNavigation extends Component{
 
     constructor(props){
         super(props);
+        this.state = {
+            heightPage: 0
+       };
+    }
+
+    componentDidMount(){
+        return window.addEventListener("scroll", this.handleScroll.bind(this))
+    }
+    
+    componentWillMount() {
+        return window.removeEventListener('scroll', this.handleScroll.bind(this))
+    }
+
+    handleScroll(){
+        const heightPage = window.pageYOffset
+        const nav = document.querySelector("#centralisNav");
+        const sticky = nav.offsetTop;
+
+        if(heightPage >= sticky){
+            nav.classList.add("nav-sticky");
+            nav.style.top = nav.clientHeight + "px" - (2) + "px";
+        } else{
+            nav.classList.remove("nav-sticky");
+        }
     }
 
     render(){

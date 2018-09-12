@@ -21,7 +21,7 @@ class About extends Component{
           };
      }
 
-     componentWillMount(){
+     componentDidMount(){
           this.props.pageAbout();
      }
 
@@ -38,8 +38,8 @@ class About extends Component{
      render(){
           return(
               <div>
-                   <Banner titleBanner={this.props.aboutPage.banner_page !== undefined ? this.props.aboutPage.banner_page.title_banner_page : null}/>
-                   <AboutNavigation about={
+                  <Banner titleBanner={this.props.aboutPage.banner_page !== undefined ? this.props.aboutPage.banner_page.title_banner_page : null}/>
+                  <AboutNavigation about={
                         {
                              "section1" : "#section1",
                              "section2" : "#section2",
@@ -48,6 +48,7 @@ class About extends Component{
                              "section5" : "#section5"
                         }
                    }/>
+                  <section className="section-page">
 
                    <section className="container">
                         <Row>
@@ -196,7 +197,7 @@ class About extends Component{
                                        { this.props.aboutPage.section_about !== undefined ?
                                            this.props.aboutPage.section_about[4].array_data.map(data => {
                                                 return(
-                                                    <tr>
+                                                    <tr key={'id-' + Math.random().toString(36).substr(2, 16)}>
                                                          <td>{data.data_one}</td>
                                                          <td>{data.data_two}</td>
                                                          <td>{data.data_three}</td>
@@ -225,6 +226,7 @@ class About extends Component{
                              </Col>
                         </Row>
                    </section>
+              </section>
               </div>
           )
      }

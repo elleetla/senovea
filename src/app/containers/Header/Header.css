@@ -30,7 +30,7 @@
 }
 
 #header-app .navbar-expand-md .navbar-nav .nav-link {
-    padding: 1.5rem 0;
+    padding: 1.4rem 0;
 }
 
 #header-app .navbar .navbar-nav li.nav-item {
@@ -100,13 +100,23 @@ modal
     margin: 0 auto;
 }
 
-@media screen and (max-width: 600px)
-{
+/* media queries */
+@media screen and (max-width: 600px){
     #header-app .navbar {
         padding: 0.4rem 1rem;
     }
 
+    #header-app .navbar {
+        padding: 0.9rem 1rem;
+    }
+    
     #logo-app {
         width: 120px;
+    }
+}
+
+@media screen and (max-width: 767px){
+    #header-app .navbar {
+        padding: 22px 1rem;
     }
 }
