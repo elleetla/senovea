@@ -44,32 +44,26 @@ class Products extends Component{
     }
 
     render() {
-        console.log("test props: ", this.props);
+        console.log("test de fifou: ", this.props.products);
         const groupedLotsByFournisseurs = _.groupBy( this.props.productsFiltered , lot => {
             return lot.lot_fournisseur_R1.ID;
         });
-
-        ////console.log groupedLotsByFournisseurs );
     
         return(
             <section className="p-section">
-                {!_.isEmpty( groupedLotsByFournisseurs ) ?
-                    _.map( groupedLotsByFournisseurs , ( fournisseurLots, indexF ) => {
-
-                        //////console.log fournisseurLots )
-
-                        /*const groupedArticlesByLot = _.groupBy( articles , ( article ) => {
-                            return article.lot.lot_id;
-                        });*/
-
+                { this.props.products.length > 0 ?
+                    this.props.products.map(data => {
                         return (
-                            <Container key={indexF}>
+                            <Container key={data.lot_id}>
                                 <Row>
                                     <Col md="12" style={{marginBottom:"30px"}}>
                                         <Row className="bloc-suppliers" style={{marginBottom:"11px", marginLeft: "0px", marginRight: "0px"}}>
                                             <Col sm={12} style={{background: "#ffffff"}}>
                                                 <Row>
-                                                     <Col sm={8}>
+                                                    <h3>{data.lot_name}</h3>
+                                                    <p>id : {data.lot_id}</p>
+                                                    <p>id : {data.lot_id}</p>
+                                                     {/*<Col sm={8}>
                                                           <div style={{padding:"20px",borderBottom:"1px solid #D9E1E8"}}>
                                                                <p style={{margin:"0px",color:"#17D5C8",fontWeight:"500", fontSize: "22px"}}>{ fournisseurLots[0].lot_fournisseur_R1.organisme }</p>
                                                           </div>
@@ -91,12 +85,12 @@ class Products extends Component{
                                                      <Col sm={4} className="p-0">
                                                           <div style={{borderTopRightRadius:"4px",borderBottomRightRadius:"4px",height:"100%",background:"url('https://senovea.juliengrelet.com/wp-content/uploads/2018/08/photo_fournisseur@2x.jpg')",backgroundSize:"cover",backgroundPosition:"center"}}>
                                                           </div>
-                                                     </Col>
+                                                    </Col>*/}
                                                 </Row>
                                             </Col>
                                         </Row>
                                         <Row>
-                                            <Col>
+                                            {/*<Col>
                                             {
                                                 _.map( fournisseurLots , ( lot, indexL ) => {
                                                     
@@ -121,87 +115,20 @@ class Products extends Component{
 
                                                 })
                                             }
-                                            </Col> 
+                                        </Col> */}
                                         </Row>
-                                        
-
                                      </Col>
                                 </Row>
                             </Container>
                         )
                     })
-                    :
-                    <Container>
-                        <Row>
-                            <Col md={12}>
-                                 <h5 align="center" style={{marginTop: "30px"}}>Aucun article ne correspond à la recherche.</h5>
-                            </Col>
-                        </Row>
-                     </Container>
+                    : 
+                    <h1>Aucun articles</h1>
                 }
-                
-                            {/*{ this.props.products.length === 0 ? 
-                                null
-                                :
-                                <Container>
-                                <Row>
-                                    { _.map(this.props.products, (categories_values, categories_keys) => {
-
-                                        ////////////console.logcategories_keys)
-                                        //////////console.logcategories_values)
-
-                                        return(
-                                            <Col md="12" key={categories_keys}>
-                                                { _.map( categories_values, ( lots_values, lots_keys ) => {
-                                                    return(
-                                                        <div key={lots_keys}>
-
-                                                            <div className="bloc-lot">
-                                                                <div style={{marginBottom:"15px",display:"flex",alignItems:"stretch",backgroundColor:"#FFF",border:"1px solid #D9E1E8",borderRadius:"4px",boxShadow:"0px 2px 16px rgba(61, 68, 139, 0.05)"}} className="senovea-fournisseur-block">
-
-                                                                    <div style={{flexGrow:"1"}} className="senovea-fournisseur-block-infos">
-                                                                        <div style={{padding:"20px",borderBottom:"1px solid #D9E1E8"}}>
-                                                                            <p style={{margin:"0px",color:"#17D5C8",fontWeight:"500"}}>{lots_values.lot_fournisseur_r1.supplier_organisme}</p>
-                                                                        </div>
-                                                                        <div style={{padding:"20px"}}> 
-                                                                            <ul>
-                                                                                <li>Lot: <strong> {lots_values.lot_name} </strong></li>
-                                                                                <li>Secteur: <strong> {lots_values.lot_fournisseur_r1.supplier_arrondissement} </strong></li>
-                                                                                <li>Adresse: <strong> {lots_values.lot_fournisseur_r1.supplier_adresse} </strong></li>
-                                                                                <li>Contact: <strong> {lots_values.lot_fournisseur_r1.supplier_contact} </strong></li>
-                                                                                <li>Téléphone: <strong> {lots_values.lot_fournisseur_r1.supplier_phone} </strong></li>
-                                                                                <li>Email: <strong> {lots_values.lot_fournisseur_r1.user_email} </strong></li>
-                                                                            </ul>
-                                                                        </div>
-                                                                    </div>
-                                                                    <div style={{width:"25%",backgroundColor:"#EDEDED"}} className="senovea-fournisseur-block-img">
-                                                                        <div style={{borderTopRightRadius:"4px",borderBottomRightRadius:"4px",height:"100%",background:"url('http://www.tremoine.com/UserFiles_tremoine/image/portraits/thierry.JPG')",backgroundSize:"cover",backgroundPosition:"center"}}>
-                                                                        </div>
-                                                                    </div>
-                                                                    
-                                                                </div>
-                                                                <div className="title-bloc-lot">
-                                                                    <p>{lots_values.lot_name} ({lots_values.lot_products.length} articles)</p>
-                                                                </div>
-                                                            { _.map( lots_values.lot_products, ( prestations_values, prestations_keys ) =>{
-                                                                ////////////console.logprestations_values)
-                                                                return(
-                                                                    <Product key={prestations_keys} product_value={prestations_values} product_key={prestations_keys} lot_key={lots_keys} mode="catalog"   />
-                                                                )
-                                                            })}
-                                                            </div>
-                                                        </div>
-                                                    )
-                                                })}
-                                            </Col>
-                                        )
-                                    })}
-                                </Row>
-                                </Container>
-                            }*/}
             </section>
         )
     }
+
 }
 
 function mapStateToProps(state){
@@ -209,7 +136,7 @@ function mapStateToProps(state){
     // * * * * * * * *
     // Si il y a des produits associés 
     
-    let lotWithProducts = _.filter( state.products, ( lot ) => {
+    let lotWithProducts = _.filter( state.products, (lot) => {
         return !_.isEmpty( lot.lot_products )
     } );
 

@@ -203,7 +203,7 @@ class Product extends React.Component{
     }
 
     render(){
-        console.log("test");
+        console.log("test de fifouuuuuuuu :", this.props);
         return(
             <div className="article-bloc">
                 <Row>

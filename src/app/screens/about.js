@@ -36,6 +36,7 @@ class About extends Component{
      }
 
      render(){
+         console.log("test About", this.props.aboutPage);
           return(
               <div>
                   <Banner titleBanner={this.props.aboutPage.banner_page !== undefined ? this.props.aboutPage.banner_page.title_banner_page : null}/>

@@ -45,7 +45,7 @@ export function call_users(stored_user_token){
 // action data page about
 export function pageAbout() {
      return function (dispatch) {
-          axios.get(`${WORDPRESS_API_BASE_URL}/wp/v2/pages/637`).then(response => {
+          axios.get(`${WORDPRESS_API_BASE_URL}/wp/v2/pages/674`).then(response => {
                dispatch({
                     "type": PAGE_ABOUT,
                     "payload": response.data.acf
@@ -57,7 +57,7 @@ export function pageAbout() {
 // action data page downloading
 export function pageDownloading(){
     return function (dispatch) {
-         axios.get(`${WORDPRESS_API_BASE_URL}/wp/v2/pages/666`).then(response => {
+         axios.get(`${WORDPRESS_API_BASE_URL}/wp/v2/pages/675`).then(response => {
              dispatch({
                   "type": PAGE_DOWNLOADING,
                   "payload": response.data
