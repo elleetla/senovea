@@ -31,9 +31,9 @@ class Product extends React.Component{
         this.renderSwitchMode = this.renderSwitchMode.bind(this);
         this.changeQuantity = this.changeQuantity.bind(this)
         this.renderPrice = this.renderPrice.bind(this)
-        this.upQuantity = this.upQuantity.bind(this);
-        this.downQuantity = this.downQuantity.bind(this);
-        this.renderQuantityInput = this.renderQuantityInput.bind(this);
+        //this.upQuantity = this.upQuantity.bind(this);
+        //this.downQuantity = this.downQuantity.bind(this);
+        //this.renderQuantityInput = this.renderQuantityInput.bind(this);
     }
 
     componentDidMount(){

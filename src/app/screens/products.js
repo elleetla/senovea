@@ -30,8 +30,6 @@ class Products extends Component{
         this.handleAddToPanier = this.handleAddToPanier.bind(this);
     }
     componentDidMount( ){
-        ////////////console.logthis)
-        //this.props.call_product(this.props.user.user_arrondissement);
     }
 
     toggle(){
@@ -39,31 +37,34 @@ class Products extends Component{
     }
 
     handleAddToPanier( key ){
-        ////////////console.log'handleAddToPanier')
-        ////////////console.logkey)
     }
 
     render() {
-        console.log("test de fifou: ", this.props.products);
+
+        ////console.log(this)
         const groupedLotsByFournisseurs = _.groupBy( this.props.productsFiltered , lot => {
             return lot.lot_fournisseur_R1.ID;
         });
+        ////console.log( groupedLotsByFournisseurs )
     
         return(
             <section className="p-section">
-                { this.props.products.length > 0 ?
-                    this.props.products.map(data => {
+
+                {/*  
+                    // On fait une boucle sur les lots groupés par fournisseurs R1
+                */}
+                {!_.isEmpty( groupedLotsByFournisseurs ) ?
+                    _.map( groupedLotsByFournisseurs , ( fournisseurLots, indexF ) => {
+
+
                         return (
-                            <Container key={data.lot_id}>
+                            <Container key={indexF}>
                                 <Row>
                                     <Col md="12" style={{marginBottom:"30px"}}>
                                         <Row className="bloc-suppliers" style={{marginBottom:"11px", marginLeft: "0px", marginRight: "0px"}}>
                                             <Col sm={12} style={{background: "#ffffff"}}>
                                                 <Row>
-                                                    <h3>{data.lot_name}</h3>
-                                                    <p>id : {data.lot_id}</p>
-                                                    <p>id : {data.lot_id}</p>
-                                                     {/*<Col sm={8}>
+                                                    <Col sm={8}>
                                                           <div style={{padding:"20px",borderBottom:"1px solid #D9E1E8"}}>
                                                                <p style={{margin:"0px",color:"#17D5C8",fontWeight:"500", fontSize: "22px"}}>{ fournisseurLots[0].lot_fournisseur_R1.organisme }</p>
                                                           </div>
@@ -85,12 +86,12 @@ class Products extends Component{
                                                      <Col sm={4} className="p-0">
                                                           <div style={{borderTopRightRadius:"4px",borderBottomRightRadius:"4px",height:"100%",background:"url('https://senovea.juliengrelet.com/wp-content/uploads/2018/08/photo_fournisseur@2x.jpg')",backgroundSize:"cover",backgroundPosition:"center"}}>
                                                           </div>
-                                                    </Col>*/}
+                                                    </Col>
                                                 </Row>
                                             </Col>
                                         </Row>
                                         <Row>
-                                            {/*<Col>
+                                            <Col>
                                             {
                                                 _.map( fournisseurLots , ( lot, indexL ) => {
                                                     
@@ -101,13 +102,11 @@ class Products extends Component{
                                                             </div>
                                                             {_.map( lot.lot_products , ( article, indexA ) => {
                                                             
-                                                                ////console.log article )
                                                                 return (
                                                                     <div key={article.id}>
                                                                         <Product key={article.id} product_value={article} product_key={article.id} lot_key={indexL} mode="catalog"   />
                                                                     </div>
                                                                 )
-
                 
                                                             })}
                                                         </div>
@@ -115,7 +114,7 @@ class Products extends Component{
 
                                                 })
                                             }
-                                        </Col> */}
+                                        </Col>
                                         </Row>
                                      </Col>
                                 </Row>
@@ -135,10 +134,16 @@ function mapStateToProps(state){
 
     // * * * * * * * *
     // Si il y a des produits associés 
+
+    //console.log("state products")
+    //console.log(state.products)
     
     let lotWithProducts = _.filter( state.products, (lot) => {
         return !_.isEmpty( lot.lot_products )
     } );
+
+    console.log("lotWithProducts")
+    console.log(lotWithProducts)
 
     // * * * * * * * *
     // Catégories
@@ -146,8 +151,11 @@ function mapStateToProps(state){
     let productsFilterCateg = []
     
     switch( state.productsFilterSettings.categorie ){
+        
         case "ingenieurie":{
             productsFilterCateg = _.filter( lotWithProducts, ( product ) => {
+                console.log("product")
+                console.log(product.lot_products[0].attributes[4].attr_value[0])
                 return product.lot_products[0].attributes[4].attr_value[0] === "Ingénieurie"
             } )
             break;
@@ -161,14 +169,20 @@ function mapStateToProps(state){
         default:{
             break;
         }
-    }   
+
+    }  
+    
+    console.log("productsFilterSettings")
+    console.log(state.productsFilterSettings)
+
+    console.log("productsFilterCateg")
+    console.log(productsFilterCateg)
 
     _.each( productsFilterCateg , ( lot , index ) => {
 
         // * * * * * * * *
         // Prestations && Ref
         const productsFiltered = _.filter( lot.lot_products, ( product ) => {
-            //////console.logproduct)
             const ref = `${product.attributes[0].attr_value[0]}-${product.attributes[1].attr_value[0]}-${product.attributes[2].attr_value[0]}-${product.attributes[4].attr_value[0]}`
             return product.name.toLowerCase().includes( state.productsFilterSettings.prestation.toLowerCase() ) && ref.toLowerCase().includes( state.productsFilterSettings.ref.toLowerCase() )
         } );
@@ -185,10 +199,10 @@ function mapStateToProps(state){
         return !_.isEmpty( lot.lot_products )
     } );
 
-    //////console.loglotWithProducts);
+    //////////console.loglotWithProducts);
 
  
-    //////console.log productsFilterCateg );
+    //////////console.log productsFilterCateg );
 
     return {
         "products": state.products,
