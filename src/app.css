@@ -175,6 +175,10 @@ p.title-bloc-download {
     line-height: 18px;
 }
 
+.card-details-button {
+    display: flex;
+}
+
 .btn-green{
     background-color: #24DBCF;
     padding: 14px 20px;

@@ -100,11 +100,10 @@ class Products extends Component{
                                                             <div className="title-bloc-lot">
                                                                 <p>{lot.lot_name}<span style={{paddingLeft: "84px"}}><strong>{lot.lot_products.length}</strong> {lot.lot_products.length === 1 ? "article" : "articles"}</span></p>
                                                             </div>
-                                                            {_.map( lot.lot_products , ( article, indexA ) => {
-                                                            
+                                                            {_.map( lot.lot_products , ( article ) => {
                                                                 return (
                                                                     <div key={article.id}>
-                                                                        <Product key={article.id} product_value={article} product_key={article.id} lot_key={indexL} mode="catalog"   />
+                                                                        <Product key={article.id} product_value={article} product_key={article.id} lot_key={lot.lot_id} mode="catalog"   />
                                                                     </div>
                                                                 )
                 
@@ -134,16 +133,8 @@ function mapStateToProps(state){
 
     // * * * * * * * *
     // Si il y a des produits associés 
-
-    //console.log("state products")
-    //console.log(state.products)
     
-    let lotWithProducts = _.filter( state.products, (lot) => {
-        return !_.isEmpty( lot.lot_products )
-    } );
-
-    console.log("lotWithProducts")
-    console.log(lotWithProducts)
+    let lotWithProducts = _.filter( state.products, (lot) => !_.isEmpty( lot.lot_products ));
 
     // * * * * * * * *
     // Catégories
@@ -153,31 +144,18 @@ function mapStateToProps(state){
     switch( state.productsFilterSettings.categorie ){
         
         case "ingenieurie":{
-            productsFilterCateg = _.filter( lotWithProducts, ( product ) => {
-                console.log("product")
-                console.log(product.lot_products[0].attributes[4].attr_value[0])
-                return product.lot_products[0].attributes[4].attr_value[0] === "Ingénieurie"
-            } )
+            productsFilterCateg = _.filter( lotWithProducts, ( product ) => product.lot_products[0].attributes[4].attr_value[0] === "Ingénieurie");
             break;
         }
         case "travaux":{
-            productsFilterCateg = _.filter( lotWithProducts, ( product ) => {
-                return product.lot_products[0].attributes[4].attr_value[0] === "Travaux"
-            } )
+            productsFilterCateg = _.filter( lotWithProducts, ( product ) => product.lot_products[0].attributes[4].attr_value[0] === "Travaux")
             break;
         }
         default:{
             break;
         }
 
-    }  
-    
-    console.log("productsFilterSettings")
-    console.log(state.productsFilterSettings)
-
-    console.log("productsFilterCateg")
-    console.log(productsFilterCateg)
-
+    }
     _.each( productsFilterCateg , ( lot , index ) => {
 
         // * * * * * * * *

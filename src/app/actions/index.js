@@ -711,9 +711,6 @@ export function post_order( token , panier_id , callback ){
             }
         }).then((response)=>{
 
-            console.log('ok post order')
-            console.log(response)
-
             switch ( response.data.status ){
                 case 'success':{
                     dispatch({
@@ -730,11 +727,7 @@ export function post_order( token , panier_id , callback ){
             }
 
 
-        }).catch((error)=>{
-            //console.log("ko post order")
-            //console.log(error)
-            callback('error')
-        })
+        }).catch(error => callback(error));
     }
 
 }
