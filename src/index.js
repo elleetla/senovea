@@ -191,21 +191,10 @@ class App extends React.Component {
                 let new_app_settings = _.cloneDeep(this.props.appSettings);
                 new_app_settings.globalLoading = false
                 this.props.update_app_settings( new_app_settings )
-
-
-
             }else{
-
-                /*this.props.add_alert({
-                    "status":"error",
-                    "content":`Erreur lors du chargement du profil utilisateur. Veuillez vérifier vos identifiants.`
-                })*/
-
-                // on update les app settings 
                 let new_app_settings = _.cloneDeep(this.props.appSettings);
                 new_app_settings.globalLoading = false;
                 this.props.update_app_settings( new_app_settings )
-
             }
 
         });

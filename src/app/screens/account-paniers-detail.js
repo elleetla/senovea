@@ -27,7 +27,7 @@ class AccountPaniersDetail extends React.Component{
         this.setState({
             "orderLoading":true
         });
-        
+        console.log(this.props);
         this.props.post_order( this.props.user.user_auth.auth_token , this.props.panier.id , ( order_panier_status ) =>{
             if( order_panier_status === "success" ){
                 
@@ -82,207 +82,183 @@ class AccountPaniersDetail extends React.Component{
     }
     
     renderPanierStatus(status){
-        switch( status ){
+        switch(status){
             case"not sended":{
-                return <Badge color="warning"> {status} </Badge>
+                return <Badge color="warning">{status}</Badge>
             }
             default:
             return <Badge color="info"> No status </Badge>
         }
     }
     
-    
     render(){
-                
-        if( this.props.panier.status !== "not sended" ) {
+        if(this.props.panier.status !== "not sended") {
             return <Redirect to="/compte/paniers"/>
         }
-        
-        //console.log(this.props);
-        //console.log("totalPrice: ", this.props.totalPrice);
-        
-        const groupedArticlesByFournisseurs = _.groupBy( this.props.panier.products_lots , ( product ) => {
-            return product.lot.lot_fournisseur_r1.ID;
-        } );
-        
+
+        const groupedArticlesByFournisseurs = _.groupBy( this.props.panier.products_lots , ( product ) => product.lot.lot_fournisseur_r1.ID);
         return(
             <div>
-            <div className="section-infos-detail-panier">
-            <Container>
-            <Row>
-            <Col md="4">
-            <div className="date-detail-panier">Panier du <b>{moment(this.props.panier.panier_date_created).locale('fr').format('L')}</b></div>
-            <div><b>{this.props.counterProduct}</b> articles | Montant Total HT : <b>7000 €</b></div>
-            </Col>
-            <Col md="5">
-            <h1 className="title-infos-detail-panier">{this.props.panier.nicename}</h1>
-            </Col>
+                <div className="section-infos-detail-panier">
+                    <Container>
+                        <Row>
+                            <Col md="4">
+                                <div className="date-detail-panier">Panier du <b>{moment(this.props.panier.panier_date_created).locale('fr').format('L')}</b></div>
+                                <div><b>{this.props.counterProduct}</b> articles | Montant Total HT : <b>{this.props.panier.price.toFixed(2)}€</b></div>
+                            </Col>
+                            <Col md="5">
+                                <h1 className="title-infos-detail-panier">{this.props.panier.nicename}</h1>
+                            </Col>
             
-            <Col md="3">
-            {/*
-                <button className="btn-green"  onClick={ () => this.handleOrder() } >
-                {this.state.orderLoading ? "Commande en cours..." : "Valider mon panier"}
-                </button>
-            */}
-            <button className="btn-green"  onClick={() => this.handleOrder()} >
-            {this.state.orderLoading ? "Commande en cours..." : "Commander mon panier"}
-            </button>
-            </Col>
-            </Row>
-            </Container>
-            </div>
-            <Container>
-            <Row style={{marginBottom:"25px"}}>
-            <Col md="12">
-            <Card style={{padding:"25px"}}>
-            <form>
-            <Row>
-            <Col md="6">
-            <div>
-            <h4>Adresse du lieu d'intervention </h4>
-            <FormGroup>
-            <Label> Code Arrondissement </Label>
-            <Input disabled type="text" placeholder="Code Arrondissement"  defaultValue={this.props.panier.arrondissement}/>
-            </FormGroup>
-            <FormGroup>
-            <Label> Code Postal </Label>
-            <Input type="text" placeholder="Code Postal" defaultValue={this.props.panier.code_postal}/>
-            </FormGroup>
-            <FormGroup>
-            <Label> Adresse Intervention </Label>
-            <Input type="text" placeholder="Ville"  defaultValue={this.props.panier.adresse}/>
-            </FormGroup>
-            </div>
-            </Col>
-            <Col md="6">
-            <div>
-            <h4> Message à l'attention du fournisseur </h4>
-            <FormGroup>
-            <Label> Message </Label>
-            <Input type="textarea" defaultValue="message" defaultValue={this.props.panier.message}/>
-            </FormGroup>
-            <div>
-            <button className="btn-white">Annuler</button>
-            <button className="btn-white">Sauvegarder</button>
-            </div>
-            </div>
-            </Col>
-            
-            </Row>
-            
-            </form>
-            </Card>
-            
-            
-            </Col>
-            </Row>
-            
-            <Row>
-            <Col md="12">
-            <h4 style={{marginBottom:"25px"}}>Articles</h4>
-            </Col>
-            </Row>
-            
-            
-            <Row>
-            
-            <Col md="12">
-            {
-                
-                !_.isEmpty( groupedArticlesByFournisseurs ) ?
-                
-                _.map( groupedArticlesByFournisseurs , ( articles, indexF ) => {
-                    
-                    const groupedArticlesByLot = _.groupBy( articles , ( article ) => {
-                        return article.lot.lot_id;
-                    });
-                    
-                    return (
-                        
-                        <div key={indexF} >
-                        {_.map( groupedArticlesByLot , ( articles, indexL ) => {
-                            return (
-                                <div style={{marginBottom:"25px"}} className="bloc-lot" key={indexL}>
-                                <div className="title-bloc-lot">
-                                <p>{articles[0].lot.lot_name} ({articles.length} {articles.length === 1 ? "article" : "articles"}) - Montant Total HT : 1000€</p>
-                                </div>
-                                {_.map( articles , ( article , indexA ) => {
-                                    return <Product key={indexA} product_value={article} product_key={article.id} lot_key={indexL} mode="panier"   />
-                                } )}
-                                </div>
-                            )
-                        })}
-                        
-                        </div>
-                        
-                        
-                    )
-                    
-                })
-                :
+                            <Col md="3">
+                                <button className="btn-green"  onClick={() => this.handleOrder()} >
+                                    {this.state.orderLoading ? "Commande en cours..." : "Commander mon panier"}
+                                </button>
+                            </Col>
+                        </Row>
+                    </Container>
+                </div>
                 <Container>
-                <Row>
-                <Col md={12}>
-                <h5 align="center" style={{marginTop: "30px"}}>Aucun article ne correspond à la recherche.</h5>
-                </Col>
-                </Row>
-                </Container>
-            }
+                    <Row style={{marginBottom:"25px"}}>
+                        <Col md="12">
+                            <Card style={{padding:"25px"}}>
+                                <form>
+                                    <Row>
+                                        <Col md="6">
+                                            <div>
+                                                <h4>Adresse du lieu d'intervention </h4>
+                                                <FormGroup>
+                                                    <Label> Code Arrondissement </Label>
+                                                    <Input disabled type="text" placeholder="Code Arrondissement"  defaultValue={this.props.panier.arrondissement}/>
+                                                </FormGroup>
+                                                <FormGroup>
+                                                    <Label> Code Postal </Label>
+                                                    <Input type="text" placeholder="Code Postal" defaultValue={this.props.panier.code_postal}/>
+                                                </FormGroup>
+                                                <FormGroup>
+                                                    <Label> Adresse Intervention </Label>
+                                                    <Input type="text" placeholder="Ville"  defaultValue={this.props.panier.adresse}/>
+                                                </FormGroup>
+                                            </div>
+                                        </Col>
+                                        <Col md="6">
+                                            <div>
+                                                <h4> Message à l'attention du fournisseur </h4>
+                                                <FormGroup>
+                                                    <Label> Message </Label>
+                                                    <Input type="textarea" defaultValue="message" defaultValue={this.props.panier.message}/>
+                                                </FormGroup>
+                                                <div>
+                                                    <button className="btn-white">Annuler</button>
+                                                    <button className="btn-white">Sauvegarder</button>
+                                                </div>
+                                            </div>
+                                        </Col>
+                                    </Row>
             
+                                </form>
+                                </Card>
             
-            </Col>
+                            </Col>
+                        </Row>
+                        
+                        <Row>
+                            <Col md="12">
+                                <h4 style={{marginBottom:"25px"}}>Articles</h4>
+                            </Col>
+                        </Row>
+                        
+                        <Row>
+                            <Col md="12">
+                                {
+                                    
+                                    !_.isEmpty( groupedArticlesByFournisseurs ) ?
+                                    
+                                    _.map( groupedArticlesByFournisseurs , ( articles, indexF ) => {
+                                        
+                                        const groupedArticlesByLot = _.groupBy( articles , ( article ) => {
+                                            return article.lot.lot_id;
+                                        });
+                                        
+                                        return (
+                                            
+                                            <div key={indexF} >
+                                            {_.map( groupedArticlesByLot , ( articles, indexL ) => {
+                                                return (
+                                                    <div style={{marginBottom:"25px"}} className="bloc-lot" key={indexL}>
+                                                    <div className="title-bloc-lot">
+                                                    <p>{articles[0].lot.lot_name} ({articles.length} {articles.length === 1 ? "article" : "articles"}) - Montant Total HT : {this.props.panier.price.toFixed(2)} €</p>
+                                                    </div>
+                                                    {_.map( articles , ( article , indexA ) => {
+                                                        return <Product key={indexA} product_value={article} product_key={article.id} lot_key={indexL} mode="panier"   />
+                                                    } )}
+                                                    </div>
+                                                )
+                                            })}
+                                            
+                                            </div>
+                                            
+                                            
+                                        )
+                                        
+                                    })
+                                    :
+                                    <Container>
+                                        <Row>
+                                            <Col md={12}>
+                                                <h5 align="center" style={{marginTop: "30px"}}>Aucun article ne correspond à la recherche.</h5>
+                                            </Col>
+                                        </Row>
+                                    </Container>
+                                }
             
+                            </Col>
             
-            
-            {/*{ this.props.products.length === 0 ?
-                <Col md="12">
-                Aucun article n'est présent dans ce panier
-                </Col>
-                :
-                _.map(this.props.products, (categories_values, categories_keys) => {
-                    return(
-                        <Col md="12" key={categories_keys}>
-                        { _.map( categories_values, ( lots_values, lots_keys ) => {
-                            return(
-                                <div key={lots_keys}>
-                                <div className="bloc-lot">
-                                <div className="title-bloc-lot">
-                                <p>{lots_values.lot_name} ({lots_values.lot_products.length} articles)</p>
-                                </div>
-                                { _.map( lots_values.lot_products, ( prestations_values, prestations_keys ) =>{
-                                    ////////////console.log(prestations_values)
+                            {/*{ this.props.products.length === 0 ?
+                                <Col md="12">
+                                Aucun article n'est présent dans ce panier
+                                </Col>
+                                :
+                                _.map(this.props.products, (categories_values, categories_keys) => {
                                     return(
-                                        <Product key={prestations_keys} product_value={prestations_values} product_key={prestations_keys} lot_key={lots_keys} mode="panier"  />
+                                        <Col md="12" key={categories_keys}>
+                                        { _.map( categories_values, ( lots_values, lots_keys ) => {
+                                            return(
+                                                <div key={lots_keys}>
+                                                <div className="bloc-lot">
+                                                <div className="title-bloc-lot">
+                                                <p>{lots_values.lot_name} ({lots_values.lot_products.length} articles)</p>
+                                                </div>
+                                                { _.map( lots_values.lot_products, ( prestations_values, prestations_keys ) =>{
+                                                    ////////////console.log(prestations_values)
+                                                    return(
+                                                        <Product key={prestations_keys} product_value={prestations_values} product_key={prestations_keys} lot_key={lots_keys} mode="panier"  />
+                                                    )
+                                                })}
+                                                </div>
+                                                </div>
+                                            )
+                                        })}
+                                        </Col>
                                     )
-                                })}
-                                </div>
-                                </div>
-                            )
-                        })}
-                        </Col>
-                    )
-                })
-            }*/}
+                                })
+                            }*/}
             
-            
-            
-            {/*<Col md="12" className="mb-5">
-            <button className="btn-green"  onClick={() => this.handleOrder()} >
-            {this.state.orderLoading ? "Commande en cours..." : "Commander mon panier"}
-            </button>
-        </Col>*/}
-        </Row>
-        </Container>
-        </div>
-    )
-}
-
+                            {/*<Col md="12" className="mb-5">
+                            <button className="btn-green"  onClick={() => this.handleOrder()} >
+                            {this.state.orderLoading ? "Commande en cours..." : "Commander mon panier"}
+                            </button>
+                        </Col>*/}
+                    </Row>
+                </Container>
+            </div>
+        )
+    }
 }
 
 function mapStateToProps(state, props){
     
     /*
-    
     // Good panier
     const the_panier_id = props.routeProps.match.params.id;
     const the_panier = _.get( _.pick( state.paniers, [the_panier_id] ), the_panier_id, {} );

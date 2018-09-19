@@ -29,7 +29,6 @@ class BlocConnect extends React.Component{
             "component":component,
             "size":modalsize
         } )
-
     }
 
     render(){

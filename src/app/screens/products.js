@@ -19,34 +19,25 @@ import {
     Row,
     Col } from 'reactstrap';
 
+import arrowProduct from "../assets/img/arrow-product.svg";
+
 class Products extends Component{
 
     constructor(props) {
-        super(props);
-        this.state = {
-            collapse: false
-        };
-        this.toggle = this.toggle.bind(this);
-        this.handleAddToPanier = this.handleAddToPanier.bind(this);
-    }
-    componentDidMount( ){
+        super(props); 
     }
 
-    toggle(){
-        this.setState({ collapse: !this.state.collapse });
-    }
-
-    handleAddToPanier( key ){
+    toggleDetails(value){
+        const toggleId = document.querySelector(`#d${value}`);
+        const toggleButton = document.querySelector(`#b${value}`);
+        toggleId.style.display = toggleId.style.display != 'none' ? 'none' : 'block';
     }
 
     render() {
-
-        ////console.log(this)
-        const groupedLotsByFournisseurs = _.groupBy( this.props.productsFiltered , lot => {
-            return lot.lot_fournisseur_R1.ID;
-        });
-        ////console.log( groupedLotsByFournisseurs )
-    
+        console.log("fournisseur :", this.props);
+        const groupedLotsByFournisseurs = _.groupBy( this.props.productsFiltered , lot => lot.lot_fournisseur_R1.ID);
+        console.log("test", groupedLotsByFournisseurs);
+        console.log("props products filter :", this.props.productsFiltered);
         return(
             <section className="p-section">
 
@@ -55,8 +46,6 @@ class Products extends Component{
                 */}
                 {!_.isEmpty( groupedLotsByFournisseurs ) ?
                     _.map( groupedLotsByFournisseurs , ( fournisseurLots, indexF ) => {
-
-
                         return (
                             <Container key={indexF}>
                                 <Row>
@@ -78,7 +67,7 @@ class Products extends Component{
                                                                     <Col sm={6}>
                                                                          <li>Contact : <strong> { fournisseurLots[0].lot_fournisseur_R1.contact }</strong></li>
                                                                          <li>Téléphone : <strong> + 33 (0){ fournisseurLots[0].lot_fournisseur_R1.phone }</strong></li>
-                                                                         <li>Email : <strong> { fournisseurLots[0].lot_fournisseur_R1.email } </strong></li>
+                                                                         <li>Email : <strong> { fournisseurLots[0].lot_fournisseur_R1.user_email } </strong></li>
                                                                     </Col>
                                                                </Row>
                                                           </div>
@@ -92,29 +81,28 @@ class Products extends Component{
                                         </Row>
                                         <Row>
                                             <Col>
-                                            {
-                                                _.map( fournisseurLots , ( lot, indexL ) => {
-                                                    
-                                                    return (
-                                                        <div className="bloc-lot" key={indexL}>
-                                                            <div className="title-bloc-lot">
-                                                                <p>{lot.lot_name}<span style={{paddingLeft: "84px"}}><strong>{lot.lot_products.length}</strong> {lot.lot_products.length === 1 ? "article" : "articles"}</span></p>
+                                                {_.map( fournisseurLots , ( lot, indexL ) => {
+                                                        return (
+                                                            <div className="bloc-lot" key={indexL}>
+                                                                <div className="title-bloc-lot">
+                                                                    <p>{lot.lot_name}<span style={{paddingLeft: "84px"}}><strong>{lot.lot_products.length}</strong> {lot.lot_products.length === 1 ? "article" : "articles"}</span></p>
+                                                                    <button onClick={() => this.toggleDetails(lot.lot_id)} id={'b'+lot.lot_id} className="arrow">
+                                                                        <img src={arrowProduct} alt="flèche produit"/>
+                                                                    </button>
+                                                                </div>
+                                                                {_.map( lot.lot_products , article => {
+                                                                    return (
+                                                                        <div key={article.id} id={'d'+lot.lot_id}>
+                                                                            <Product key={article.id} product_value={article} product_key={article.id} lot_key={lot.lot_id} mode="catalog"   />
+                                                                        </div>
+                                                                    )
+                    
+                                                                })}
                                                             </div>
-                                                            {_.map( lot.lot_products , ( article, indexA ) => {
-                                                            
-                                                                return (
-                                                                    <div key={article.id}>
-                                                                        <Product key={article.id} product_value={article} product_key={article.id} lot_key={indexL} mode="catalog"   />
-                                                                    </div>
-                                                                )
-                
-                                                            })}
-                                                        </div>
-                                                    )
-
-                                                })
-                                            }
-                                        </Col>
+                                                        )
+                                                    })
+                                                }
+                                            </Col>
                                         </Row>
                                      </Col>
                                 </Row>
@@ -132,54 +120,31 @@ class Products extends Component{
 
 function mapStateToProps(state){
 
-    // * * * * * * * *
-    // Si il y a des produits associés 
+    // Check associated products
+    let lotWithProducts = _.filter( state.products, (lot) => !_.isEmpty( lot.lot_products ));
 
-    //console.log("state products")
-    //console.log(state.products)
-    
-    let lotWithProducts = _.filter( state.products, (lot) => {
-        return !_.isEmpty( lot.lot_products )
-    } );
+     console.log("state products: ", lotWithProducts);
 
-    console.log("lotWithProducts")
-    console.log(lotWithProducts)
-
-    // * * * * * * * *
-    // Catégories
-    
-    let productsFilterCateg = []
+    // Create array of category
+    let productsFilterCateg = [];
     
     switch( state.productsFilterSettings.categorie ){
         
         case "ingenieurie":{
-            productsFilterCateg = _.filter( lotWithProducts, ( product ) => {
-                console.log("product")
-                console.log(product.lot_products[0].attributes[4].attr_value[0])
-                return product.lot_products[0].attributes[4].attr_value[0] === "Ingénieurie"
-            } )
+            productsFilterCateg = _.filter( lotWithProducts, ( product ) => product.lot_products[0].attributes[4].attr_value[0] === "Ingénieurie");
             break;
         }
         case "travaux":{
-            productsFilterCateg = _.filter( lotWithProducts, ( product ) => {
-                return product.lot_products[0].attributes[4].attr_value[0] === "Travaux"
-            } )
+            productsFilterCateg = _.filter( lotWithProducts, ( product ) => product.lot_products[0].attributes[4].attr_value[0] === "Travaux")
             break;
         }
         default:{
             break;
         }
 
-    }  
-    
-    console.log("productsFilterSettings")
-    console.log(state.productsFilterSettings)
-
-    console.log("productsFilterCateg")
-    console.log(productsFilterCateg)
+    }
 
     _.each( productsFilterCateg , ( lot , index ) => {
-
         // * * * * * * * *
         // Prestations && Ref
         const productsFiltered = _.filter( lot.lot_products, ( product ) => {
@@ -209,7 +174,7 @@ function mapStateToProps(state){
         //"productsFilterCateg":productsFilterCateg,
         //"productsFilterCategPresta":productsFilterCategPresta,
         //"productsFilterCategPrestaRef":productsFilterCategPrestaRef,
-        "productsFiltered":lotWithProducts,
+        "productsFiltered": lotWithProducts,
         "user": state.user,
         "productsSettings": state.productsFilterSettings
     }

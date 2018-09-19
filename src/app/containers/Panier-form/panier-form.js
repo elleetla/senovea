@@ -19,8 +19,6 @@ import { Container, Row, Col, Button, Modal, ModalHeader, ModalBody, ModalFooter
 
 // Fields
 const renderTextField = ( field ) => {
-    console.log("renderTextField")
-    console.log(field)
     let formFeedback = ""
     let invalidValue = false;
     if( field.meta.touched ){
@@ -41,15 +39,11 @@ const renderTextField = ( field ) => {
 
 class PanierForm extends React.Component{
 
-
     constructor(props){
         super(props);
         this.state = {
             loadingBtn : false
         };
-
-
-        //this.handleSubmit = this.handleSubmit.bind(this);
 
         this.clickLoadingBtn = this.clickLoadingBtn.bind(this)
         this.handleUpdateActivePanier = this.handleUpdateActivePanier.bind(this)
@@ -58,20 +52,13 @@ class PanierForm extends React.Component{
     }
 
     clickLoadingBtn(){
-        this.setState({
-            loadingBtn : true
-        });
+        this.setState({ loadingBtn : true });
     };
 
     handleUpdateActivePanier( e ){
-
-
-        ////console.log('update active panier')
-        ////console.log( e.target.value );
         let new_panier_settings = _.cloneDeep(this.props.paniersSettings)
         new_panier_settings.active_panier_id = e.target.value
         this.props.update_settings_panier( new_panier_settings )
-
     }
 
     handleCreatePanierSubmit(Formprops){
@@ -85,8 +72,7 @@ class PanierForm extends React.Component{
         this.props.add_panier(Formprops, user_token, ( status, new_panier_id )=>{
 
             //this.handleToggleModalCreatePanier();
-            if( status === "success" ){
-                //this.handleUpdateActivePanier(new_panier_id);
+            if ( status === "success" ) { 
                 // Ici on met le nouveau panier en panier actif 
                 let new_panier_settings = _.cloneDeep(this.props.paniersSettings)
                 new_panier_settings.active_panier_id = new_panier_id
@@ -97,30 +83,26 @@ class PanierForm extends React.Component{
                     "content":`Création d'un nouveau panier: <strong>${this.props.paniers[new_panier_id].nicename}</strong>`
                 })
                 
-                                // stop load 
-                                this.setState({"loadingBtn":false})
+                // stop load 
+                this.setState({"loadingBtn":false})
 
-                                // on close la modale 
-                                let newModalSettings = _.cloneDeep(this.props.modalSettings)
-                                newModalSettings.isOpen = false;
-                                this.props.update_modal_settings(newModalSettings)
-
-
+                // on close la modale 
+                let newModalSettings = _.cloneDeep(this.props.modalSettings)
+                newModalSettings.isOpen = false;
+                this.props.update_modal_settings(newModalSettings)
             }else{
-
-
                 this.props.add_alert({
                     "status":"error",
                     "content":`Erreur lors de la création d'un nouveau panier.`
                 })
 
-                                // stop load 
-                                this.setState({"loadingBtn":false})
+                // stop load 
+                this.setState({"loadingBtn":false})
 
-                                // on close la modale 
-                                let newModalSettings = _.cloneDeep(this.props.modalSettings)
-                                newModalSettings.isOpen = false;
-                                this.props.update_modal_settings(newModalSettings)
+                // on close la modale 
+                let newModalSettings = _.cloneDeep(this.props.modalSettings)
+                newModalSettings.isOpen = false;
+                this.props.update_modal_settings(newModalSettings)
 
             } 
 
