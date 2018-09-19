@@ -4,7 +4,8 @@ import { bindActionCreators } from 'redux';
 import _ from "lodash";
 
 // Components
-import Product from "./product"
+import Product from "./product";
+import Preloader from "../assets/img/icon-preloader.svg";
 
 // Actions
 import { call_product } from '../actions/index';
@@ -31,16 +32,9 @@ class Products extends Component{
     }
 
     render() {
-        console.log("fournisseur :", this.props);
         const groupedLotsByFournisseurs = _.groupBy( this.props.productsFiltered , lot => lot.lot_fournisseur_R1.ID);
-        console.log("test", groupedLotsByFournisseurs);
-        console.log("props products filter :", this.props.productsFiltered);
         return(
             <section className="p-section">
-
-                {/*  
-                    // On fait une boucle sur les lots groupés par fournisseurs R1
-                */}
                 {!_.isEmpty( groupedLotsByFournisseurs ) ?
                     _.map( groupedLotsByFournisseurs , ( fournisseurLots, indexF ) => {
                         return (
@@ -106,8 +100,12 @@ class Products extends Component{
                             </Container>
                         )
                     })
-                    : 
-                    <h1>Aucun articles</h1>
+                    :
+                    <div style={{textAlign: "center"}}>
+                         <div className="preloader">
+                              <img src={Preloader} alt="preloader img"/>
+                         </div>
+                    </div>
                 }
             </section>
         )

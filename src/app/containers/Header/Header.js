@@ -115,11 +115,16 @@ class Header extends React.Component{
 
     renderBullPaniers(){
         const panierArray = _.keys(this.props.paniers);
+        const panierActive = this.props.paniersSettings.active_panier_id;
+        const detailPanier = this.props.paniers[panierActive];
         if(panierArray.length !== 0){
             return(
                 <div>
                     <span className="counter-panier">
-                        <p>{this.props.counterProduct}</p>
+                         {detailPanier !== undefined ?
+                             <p>{detailPanier.quantity}</p>
+                              : null
+                         }
                     </span>
                 </div>
             )
@@ -151,6 +156,8 @@ class Header extends React.Component{
     }
 
     render(){
+         const panierActive = this.props.paniersSettings.active_panier_id;
+         const detailPanier = this.props.paniers[panierActive];
         _.map(this.props.paniers.lots);
         return(
             <header id="header-app">

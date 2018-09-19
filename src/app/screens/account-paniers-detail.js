@@ -40,47 +40,20 @@ class AccountPaniersDetail extends React.Component{
                     "orderLoading":false
                 });
 
-                window.location.replace("/compte/paniers");
+                return window.location.replace("/compte/paniers");
 
             }else{
-                
                 this.props.add_alert({
                     "status":"error",
                     "content":`Erreur lors de la création des commandes`
-                })
-                
+                });
+
                 this.setState({
                     "orderLoading":false
                 })
                 
             }
         })
-        
-        
-        
-        /*this.setState({
-            "orderLoading":true
-        })
-        // ici on valide le panier
-        // ( creation d'une order )
-        this.props.order_panier( this.props.panier.id, ( order_panier_status ) =>{
-            // Callback
-            if( order_panier_status === "success" ){
-                this.props.add_alert({
-                    "status":"success",
-                    "content":`Le panier a bien été commandé!`
-                })
-            }else{
-                this.props.add_alert({
-                    "status":"error",
-                    "content":`Erreur lors de la commande du panier`
-                })
-            }
-            this.setState({
-                "orderLoading":false
-            })
-        })*/
-        
     }
     
     renderPanierStatus(status){
@@ -95,11 +68,9 @@ class AccountPaniersDetail extends React.Component{
     
     render(){
         if(this.props.panier.status !== "not sended") {
-            console.log("test");
             return <Redirect to="/compte/paniers"/>
         }
 
-        console.log(this.state.orderLoading);
         const groupedArticlesByFournisseurs = _.groupBy( this.props.panier.products_lots , ( product ) => product.lot.lot_fournisseur_r1.ID);
         return(
             <div>

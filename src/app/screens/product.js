@@ -122,8 +122,7 @@ class Product extends React.Component{
         switch( mode ){
             case "catalog":{
                 return <Button onClick={ 
-                        !_.isEmpty( this.props.paniers ) ? 
-                            (e) => {    
+                        !_.isEmpty( this.props.paniers ) ? e => {
                                 this.setState({isLoading:true})
                                 this.handleAddToPanier( e, this.state.activeVariation , this.state.activeNumbr ) 
                             } 
@@ -137,8 +136,8 @@ class Product extends React.Component{
             }
             case "panier":{
                 return <Button onClick={ 
-                    (e) => {    
-                        this.setState({isLoading:true})
+                    e => {
+                        this.setState({isLoading:true});
                         this.handleRemoveToPanier( e, this.state.activeVariation ) 
                     } 
                 } style={{marginRight: "10px"}} className="btn-white" data-lotkey={ lot_key }>Retirer du panier</Button>
