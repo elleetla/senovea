@@ -16,8 +16,8 @@ class AccountPaniers extends Component{
         this.renderBlocDetails = this.renderBlocDetails.bind(this);
     }
 
-    renderBlocDetails(){
-        const blocPanier = document.querySelector('#bloc-panier');
+    renderBlocDetails(value){
+        const blocPanier = document.querySelector(`#c${value}`);
         blocPanier.style.display = (blocPanier.style.display == 'block') ? 'none' : 'block';
     }
 
@@ -62,9 +62,9 @@ class AccountPaniers extends Component{
         )
     }
 
-    detailsCard (articlesSupplier) {
+    detailsCard (articlesSupplier, cardId) {
         return (
-            <div id="bloc-panier" className="bloc-panier-table">
+            <div id={'c'+cardId} className="bloc-panier-table">
                 <div className="bloc-panier-header">
                     <div>N°Bon De Commande</div>
                     <div>Statut</div>
@@ -128,7 +128,6 @@ class AccountPaniers extends Component{
     
     renderSentPanier( panier ){
         const groupedArticlesByFournisseurs = _.groupBy( panier.products_lots , ( product ) => product.lot.lot_fournisseur_r1.ID);
-        
         return(
             <div>
                 <div key={panier.id} className="bloc-panier bloc-panier-sent">
@@ -151,13 +150,13 @@ class AccountPaniers extends Component{
                             </ul>
                         </Col>
                         <Col md={4}>
-                            <button onClick={() => this.renderBlocDetails()} className="btn-green float-right">DOWN</button>
+                            <button onClick={() => this.renderBlocDetails(panier.id)} className="btn-green float-right">DOWN</button>
                         </Col>
                     </Row>
                 </div>
                 <Row>
                     <Col md={12}>
-                        {!_.isEmpty( groupedArticlesByFournisseurs ) ? this.detailsCard(groupedArticlesByFournisseurs) : null }
+                        {!_.isEmpty( groupedArticlesByFournisseurs ) ? this.detailsCard(groupedArticlesByFournisseurs, panier.id) : null }
                     </Col>
                 </Row>
             </div>

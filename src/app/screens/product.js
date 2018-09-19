@@ -197,7 +197,7 @@ class Product extends React.Component{
         if (variation[0]) {
             activeNumbr *= variation[0].variation_price
         }
-        return activeNumbr;
+        return activeNumbr.toFixed(2);
 
     }
 
