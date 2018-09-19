@@ -82,25 +82,21 @@ class AccountPaniersDetail extends React.Component{
     }
     
     renderPanierStatus(status){
-        switch( status ){
+        switch(status){
             case"not sended":{
-                return <Badge color="warning"> {status} </Badge>
+                return <Badge color="warning">{status}</Badge>
             }
             default:
             return <Badge color="info"> No status </Badge>
         }
     }
     
-    
     render(){
-                
-        if( this.props.panier.status !== "not sended" ) {
+        if(this.props.panier.status !== "not sended") {
             return <Redirect to="/compte/paniers"/>
         }
-        
-        
+
         const groupedArticlesByFournisseurs = _.groupBy( this.props.panier.products_lots , ( product ) => product.lot.lot_fournisseur_r1.ID);
-        
         return(
             <div>
                 <div className="section-infos-detail-panier">
@@ -115,11 +111,6 @@ class AccountPaniersDetail extends React.Component{
                             </Col>
             
                             <Col md="3">
-                                {/*
-                                    <button className="btn-green"  onClick={ () => this.handleOrder() } >
-                                    {this.state.orderLoading ? "Commande en cours..." : "Valider mon panier"}
-                                    </button>
-                                */}
                                 <button className="btn-green"  onClick={() => this.handleOrder()} >
                                     {this.state.orderLoading ? "Commande en cours..." : "Commander mon panier"}
                                 </button>

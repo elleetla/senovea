@@ -41,6 +41,7 @@ class Product extends React.Component{
             activePalier: 0
         })
     }
+
     handleProductOpen(e){
         this.setState({
             isOpen : !this.state.isOpen 
@@ -205,7 +206,7 @@ class Product extends React.Component{
         return(
             <div className="article-bloc">
                 <Row>
-                    <Col md="1">
+                    <Col md="2">
                         <p>Réf: <strong> 
                         {`
                             ${this.props.product_value.attributes[0].attr_value[0]}
@@ -222,7 +223,7 @@ class Product extends React.Component{
                             </strong>
                         </p>
                     </Col>
-                    <Col md="2">
+                    <Col md="1">
                         <p>Unité: 
                             <strong>
                                 {this.props.product_value.attributes[5].attr_value[0]}
@@ -248,7 +249,7 @@ class Product extends React.Component{
                             </p>
                         </div>
                     </Col>
-                    <Col md="2" className="card-details-button">
+                    <Col md="3" className="text-right">
                         {
                             _.has( this.props, "mode" ) ? 
                                 this.renderSwitchMode( this.props.mode, this.props.lot_key )

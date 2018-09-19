@@ -643,9 +643,6 @@ export function call_product( utoken, user_arrondissement, callback ) {
             }
         })
             .then(function (response) {
-                console.log('ok product');
-                console.log(response);
-                ////////console.log(typeof response.data.products_global);
                 dispatch({
                     "type":CALL_PRODUCTS,
                     "payload": response.data.data
@@ -654,8 +651,6 @@ export function call_product( utoken, user_arrondissement, callback ) {
                 callback('success')
 
             }).catch(function (error) {
-                ////////console.log('products ko')
-                ////////console.log(error.message)
                 callback('error')
             });
     }
@@ -809,14 +804,8 @@ export function update_product_to_panier( update_panier , token , callback ){
         axios.put( `${WORDPRESS_API_BASE_URL}/senovea/v2/panier/products`, update_panier , {
             headers: {
                 'Authorization' : `Bearer ${token}`,
-                //'Content-Type': 'multipart/form-data',
-                //'X-Http-Method-Override': 'PUT',
             }
         }).then( (response) => {
-            console.log("ok update panier")
-            console.log(response)
-
-            // dispatch here
             if( response.data.status === "success" ){
                 dispatch ({
                     "type":UPDATE_PANIER,
