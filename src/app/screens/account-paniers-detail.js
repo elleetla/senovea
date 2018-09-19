@@ -38,8 +38,10 @@ class AccountPaniersDetail extends React.Component{
                 
                 this.setState({
                     "orderLoading":false
-                })
-                
+                });
+
+                window.location.replace("/compte/paniers");
+
             }else{
                 
                 this.props.add_alert({
@@ -83,19 +85,21 @@ class AccountPaniersDetail extends React.Component{
     
     renderPanierStatus(status){
         switch(status){
-            case"not sended":{
+            case"not sended" : {
                 return <Badge color="warning">{status}</Badge>
             }
-            default:
+            default :
             return <Badge color="info"> No status </Badge>
         }
     }
     
     render(){
         if(this.props.panier.status !== "not sended") {
+            console.log("test");
             return <Redirect to="/compte/paniers"/>
         }
 
+        console.log(this.state.orderLoading);
         const groupedArticlesByFournisseurs = _.groupBy( this.props.panier.products_lots , ( product ) => product.lot.lot_fournisseur_r1.ID);
         return(
             <div>
@@ -184,7 +188,7 @@ class AccountPaniersDetail extends React.Component{
                                             
                                             <div key={indexF} >
                                             {_.map( groupedArticlesByLot , ( articles, indexL ) => {
-                                                return (
+                                                return(
                                                     <div style={{marginBottom:"25px"}} className="bloc-lot" key={indexL}>
                                                     <div className="title-bloc-lot">
                                                     <p>{articles[0].lot.lot_name} ({articles.length} {articles.length === 1 ? "article" : "articles"}) - Montant Total HT : {this.props.panier.price.toFixed(2)} €</p>
