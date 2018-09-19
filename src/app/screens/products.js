@@ -4,9 +4,6 @@ import { bindActionCreators } from 'redux';
 import _ from "lodash";
 
 // Components
-import Filters from '../containers/Filters/Filters';
-import CreatePanier from '../containers/Create-panier/Create-panier';
-
 import Product from "./product"
 
 // Actions
@@ -122,15 +119,10 @@ function mapStateToProps(state){
 
     // Check associated products
     let lotWithProducts = _.filter( state.products, (lot) => !_.isEmpty( lot.lot_products ));
-<<<<<<< HEAD
-
-     console.log("state products: ", lotWithProducts);
 
     // Create array of category
     let productsFilterCateg = [];
-=======
-    let productsFilterCateg = []
->>>>>>> 19d8aae3428e6f455547f3e02a01adae16f82389
+
     
     switch( state.productsFilterSettings.categorie ){
         
@@ -148,12 +140,10 @@ function mapStateToProps(state){
 
     }
 
-<<<<<<< HEAD
+
     _.each( productsFilterCateg , ( lot , index ) => {
-        // * * * * * * * *
+
         // Prestations && Ref
-=======
->>>>>>> 19d8aae3428e6f455547f3e02a01adae16f82389
         const productsFiltered = _.filter( lot.lot_products, ( product ) => {
             const ref = `${product.attributes[0].attr_value[0]}-${product.attributes[1].attr_value[0]}-${product.attributes[2].attr_value[0]}-${product.attributes[4].attr_value[0]}`
             return product.name.toLowerCase().includes( state.productsFilterSettings.prestation.toLowerCase() ) && ref.toLowerCase().includes( state.productsFilterSettings.ref.toLowerCase() )
@@ -167,14 +157,14 @@ function mapStateToProps(state){
 
     return {
         "products": state.products,
-<<<<<<< HEAD
+
         //"productsFilterCateg":productsFilterCateg,
         //"productsFilterCategPresta":productsFilterCategPresta,
         //"productsFilterCategPrestaRef":productsFilterCategPrestaRef,
         "productsFiltered": lotWithProducts,
-=======
+
         "productsFiltered":lotWithProducts,
->>>>>>> 19d8aae3428e6f455547f3e02a01adae16f82389
+
         "user": state.user,
         "productsSettings": state.productsFilterSettings
     }
