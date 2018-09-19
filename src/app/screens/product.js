@@ -84,23 +84,35 @@ class Product extends React.Component{
     }
 
     handleRemoveToPanier( e, product_id ){
-
-        // vars
-        const the_panier_id = this.props.paniersSettings.active_panier_id;
+        let url = window.location.href.split('/')
+        const the_panier_id = url[url.length-1];
         const the_panier = this.props.paniers[the_panier_id];
         const the_lot_id = e.target.getAttribute('data-lotkey');
         const the_product_id = product_id;
 
         const panier_update = {
-            "uid":this.props.user.user_id,
-            "lid":the_lot_id,
-            "pid":the_panier_id,
-            "productid":the_product_id,
-            "action":"remove"
+            "uid" : this.props.user.user_id,
+            "lid" : the_lot_id,
+            "pid" : the_panier_id,
+            "productid" : the_product_id,
+            "productQuantity" : the_panier.quantity,
+            "action" : "remove"
         }
 
-        this.props.update_product_to_panier( panier_update , this.props.user.user_auth.auth_token , ( status ) => {
-        } );
+        this.props.update_product_to_panier( panier_update , this.props.user.user_auth.auth_token , (status) => {
+            
+            if (status === "success") {
+                this.props.add_alert({
+                    "status":"success",
+                    "content":`Le produit <strong>#${product_id}</strong> a été retiré au panier: <strong>${this.props.paniers[panier_id].nicename}</strong>`
+                })
+            } else {
+                this.props.add_alert({
+                    "status":"error",
+                    "content":`Erreur lors de la supression de l'article dans le panier ${this.props.paniers[panier_id].nicename}`
+                })
+            }
+        });
 
     }
 

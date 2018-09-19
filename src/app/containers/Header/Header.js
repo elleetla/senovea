@@ -20,6 +20,7 @@ import {
     Navbar,
     NavbarToggler,
     Nav,
+    Button,
     NavItem,
     NavLink,
     Dropdown, DropdownToggle, DropdownMenu, DropdownItem} from 'reactstrap';
@@ -35,6 +36,7 @@ class Header extends React.Component{
         this.handleCartToggle = this.handleCartToggle.bind(this);
         this.handleModalToggle = this.handleModalToggle.bind(this);
         this.handleUpdateActivePanier = this.handleUpdateActivePanier.bind(this);
+        this.jevaischangerlenomplustard = this.jevaischangerlenomplustard.bind(this);
 
         this.state = {
             isOpen: false,
@@ -42,6 +44,9 @@ class Header extends React.Component{
             modalConnect: false,
             modalRegistration: false,
             popoverOpen: false,
+            quantity: 0,
+            total: 0,
+            lot: 0,
             countLots: false,
             dropdownOpen: false,
             dropdownOpenPanier: false
@@ -70,6 +75,11 @@ class Header extends React.Component{
         this.setState({
             modalRegistration: !this.state.modalRegistration
         });
+    }
+    jevaischangerlenomplustard() {
+        console.log('GG')
+        const dropdownMenu = document.querySelector('.dropdown-menu');
+        dropdownMenu.style.transform = "translate3d(-180px, 79px, 0px)";
     }
 
     handleLogOut(){
@@ -123,12 +133,12 @@ class Header extends React.Component{
               return(
                   <DropdownItem>
                        <h6>{detailPanier.nicename}</h6>
-                       <span><b>Secteur d'intervention :</b></span>
+                       <p><b>Secteur d'intervention :</b></p>
                        <p>{detailPanier.adresse}</p>
-                       {/*detailPanier.status === "not sended" ?
-                           <p style={{textAlign: "center"}}><Link className="btn-white" to={`/account/paniers/${panierActive}`}>Voir le panier</Link></p> : null
-                       */}
-                       <p style={{textAlign: "center"}}><Link className="btn-white" to={`/compte/panier/${panierActive}`}>Voir le panier</Link></p>
+                       <p className="articleLot"><strong>{detailPanier.quantity}</strong> {detailPanier.quantity > 1 ? 'ARTICLES' : 'ARTICLE' }</p>
+                       <p className="articleLot"><strong>{detailPanier.products_lots.length}</strong> {detailPanier.products_lots.length > 1 ? 'LOTS CONCERNES' : 'LOT CONCERNE' }</p>
+                       <h6>Montant Total HT : <span className="price">{detailPanier.price} €</span></h6>
+                       <p style={{textAlign: "center", marginTop: "1.875em"}}><Link className="btn-white" to={`/compte/panier/${panierActive}`}>Voir le panier</Link></p>
                   </DropdownItem>
               )
          } else{
@@ -198,7 +208,7 @@ class Header extends React.Component{
                                          </DropdownMenu>
                                     </Dropdown>
                                     <Dropdown nav isOpen={this.state.dropdownOpenPanier} toggle={this.togglePanier}>
-                                         <DropdownToggle nav>
+                                         <DropdownToggle nav onClick={() => this.jevaischangerlenomplustard()}>
                                               <div style={{height:"100%",display:"flex",alignItems:"center",justifyContent:"center"}}>
                                                    <img height="auto" className="icon-nav" src={Panier} alt="Icon Panier"/>
                                                    {this.renderBullPaniers()}

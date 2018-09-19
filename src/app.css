@@ -23,7 +23,7 @@ body {
     background-color: rgba(234, 239, 245, 100);
     font-family: 'Work Sans', sans-serif;
     color: #2C3948;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 a {
@@ -220,6 +220,10 @@ p.title-bloc-download {
 
 #btn-call:hover{
     background-color: #15c3b7;
+}
+
+.price {
+    color: rgb(40, 216, 204);
 }
 
 /* bloc lot */
@@ -447,14 +451,30 @@ p.title-bloc-download {
 }
 
 
+/**
+    CARD DROPDOWN
+**/
+.dropdown-menu{
+    padding: 0;
+}
+#header-app .dropdown-item{
+    font-size: 1em;
+    padding: 12px;
+}
 
+#header-app .dropdown-item h6{
+    font-size: 1em;
+}
 
-
-
-
-
-
-
+#header-app .dropdown-item p {
+    font-size: 0.75em;
+}
+#header-app .dropdown-item button {
+    margin-top: 1.875em;
+}
+.articleLot{
+    margin-bottom: 0.8em;
+}
 
 
 .header-bloc-panier {
