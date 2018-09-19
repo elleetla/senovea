@@ -87,6 +87,15 @@ button:focus {
     100% { transform: rotate(360deg); }
 }
 
+.arrow {
+    color: white;
+    border-radius: 50%;
+    border: none;
+    width: 50px;
+    height: 50px;
+    background: rgb(157, 169, 232);
+}
+
 .article-bloc {
     padding: 10px 20px;
     display: block;
@@ -215,6 +224,9 @@ p.title-bloc-download {
 
 /* bloc lot */
 .title-bloc-lot{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     background-color: #ffffff;
     border-radius: 4px;
     font-size: 22px;
