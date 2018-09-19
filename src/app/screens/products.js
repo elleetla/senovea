@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import _ from "lodash";
 
-// Components
 import Product from "./product";
 import Preloader from "../assets/img/icon-preloader.svg";
 
@@ -81,14 +80,16 @@ class Products extends Component{
                                                                         <img src={arrowProduct} alt="flèche produit"/>
                                                                     </button>
                                                                 </div>
-                                                                {_.map( lot.lot_products , article => {
-                                                                    return (
-                                                                        <div key={article.id} id={'d'+lot.lot_id}>
-                                                                            <Product key={article.id} product_value={article} product_key={article.id} lot_key={lot.lot_id} mode="catalog"   />
-                                                                        </div>
-                                                                    )
-                    
-                                                                })}
+                                                                <div id={'d'+lot.lot_id}>
+                                                                    {_.map( lot.lot_products , article => {
+                                                                        return (
+                                                                            <div key={article.id}>
+                                                                                <Product key={article.id} product_value={article} product_key={article.id} lot_key={lot.lot_id} mode="catalog"   />
+                                                                            </div>
+                                                                        )
+                        
+                                                                    })}
+                                                                </div>
                                                             </div>
                                                         )
                                                     })
@@ -113,56 +114,38 @@ class Products extends Component{
 
 }
 
-function mapStateToProps(state){
-
-    // Check associated products
+ function mapStateToProps(state){
     let lotWithProducts = _.filter( state.products, (lot) => !_.isEmpty( lot.lot_products ));
+    let productsFilterCateg = []
 
-    // Create array of category
-    let productsFilterCateg = [];
-
-    
-    switch( state.productsFilterSettings.categorie ){
-        
+    switch( state.productsFilterSettings.categorie ){    
         case "ingenieurie":{
             productsFilterCateg = _.filter( lotWithProducts, ( product ) => product.lot_products[0].attributes[4].attr_value[0] === "Ingénieurie");
             break;
         }
         case "travaux":{
             productsFilterCateg = _.filter( lotWithProducts, ( product ) => product.lot_products[0].attributes[4].attr_value[0] === "Travaux")
+            
             break;
         }
         default:{
             break;
         }
-
     }
 
-
     _.each( productsFilterCateg , ( lot , index ) => {
-
-        // Prestations && Ref
         const productsFiltered = _.filter( lot.lot_products, ( product ) => {
             const ref = `${product.attributes[0].attr_value[0]}-${product.attributes[1].attr_value[0]}-${product.attributes[2].attr_value[0]}-${product.attributes[4].attr_value[0]}`
             return product.name.toLowerCase().includes( state.productsFilterSettings.prestation.toLowerCase() ) && ref.toLowerCase().includes( state.productsFilterSettings.ref.toLowerCase() )
-        } );
-
+        });
         productsFilterCateg[index].lot_products = productsFiltered
-
     } );
     
     lotWithProducts = _.filter( productsFilterCateg, lot  => !_.isEmpty( lot.lot_products ));
 
     return {
         "products": state.products,
-
-        //"productsFilterCateg":productsFilterCateg,
-        //"productsFilterCategPresta":productsFilterCategPresta,
-        //"productsFilterCategPrestaRef":productsFilterCategPrestaRef,
-        "productsFiltered": lotWithProducts,
-
         "productsFiltered":lotWithProducts,
-
         "user": state.user,
         "productsSettings": state.productsFilterSettings
     }

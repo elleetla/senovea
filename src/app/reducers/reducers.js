@@ -97,10 +97,8 @@ const USER_INITIAL_STATE = {
 function productReducer(state = [], action) {
     switch (action.type){
         case ORDER_PRODUCT:
-            console.log("Order Product Reducer")
             return state;
         case CALL_PRODUCTS:
-            console.log("Call Product Reducer")
             //console.log(action.payload)
             return action.payload
     }
@@ -148,27 +146,18 @@ function userReducer( state = USER_INITIAL_STATE , action ){
     switch (action.type) {
 
         case USER_LOAD: {
-            console.log('User load reducer')
-            //console.log(action.payload)
             return action.payload
             break;
         }
         case USER_REGISTER:{
-            console.log("User register reducer")
-            //console.log(action.payload)
             return action.payload
             break;
         }
         case USER_AUTH:{
-            console.log("user auth reducer")
-            console.log(action.payload)
             return action.payload
             break;
         }
         case USER_UPDATE:{
-            /// à refaire
-            console.log("user update reducer")
-            //console.log(action.payload)
             let user = state;
             user.user_email = action.payload.user_email
             console.log(user)
@@ -176,11 +165,9 @@ function userReducer( state = USER_INITIAL_STATE , action ){
             break;
         }
         case USER_RESET:{
-            console.log("user reset action")
             return state
         }
         case SUPPLIER_ORDER_ACCEPT:{
-            console.log("supplier accept reducer");
             let accepted_state = _.cloneDeep(state);
             let accepted_order = _.find( accepted_state.user_orders.user_actives_orders , ( order ) => { return parseInt(order.id) === parseInt(action.payload) });
             let actives_orders = _.filter( accepted_state.user_orders.user_actives_orders , ( order ) => { return parseInt(order.id) !== parseInt(action.payload) })
@@ -192,7 +179,6 @@ function userReducer( state = USER_INITIAL_STATE , action ){
             break;
         }
         case SUPPLIER_ORDER_REJECT:{
-            console.log("supplier reject reducer");
             let rejected_state = _.cloneDeep(state);
             let rejected_order = _.find( rejected_state.user_orders.user_actives_orders , ( order ) => { return parseInt(order.id) === parseInt(action.payload) });
             let actives_orders = _.filter( rejected_state.user_orders.user_actives_orders , ( order ) => { return parseInt(order.id) !== parseInt(action.payload) })
@@ -325,7 +311,6 @@ const modalSettingsReducer_init = {
 function modalSettingsReducer( state = modalSettingsReducer_init, action ){
     switch( action.type ){
         case UPDATE_MODAL_SETTINGS:{
-            console.log("update modal settings")
             return action.payload;
         }
         default:
@@ -336,7 +321,6 @@ function modalSettingsReducer( state = modalSettingsReducer_init, action ){
 function reducerFilterSuppliers(state = { "name": "", "rang": "", "arrondissement" : ""}, action){
     switch( action.type ){
         case FILTERS_SUPPLIERS:{
-            console.log('update app settings reducer');
             return action.payload
         }
         default:
@@ -348,7 +332,6 @@ const alertsReducer_init = []
 function alertsReducer( state = alertsReducer_init, action ){
     switch( action.type ){
         case ADD_ALERT :{
-            console.log('add alert reducer')
             let clone = _.cloneDeep(state);
             clone = [] // Empty array
             clone.push( action.payload )
@@ -367,12 +350,9 @@ function orderReducer( state = [], action ){
     switch( action.type ){
 
         case GET_ORDER:{
-            console.log('get order reducer');
             return action.payload
         }
         case POST_ORDER:{
-            console.log('post order reducer');
-            console.log(state);
             return action.payload
         }
         case PUT_ORDER:{
