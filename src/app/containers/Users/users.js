@@ -13,6 +13,7 @@ class Users extends Component{
         const userData = this.props.users;
         const userNewData = [...userData];
         console.log(this);
+        console.log("test user :", this.props);
 
         return(
             <div>

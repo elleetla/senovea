@@ -45,7 +45,7 @@ export function call_users(stored_user_token){
 // action data page about
 export function pageAbout() {
      return function (dispatch) {
-          axios.get(`${WORDPRESS_API_BASE_URL}/wp/v2/pages/637`).then(response => {
+          axios.get(`${WORDPRESS_API_BASE_URL}/wp/v2/pages/674`).then(response => {
                dispatch({
                     "type": PAGE_ABOUT,
                     "payload": response.data.acf
@@ -57,7 +57,7 @@ export function pageAbout() {
 // action data page downloading
 export function pageDownloading(){
     return function (dispatch) {
-         axios.get(`${WORDPRESS_API_BASE_URL}/wp/v2/pages/666`).then(response => {
+         axios.get(`${WORDPRESS_API_BASE_URL}/wp/v2/pages/675`).then(response => {
              dispatch({
                   "type": PAGE_DOWNLOADING,
                   "payload": response.data
@@ -146,12 +146,12 @@ export function user_register_action( user_infos, callback ){
     // FormData 
     let new_user_data = new FormData()
 
-    new_user_data.append('organisme',user_infos.register_organisme)
-    new_user_data.append('service',user_infos.register_service)
+    new_user_data.append('organisme', user_infos.register_organisme)
+    new_user_data.append('service', user_infos.register_service)
 
-    new_user_data.append('username',user_infos.register_username)
-    new_user_data.append('nom',user_infos.register_nom)
-    new_user_data.append('prenom',user_infos.register_prenom)
+    new_user_data.append('username', user_infos.register_username)
+    new_user_data.append('nom', user_infos.register_nom)
+    new_user_data.append('prenom', user_infos.register_prenom)
 
     new_user_data.append('arrodissement',user_infos.register_arrondissement)
     new_user_data.append('adresse',user_infos.register_adresse)
@@ -643,9 +643,6 @@ export function call_product( utoken, user_arrondissement, callback ) {
             }
         })
             .then(function (response) {
-                console.log('ok product');
-                console.log(response);
-                ////////console.log(typeof response.data.products_global);
                 dispatch({
                     "type":CALL_PRODUCTS,
                     "payload": response.data.data
@@ -654,8 +651,6 @@ export function call_product( utoken, user_arrondissement, callback ) {
                 callback('success')
 
             }).catch(function (error) {
-                ////////console.log('products ko')
-                ////////console.log(error.message)
                 callback('error')
             });
     }
@@ -809,14 +804,8 @@ export function update_product_to_panier( update_panier , token , callback ){
         axios.put( `${WORDPRESS_API_BASE_URL}/senovea/v2/panier/products`, update_panier , {
             headers: {
                 'Authorization' : `Bearer ${token}`,
-                //'Content-Type': 'multipart/form-data',
-                //'X-Http-Method-Override': 'PUT',
             }
         }).then( (response) => {
-            console.log("ok update panier")
-            console.log(response)
-
-            // dispatch here
             if( response.data.status === "success" ){
                 dispatch ({
                     "type":UPDATE_PANIER,

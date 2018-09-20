@@ -38,69 +38,40 @@ class AccountPaniersDetail extends React.Component{
                 
                 this.setState({
                     "orderLoading":false
-                })
-                
+                });
+
+                return window.location.replace("/compte/paniers");
+
             }else{
-                
                 this.props.add_alert({
                     "status":"error",
                     "content":`Erreur lors de la création des commandes`
-                })
-                
+                });
+
                 this.setState({
                     "orderLoading":false
                 })
                 
             }
         })
-        
-        
-        
-        /*this.setState({
-            "orderLoading":true
-        })
-        // ici on valide le panier
-        // ( creation d'une order )
-        this.props.order_panier( this.props.panier.id, ( order_panier_status ) =>{
-            // Callback
-            if( order_panier_status === "success" ){
-                this.props.add_alert({
-                    "status":"success",
-                    "content":`Le panier a bien été commandé!`
-                })
-            }else{
-                this.props.add_alert({
-                    "status":"error",
-                    "content":`Erreur lors de la commande du panier`
-                })
-            }
-            this.setState({
-                "orderLoading":false
-            })
-        })*/
-        
     }
     
     renderPanierStatus(status){
-        switch( status ){
-            case"not sended":{
-                return <Badge color="warning"> {status} </Badge>
+        switch(status){
+            case"not sended" : {
+                return <Badge color="warning">{status}</Badge>
             }
-            default:
+            default :
             return <Badge color="info"> No status </Badge>
         }
     }
     
-    
     render(){
-                
-        if( this.props.panier.status !== "not sended" ) {
+        if(this.props.panier.status !== "not sended") {
             return <Redirect to="/compte/paniers"/>
         }
-        
-        
+
         const groupedArticlesByFournisseurs = _.groupBy( this.props.panier.products_lots , ( product ) => product.lot.lot_fournisseur_r1.ID);
-        
         return(
             <div>
                 <div className="section-infos-detail-panier">
@@ -115,11 +86,6 @@ class AccountPaniersDetail extends React.Component{
                             </Col>
             
                             <Col md="3">
-                                {/*
-                                    <button className="btn-green"  onClick={ () => this.handleOrder() } >
-                                    {this.state.orderLoading ? "Commande en cours..." : "Valider mon panier"}
-                                    </button>
-                                */}
                                 <button className="btn-green"  onClick={() => this.handleOrder()} >
                                     {this.state.orderLoading ? "Commande en cours..." : "Commander mon panier"}
                                 </button>
@@ -193,7 +159,7 @@ class AccountPaniersDetail extends React.Component{
                                             
                                             <div key={indexF} >
                                             {_.map( groupedArticlesByLot , ( articles, indexL ) => {
-                                                return (
+                                                return(
                                                     <div style={{marginBottom:"25px"}} className="bloc-lot" key={indexL}>
                                                     <div className="title-bloc-lot">
                                                     <p>{articles[0].lot.lot_name} ({articles.length} {articles.length === 1 ? "article" : "articles"}) - Montant Total HT : {this.props.panier.price.toFixed(2)} €</p>

@@ -23,7 +23,7 @@ body {
     background-color: rgba(234, 239, 245, 100);
     font-family: 'Work Sans', sans-serif;
     color: #2C3948;
-    font-size: 15px;
+    font-size: 16px;
 }
 
 a {
@@ -91,9 +91,24 @@ button:focus {
     color: white;
     border-radius: 50%;
     border: none;
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    cursor: pointer;
+    height: 40px;
     background: rgb(157, 169, 232);
+    transition-duration: 0.6s;
+}
+
+.preloader-product img {
+    width: 30px;
+}
+
+.arrow:hover{
+    background: rgba(75, 89, 224, 100);
+    transition-duration: 0.6s;
+}
+
+.arrow img {
+    width: 11px;
 }
 
 .article-bloc {
@@ -222,6 +237,10 @@ p.title-bloc-download {
     background-color: #15c3b7;
 }
 
+.price {
+    color: rgb(40, 216, 204);
+}
+
 /* bloc lot */
 .title-bloc-lot{
     display: flex;
@@ -330,7 +349,7 @@ p.title-bloc-download {
     padding: 25px;
     border: 1px solid #D9E1E8;
     font-weight: 500;
-    margin-bottom: 11px;
+    margin-bottom: 20px;
     box-shadow: 0px 2px 16px rgba(61, 68, 139, 0.05);
     background:#FFF;
 }
@@ -385,12 +404,18 @@ p.title-bloc-download {
     padding-left: 0;
 }
 
+.bloc-panier .arrow {
+    float: right;
+}
+
 .bloc-panier-table{
     width: 100%;
     box-shadow: 0px 2px 16px rgba(61, 68, 139, 0.05);
     border-radius: 4px;
     background:#FFF;
     display:none;
+    margin-top: -13px;
+    margin-bottom: 20px;
 }
 .bloc-panier-table p{
     margin:0;
@@ -447,14 +472,30 @@ p.title-bloc-download {
 }
 
 
+/**
+    CARD DROPDOWN
+**/
+.dropdown-menu{
+    padding: 0;
+}
+#header-app .dropdown-item{
+    font-size: 1em;
+    padding: 12px;
+}
 
+#header-app .dropdown-item h6{
+    font-size: 1em;
+}
 
-
-
-
-
-
-
+#header-app .dropdown-item p {
+    font-size: 0.75em;
+}
+#header-app .dropdown-item button {
+    margin-top: 1.875em;
+}
+.articleLot{
+    margin-bottom: 0.8em;
+}
 
 
 .header-bloc-panier {
