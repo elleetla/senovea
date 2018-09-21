@@ -152,19 +152,21 @@ class Product extends React.Component{
         this.state.activesVariation = _.filter( variations , ( variation ) => variation.variation_sku.includes('R1'));
         return(
             <div>
-                    <div>
-                        <p>Paliers:</p>
-                    </div>
-                {
-                    _.map( this.state.activesVariation , ( variation , index ) => {
-                        return (
-                            <div key={ variation.variation_id } onClick={() => this.setState({activeVariation : variation.variation_id, activePalier : index})} style={ this.state.activePalier == index ? {display:"flex",textAlign:"center",padding:"5px",background:"#17D5C8",color:"#FFF",borderRadius:"4px"} : {display:"flex",textAlign:"center",padding:"5px"} }> 
-                                <div style={{ marginRight:"5px" }} > <strong> { variation.variation_attributes.attribute_quantite }: </strong> </div>
-                                <div> <i> {variation.variation_price}€</i> </div>
-                            </div> 
-                        )
-                    })
-                }
+                <div>
+                    <p>Paliers:</p>
+                </div>
+                {_.map( this.state.activesVariation , ( variation , index ) => {
+                    return (
+                        <div key={ variation.variation_id } style={ this.state.activePalier == index ? {display:"flex",textAlign:"center",padding:"5px",background:"#17D5C8",color:"#FFF",borderRadius:"4px"} : {display:"flex",textAlign:"center",padding:"5px"} }> 
+                            <div style={{ marginRight:"5px" }} >
+                                <strong>
+                                    { variation.variation_attributes.attribute_quantite }{ this.state.activesVariation[index+1] ? " à " + (parseInt(this.state.activesVariation[index+1].variation_attributes.attribute_quantite) - 1) : null}: 
+                                </strong> 
+                            </div>
+                            <div> <i> {variation.variation_price}€</i> </div>
+                        </div> 
+                    )
+                })}
             </div>
         )
 
@@ -179,9 +181,11 @@ class Product extends React.Component{
         })
         
         _.each( quantity.attr_value , ( quantityNum , index ) => {
-            if( target > parseInt(quantityNum) ){
-                const palier = (index + 1 >= this.state.activesVariation.length) ? index - 1 : index + 1;
-                const active = this.state.activesVariation[palier].variation_id;
+            if( target > parseInt(quantity.attr_value[index+1])-1 && index == this.state.activePalier ) {
+                if (target > parseInt(quantity.attr_value[index+1])-1) {
+                    var palier = (index + 1 >= this.state.activesVariation.length) ? index - 1 : index + 1;
+                    var active = this.state.activesVariation[palier].variation_id;
+                }
                 
                 this.setState({
                     activePalier : palier, 

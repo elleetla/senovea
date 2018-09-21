@@ -816,7 +816,6 @@ export function update_product_to_panier( update_panier , token , callback ){
                 callback('error');
             }
 
-
         }).catch( (error) => {
             //console.log("ko update panier")
             //console.log(error)
